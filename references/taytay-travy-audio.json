@@ -1,0 +1,12 @@
+{
+  "file": "dist/assets/taytay-travy.mp3",
+  "line": "Travy!!!",
+  "voice": "Jessi",
+  "voiceId": "wfJ7pHCS3lXZdaz77rIG",
+  "model": "eleven_v4",
+  "flowId": "88wKfBLow8qyQr28TqPt",
+  "generationId": "oWOwmroNPFXKEApSmBtI",
+  "durationSeconds": 1.52,
+  "prompt": "[shouting] Travy!!!",
+  "note": "Original stock character voice."
+}

@@ -1,6 +1,8 @@
+import { ASCENSION_FIGHTERS, ASCENSION_KINDS, ascensionPose } from './ascension-fighters.js';
+import { createAscensionRenderer } from './ascension-renderer.js';
 import { GAUNTLET_FIGHTERS, GAUNTLET_KINDS, gauntletPose } from './gauntlet-fighters.js';
 import { createGauntletRenderer } from './gauntlet-renderer.js';
-import { LocalControllers } from './controllers.js?v=gauntlet-three-20261121';
+import { LocalControllers } from './controllers.js?v=ascension-three-20261121';
 import { RUSH_FIGHTERS, RUSH_KINDS, rushPose } from './rush-fighters.js';
 import { createRushRenderer } from './rush-renderer.js';
 import { EXECUTIVE_FIGHTERS, EXECUTIVE_KINDS, executivePose } from './executive-fighters.js';
@@ -10,12 +12,15 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=gauntlet-three-20261121';
+import { CombatGame } from './combat.js?v=ascension-three-20261121';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
 const $ = id => document.getElementById(id);
 const META = {
+  eynakeast: {name:'Eynak East', special:'Ghost Ascension', color:'#ce94ff', glow:'rgba(170,70,255,.4)'},
+  goat: {name:'GOAT', special:'The Sign', color:'#ffdf72', glow:'rgba(255,209,70,.4)'},
+  taytay: {name:'TayTay', special:'Travy!!!', color:'#ffe455', glow:'rgba(255,222,75,.4)'},
   bigmumble: { name: 'Big Mumble', special: 'Face Shot!', color: '#e8b8ff', glow: 'rgba(190,95,255,.4)' },
   djbeigey: { name: 'DJ Beigey', special: 'Rolls Royce Runover', color: '#ff80d5', glow: 'rgba(255,70,190,.4)' },
   nobuttons: { name: 'No Buttons', special: 'Prize Picks!', color: '#ffe963', glow: 'rgba(255,213,60,.4)' },
@@ -51,6 +56,7 @@ const state = { phase: 'select', selected: 'owl', opponent: 'coupe', assets: nul
 Object.assign(state, { mode: 'cpu', selectingPlayer: 0, playersReady: [false, false] });
 const controllers = new LocalControllers();
 const CARD_ORDER = [...document.querySelectorAll('[data-fighter]')].map(el => el.dataset.fighter);
+const ascensionRenderer = createAscensionRenderer(ctx, frame, () => state.assets, GROUND);
 const gauntletRenderer = createGauntletRenderer(ctx, frame, () => state.assets, GROUND);
 const rushRenderer = createRushRenderer(ctx, frame, () => state.assets, GROUND);
 const executiveRenderer = createExecutiveRenderer(ctx, frame, () => state.assets, GROUND);
@@ -110,6 +116,8 @@ function actionDown(action) {
 class Sound {
   constructor() {
     this.context = null; this.nextBeat = 0; this.beat = 0; this.shouts = new Map();
+    this.travyBytes = fetch(new URL('./assets/taytay-travy.mp3', import.meta.url))
+      .then(r => { if (!r.ok) throw new Error('Voice unavailable'); return r.arrayBuffer(); }).catch(() => null);
     this.prizeBytes = fetch(new URL('./assets/nobuttons-prize-picks.mp3', import.meta.url))
       .then(r => { if (!r.ok) throw new Error('Voice unavailable'); return r.arrayBuffer(); }).catch(() => null);
     this.slimeBytes = fetch(new URL('./assets/sassyt-slime.mp3', import.meta.url))
@@ -120,6 +128,8 @@ class Sound {
       this.context ||= new (window.AudioContext || window.webkitAudioContext)();
       this.context.resume().catch(() => {});
       this.nextBeat = this.context.currentTime + .1;
+      this.travyDecode ||= this.travyBytes.then(bytes => bytes && this.context.decodeAudioData(bytes))
+        .then(buffer => { this.travyBuffer = buffer; canvas.dataset.travyAudio = buffer ? 'ready' : 'unavailable'; }).catch(() => { canvas.dataset.travyAudio = 'unavailable'; });
       this.prizeDecode ||= this.prizeBytes.then(bytes => bytes && this.context.decodeAudioData(bytes))
         .then(buffer => { this.prizeBuffer = buffer; canvas.dataset.prizeAudio = buffer ? 'ready' : 'unavailable'; }).catch(() => { canvas.dataset.prizeAudio = 'unavailable'; });
       this.slimeDecode ||= this.slimeBytes.then(bytes => bytes && this.context.decodeAudioData(bytes))
@@ -250,6 +260,16 @@ class Sound {
     canvas.dataset.lastVoice = 'Prize Picks!';
     voice.onended = () => { if (this.shouts.get(fighter)?.nodes[0] === voice) this.shouts.delete(fighter); };
   }
+  travy(fighter) {
+    if (!state.audio || !this.context || !this.travyBuffer) return;
+    this.stopYell(fighter);
+    const voice = this.context.createBufferSource(), volume = this.context.createGain();
+    voice.buffer = this.travyBuffer; volume.gain.value = .75;
+    voice.connect(volume).connect(this.context.destination); voice.start();
+    this.shouts.set(fighter, {volume, nodes:[voice]});
+    canvas.dataset.lastVoice = 'Travy!!!';
+    voice.onended = () => { if (this.shouts.get(fighter)?.nodes[0] === voice) this.shouts.delete(fighter); };
+  }
   siren() {
     if (!state.audio || !this.context) return;
     const c = this.context, t = c.currentTime;
@@ -273,7 +293,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=gauntlet-three-20261121', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=ascension-three-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -796,7 +816,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -822,6 +842,9 @@ function processEvents() {
       particleBurst(event.x, GROUND - event.y, '#a7eaff', 10, 160); sound.hit(false, true);
       state.labels.push({ x: event.x, y: GROUND - event.y - 55, text: 'SECURITY', color: '#b4eeff', life: .65 });
     }
+    if (event.type === 'travyCall') sound.travy(event.fighter);
+    if (event.type === 'ghostQuake') { state.shake = Math.max(state.shake, 18); sound.tone(75, 28, .7, .08, 'sawtooth'); }
+    if (event.type === 'goatWhiteout') sound.tone(880, 1760, .45, .065, 'triangle');
     if (event.type === 'prizePicks') sound.prizePicks(event.fighter);
     if (event.type === 'basketballShot') sound.tone(510,180,.16,.025,'triangle');
     if (event.type === 'royceImpact' && event.hit) sound.tone(70,190,.3,.045,'sawtooth');
@@ -842,8 +865,8 @@ function processEvents() {
       state.flash = .18; state.shake = 6;
       // Can’t Rap announces the move in his own speech bubble, including on
       // short landscape screens where a second banner would cover the call.
-      if (!['crew','slime','prizeCrew'].includes(event.kind)) state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
-      if (!['vocal', 'yell', 'wing', 'munch', 'horse', 'elevator', 'prizeCrew'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
+      if (!['crew','slime','prizeCrew','travy'].includes(event.kind)) state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
+      if (!['vocal', 'yell', 'wing', 'munch', 'horse', 'elevator', 'prizeCrew', 'travy'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
       if (event.kind === 'backup') sound.siren();
     }
     if (event.type === 'nailsExtend') { sound.tone(320, 1250, .34, .035, 'triangle'); sound.noise(.12, .025); }
@@ -1078,6 +1101,9 @@ function drawFighterSpeech(s, text, viewScale, offsetX, offsetY) {
   ctx.restore();
 }
 
+function ascensionSprite(f) {
+  return ascensionPose(f, state.game?.specials.find(s => ASCENSION_KINDS.includes(s.kind) && s.owner === f.id));
+}
 function gauntletSprite(f) {
   return gauntletPose(f, state.game?.specials.find(s => GAUNTLET_KINDS.includes(s.kind) && s.owner === f.id));
 }
@@ -1213,7 +1239,8 @@ function drawFighter(f) {
   if (f.type === 'babybigfists') ({ key, index } = bigFistsSprite(f));
   if (EXECUTIVE_FIGHTERS[f.type]) ({ key, index } = executiveSprite(f));
   if (RUSH_FIGHTERS[f.type]) ({ key, index } = rushSprite(f));
-  if (GAUNTLET_FIGHTERS[f.type]) ({ key, index } = gauntletSprite(f));
+  if (ASCENSION_FIGHTERS[f.type]) ({ key, index } = ascensionSprite(f));
+  else if (GAUNTLET_FIGHTERS[f.type]) ({ key, index } = gauntletSprite(f));
   if (f.type === 'ocrrrrr') ({ key, index } = ocrrrrrSprite(f));
   if (f.type === 'demon') ({ key, index } = demonSprite(f));
   if (f.type === 'cranes') ({ key, index } = cranesSprite(f));
@@ -1239,14 +1266,14 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 / (GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 / (ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
   if (f.meter >= 100) { ctx.strokeStyle = META[f.type].color; ctx.globalAlpha = .5 + Math.sin(state.time * 5) * .15; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 66, 13, 0, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; }
   ctx.translate(f.x, GROUND - f.y); ctx.scale(flipping ? (f.flipDirection || f.facing) : f.type === 'demon' && demonSprite(f).lookAway ? -f.facing : f.facing, 1);
   if (flipping) ctx.translate(0, -108);
-  if (f.state === 'ko') { if (!GAUNTLET_FIGHTERS[f.type] && !RUSH_FIGHTERS[f.type] && !EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); ctx.globalAlpha = .8; }
+  if (f.state === 'ko') { if (!ASCENSION_FIGHTERS[f.type] && !GAUNTLET_FIGHTERS[f.type] && !RUSH_FIGHTERS[f.type] && !EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); ctx.globalAlpha = .8; }
   if (f.state === 'hurt' && f.stateTime < .08) ctx.filter = 'brightness(1.8)';
   const vocalImpact = state.game.effects.find(e => e.kind === 'vocalExplosion' && e.defender === f.id && !e.blocked && e.age < .22);
   if (vocalImpact) ctx.filter = 'brightness(3) saturate(.4)';
@@ -1452,7 +1479,7 @@ function drawMunch(s) {
   if (target) {
     // Use the selected opponent's own sprite. No generic victim is baked into
     // the artwork, and the normal fighter pass omits the held character.
-    const victim = frame(target.type, GAUNTLET_FIGHTERS[target.type] || RUSH_FIGHTERS[target.type] || EXECUTIVE_FIGHTERS[target.type] ? 14 : ['smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(target.type) ? 14 : 22) || frame(target.type, 0);
+    const victim = frame(target.type, ASCENSION_FIGHTERS[target.type] || GAUNTLET_FIGHTERS[target.type] || RUSH_FIGHTERS[target.type] || EXECUTIVE_FIGHTERS[target.type] ? 14 : ['smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(target.type) ? 14 : 22) || frame(target.type, 0);
     if (victim) {
       const progress = Math.max(0, Math.min(1, (s.age - .46) / .20));
       const lift = progress * progress * (3 - 2 * progress);
@@ -1681,6 +1708,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if (ASCENSION_KINDS.includes(s.kind)) { ascensionRenderer.special(s,state.game); return; }
   if (GAUNTLET_KINDS.includes(s.kind)) { gauntletRenderer.special(s,state.game); return; }
   if (RUSH_KINDS.includes(s.kind)) { rushRenderer.special(s,state.game); return; }
   if (EXECUTIVE_KINDS.includes(s.kind)) { executiveRenderer.special(s); return; }
@@ -1760,6 +1788,7 @@ function draw(dt) {
     const framing = [a.x,b.x];
     for (const s of state.game.specials) {
       if (s.kind === 'faceShot') framing.push(s.focusX);
+      if (s.kind === 'travy' && s.helper?.visible && s.helper.x > 0 && s.helper.x < 1280) framing.push(s.helper.x);
       if (s.kind === 'chase' && s.age >= .4) framing.push(s.chaserX);
       if (s.kind === 'quickRush' && s.phase === 'rush') framing.push(s.x-s.facing*135);
     }
@@ -1799,6 +1828,7 @@ function draw(dt) {
     for (const f of state.game.fighters) executiveRenderer.security(f, state.game);
     for (const s of state.game.specials) rushRenderer.behind(s,state.game);
     for (const s of state.game.specials) gauntletRenderer.behind(s,state.game);
+    for (const s of state.game.specials) ascensionRenderer.behind(s,state.game);
     const elevatorCasters = state.game.fighters.filter(f => f.type === 'cranes' && f.state === 'special');
     // The enlarged fist must stay visible in front of the opponent on contact.
     const giantCasters = state.game.fighters.filter(f => f.type === 'babybigfists' && f.state === 'special');
@@ -1810,6 +1840,7 @@ function draw(dt) {
   drawEffects(state.phase === 'paused' ? 0 : dt);
   ctx.restore();
   for (const s of state.game?.specials || []) {
+    if (s.kind === 'travy' && s.age < 1.05) drawFighterSpeech(s, 'TRAVY!!!', viewScale, offsetX, offsetY);
     if (s.kind === 'slime' && s.age >= .85 && s.age < 2.5) drawFighterSpeech(s, 'SLIIIIME!', viewScale, offsetX, offsetY);
     if (s.kind === 'prizeCrew' && s.age < 1.55) drawFighterSpeech(s, 'PRIZE PICKS!', viewScale, offsetX, offsetY);
     if (s.kind === 'crew') drawFighterSpeech(s, cantRapSpeech(s), viewScale, offsetX, offsetY);
@@ -1827,6 +1858,9 @@ function draw(dt) {
   }
   ctx.setTransform(canvas.width / WORLD_W, 0, 0, canvas.height / WORLD_H, 0, 0);
   if (state.flash > 0) { ctx.fillStyle = `rgba(245,221,255,${state.flash * .45})`; ctx.fillRect(0, 0, WORLD_W, WORLD_H); }
+  const whiteout = Math.max(0, ...(state.game?.specials || []).map(s => s.whiteout || 0));
+  $('goatWhiteout').style.opacity = String(whiteout);
+  canvas.dataset.whiteout = whiteout.toFixed(3);
   if (state.phase === 'countdown') {
     const n = state.countdown > .65 ? Math.ceil(state.countdown - .65) : 'FIGHT';
     ctx.textAlign = 'center'; ctx.font = `900 ${n === 'FIGHT' ? 94 : 116}px system-ui`; ctx.strokeStyle = '#17152e'; ctx.lineWidth = 11; ctx.strokeText(n, 640, 330); ctx.fillStyle = '#ffe4ab'; ctx.fillText(n, 640, 330);

@@ -343,3 +343,7 @@
 .fighter-card.bigmumble-card{--fighter-accent:#e8b8ff;--fighter-glow:#be5fff50;background:linear-gradient(145deg,#36224f,#1a1426 78%)}
 .fighter-card.djbeigey-card{--fighter-accent:#ff80d5;--fighter-glow:#ff46be50;background:linear-gradient(145deg,#47203e,#241329 78%)}
 .fighter-card.nobuttons-card{--fighter-accent:#ffe963;--fighter-glow:#ffd53c40;background:linear-gradient(145deg,#393145,#191522 78%)}
+
+.fighter-card.eynakeast-card{--fighter-accent:#ce94ff;--fighter-glow:#aa46ff55;background:linear-gradient(145deg,#352346,#15121e 78%)}
+.fighter-card.goat-card{--fighter-accent:#ffdf72;--fighter-glow:#ffd14650;background:linear-gradient(145deg,#3c3420,#1c1a18 78%)}
+.fighter-card.taytay-card{--fighter-accent:#ffe455;--fighter-glow:#ffde4b50;background:linear-gradient(145deg,#45392b,#241827 78%)}

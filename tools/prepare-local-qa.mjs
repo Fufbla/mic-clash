@@ -18,7 +18,7 @@ async function qaRun() {
  for(let n=0;n<200&&!state.ready;n++)await qaWait(100);
  showSelection();$('localMode').click();controllers.reset();qaPads=[];updateLobby();
  check('Local mode waits for two controllers',$('startFight').disabled&&state.mode==='local');
- check('All 26 fighters remain available',document.querySelectorAll('[data-fighter]').length===26);
+ check('All 29 fighters remain available',document.querySelectorAll('[data-fighter]').length===29);
  await qaPulse(0,0);check('First controller joins P1 only',controllers.connected(0)&&!controllers.connected(1)&&$('startFight').disabled);
  await qaPulse(1,0);check('Second controller joins P2 and enables start',controllers.bothConnected()&&!$('startFight').disabled);
  const before=[state.selected,state.opponent];
@@ -58,6 +58,16 @@ async function qaRun() {
  check('Results identify the human winner',$('resultTitle').textContent==='Player 2 wins!');
  await qaPulse(1,0);
  check('Controller rematch retains local mode and restores health',state.phase==='countdown'&&state.game.localMultiplayer&&!state.game.aiEnabled&&state.game.fighters.every(f=>f.hp===320));
+ // Exercise each newly added special through Player2's real controller mapping.
+ for(const type of ['eynakeast','goat','taytay']) {
+  showSelection();state.selectingPlayer=0;selectFighter('owl');state.selectingPlayer=1;selectFighter(type);
+  startFight();setPhase('playing');const[a,b]=state.game.fighters;
+  a.x=540;b.x=650;b.meter=100;updateHUD();
+  await qaPulse(1,3);
+  await qaUntil(()=>state.game.isPresenting(b),type+' special activation');
+  await qaUntil(()=>!state.game.isPresenting(b),type+' special completion');
+  check('P2 '+type+' controller special renders, deals48 and recovers',a.hp===272&&b.hp===320&&b.meter===0&&state.game.specials.length===0&&b.state!=='special');
+ }
  parent.postMessage({type:'local-done',results},location.origin);
 }
 window.addEventListener('message',async event=>{

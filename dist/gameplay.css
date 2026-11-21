@@ -143,3 +143,6 @@ body[data-phase="playing"], body[data-phase="countdown"] { touch-action: none; }
 @media (max-height: 610px) and (orientation: landscape) {
   .selection-brand { gap: 7px; }
 }
+
+/* One smooth full-screen whiteout, below menus and above the arena/HUD. */
+#goatWhiteout{position:absolute;inset:0;z-index:15;background:#fff;opacity:0;pointer-events:none}

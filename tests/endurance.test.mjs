@@ -4,7 +4,7 @@ import { CombatGame } from '../dist/combat.js';
 
 const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull',
   'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince',
-  'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons'];
+  'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay'];
 
 test('Every fighter on either side starts and restarts with 320 health', () => {
   for (const type of roster) for (const side of [0, 1]) {

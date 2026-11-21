@@ -1,0 +1,258 @@
+{
+  "createdAt": "2026-11-21",
+  "generator": "image_gen.imagegen",
+  "useCase": "stylized-concept",
+  "transparent_background": true,
+  "outputPolicy": "Generated RGBA PNGs copied unchanged. No procedural image editing, resampling, or pixel cleanup.",
+  "referenceSources": [
+    {
+      "fighter": "eynakeast",
+      "path": "/workspace/scratch/348a43a3c143/upload/A4C85D07-6794-425E-8469-377980482AA3.jpeg"
+    },
+    {
+      "fighter": "goat",
+      "path": "/workspace/scratch/348a43a3c143/upload/DD50108E-D5FF-430F-ACA6-06A2A35893A0.jpeg"
+    },
+    {
+      "fighter": "taytay",
+      "path": "/workspace/scratch/348a43a3c143/upload/5E07C779-4493-4611-B79A-BB0A3F6B019E.jpeg"
+    }
+  ],
+  "basicFrameMap": [
+    "idle",
+    "breathing",
+    "jump",
+    "double-jump tuck",
+    "punch windup",
+    "punch contact",
+    "punch retract",
+    "guard",
+    "kick windup",
+    "knee chamber",
+    "kick extension",
+    "kick retract",
+    "lower foot",
+    "plant",
+    "hurt",
+    "prone KO"
+  ],
+  "actionFrameMap": {
+    "eynakeast": [
+      "walk0",
+      "walk1",
+      "walk2",
+      "walk3",
+      "walk4",
+      "walk5",
+      "walk6",
+      "walk7",
+      "gather fists down",
+      "charge",
+      "arms out",
+      "head tilt brace",
+      "crouch recovery",
+      "stand recovery",
+      "proud",
+      "idle"
+    ],
+    "goat": [
+      "walk0",
+      "walk1",
+      "walk2",
+      "walk3",
+      "walk4",
+      "walk5",
+      "walk6",
+      "walk7",
+      "activate palms low",
+      "raise hands to chest",
+      "raise head",
+      "hands almost joining overhead",
+      "triangle diamond overhead",
+      "hold sign",
+      "lower arms",
+      "idle"
+    ],
+    "taytay": [
+      "strut0",
+      "strut1",
+      "strut2",
+      "strut3",
+      "strut4",
+      "strut5",
+      "strut6",
+      "strut7",
+      "hand near mouth",
+      "call Travy",
+      "beckon",
+      "hand on hip",
+      "cheer",
+      "smile",
+      "hand on hip",
+      "idle"
+    ]
+  },
+  "supportFrameMap": {
+    "eynakeastSupport": [
+      "hood forming",
+      "hood idle",
+      "hood arms half-raised",
+      "hood arms high",
+      "cast forward",
+      "hold cast",
+      "lower arms",
+      "recover",
+      "wisp",
+      "wisp lunge",
+      "cloud ghost idle",
+      "cloud ghost attack",
+      "skeleton ghost swarm",
+      "swarm sweeping right",
+      "purple ground rupture",
+      "fading rupture"
+    ],
+    "travySupport": [
+      "ready",
+      "run stride A",
+      "run stride B",
+      "run stride C",
+      "low tackle windup",
+      "horizontal dive empty hands",
+      "stand recovery",
+      "running departure"
+    ]
+  },
+  "generations": [
+    {
+      "key": "eynakeast",
+      "file": "dist/assets/eynakeast-fighter.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-4aecf95a-867f-460e-a3a8-977f6a9671b2.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/A4C85D07-6794-425E-8469-377980482AA3.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D fighting-game sprite atlas. Use the attached poster ONLY for chibi character identity/style; ignore its text, panels and photographic portrait. Output true transparent RGBA PNG, ideally1280x1280, exactly4columns x4rows=16 evenly spaced equal square cells. NO labels or numbers, no panels/borders, floor, background, gradient, checkerboard, halos or cast shadows. All sprites face RIGHT in three-quarter side view. Consistent full-body anatomical size: normal standing character ONLY210-225px tall in a320px cell, feet baseline270, centerx160. Reserve at least25px fully transparent empty gutters on ALL sides; oversized afro, raised hands, gown train, kicking foot and prone body must remain entirely inside their own cell. Do NOT enlarge crouched or prone frames to fill cell. Identical head/body proportions and clothing across all16. \nEYNAK EAST normal fighter from the drawn chibi, NOT the photographic portrait: dark warm-brown skin, fierce thick black eyebrows, compact full black beard/goatee, short tightly coiled bleached blond hair with pale coral-pink tips. Long dark navy-blue open coat with mustard-gold collar, charcoal gray shirt, loose charcoal-black trousers, white chunky sneakers, thick gold chain. Same chibi face, head/body ratio, hair and clothes as poster. Normal human form throughout, no hood or magic on this sheet.\nRow-major frame map (instructions only, no printed text):0ready idle;1subtle breathing idle;2first jump knees raised;3double-jump compact tuck;4punch windup fist pulledback;5punch contact arm fully extended RIGHT;6punch retract;7defensive forearm guard;8kick windup;9knee chamber;10front/sweep kick fully extended RIGHT waist-high;11kick retract;12lower foot;13bothfeet planted;14recoil back from hit;15intact defeated prone/sideways body lying horizontally, no injury. Every pose visually distinct, full-body visible.",
+      "columns": 4,
+      "rows": 4,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "fa4346f1198886660db3131a5ccd1cd550da6fb864e74b38df4bfb8fc7d0857c",
+      "inspected": true
+    },
+    {
+      "key": "goat",
+      "file": "dist/assets/goat-fighter.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-f04d76bc-73f8-44fe-853f-dab02e76996f.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/DD50108E-D5FF-430F-ACA6-06A2A35893A0.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D fighting-game sprite atlas. Use the attached poster ONLY for chibi character identity/style; ignore its text, panels and photographic portrait. Output true transparent RGBA PNG, ideally1280x1280, exactly4columns x4rows=16 evenly spaced equal square cells. NO labels or numbers, no panels/borders, floor, background, gradient, checkerboard, halos or cast shadows. All sprites face RIGHT in three-quarter side view. Consistent full-body anatomical size: normal standing character ONLY210-225px tall in a320px cell, feet baseline270, centerx160. Reserve at least25px fully transparent empty gutters on ALL sides; oversized afro, raised hands, gown train, kicking foot and prone body must remain entirely inside their own cell. Do NOT enlarge crouched or prone frames to fill cell. Identical head/body proportions and clothing across all16. \nGOAT from the drawn chibi, NOT the photographic portrait: warm-brown skin, enormous broad round dark-brown fluffy textured AFRO, black rectangular sunglasses, confident smile, subtle thin mustache and chin hair. Black tracksuit/bomber jacket with gold piping and red/green embroidered clover-flower patches, white T-shirt, loose black trousers, black-and-white sneakers, gold chain and bracelets. Preserve the afro silhouette and sunglasses in EVERY pose. Match reference chibi face/outfit exactly; hair has enough space inside cell.\nRow-major frame map (instructions only, no printed text):0ready idle;1subtle breathing idle;2first jump knees raised;3double-jump compact tuck;4punch windup fist pulledback;5punch contact arm fully extended RIGHT;6punch retract;7defensive forearm guard;8kick windup;9knee chamber;10front/sweep kick fully extended RIGHT waist-high;11kick retract;12lower foot;13bothfeet planted;14recoil back from hit;15intact defeated prone/sideways body lying horizontally, no injury. Every pose visually distinct, full-body visible.",
+      "columns": 4,
+      "rows": 4,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "05217ca042853b9446fde223f0164dbd47ce98b079a08f8689ac7b5b4d81518d",
+      "inspected": true
+    },
+    {
+      "key": "taytay",
+      "file": "dist/assets/taytay-fighter.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-0fd5ec03-b7ac-4e6f-9bc0-d483db968a23.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/5E07C779-4493-4611-B79A-BB0A3F6B019E.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D fighting-game sprite atlas. Use the attached poster ONLY for chibi character identity/style; ignore its text, panels and photographic portrait. Output true transparent RGBA PNG, ideally1280x1280, exactly4columns x4rows=16 evenly spaced equal square cells. NO labels or numbers, no panels/borders, floor, background, gradient, checkerboard, halos or cast shadows. All sprites face RIGHT in three-quarter side view. Consistent full-body anatomical size: normal standing character ONLY210-225px tall in a320px cell, feet baseline270, centerx160. Reserve at least25px fully transparent empty gutters on ALL sides; oversized afro, raised hands, gown train, kicking foot and prone body must remain entirely inside their own cell. Do NOT enlarge crouched or prone frames to fill cell. Identical head/body proportions and clothing across all16. \nTAYTAY from the drawn chibi, NOT the photographic portrait: fair cream skin, large bright blue eyes, bold lashes/black eyeliner, red lips, strawberry-golden blonde hair swept into braided updo/bun with straight side-framing bangs. Large sparkling silver chandelier earrings. Vibrant YELLOW strapless satin evening gown, fitted bodice, high leg slit, flowing wide train behind her, gold strappy high heel sandals. Exact reference chibi face and outfit. Her gown remains a full flowing gown in every action; don't replace with trousers or miniskirt. Keep full gown train and heels inside cell; no Travy on this sheet.\nRow-major frame map (instructions only, no printed text):0ready idle;1subtle breathing idle;2first jump knees raised;3double-jump compact tuck;4punch windup fist pulledback;5punch contact arm fully extended RIGHT;6punch retract;7defensive forearm guard;8kick windup;9knee chamber;10front/sweep kick fully extended RIGHT waist-high;11kick retract;12lower foot;13bothfeet planted;14recoil back from hit;15intact defeated prone/sideways body lying horizontally, no injury. Every pose visually distinct, full-body visible.",
+      "columns": 4,
+      "rows": 4,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "2dad763852893d3bd7cfab47cffa422b21285536542473a660e8163ccc32f612",
+      "inspected": true
+    },
+    {
+      "key": "eynakeastSupport",
+      "file": "dist/assets/eynakeast-support.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-7e89b47d-1f42-4de5-8ef9-d93e68e1e894.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/A4C85D07-6794-425E-8469-377980482AA3.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D transparent game VFX/character sprite atlas. Match the HOODED FORM and GHOST SUMMONS drawn on attached Eynak East reference; ignore all panel art/text and photographic portrait. TRUE TRANSPARENT RGBA PNG, exactly4columns x4rows16 equal320px cells, ideally1280square. Every sprite/action faces RIGHT three-quarter view. Each cell has at least25px completely transparent gutter on ALL sides, no shapes crossing between cells. No text, labels, panel frames, background, floor, checkerboard, broad glow or drop shadow. Consistent hooded figure body scale220px tall, high pointed hood and all hands inside cell, robe bottom baseline270. First eight cells SAME fullbody dark occult character: long deep-black/purple flowing robe, sharply POINTED tall hood, completely faceless pitchblack opening, dark-brown human hands, no face or eyes visible. Rowmajor:0hood forming around fullbody with robe swirls;1hooded idle armsdown;2arms half-raised;3botharms raised high casting, fullbody remains;4botharms cast forward RIGHT;5hold cast;6lower arms;7recovery idle. Rows3-4 ghost/effects match poster shapes:8small round white/pale-lavender floating wisp, red jagged mouth, angry eyes and little curly top swirl;9same wisp lunging RIGHT;10large pale-lavender cloudy ghost with BLACK Xeyes and lime-yellow jagged teeth;11same cloud ghost attacking with huge purple mouth open RIGHT;12cluster of five tiny separate white skeleton-head ghosts with trailing wispy tails;13same swarm sweeping right;14purple crystalline ground rupture bursting upward from a little floating base (NO floor/background);15same purple rupture fading/downward. Effects may vary size but remain fully inside cells. Strong clean outlines, polished chibi rendering, hard isolated alpha edges; no background mist.",
+      "columns": 4,
+      "rows": 4,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "adcf71f3c69dde2ca432b20cc7584af3c182e0662cf97ef7fc5e19c255f3e488",
+      "inspected": true
+    },
+    {
+      "key": "travySupport",
+      "file": "dist/assets/travy-support.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-a33b4e5d-5a1c-4651-93db-4267fe6e5126.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/5E07C779-4493-4611-B79A-BB0A3F6B019E.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D fighting-game summon sprite atlas. Use ONLY the red football player TRAVY from attached poster's drawn chibis as identity reference, not photographic/large portrait anatomy. TRUE TRANSPARENT RGBA PNG, exactly4columns x2rows=8 equal square cells, ideally1280x640 wide. All fullbody sprites face RIGHT three-quarter sideview, consistent standingbodyheight220px in320cell, centerx160, feetbaseline270, at least25px transparent gutters ALL sides. Do NOT enlarge horizontal dive to fill cell; preserve head/body proportions. Travy is muscular chibi lighttan man with short brown beard, red football helmet with WHITE facemask and reference arrowhead-style side emblem, RED jersey big white number87 with gold edge, white football pants with red/gold side stripes, white gloves and white cleats. Keep helmet ON everypose, complete body and gear intact, polished bold outlines. Rowmajor frames:0ready idle;1running strideA forwardlean;2opposite running strideB;3running strideC fast;4low tackle windup bentknees headlow armsready;5FULLBODY HORIZONTAL DIVING TACKLE facingRIGHT arms stretched forward hands EMPTY, feet trail LEFT, no other person or ball;6recover standingup;7running depart right. NO opponent, no ball, no background/floor, no dust/effects, no text/labels/panels/checkerboard/shadow. Each pose separate fully inside owncell.",
+      "columns": 4,
+      "rows": 2,
+      "width": 1774,
+      "height": 887,
+      "sha256": "946b0d5218e09e01ddc2d1c09732b90ba6ab2ee34ee8baacf5c5a5fda31f15f6",
+      "inspected": true
+    },
+    {
+      "key": "eynakeastActions",
+      "file": "dist/assets/eynakeast-actions.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-d6088e58-f959-4c36-87c7-2481cc3574e3.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/generated_images/exec-4aecf95a-867f-460e-a3a8-977f6a9671b2.png",
+        "/workspace/scratch/348a43a3c143/upload/A4C85D07-6794-425E-8469-377980482AA3.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D fighting-game ANIMATION sprite atlas. First attached image is approved basic sprite sheet: match its exact face, outfit, linework, and anatomical scale. Second image is original concept. True transparent RGBA PNG, ideally1280square, exactly4columns x4rows16 equalcells. All fullbody poses face RIGHT threequarter view. Keep consistent scale in every pose, normal standing body about220px tall in320cell with baseline275, center160. All head/hair/gown/raisedhands inside eachcell with minimum20px fully transparent gutters. Do not enlarge crouch or specialframes to fillcell. NO background/floor/shadows/text/borders/paneldividers/checkerboard/effect halos. Each frame separate fullbody. \nEYNAK EAST normal fighter from the drawn chibi, NOT the photographic portrait: dark warm-brown skin, fierce thick black eyebrows, compact full black beard/goatee, short tightly coiled bleached blond hair with pale coral-pink tips. Long dark navy-blue open coat with mustard-gold collar, charcoal gray shirt, loose charcoal-black trousers, white chunky sneakers, thick gold chain. Same chibi face, head/body ratio, hair and clothes as poster. Normal human form throughout, no hood or magic on this sheet.\nFrames0-7: EIGHT distinct heavy confident walking/running strides toRIGHT, alternating both legs and arm swing across contact/down/passing/up phases, coat tails sway. Frames8-15 NORMAL HUMAN FORM ONLY:8fists down gathering strength;9energy-charge braced stance clench fists (no drawnenergy);10arms spreadout to sides;11head tiltback andbrace;12low crouch recovery;13stand recovering;14proud upright pose;15neutral idle. Keep blondcoral hair,face and navycoat visible in allframes; nohood/magic onthissheet.",
+      "columns": 4,
+      "rows": 4,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "4e8de2634a3b4773ac9221a39993b15117890e25d5d6f34b57bc8b10ad374c65",
+      "inspected": true
+    },
+    {
+      "key": "goatActions",
+      "file": "dist/assets/goat-actions.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-ac490121-cd7c-4ceb-80b8-c2f485cbffea.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/generated_images/exec-f04d76bc-73f8-44fe-853f-dab02e76996f.png",
+        "/workspace/scratch/348a43a3c143/upload/DD50108E-D5FF-430F-ACA6-06A2A35893A0.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D fighting-game ANIMATION sprite atlas. First attached image is approved basic sprite sheet: match its exact face, outfit, linework, and anatomical scale. Second image is original concept. True transparent RGBA PNG, ideally1280square, exactly4columns x4rows16 equalcells. All fullbody poses face RIGHT threequarter view. Keep consistent scale in every pose, normal standing body about220px tall in320cell with baseline275, center160. All head/hair/gown/raisedhands inside eachcell with minimum20px fully transparent gutters. Do not enlarge crouch or specialframes to fillcell. NO background/floor/shadows/text/borders/paneldividers/checkerboard/effect halos. Each frame separate fullbody. \nGOAT from the drawn chibi, NOT the photographic portrait: warm-brown skin, enormous broad round dark-brown fluffy textured AFRO, black rectangular sunglasses, confident smile, subtle thin mustache and chin hair. Black tracksuit/bomber jacket with gold piping and red/green embroidered clover-flower patches, white T-shirt, loose black trousers, black-and-white sneakers, gold chain and bracelets. Preserve the afro silhouette and sunglasses in EVERY pose. Match reference chibi face/outfit exactly; hair has enough space inside cell.\nFrames0-7: EIGHT distinct cool confident rightward WALK/RUN cycle poses with alternating legs and arm swings, afro stays same size. Frames8-15:8activate both palms open low nearhips;9raise hands to CHEST level palms open;10tilt headup with hands atshoulders;11raise arms above thelargeAFRO hands NEARLY joining;12join bothhands ABOVEHEAD into exact TRIANGLE/DIAMOND handsign: both indexfingertips touch atupperapex, boththumbtips meet atloweredge, fingers straight forming hollowtriangle;13hold SAME exact triangle/diamond ABOVEHEAD;14lower arms besidechest;15neutral confident idle. Fullbody and entire afro remain visible with space abovehands. Keep sunglasseson. NO lightbeams/effects or separate symbols; the hands themselves form sign.",
+      "columns": 4,
+      "rows": 4,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "c2d72789281774ffccf55bf5a513bb7537b7441cca0621603e80b928f5103494",
+      "inspected": true
+    },
+    {
+      "key": "taytayActions",
+      "file": "dist/assets/taytay-actions.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-fbf68a4a-528d-4779-b5fa-b34892b599f7.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/generated_images/exec-0fd5ec03-b7ac-4e6f-9bc0-d483db968a23.png",
+        "/workspace/scratch/348a43a3c143/upload/5E07C779-4493-4611-B79A-BB0A3F6B019E.jpeg"
+      ],
+      "prompt": "Use case: stylized-concept. Production 2D fighting-game ANIMATION sprite atlas. First attached image is approved basic sprite sheet: match its exact face, outfit, linework, and anatomical scale. Second image is original concept. True transparent RGBA PNG, ideally1280square, exactly4columns x4rows16 equalcells. All fullbody poses face RIGHT threequarter view. Keep consistent scale in every pose, normal standing body about220px tall in320cell with baseline275, center160. All head/hair/gown/raisedhands inside eachcell with minimum20px fully transparent gutters. Do not enlarge crouch or specialframes to fillcell. NO background/floor/shadows/text/borders/paneldividers/checkerboard/effect halos. Each frame separate fullbody. \nTAYTAY from the drawn chibi, NOT the photographic portrait: fair cream skin, large bright blue eyes, bold lashes/black eyeliner, red lips, strawberry-golden blonde hair swept into braided updo/bun with straight side-framing bangs. Large sparkling silver chandelier earrings. Vibrant YELLOW strapless satin evening gown, fitted bodice, high leg slit, flowing wide train behind her, gold strappy high heel sandals. Exact reference chibi face and outfit. Her gown remains a full flowing gown in every action; don't replace with trousers or miniskirt. Keep full gown train and heels inside cell; no Travy on this sheet.\nFrames0-7: EIGHT distinct elegant MODEL STRUT/WALK/RUN cycle poses towardRIGHT, alternate contact/down/passing/up phases, yellow gowntrain flows behind toLEFT, visible goldheels stride, consistent slim chibibody. Frames8-15:8lift hand near mouth;9hand cupped atmouth mouthopen calling Travy;10beckon invitingly toRIGHT;11proud handonhip;12cheer onehandraised withhappyface;13smile with armslowered;14confident handonhip;15neutral elegant idle. Keep originalyellow fullgown, slit, train, earrings, braidedupdo. No othercharacter, text, speechbubble or effects.",
+      "columns": 4,
+      "rows": 4,
+      "width": 1254,
+      "height": 1254,
+      "sha256": "40a9ce42f36f75c213e274fdd58eca1ae9d9ef8ead248e83e9ab23c061b802e0",
+      "inspected": true
+    }
+  ],
+  "inspectionNotes": [
+    "All generated sheets visually inspected for face/outfit, intact full-body silhouettes and alpha.",
+    "Eynak East basic prone KO slightly crosses the nominal x940 grid line into empty space. Use a gutter-aware metadata split for frames14-15, without editing PNG pixels.",
+    "Eynak support cloud attack frame11 includes short purple breath, isolated from neighboring frames.",
+    "Travy support dive frame5 is full-body horizontal with empty hands and no opponent.",
+    "GOAT action frames12-13 have joined index and thumb tips forming the hollow triangle/diamond hand sign.",
+    "All three action sheets preserve the approved basics' identity, outfit, hair/gown shape and fullbody silhouettes."
+  ]
+}
