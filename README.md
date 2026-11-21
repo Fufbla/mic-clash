@@ -1,6 +1,6 @@
 # Mic Clash
 
-A self-contained browser fighting game with seventeen selectable chibi fighters, a selectable CPU opponent, and 90-second rounds. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
+A self-contained browser fighting game with twenty selectable chibi fighters, a selectable CPU opponent, and 90-second rounds. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
 
 ## Play
 
@@ -187,3 +187,12 @@ Only the Pause button enters the paused state. P, Escape, focus loss, and visibi
 Every fighter now starts with 320 HP, up from 160, on both sides and after each restart. Attack damage, special timing, and meter gains are preserved. An unblocked KO takes 32 normal punches or 22 kicks. Rounds retain the 90-second timer.
 
 Validation: 153 combat checks passed, including all 17 fighters and new endurance/reset checks at 30/60/120 fps. Browser checks covered 1280×760, 844×390, 844×326, 390×844, and 320×568 layouts, menu/help/resume, simulated touch/gesture defaults, blur and keyboard pause regressions, rapid jump taps, held attacks, and stick release. These are desktop browser checks of mobile layouts and input handling; physical iPhone Safari behavior was not directly tested.
+
+
+### The President, O’whinny, and RoboKing
+
+Three fighters added from the supplied character designs, with 96 transparent character frames and 20 companion/effect frames. The President calls Executive Airstrike, O’whinny summons four waves of Money Rain, and RoboKing calls a truck followed by a robot punch. Specials deal up to 48 damage, require full hit-powered meter, and preserve the existing 320-health rounds.
+
+The President and RoboKing have Personal Security: a follower blocks every tenth eligible incoming punch/kick contact (including a manually blocked contact), consumes that attack once, and grants no damage or meter. Misses, invulnerable contacts, and specials do not count. The counter resets each round; all specials bypass the passive. The robot joins the truck during Cybertruck Protocol, then returns as a follower.
+
+Implementation: `dist/executive-fighters.js` contains shared pose mappings and simulation timelines; `dist/executive-renderer.js` draws the supplied-design sprites. `tools/build-executive-atlas.py` indexes alpha bounds without altering generated artwork. Artwork prompts and source paths are recorded in `references/three-fighter-art-prompts.json`.

@@ -1,14 +1,19 @@
+import { EXECUTIVE_FIGHTERS, EXECUTIVE_KINDS, executivePose } from './executive-fighters.js';
+import { createExecutiveRenderer } from './executive-renderer.js';
 import { NAIL_PIERCE, ocrrrrrPose, nailSegments } from './ocrrrrr.js';
 import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=fullscreen-20261121';
+import { CombatGame } from './combat.js?v=executives-20261121';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
 const $ = id => document.getElementById(id);
 const META = {
+  president: { name: 'The President', special: 'Executive Airstrike', color: '#91baff', glow: 'rgba(82,135,255,.4)' },
+  owhinny: { name: 'O’whinny', special: 'Money Rain', color: '#ffdc78', glow: 'rgba(255,196,70,.4)' },
+  roboking: { name: 'RoboKing', special: 'Cybertruck Protocol', color: '#76e9ff', glow: 'rgba(66,206,255,.4)' },
   owl: { name: 'Owl Striker', special: 'Owl Strike', color: '#ffcf70', glow: 'rgba(255,190,75,.35)' },
   coupe: { name: 'Night Rider', special: 'Black Coupe', color: '#b6a0ff', glow: 'rgba(166,125,255,.35)' },
   karate: { name: 'Karate Fighter', hudName: 'Karate', special: 'Rapid Punches', color: '#6faaff', glow: 'rgba(65,135,255,.4)' },
@@ -32,6 +37,7 @@ const canvas = $('arena');
 const ctx = canvas.getContext('2d');
 const WORLD_W = 1280, WORLD_H = 720, GROUND = 548;
 const state = { phase: 'select', selected: 'owl', opponent: 'coupe', assets: null, game: null, countdown: 0, resultDelay: 0, last: 0, time: 0, shake: 0, flash: 0, particles: [], labels: [], audio: false, pausedFrom: 'playing', ready: false, toastTimer: 0, cameraX: 640, cameraWidth: 1280 };
+const executiveRenderer = createExecutiveRenderer(ctx, frame, () => state.assets, GROUND);
 const held = new Set();
 const pointers = new Map();
 const pressed = { jumpPressed: false, punchPressed: false, kickPressed: false, specialPressed: false };
@@ -221,7 +227,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=ocrrrrr-20261121', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=executives-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -627,7 +633,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -648,6 +654,15 @@ function processEvents() {
       particleBurst(x, y, event.blocked ? '#9de9ff' : event.kind === 'yell' ? '#e2ebff' : event.kind === 'vocal' ? '#ff7ec9' : event.kind === 'barrage' ? '#96c9ff' : '#ffd78e', event.blocked ? 5 : event.kind === 'barrage' ? 7 : 13, event.heavy ? 240 : 170);
       state.labels.push({ x, y: y - 35, text: event.blocked ? 'BLOCK' : `${event.damage}`, color: event.blocked ? '#a8edff' : event.kind === 'yell' ? '#f2f5ff' : event.kind === 'vocal' ? '#ffd4f4' : event.kind === 'barrage' ? '#b8ddff' : '#fff2d7', life: event.kind === 'barrage' ? .38 : .75 });
       if (event.style === 'slap') sound.slap(event.blocked); else sound.hit(event.heavy, event.blocked);
+    }
+    if (event.type === 'securityBlock') {
+      particleBurst(event.x, GROUND - event.y, '#a7eaff', 10, 160); sound.hit(false, true);
+      state.labels.push({ x: event.x, y: GROUND - event.y - 55, text: 'SECURITY', color: '#b4eeff', life: .65 });
+    }
+    if (event.type === 'executiveImpact') {
+      if (event.kind === 'airstrike') { sound.noise(.38, .08); sound.tone(95, 28, .45, .08, 'triangle'); state.shake = Math.max(state.shake, 12); }
+      else if (event.kind === 'moneyRain') { sound.noise(.09, .035); sound.tone(850, 380, .12, .025, 'triangle'); }
+      else { sound.hit(true, false); if (event.truck) sound.tone(75, 180, .3, .045, 'sawtooth'); }
     }
     if (event.type === 'meterReady' && event.fighter === 'p1') { showToast(`${META[state.game.fighters[0].type].special} ready — use SPECIAL!`, 3); sound.tone(440, 880, .25, .04, 'triangle'); }
     if (event.type === 'special') {
@@ -932,6 +947,10 @@ function drawFighterSpeech(s, text, viewScale, offsetX, offsetY) {
   ctx.restore();
 }
 
+function executiveSprite(f) {
+  return executivePose(f, state.game?.specials.find(s => EXECUTIVE_KINDS.includes(s.kind) && s.owner === f.id));
+}
+
 function ocrrrrrSprite(f) {
   return ocrrrrrPose(f, state.game?.specials.find(s => s.kind === 'nailPierce' && s.owner === f.id));
 }
@@ -1055,6 +1074,7 @@ function drawFighter(f) {
   if (f.type === 'cantrap') ({ key, index } = cantRapSprite(f));
   if (f.type === 'smackprince') ({ key, index } = princeSprite(f));
   if (f.type === 'babybigfists') ({ key, index } = bigFistsSprite(f));
+  if (EXECUTIVE_FIGHTERS[f.type]) ({ key, index } = executiveSprite(f));
   if (f.type === 'ocrrrrr') ({ key, index } = ocrrrrrSprite(f));
   if (f.type === 'demon') ({ key, index } = demonSprite(f));
   if (f.type === 'cranes') ({ key, index } = cranesSprite(f));
@@ -1080,14 +1100,14 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 / (EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
   if (f.meter >= 100) { ctx.strokeStyle = META[f.type].color; ctx.globalAlpha = .5 + Math.sin(state.time * 5) * .15; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 66, 13, 0, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; }
   ctx.translate(f.x, GROUND - f.y); ctx.scale(flipping ? (f.flipDirection || f.facing) : f.type === 'demon' && demonSprite(f).lookAway ? -f.facing : f.facing, 1);
   if (flipping) ctx.translate(0, -108);
-  if (f.state === 'ko') { ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); ctx.globalAlpha = .8; }
+  if (f.state === 'ko') { if (!EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); ctx.globalAlpha = .8; }
   if (f.state === 'hurt' && f.stateTime < .08) ctx.filter = 'brightness(1.8)';
   const vocalImpact = state.game.effects.find(e => e.kind === 'vocalExplosion' && e.defender === f.id && !e.blocked && e.age < .22);
   if (vocalImpact) ctx.filter = 'brightness(3) saturate(.4)';
@@ -1288,7 +1308,7 @@ function drawMunch(s) {
   if (target) {
     // Use the selected opponent's own sprite. No generic victim is baked into
     // the artwork, and the normal fighter pass omits the held character.
-    const victim = frame(target.type, ['smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(target.type) ? 14 : 22) || frame(target.type, 0);
+    const victim = frame(target.type, EXECUTIVE_FIGHTERS[target.type] ? 14 : ['smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(target.type) ? 14 : 22) || frame(target.type, 0);
     if (victim) {
       const progress = Math.max(0, Math.min(1, (s.age - .46) / .20));
       const lift = progress * progress * (3 - 2 * progress);
@@ -1517,6 +1537,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if (EXECUTIVE_KINDS.includes(s.kind)) { executiveRenderer.special(s); return; }
   if (s.kind === 'nailPierce') { drawNailPierce(s); return; }
   if (s.kind === 'maskedCrew') return; // Crew is drawn behind the actual fighters.
   if (s.kind === 'elevator') { drawElevatorDrop(s); return; }
@@ -1619,6 +1640,8 @@ function draw(dt) {
     for (const s of state.game.specials) if (s.kind === 'spotlight') drawSmackSpotlight(s);
     for (const s of state.game.specials) if (s.kind === 'elevator') drawElevatorWarning(s);
     for (const s of state.game.specials) if (s.kind === 'maskedCrew' && s.active) drawMaskedCrew(s);
+    for (const s of state.game.specials) if (EXECUTIVE_KINDS.includes(s.kind)) executiveRenderer.warning(s);
+    for (const f of state.game.fighters) executiveRenderer.security(f, state.game);
     const elevatorCasters = state.game.fighters.filter(f => f.type === 'cranes' && f.state === 'special');
     // The enlarged fist must stay visible in front of the opponent on contact.
     const giantCasters = state.game.fighters.filter(f => f.type === 'babybigfists' && f.state === 'special');
@@ -1633,11 +1656,17 @@ function draw(dt) {
     if (s.kind === 'crew') drawFighterSpeech(s, cantRapSpeech(s), viewScale, offsetX, offsetY);
     if (s.kind === 'giantFists') drawFighterSpeech(s, babyBigFistsSpeech(s), viewScale, offsetX, offsetY);
   }
-  ctx.setTransform(canvas.width / WORLD_W, 0, 0, canvas.height / WORLD_H, 0, 0);
+  // Keep special announcements below the compact HUD and undistorted in portrait.
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  const titleSize = Math.max(17, Math.min(30, canvas.width / pixelRatio * .026));
+  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   for (const label of state.labels.filter(l => l.big)) {
-    ctx.save(); ctx.globalAlpha = Math.min(1, Math.max(0, label.life * 2)); ctx.textAlign = 'center'; ctx.font = '900 42px system-ui';
-    ctx.strokeStyle = '#171326'; ctx.lineWidth = 6; ctx.strokeText(label.text, 640, 105); ctx.fillStyle = label.color; ctx.fillText(label.text, 640, 105); ctx.restore();
+    ctx.save(); ctx.globalAlpha = Math.min(1, Math.max(0, label.life * 2)); ctx.textAlign = 'center'; ctx.font = `900 ${titleSize}px system-ui`;
+    ctx.strokeStyle = '#171326'; ctx.lineWidth = 4;
+    ctx.strokeText(label.text, canvas.width / pixelRatio / 2, 76);
+    ctx.fillStyle = label.color; ctx.fillText(label.text, canvas.width / pixelRatio / 2, 76); ctx.restore();
   }
+  ctx.setTransform(canvas.width / WORLD_W, 0, 0, canvas.height / WORLD_H, 0, 0);
   if (state.flash > 0) { ctx.fillStyle = `rgba(245,221,255,${state.flash * .45})`; ctx.fillRect(0, 0, WORLD_W, WORLD_H); }
   if (state.phase === 'countdown') {
     const n = state.countdown > .65 ? Math.ceil(state.countdown - .65) : 'FIGHT';
