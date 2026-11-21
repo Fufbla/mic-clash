@@ -89,3 +89,13 @@ Run `npm test` for combat checks. Run `npm start` and open http://localhost:8000
 ## Can’t Rap GitHub Pages update (2026-11-21)
 
 The GitHub Pages roster now has eleven fighters. Can’t Rap is selectable as either the player or CPU. His regular Punch button swings the microphone. Turban Crew Jump-In calls eight small red-turban helpers from the edges, who rush in and land up to eight timed, unblockable hits. The presentation completes before knockout or timeout results, and the existing fighters and phone controls are preserved. Run `npm test` for combat verification.
+
+### Can’t Rap sprite and kick repair
+
+`dist/assets/cant-rap-hd.png` replaces the compressed 112-pixel cells with 16 lossless, approximately 300-pixel-tall poses. `dist/cant-rap.js` selects windup, knee lift, extension, retraction, foot lowering, and grounded recovery across each 0.58-second kick. The extended frame matches the 0.18–0.30-second hit window; both feet return to the floor before a held kick repeats. Block and microphone-call poses are also authored frames.
+
+His special displays **Kids!** in a speech bubble immediately, with a 0.60-second call before helpers enter. The bubble remains readable during the entrance, including on narrow phone screens, and clears before the attacks. The eight strikes still deal up to 48 damage. The added call time shifts the full presentation to 3.43 seconds.
+
+The built-in image generator re-authored the approved `cant_rap_fighting_stance_full.png` appearance into a transparent 4×4 atlas: identical face, red turban, gold-rim sunglasses, tattoos, red/black plaid vest, tank top, necklace, cargo pants, sneakers, and microphone; row-major guard/walk/walk/jump, mic windup/contact/block/hurt, kick anticipation/chamber/extension/retraction, foot lowering/grounded recovery/call/call. No text, borders, effects, or background. `tools/build-cant-rap-atlas.py` indexes alpha bounds and body anchors without modifying pixels.
+
+Run `node tools/prepare-cant-rap-qa.mjs` for local visual fixtures at `/__qa-cantrap-runner.html`, then the same command with `--clean` before release. Regression checks cover complete kick recovery and call-before-entrance timing on both player sides at 30/60/120 fps. Browser checks cover sharp artwork, kick contact and grounded recovery, mirrored speech bubbles, and 390×844 portrait / 844×390 landscape layouts.

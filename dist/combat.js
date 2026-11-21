@@ -21,8 +21,8 @@ const BACKUP = { call: .4, arrive: .55, exit: .32, exitStagger: .12, rushSpeed: 
   rushDeadline: 2.7, range: 145, punchWindup: .08, punchInterval: .36,
   punchStagger: .12, punchesEach: 3, attackDuration: 1.32, returnDeadline: 1.25,
   departDuration: .55, duration: 6 };
-const CREW = { call: .35, attackStart: 1.12, interval: .17, hits: 8,
-  retreatStart: 2.54, duration: 3.18, damage: 6 };
+const CREW = { call: .60, attackStart: 1.37, interval: .17, hits: 8,
+  retreatStart: 2.79, duration: 3.43, damage: 6 };
 const ATTACKS = {
   punch: { duration: .40, start: .10, end: .20, range: 132, damage: 10, meter: 20, stun: .20, knock: 180 },
   kick: { duration: .58, start: .18, end: .30, range: 178, damage: 15, meter: 25, stun: .26, knock: 250 }

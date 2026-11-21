@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CombatGame } from '../dist/combat.js';
+import { cantRapPose, cantRapSpeech } from '../dist/cant-rap.js';
 
 function match(player='cantrap',opponent='owl') {
   const game=new CombatGame(player,opponent);
@@ -118,4 +119,43 @@ test('CPU can call the crew and round reset clears it',()=>{
   g.reset('cantrap','owl');
   assert.equal(g.specials.length,0);
   assert.equal(g.fighters[0].crewActive,false);
+});
+
+test('Single and held kicks extend only at contact, retract, plant the foot, and return to idle',()=>{
+  for(const fps of [30,60,120])for(const side of ['p1','p2']){
+    const g=side==='p1'?match():match('owl','cantrap');
+    const f=g.fighters.find(f=>f.id===side);
+    g.fighters[0].x=150;g.fighters[1].x=1100;
+    for(let repeat=0;repeat<3;repeat++){
+      assert.equal(g.startAttack(f,'kick'),true);
+      const frames=new Set();
+      while(f.attack){
+        const pose=cantRapPose(f).index;frames.add(pose);
+        const elapsed=f.attack.elapsed;
+        if(elapsed>=.18 && elapsed<.30)assert.equal(pose,10);
+        if(elapsed>=.48)assert.equal(pose,13,'The foot must be planted before the next kick');
+        g.update(1/fps,{});
+      }
+      for(const pose of [8,9,10,11,12,13])assert.ok(frames.has(pose),`Missing kick keyframe ${pose} at ${fps} fps`);
+      assert.equal(f.state,'idle');assert.equal(cantRapPose(f).index,0);
+    }
+  }
+});
+
+test('Kids! is visible before any crew enters and clears after the call or reset',()=>{
+  for(const fps of [30,60,120])for(const side of ['p1','p2']){
+    const g=side==='p1'?match():match('owl','cantrap');
+    const f=g.fighters.find(f=>f.id===side);f.meter=100;g.useSpecial(f);
+    const s=g.specials[0];
+    assert.equal(cantRapSpeech(s),'Kids!');assert.equal(cantRapPose(f,s).index,14);
+    let firstKid=null;
+    for(let n=0;n<fps*1.5;n++){
+      g.update(1/fps,{});
+      if(s.age<.60-1e-9){assert.equal(cantRapSpeech(s),'Kids!');assert.ok(s.crew.every(k=>!k.visible));}
+      if(firstKid===null&&s.crew.some(k=>k.visible))firstKid=s.age;
+    }
+    assert.ok(firstKid>=.60-1e-9&&firstKid<=.60+1/fps+1e-9);
+    assert.equal(cantRapSpeech(s),'');
+    g.reset('cantrap','owl');assert.equal(cantRapSpeech(g.specials[0]),'');
+  }
 });

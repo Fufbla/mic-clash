@@ -1,4 +1,5 @@
-import { CombatGame } from './combat.js';
+import { CombatGame } from './combat.js?v=cantrap-20261121';
+import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
 const $ = id => document.getElementById(id);
 const META = {
@@ -194,7 +195,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=cantrap-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -521,6 +522,7 @@ function updateHUD() {
   canvas.dataset.crewOwner = crew?.owner || 'none';
   canvas.dataset.crewVisible = String(crew?.crew?.filter(k => k.visible).length || 0);
   canvas.dataset.crewHits = String(crew?.hitCount || 0);
+  canvas.dataset.crewSpeech = cantRapSpeech(crew);
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
@@ -551,7 +553,9 @@ function processEvents() {
       const fighter = state.game.fighters.find(f => f.id === event.fighter);
       const meta = META[fighter?.type || 'owl'];
       state.flash = .18; state.shake = 6;
-      state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
+      // Can’t Rap announces the move in his own speech bubble, including on
+      // short landscape screens where a second banner would cover the call.
+      if (event.kind !== 'crew') state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
       if (!['vocal', 'yell', 'wing', 'munch', 'horse'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
       if (event.kind === 'backup') sound.siren();
     }
@@ -761,21 +765,32 @@ function noBunniesSprite(f) {
 }
 
 function cantRapSprite(f) {
-  if (f.state === 'run' && f.grounded) {
-    return { key: 'cantrap', index: 1 + Math.floor(f.stateTime * 12) % 2 };
-  }
-  if (f.state === 'punch') {
-    const p = f.attackProgress || 0;
-    return { key: 'cantrap', index: p < .26 ? 4 : p < .70 ? 5 : 0 };
-  }
-  if (f.state === 'kick') return { key: 'cantrap', index: 6 };
-  if (f.state === 'hurt' || f.state === 'ko' || f.state === 'beltHeld') return { key: 'cantrap', index: 7 };
-  if (f.state === 'special') {
-    const crew = state.game?.specials.find(s => s.kind === 'crew' && s.owner === f.id);
-    return { key: 'cantrap', index: crew?.phase === 'calling' ? 4 : 0 };
-  }
-  if (!f.grounded || f.y > 4) return { key: 'cantrap', index: 3 };
-  return { key: 'cantrap', index: 0 };
+  const crew = state.game?.specials.find(s => s.kind === 'crew' && s.owner === f.id);
+  return cantRapPose(f, crew);
+}
+
+function drawCantRapSpeech(s, viewScale, offsetX, offsetY) {
+  const text = cantRapSpeech(s);
+  const owner = state.game.fighters.find(f => f.id === s.owner);
+  if (!text || !owner) return;
+  // Screen-space minimum keeps the call readable when the camera widens on phones.
+  const ratio = canvas.width / Math.max(1, canvas.getBoundingClientRect().width);
+  const width = Math.max(152 * viewScale, 104 * ratio), height = Math.max(58 * viewScale, 42 * ratio);
+  const margin = 8 * ratio, line = 2.5 * ratio;
+  const center = offsetX + (owner.x + owner.facing * 65) * viewScale;
+  const x = Math.max(margin, Math.min(canvas.width - width - margin, center - width / 2));
+  const y = Math.max(margin, offsetY + (GROUND - owner.y - 242) * viewScale - height);
+  const mouthX = offsetX + (owner.x + owner.facing * 22) * viewScale;
+  const tailX = Math.max(x + 20 * ratio, Math.min(x + width - 20 * ratio, mouthX));
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.lineWidth = line; ctx.lineJoin = 'round'; ctx.strokeStyle = '#211422'; ctx.fillStyle = '#fffaf2';
+  ctx.beginPath(); ctx.moveTo(tailX - 9 * ratio, y + height - line);
+  ctx.lineTo(mouthX, y + height + 17 * ratio); ctx.lineTo(tailX + 9 * ratio, y + height - line);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.roundRect(x, y, width, height, 13 * ratio); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#28121c'; ctx.font = `900 ${Math.max(30 * viewScale, 23 * ratio)}px system-ui`;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, x + width / 2, y + height / 2);
+  ctx.restore();
 }
 
 function drawPrideBelt(s) {
@@ -1258,6 +1273,7 @@ function draw(dt) {
   }
   drawEffects(state.phase === 'paused' ? 0 : dt);
   ctx.restore();
+  for (const s of state.game?.specials || []) if (s.kind === 'crew') drawCantRapSpeech(s, viewScale, offsetX, offsetY);
   ctx.setTransform(canvas.width / WORLD_W, 0, 0, canvas.height / WORLD_H, 0, 0);
   for (const label of state.labels.filter(l => l.big)) {
     ctx.save(); ctx.globalAlpha = Math.min(1, Math.max(0, label.life * 2)); ctx.textAlign = 'center'; ctx.font = '900 42px system-ui';
