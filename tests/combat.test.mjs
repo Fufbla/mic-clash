@@ -156,8 +156,8 @@ test('A timed match correctly declares a draw with equal health', () => {
   assert.equal(g.over, true); assert.equal(g.winner, 'draw');
 });
 
-test('All ten fighters support valid opponent choices and safe default pairings', () => {
-  const defaults = { owl: 'coupe', coupe: 'owl', karate: 'owl', snitchy: 'owl', getit: 'owl', loudbull: 'owl', fatboi: 'owl', icespice: 'owl', hehaw: 'owl', 'dr-no-bunnies': 'owl' };
+test('All eleven fighters support valid opponent choices and safe default pairings', () => {
+  const defaults = { owl: 'coupe', coupe: 'owl', karate: 'owl', snitchy: 'owl', getit: 'owl', loudbull: 'owl', fatboi: 'owl', icespice: 'owl', hehaw: 'owl', 'dr-no-bunnies': 'owl', cantrap: 'owl' };
   for (const player of Object.keys(defaults)) {
     assert.equal(new CombatGame(player).fighters[1].type, defaults[player]);
     assert.equal(new CombatGame(player, player).fighters[1].type, defaults[player]);
@@ -1070,10 +1070,10 @@ test('CPU HeHaw calls the stallion from across the arena using the same special 
   assert.equal(ai.horseActive, false); assert.equal(g.specials.length, 0);
 });
 
-const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies'];
-const specialKinds = ['owl', 'car', 'barrage', 'backup', 'vocal', 'yell', 'wing', 'munch', 'horse', 'belt'];
+const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'];
+const specialKinds = ['owl', 'car', 'barrage', 'backup', 'vocal', 'yell', 'wing', 'munch', 'horse', 'belt', 'crew'];
 
-test('All ten specials deal full damage through a facing block at 30/60/120 fps in both directions', () => {
+test('All eleven specials deal full damage through a facing block at 30/60/120 fps in both directions', () => {
   for (const type of roster) for (const fps of [30, 60, 120]) for (const direction of [-1, 1]) {
     const g = fresh(type), [p, e] = g.fighters;
     p.x = direction > 0 ? 450 : 830; e.x = p.x + direction * 100;
@@ -1082,7 +1082,7 @@ test('All ten specials deal full damage through a facing block at 30/60/120 fps 
     assert.equal(g.useSpecial(p), true);
     for (let i = 0; i < fps * 8; i++) g.update(1 / fps, {});
     const hits = g.drainEvents().filter(evt => evt.type === 'hit');
-    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies'].includes(type) ? 48 : 36;
+    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'].includes(type) ? 48 : 36;
     assert.equal(e.hp, 160 - total, `${type}, ${fps}fps, facing ${direction}`);
     assert.equal(hits.reduce((sum, hit) => sum + hit.damage, 0), total);
     assert.ok(hits.length > 0 && hits.every(hit => hit.blocked === false));
@@ -1159,7 +1159,7 @@ test('Simultaneous specials preserve both presentations across all ordered fight
   }
 });
 
-test('All ten specials finish after knockout with one frozen result and no subsequent damage', () => {
+test('All eleven specials finish after knockout with one frozen result and no subsequent damage', () => {
   for (const type of roster) {
     const g = fresh(type); setClose(g); const [p, e] = g.fighters;
     p.meter = 100; e.hp = 1; g.useSpecial(p);
@@ -1225,7 +1225,7 @@ test('Reset immediately clears pending results and presentations for every fight
     assert.equal(g.specials.length, 0); assert.equal(g.effects.length, 0); assert.equal(g.hasPresentations(), false);
     for (const f of g.fighters) {
       assert.equal(f.hp, 160); assert.equal(f.state, 'idle'); assert.equal(f.inCar, false);
-      assert.equal(f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.beltActive, false);
+      assert.equal(f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.beltActive || f.crewActive, false);
       assert.equal(f.grabbedBy, null);
     }
     advance(g, 8); assert.equal(g.fighters[1].hp, 160); assert.equal(g.drainEvents().length, 0);

@@ -316,3 +316,6 @@
 }
 
 .fighter-card.no-bunnies-card{--fighter-accent:#70adff;--fighter-glow:#347cce50}
+
+/* Can’t Rap: red-turban microphone fighter. */
+.fighter-card.cantrap-card{--fighter-accent:#ff7076;--fighter-glow:#a820365b;background:linear-gradient(145deg,#2d1d28,#15131c 78%)}

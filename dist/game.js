@@ -11,7 +11,8 @@ const META = {
   fatboi: { name: 'FatBoi', special: 'Bite & Toss', color: '#ffab66', glow: 'rgba(255,158,69,.4)' },
   icespice: { name: 'Ice Spice', special: 'Munch', color: '#ff9748', glow: 'rgba(255,151,72,.4)' },
   hehaw: { name: 'HeHaw', special: 'Horse Power', color: '#e8e6ed', glow: 'rgba(225,222,239,.4)' },
-  'dr-no-bunnies': { name: 'Dr. No Bunnies', hudName: 'Dr. No Bunnies', special: 'African Pride Belt Slap', color: '#70adff', glow: 'rgba(70,140,255,.4)' }
+  'dr-no-bunnies': { name: 'Dr. No Bunnies', hudName: 'Dr. No Bunnies', special: 'African Pride Belt Slap', color: '#70adff', glow: 'rgba(70,140,255,.4)' },
+  cantrap: { name: "Can't Rap", special: 'Turban Crew Jump-In', color: '#ff7076', glow: 'rgba(255,80,90,.4)' }
 };
 const ROSTER = Object.keys(META);
 const canvas = $('arena');
@@ -290,8 +291,9 @@ function startFight() {
   $('p1Name').textContent = META[state.selected].hudName || META[state.selected].name;
   $('p2Name').textContent = META[opponent].hudName || META[opponent].name;
   const slaps = ['getit', 'dr-no-bunnies'].includes(state.selected);
-  document.querySelector('[data-control="punch"]')?.setAttribute('aria-label', slaps ? 'Open-hand slap. Keyboard J.' : 'Punch. Keyboard J.');
-  document.querySelector('[data-control="punch"] .control-label').textContent = slaps ? 'SLAP' : 'PUNCH';
+  const mic = state.selected === 'cantrap';
+  document.querySelector('[data-control="punch"]')?.setAttribute('aria-label', mic ? 'Microphone strike. Keyboard J.' : slaps ? 'Open-hand slap. Keyboard J.' : 'Punch. Keyboard J.');
+  document.querySelector('[data-control="punch"] .control-label').textContent = mic ? 'MIC HIT' : slaps ? 'SLAP' : 'PUNCH';
   setPhase('countdown');
   $('phaseText').textContent = 'Get ready';
   updateHUD();
@@ -514,10 +516,15 @@ function updateHUD() {
   canvas.dataset.beltStrikes = String(belt?.strikeIndex || 0);
   canvas.dataset.beltHits = String(belt?.hitCount || 0);
   canvas.dataset.beltOwner = belt?.owner || 'none';
+  const crew = state.game.specials.find(s => s.kind === 'crew');
+  canvas.dataset.crewPhase = crew?.phase || 'none';
+  canvas.dataset.crewOwner = crew?.owner || 'none';
+  canvas.dataset.crewVisible = String(crew?.crew?.filter(k => k.visible).length || 0);
+  canvas.dataset.crewHits = String(crew?.hitCount || 0);
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : null;
+  const customPose = p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -547,6 +554,10 @@ function processEvents() {
       state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
       if (!['vocal', 'yell', 'wing', 'munch', 'horse'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
       if (event.kind === 'backup') sound.siren();
+    }
+    if (event.type === 'crewStrike' && event.connected) {
+      state.shake = Math.max(state.shake, event.final ? 10 : 3);
+      particleBurst(event.x, GROUND - event.y, event.final ? '#ffe27a' : '#ff8085', event.final ? 18 : 7, event.final ? 220 : 100);
     }
     if (event.type === 'vocalWave') sound.sing(event.index, event.final);
     if (event.type === 'beltStrike') {
@@ -749,6 +760,24 @@ function noBunniesSprite(f) {
   return { key: 'dr-no-bunnies', index: poseIndex(f) };
 }
 
+function cantRapSprite(f) {
+  if (f.state === 'run' && f.grounded) {
+    return { key: 'cantrap', index: 1 + Math.floor(f.stateTime * 12) % 2 };
+  }
+  if (f.state === 'punch') {
+    const p = f.attackProgress || 0;
+    return { key: 'cantrap', index: p < .26 ? 4 : p < .70 ? 5 : 0 };
+  }
+  if (f.state === 'kick') return { key: 'cantrap', index: 6 };
+  if (f.state === 'hurt' || f.state === 'ko' || f.state === 'beltHeld') return { key: 'cantrap', index: 7 };
+  if (f.state === 'special') {
+    const crew = state.game?.specials.find(s => s.kind === 'crew' && s.owner === f.id);
+    return { key: 'cantrap', index: crew?.phase === 'calling' ? 4 : 0 };
+  }
+  if (!f.grounded || f.y > 4) return { key: 'cantrap', index: 3 };
+  return { key: 'cantrap', index: 0 };
+}
+
 function drawPrideBelt(s) {
   const owner = state.game.fighters.find(f => f.id === s.owner);
   if (!owner || s.age > 2.58) return;
@@ -819,6 +848,7 @@ function drawFighter(f) {
   if (f.type === 'icespice') ({ key, index } = iceSpiceSprite(f));
   if (f.type === 'hehaw') ({ key, index } = hehawSprite(f));
   if (f.type === 'dr-no-bunnies') ({ key, index } = noBunniesSprite(f));
+  if (f.type === 'cantrap') ({ key, index } = cantRapSprite(f));
   const flipIndex = flipFrameIndex(f);
   const flipping = flipIndex >= 0;
   if (flipping) { key = FLIP_ASSETS[f.type]; index = flipIndex; }
@@ -840,7 +870,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -901,6 +931,41 @@ function drawBackupOfficers(s) {
     ctx.translate(0, -officer.y); ctx.scale(officer.facing, 1);
     ctx.drawImage(sprite.image, -sprite.anchorX * scale, -sprite.anchorY * scale, sprite.w * scale, sprite.h * scale);
     ctx.restore();
+  }
+}
+
+function drawTurbanCrew(s) {
+  const atlas = state.assets?.cantrap;
+  if (!atlas) return;
+  for (const kid of s.crew || []) {
+    if (!kid.visible) continue;
+    const pose = frame('cantrap', kid.pose);
+    if (!pose) continue;
+    // The summoned crew are small, red-turban-wearing chibi fighters,
+    // clearly distinct in scale from the full-sized adult.
+    const height = 86 + kid.index % 3 * 5;
+    const scale = height / atlas.referenceHeight;
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,.25)';
+    ctx.beginPath(); ctx.ellipse(kid.x, GROUND + 3, 27, 6, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.translate(kid.x, GROUND - kid.y); ctx.scale(kid.facing, 1);
+    ctx.drawImage(pose.image, -pose.anchorX * scale, -pose.anchorY * scale,
+      pose.w * scale, pose.h * scale);
+    ctx.restore();
+  }
+  if (s.phase === 'attack') {
+    const victim = state.game.fighters.find(f => f.id !== s.owner);
+    if (victim) {
+      ctx.save(); ctx.translate(victim.x, GROUND - victim.y - 110);
+      for (let i = 0; i < 3; i++) {
+        const phase = (s.age * 10 + i / 3) % 1;
+        ctx.globalAlpha = .42 * (1 - phase);
+        ctx.strokeStyle = i % 2 ? '#ffd87b' : '#ff797e';
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(0, 0, 23 + phase * 42, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.restore();
+    }
   }
 }
 
@@ -1108,6 +1173,7 @@ function drawSpecial(s) {
   if (s.kind === 'belt') { drawPrideBelt(s); return; }
   if (s.kind === 'munch') { drawMunch(s); return; }
   if (s.kind === 'horse') { drawHorsePower(s); return; }
+  if (s.kind === 'crew') { drawTurbanCrew(s); return; }
   if (s.kind === 'car') {
     const hit = s.hitIds instanceof Set ? s.hitIds.size > 0 : s.hitIds?.length > 0;
     const index = hit ? 2 : s.age < .16 ? 1 : s.ttl < .2 ? 3 : 0;
@@ -1169,7 +1235,7 @@ function draw(dt) {
   ctx.fillStyle = '#101223'; ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (state.game) {
     const [a, b] = state.game.fighters;
-    const wideSpecialActive = state.game.specials.some(s => (s.kind === 'car' && s.active) || (s.kind === 'backup' && s.car?.visible) || (s.kind === 'horse' && s.active));
+    const wideSpecialActive = state.game.specials.some(s => (s.kind === 'car' && s.active) || (s.kind === 'backup' && s.car?.visible) || (s.kind === 'horse' && s.active) || (s.kind === 'crew' && s.active));
     const portrait = canvas.width / canvas.height < 1.05;
     const targetWidth = wideSpecialActive ? (portrait ? 1000 : 1280) : Math.min(1280, Math.max(portrait ? 480 : 820, Math.abs(a.x - b.x) + (portrait ? 340 : 590)));
     const targetX = Math.max(targetWidth / 2, Math.min(1280 - targetWidth / 2, (a.x + b.x) / 2));

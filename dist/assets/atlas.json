@@ -17,7 +17,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 80.0,
+        "anchorX": 80,
         "anchorY": 250,
         "footCenterX": 80.5
       },
@@ -30,9 +30,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 82.0,
+        "anchorX": 82,
         "anchorY": 225,
-        "footCenterX": 82.0
+        "footCenterX": 82
       },
       {
         "x": 548,
@@ -43,9 +43,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 92.0,
+        "anchorX": 92,
         "anchorY": 230,
-        "footCenterX": 87.0
+        "footCenterX": 87
       },
       {
         "x": 819,
@@ -56,7 +56,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 249,
         "footCenterX": 77.5
       },
@@ -69,7 +69,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 86.0,
+        "anchorX": 86,
         "anchorY": 238,
         "footCenterX": 70.5
       },
@@ -82,9 +82,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 69.0,
+        "anchorX": 69,
         "anchorY": 237,
-        "footCenterX": 54.0
+        "footCenterX": 54
       },
       {
         "x": 538,
@@ -95,7 +95,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 102.0,
+        "anchorX": 102,
         "anchorY": 243,
         "footCenterX": 115.5
       },
@@ -108,7 +108,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 74.0,
+        "anchorX": 74,
         "anchorY": 222,
         "footCenterX": 48.5
       },
@@ -121,7 +121,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 90.0,
+        "anchorX": 90,
         "anchorY": 211,
         "footCenterX": 83.5
       },
@@ -134,9 +134,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 89.0,
+        "anchorX": 89,
         "anchorY": 239,
-        "footCenterX": 43.0
+        "footCenterX": 43
       },
       {
         "x": 561,
@@ -147,9 +147,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 228,
-        "footCenterX": 48.0
+        "footCenterX": 48
       },
       {
         "x": 813,
@@ -160,9 +160,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 83.0,
+        "anchorX": 83,
         "anchorY": 210,
-        "footCenterX": 79.0
+        "footCenterX": 79
       },
       {
         "x": 49,
@@ -173,9 +173,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 246,
-        "footCenterX": 79.0
+        "footCenterX": 79
       },
       {
         "x": 292,
@@ -186,9 +186,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 92.0,
+        "anchorX": 92,
         "anchorY": 247,
-        "footCenterX": 79.0
+        "footCenterX": 79
       },
       {
         "x": 552,
@@ -199,7 +199,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 248,
         "footCenterX": 80.5
       },
@@ -212,7 +212,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 246,
         "footCenterX": 81.5
       },
@@ -225,9 +225,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 82.0,
+        "anchorX": 82,
         "anchorY": 248,
-        "footCenterX": 83.0
+        "footCenterX": 83
       },
       {
         "x": 309,
@@ -238,7 +238,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 75.0,
+        "anchorX": 75,
         "anchorY": 252,
         "footCenterX": 54.5
       },
@@ -251,9 +251,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 97.0,
+        "anchorX": 97,
         "anchorY": 246,
-        "footCenterX": 65.0
+        "footCenterX": 65
       },
       {
         "x": 818,
@@ -264,7 +264,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 78.0,
+        "anchorX": 78,
         "anchorY": 252,
         "footCenterX": 59.5
       },
@@ -277,7 +277,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 87.0,
+        "anchorX": 87,
         "anchorY": 247,
         "footCenterX": 85.5
       },
@@ -290,9 +290,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 91.0,
+        "anchorX": 91,
         "anchorY": 220,
-        "footCenterX": 89.0
+        "footCenterX": 89
       },
       {
         "x": 529,
@@ -303,9 +303,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 111.0,
+        "anchorX": 111,
         "anchorY": 235,
-        "footCenterX": 133.0
+        "footCenterX": 133
       },
       {
         "x": 815,
@@ -316,7 +316,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 81.0,
+        "anchorX": 81,
         "anchorY": 247,
         "footCenterX": 82.5
       }
@@ -340,9 +340,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 93.0,
+        "anchorX": 93,
         "anchorY": 245,
-        "footCenterX": 95.0
+        "footCenterX": 95
       },
       {
         "x": 294,
@@ -353,7 +353,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 90.0,
+        "anchorX": 90,
         "anchorY": 230,
         "footCenterX": 90.5
       },
@@ -366,7 +366,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 83.0,
+        "anchorX": 83,
         "anchorY": 228,
         "footCenterX": 84.5
       },
@@ -379,9 +379,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 89.0,
+        "anchorX": 89,
         "anchorY": 244,
-        "footCenterX": 92.0
+        "footCenterX": 92
       },
       {
         "x": 36,
@@ -392,7 +392,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 92.0,
+        "anchorX": 92,
         "anchorY": 234,
         "footCenterX": 137.5
       },
@@ -405,7 +405,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 82.0,
+        "anchorX": 82,
         "anchorY": 232,
         "footCenterX": 62.5
       },
@@ -418,9 +418,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 86.0,
+        "anchorX": 86,
         "anchorY": 228,
-        "footCenterX": 89.0
+        "footCenterX": 89
       },
       {
         "x": 817,
@@ -431,7 +431,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 228,
         "footCenterX": 12.5
       },
@@ -444,7 +444,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 93.0,
+        "anchorX": 93,
         "anchorY": 202,
         "footCenterX": 76.5
       },
@@ -457,9 +457,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 96.0,
+        "anchorX": 96,
         "anchorY": 227,
-        "footCenterX": 74.0
+        "footCenterX": 74
       },
       {
         "x": 545,
@@ -470,9 +470,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 95.0,
+        "anchorX": 95,
         "anchorY": 201,
-        "footCenterX": 98.0
+        "footCenterX": 98
       },
       {
         "x": 798,
@@ -483,9 +483,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 98.0,
+        "anchorX": 98,
         "anchorY": 213,
-        "footCenterX": 99.0
+        "footCenterX": 99
       },
       {
         "x": 35,
@@ -496,9 +496,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 93.0,
+        "anchorX": 93,
         "anchorY": 235,
-        "footCenterX": 92.0
+        "footCenterX": 92
       },
       {
         "x": 278,
@@ -509,9 +509,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 106.0,
+        "anchorX": 106,
         "anchorY": 240,
-        "footCenterX": 96.0
+        "footCenterX": 96
       },
       {
         "x": 549,
@@ -522,7 +522,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 91.0,
+        "anchorX": 91,
         "anchorY": 241,
         "footCenterX": 81.5
       },
@@ -535,7 +535,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 234,
         "footCenterX": 90.5
       },
@@ -548,9 +548,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 95.0,
+        "anchorX": 95,
         "anchorY": 240,
-        "footCenterX": 95.0
+        "footCenterX": 95
       },
       {
         "x": 275,
@@ -561,7 +561,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 109.0,
+        "anchorX": 109,
         "anchorY": 242,
         "footCenterX": 83.5
       },
@@ -574,7 +574,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 115.0,
+        "anchorX": 115,
         "anchorY": 240,
         "footCenterX": 81.5
       },
@@ -587,7 +587,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 98.0,
+        "anchorX": 98,
         "anchorY": 239,
         "footCenterX": 63.5
       },
@@ -600,7 +600,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 94.0,
+        "anchorX": 94,
         "anchorY": 237,
         "footCenterX": 94.5
       },
@@ -613,7 +613,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 93.0,
+        "anchorX": 93,
         "anchorY": 210,
         "footCenterX": 90.5
       },
@@ -626,7 +626,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 127.0,
+        "anchorX": 127,
         "anchorY": 233,
         "footCenterX": 144.5
       },
@@ -639,9 +639,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 92.0,
+        "anchorX": 92,
         "anchorY": 237,
-        "footCenterX": 96.0
+        "footCenterX": 96
       }
     ]
   },
@@ -663,9 +663,9 @@
         "cellY": 0,
         "cellW": 314,
         "cellH": 314,
-        "anchorX": 85.0,
+        "anchorX": 85,
         "anchorY": 302,
-        "footCenterX": 98.0
+        "footCenterX": 98
       },
       {
         "x": 378,
@@ -678,7 +678,7 @@
         "cellH": 314,
         "anchorX": 92.5,
         "anchorY": 285,
-        "footCenterX": 93.0
+        "footCenterX": 93
       },
       {
         "x": 675,
@@ -702,7 +702,7 @@
         "cellY": 0,
         "cellW": 314,
         "cellH": 314,
-        "anchorX": 93.0,
+        "anchorX": 93,
         "anchorY": 302,
         "footCenterX": 96.5
       },
@@ -715,7 +715,7 @@
         "cellY": 314,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 95.0,
+        "anchorX": 95,
         "anchorY": 260,
         "footCenterX": 91.5
       },
@@ -754,9 +754,9 @@
         "cellY": 314,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 90.0,
+        "anchorX": 90,
         "anchorY": 250,
-        "footCenterX": 89.0
+        "footCenterX": 89
       },
       {
         "x": 74,
@@ -767,9 +767,9 @@
         "cellY": 627,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 83.0,
+        "anchorX": 83,
         "anchorY": 297,
-        "footCenterX": 98.0
+        "footCenterX": 98
       },
       {
         "x": 376,
@@ -795,7 +795,7 @@
         "cellH": 313,
         "anchorX": 113.5,
         "anchorY": 298,
-        "footCenterX": 111.0
+        "footCenterX": 111
       },
       {
         "x": 1003,
@@ -806,9 +806,9 @@
         "cellY": 627,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 94.0,
+        "anchorX": 94,
         "anchorY": 301,
-        "footCenterX": 97.0
+        "footCenterX": 97
       },
       {
         "x": 37,
@@ -959,7 +959,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 80.0,
+        "anchorX": 80,
         "anchorY": 237,
         "footCenterX": 81.5
       },
@@ -972,7 +972,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 229,
         "footCenterX": 78.5
       },
@@ -985,7 +985,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 232,
         "footCenterX": 79.5
       },
@@ -998,9 +998,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 80.0,
+        "anchorX": 80,
         "anchorY": 231,
-        "footCenterX": 82.0
+        "footCenterX": 82
       },
       {
         "x": 40,
@@ -1011,9 +1011,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 230,
-        "footCenterX": 72.0
+        "footCenterX": 72
       },
       {
         "x": 308,
@@ -1024,7 +1024,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 76.0,
+        "anchorX": 76,
         "anchorY": 232,
         "footCenterX": 59.5
       },
@@ -1037,7 +1037,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 95.0,
+        "anchorX": 95,
         "anchorY": 229,
         "footCenterX": 14.5
       },
@@ -1050,7 +1050,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 78.0,
+        "anchorX": 78,
         "anchorY": 204,
         "footCenterX": 64.5
       },
@@ -1063,7 +1063,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 84.0,
+        "anchorX": 84,
         "anchorY": 189,
         "footCenterX": 67.5
       },
@@ -1076,9 +1076,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 78.0,
+        "anchorX": 78,
         "anchorY": 222,
-        "footCenterX": 53.0
+        "footCenterX": 53
       },
       {
         "x": 563,
@@ -1089,9 +1089,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 211,
-        "footCenterX": 70.0
+        "footCenterX": 70
       },
       {
         "x": 822,
@@ -1102,7 +1102,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 74.0,
+        "anchorX": 74,
         "anchorY": 200,
         "footCenterX": 68.5
       },
@@ -1115,9 +1115,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 83.0,
+        "anchorX": 83,
         "anchorY": 236,
-        "footCenterX": 83.0
+        "footCenterX": 83
       },
       {
         "x": 296,
@@ -1128,9 +1128,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 240,
-        "footCenterX": 84.0
+        "footCenterX": 84
       },
       {
         "x": 550,
@@ -1141,7 +1141,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 90.0,
+        "anchorX": 90,
         "anchorY": 241,
         "footCenterX": 83.5
       },
@@ -1154,9 +1154,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 81.0,
+        "anchorX": 81,
         "anchorY": 234,
-        "footCenterX": 83.0
+        "footCenterX": 83
       },
       {
         "x": 48,
@@ -1167,9 +1167,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 80.0,
+        "anchorX": 80,
         "anchorY": 233,
-        "footCenterX": 81.0
+        "footCenterX": 81
       },
       {
         "x": 296,
@@ -1180,9 +1180,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 240,
-        "footCenterX": 66.0
+        "footCenterX": 66
       },
       {
         "x": 549,
@@ -1193,7 +1193,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 91.0,
+        "anchorX": 91,
         "anchorY": 239,
         "footCenterX": 62.5
       },
@@ -1206,7 +1206,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 82.0,
+        "anchorX": 82,
         "anchorY": 239,
         "footCenterX": 61.5
       },
@@ -1219,7 +1219,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 90.0,
+        "anchorX": 90,
         "anchorY": 233,
         "footCenterX": 89.5
       },
@@ -1232,9 +1232,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 91.0,
+        "anchorX": 91,
         "anchorY": 219,
-        "footCenterX": 87.0
+        "footCenterX": 87
       },
       {
         "x": 539,
@@ -1245,9 +1245,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 101.0,
+        "anchorX": 101,
         "anchorY": 226,
-        "footCenterX": 110.0
+        "footCenterX": 110
       },
       {
         "x": 814,
@@ -1258,7 +1258,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 82.0,
+        "anchorX": 82,
         "anchorY": 232,
         "footCenterX": 83.5
       }
@@ -1282,9 +1282,9 @@
         "cellY": 0,
         "cellW": 444,
         "cellH": 444,
-        "anchorX": 173.0,
+        "anchorX": 173,
         "anchorY": 407,
-        "footCenterX": 163.0
+        "footCenterX": 163
       },
       {
         "x": 496,
@@ -1297,7 +1297,7 @@
         "cellH": 444,
         "anchorX": 169.5,
         "anchorY": 399,
-        "footCenterX": 160.0
+        "footCenterX": 160
       },
       {
         "x": 924,
@@ -1310,7 +1310,7 @@
         "cellH": 444,
         "anchorX": 184.5,
         "anchorY": 402,
-        "footCenterX": 168.0
+        "footCenterX": 168
       },
       {
         "x": 1369,
@@ -1321,9 +1321,9 @@
         "cellY": 0,
         "cellW": 444,
         "cellH": 444,
-        "anchorX": 183.0,
+        "anchorX": 183,
         "anchorY": 402,
-        "footCenterX": 171.0
+        "footCenterX": 171
       },
       {
         "x": 42,
@@ -1334,7 +1334,7 @@
         "cellY": 444,
         "cellW": 444,
         "cellH": 443,
-        "anchorX": 180.0,
+        "anchorX": 180,
         "anchorY": 396,
         "footCenterX": 166.5
       },
@@ -1362,7 +1362,7 @@
         "cellH": 443,
         "anchorX": 190.5,
         "anchorY": 406,
-        "footCenterX": 175.0
+        "footCenterX": 175
       },
       {
         "x": 1383,
@@ -1373,7 +1373,7 @@
         "cellY": 444,
         "cellW": 444,
         "cellH": 443,
-        "anchorX": 169.0,
+        "anchorX": 169,
         "anchorY": 407,
         "footCenterX": 162.5
       }
@@ -1410,7 +1410,7 @@
         "cellY": 0,
         "cellW": 362,
         "cellH": 362,
-        "anchorX": 96.0,
+        "anchorX": 96,
         "anchorY": 152.5
       },
       {
@@ -1422,8 +1422,8 @@
         "cellY": 0,
         "cellW": 362,
         "cellH": 362,
-        "anchorX": 107.0,
-        "anchorY": 131.0
+        "anchorX": 107,
+        "anchorY": 131
       },
       {
         "x": 1140,
@@ -1447,7 +1447,7 @@
         "cellW": 362,
         "cellH": 362,
         "anchorX": 130.5,
-        "anchorY": 92.0
+        "anchorY": 92
       },
       {
         "x": 463,
@@ -1470,7 +1470,7 @@
         "cellY": 362,
         "cellW": 362,
         "cellH": 362,
-        "anchorX": 119.0,
+        "anchorX": 119,
         "anchorY": 119.5
       },
       {
@@ -1495,7 +1495,7 @@
         "cellW": 362,
         "cellH": 362,
         "anchorX": 139.5,
-        "anchorY": 131.0
+        "anchorY": 131
       },
       {
         "x": 427,
@@ -1530,7 +1530,7 @@
         "cellY": 724,
         "cellW": 362,
         "cellH": 362,
-        "anchorX": 108.0,
+        "anchorX": 108,
         "anchorY": 163.5
       }
     ]
@@ -1553,7 +1553,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 91.0,
+        "anchorX": 91,
         "anchorY": 235
       },
       {
@@ -1565,7 +1565,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 94.0,
+        "anchorX": 94,
         "anchorY": 225
       },
       {
@@ -1577,7 +1577,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 86.0,
+        "anchorX": 86,
         "anchorY": 234
       },
       {
@@ -1589,7 +1589,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 99.0,
+        "anchorX": 99,
         "anchorY": 232
       },
       {
@@ -1601,7 +1601,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 107.0,
+        "anchorX": 107,
         "anchorY": 226
       },
       {
@@ -1613,7 +1613,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 108.0,
+        "anchorX": 108,
         "anchorY": 227
       },
       {
@@ -1625,7 +1625,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 110.0,
+        "anchorX": 110,
         "anchorY": 224
       },
       {
@@ -1637,7 +1637,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 106.0,
+        "anchorX": 106,
         "anchorY": 224
       },
       {
@@ -1649,7 +1649,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 103.0,
+        "anchorX": 103,
         "anchorY": 197
       },
       {
@@ -1661,7 +1661,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 103.0,
+        "anchorX": 103,
         "anchorY": 225
       },
       {
@@ -1673,7 +1673,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 108.0,
+        "anchorX": 108,
         "anchorY": 180
       },
       {
@@ -1685,7 +1685,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 106.0,
+        "anchorX": 106,
         "anchorY": 232
       },
       {
@@ -1697,7 +1697,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 111.0,
+        "anchorX": 111,
         "anchorY": 233
       },
       {
@@ -1709,7 +1709,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 115.0,
+        "anchorX": 115,
         "anchorY": 233
       },
       {
@@ -1721,7 +1721,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 116.0,
+        "anchorX": 116,
         "anchorY": 236
       },
       {
@@ -1733,7 +1733,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 105.0,
+        "anchorX": 105,
         "anchorY": 234
       },
       {
@@ -1745,7 +1745,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 111.0,
+        "anchorX": 111,
         "anchorY": 241
       },
       {
@@ -1757,7 +1757,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 118.0,
+        "anchorX": 118,
         "anchorY": 240
       },
       {
@@ -1769,7 +1769,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 128.0,
+        "anchorX": 128,
         "anchorY": 238
       },
       {
@@ -1781,7 +1781,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 116.0,
+        "anchorX": 116,
         "anchorY": 241
       },
       {
@@ -1793,7 +1793,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 103.0,
+        "anchorX": 103,
         "anchorY": 232
       },
       {
@@ -1805,7 +1805,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 107.0,
+        "anchorX": 107,
         "anchorY": 199
       },
       {
@@ -1817,7 +1817,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 115.0,
+        "anchorX": 115,
         "anchorY": 230
       },
       {
@@ -1829,7 +1829,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 108.0,
+        "anchorX": 108,
         "anchorY": 232
       }
     ]
@@ -1854,7 +1854,7 @@
         "cellW": 300,
         "cellH": 328,
         "anchorX": 125.5,
-        "anchorY": 154.0
+        "anchorY": 154
       },
       {
         "x": 320,
@@ -1866,7 +1866,7 @@
         "cellW": 300,
         "cellH": 328,
         "anchorX": 117.5,
-        "anchorY": 143.0
+        "anchorY": 143
       },
       {
         "x": 630,
@@ -1889,7 +1889,7 @@
         "cellY": 0,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 136.0,
+        "anchorX": 136,
         "anchorY": 116.5
       },
       {
@@ -1901,8 +1901,8 @@
         "cellY": 328,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 120.0,
-        "anchorY": 120.0
+        "anchorX": 120,
+        "anchorY": 120
       },
       {
         "x": 342,
@@ -1913,8 +1913,8 @@
         "cellY": 328,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 110.0,
-        "anchorY": 140.0
+        "anchorX": 110,
+        "anchorY": 140
       },
       {
         "x": 608,
@@ -1937,7 +1937,7 @@
         "cellY": 328,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 146.0,
+        "anchorX": 146,
         "anchorY": 106.5
       },
       {
@@ -1950,7 +1950,7 @@
         "cellW": 300,
         "cellH": 328,
         "anchorX": 141.5,
-        "anchorY": 133.0
+        "anchorY": 133
       },
       {
         "x": 311,
@@ -1961,7 +1961,7 @@
         "cellY": 656,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 135.0,
+        "anchorX": 135,
         "anchorY": 152.5
       },
       {
@@ -1973,8 +1973,8 @@
         "cellY": 656,
         "cellW": 299,
         "cellH": 328,
-        "anchorX": 128.0,
-        "anchorY": 148.0
+        "anchorX": 128,
+        "anchorY": 148
       },
       {
         "x": 917,
@@ -1986,7 +1986,7 @@
         "cellW": 300,
         "cellH": 328,
         "anchorX": 128.5,
-        "anchorY": 149.0
+        "anchorY": 149
       }
     ]
   },
@@ -2008,7 +2008,7 @@
         "cellY": 984,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 126.0,
+        "anchorX": 126,
         "anchorY": 312
       },
       {
@@ -2020,7 +2020,7 @@
         "cellY": 984,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 137.0,
+        "anchorX": 137,
         "anchorY": 312
       },
       {
@@ -2044,7 +2044,7 @@
         "cellY": 984,
         "cellW": 300,
         "cellH": 328,
-        "anchorX": 141.0,
+        "anchorX": 141,
         "anchorY": 312
       }
     ]
@@ -2315,7 +2315,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 84.0,
+        "anchorX": 84,
         "anchorY": 248
       },
       {
@@ -2327,7 +2327,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 84.0,
+        "anchorX": 84,
         "anchorY": 249
       },
       {
@@ -2339,7 +2339,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 249
       },
       {
@@ -2351,7 +2351,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 81.0,
+        "anchorX": 81,
         "anchorY": 246
       },
       {
@@ -2363,7 +2363,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 243
       },
       {
@@ -2375,7 +2375,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 243
       },
       {
@@ -2387,7 +2387,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 90.0,
+        "anchorX": 90,
         "anchorY": 244
       },
       {
@@ -2399,7 +2399,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 82.0,
+        "anchorX": 82,
         "anchorY": 243
       },
       {
@@ -2411,7 +2411,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 88.0,
+        "anchorX": 88,
         "anchorY": 214
       },
       {
@@ -2423,7 +2423,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 87.0,
+        "anchorX": 87,
         "anchorY": 233
       },
       {
@@ -2435,7 +2435,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 93.0,
+        "anchorX": 93,
         "anchorY": 197
       },
       {
@@ -2447,7 +2447,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 90.0,
+        "anchorX": 90,
         "anchorY": 237
       },
       {
@@ -2459,7 +2459,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 103.0,
+        "anchorX": 103,
         "anchorY": 244
       },
       {
@@ -2471,7 +2471,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 103.0,
+        "anchorX": 103,
         "anchorY": 248
       },
       {
@@ -2483,7 +2483,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 102.0,
+        "anchorX": 102,
         "anchorY": 247
       },
       {
@@ -2495,7 +2495,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 97.0,
+        "anchorX": 97,
         "anchorY": 243
       },
       {
@@ -2507,7 +2507,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 97.0,
+        "anchorX": 97,
         "anchorY": 248
       },
       {
@@ -2519,7 +2519,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 113.0,
+        "anchorX": 113,
         "anchorY": 244
       },
       {
@@ -2531,7 +2531,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 102.0,
+        "anchorX": 102,
         "anchorY": 248
       },
       {
@@ -2543,7 +2543,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 99.0,
+        "anchorX": 99,
         "anchorY": 248
       },
       {
@@ -2555,7 +2555,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 100.0,
+        "anchorX": 100,
         "anchorY": 243
       },
       {
@@ -2567,7 +2567,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 107.0,
+        "anchorX": 107,
         "anchorY": 243
       },
       {
@@ -2579,7 +2579,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 114.0,
+        "anchorX": 114,
         "anchorY": 228
       },
       {
@@ -2591,7 +2591,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 92.0,
+        "anchorX": 92,
         "anchorY": 246
       }
     ]
@@ -2900,7 +2900,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 242
       },
       {
@@ -2912,7 +2912,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 233
       },
       {
@@ -2924,7 +2924,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 78.0,
+        "anchorX": 78,
         "anchorY": 219
       },
       {
@@ -2936,7 +2936,7 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 239
       },
       {
@@ -2948,7 +2948,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 76.0,
+        "anchorX": 76,
         "anchorY": 239
       },
       {
@@ -2960,7 +2960,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 80.0,
+        "anchorX": 80,
         "anchorY": 213
       },
       {
@@ -2972,7 +2972,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 97.0,
+        "anchorX": 97,
         "anchorY": 204
       },
       {
@@ -2984,7 +2984,7 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 84.0,
+        "anchorX": 84,
         "anchorY": 237
       },
       {
@@ -2996,7 +2996,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 227
       },
       {
@@ -3008,7 +3008,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 73.0,
+        "anchorX": 73,
         "anchorY": 230
       },
       {
@@ -3020,7 +3020,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 76.0,
+        "anchorX": 76,
         "anchorY": 198
       },
       {
@@ -3032,7 +3032,7 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 70.0,
+        "anchorX": 70,
         "anchorY": 245
       },
       {
@@ -3044,7 +3044,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 92.0,
+        "anchorX": 92,
         "anchorY": 237
       },
       {
@@ -3056,7 +3056,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 97.0,
+        "anchorX": 97,
         "anchorY": 248
       },
       {
@@ -3068,7 +3068,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 102.0,
+        "anchorX": 102,
         "anchorY": 247
       },
       {
@@ -3080,7 +3080,7 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 86.0,
+        "anchorX": 86,
         "anchorY": 243
       },
       {
@@ -3092,7 +3092,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 82.0,
+        "anchorX": 82,
         "anchorY": 244
       },
       {
@@ -3104,7 +3104,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 96.0,
+        "anchorX": 96,
         "anchorY": 243
       },
       {
@@ -3116,7 +3116,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 95.0,
+        "anchorX": 95,
         "anchorY": 245
       },
       {
@@ -3128,7 +3128,7 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 84.0,
+        "anchorX": 84,
         "anchorY": 242
       },
       {
@@ -3140,7 +3140,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 81.0,
+        "anchorX": 81,
         "anchorY": 244
       },
       {
@@ -3152,7 +3152,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 83.0,
+        "anchorX": 83,
         "anchorY": 219
       },
       {
@@ -3164,7 +3164,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 96.0,
+        "anchorX": 96,
         "anchorY": 239
       },
       {
@@ -3176,7 +3176,7 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 87.0,
+        "anchorX": 87,
         "anchorY": 243
       }
     ]
@@ -3199,7 +3199,7 @@
         "cellY": 0,
         "cellW": 314,
         "cellH": 314,
-        "anchorX": 80.0,
+        "anchorX": 80,
         "anchorY": 297
       },
       {
@@ -3235,7 +3235,7 @@
         "cellY": 0,
         "cellW": 314,
         "cellH": 314,
-        "anchorX": 111.0,
+        "anchorX": 111,
         "anchorY": 228
       },
       {
@@ -3247,7 +3247,7 @@
         "cellY": 314,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 107.0,
+        "anchorX": 107,
         "anchorY": 244
       },
       {
@@ -3283,7 +3283,7 @@
         "cellY": 314,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 95.0,
+        "anchorX": 95,
         "anchorY": 297
       }
     ]
@@ -3306,7 +3306,7 @@
         "cellY": 627,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 110.0,
+        "anchorX": 110,
         "anchorY": 274,
         "mouthX": 173,
         "mouthY": 83
@@ -3348,7 +3348,7 @@
         "cellY": 627,
         "cellW": 314,
         "cellH": 313,
-        "anchorX": 135.0,
+        "anchorX": 135,
         "anchorY": 293,
         "mouthX": 230,
         "mouthY": 105
@@ -3362,7 +3362,7 @@
         "cellY": 940,
         "cellW": 314,
         "cellH": 314,
-        "anchorX": 138.0,
+        "anchorX": 138,
         "anchorY": 295,
         "mouthX": 232,
         "mouthY": 104
@@ -3404,7 +3404,7 @@
         "cellY": 940,
         "cellW": 314,
         "cellH": 314,
-        "anchorX": 114.0,
+        "anchorX": 114,
         "anchorY": 290,
         "mouthX": 186,
         "mouthY": 104
@@ -4004,9 +4004,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 241,
-        "footCenterX": 77.0,
+        "footCenterX": 77,
         "sourceGridIndex": 0
       },
       {
@@ -4018,9 +4018,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 72.0,
+        "anchorX": 72,
         "anchorY": 242,
-        "footCenterX": 72.0,
+        "footCenterX": 72,
         "sourceGridIndex": 1
       },
       {
@@ -4060,9 +4060,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 67.0,
+        "anchorX": 67,
         "anchorY": 245,
-        "footCenterX": 67.0,
+        "footCenterX": 67,
         "sourceGridIndex": 4
       },
       {
@@ -4074,9 +4074,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 65.0,
+        "anchorX": 65,
         "anchorY": 241,
-        "footCenterX": 65.0,
+        "footCenterX": 65,
         "sourceGridIndex": 5
       },
       {
@@ -4088,9 +4088,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 73.0,
+        "anchorX": 73,
         "anchorY": 248,
-        "footCenterX": 73.0,
+        "footCenterX": 73,
         "sourceGridIndex": 6
       },
       {
@@ -4144,9 +4144,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 68.0,
+        "anchorX": 68,
         "anchorY": 211,
-        "footCenterX": 68.0,
+        "footCenterX": 68,
         "sourceGridIndex": 10
       },
       {
@@ -4200,9 +4200,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 58.0,
+        "anchorX": 58,
         "anchorY": 230,
-        "footCenterX": 58.0,
+        "footCenterX": 58,
         "sourceGridIndex": 14
       },
       {
@@ -4242,9 +4242,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 60.0,
+        "anchorX": 60,
         "anchorY": 243,
-        "footCenterX": 60.0,
+        "footCenterX": 60,
         "sourceGridIndex": 17
       },
       {
@@ -4270,9 +4270,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 245,
-        "footCenterX": 77.0,
+        "footCenterX": 77,
         "sourceGridIndex": 19
       },
       {
@@ -4298,9 +4298,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 79.0,
+        "anchorX": 79,
         "anchorY": 209,
-        "footCenterX": 79.0,
+        "footCenterX": 79,
         "sourceGridIndex": 21
       },
       {
@@ -4326,9 +4326,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 77.0,
+        "anchorX": 77,
         "anchorY": 242,
-        "footCenterX": 77.0,
+        "footCenterX": 77,
         "sourceGridIndex": 23
       }
     ],
@@ -4367,7 +4367,7 @@
         "cellH": 314,
         "anchorX": 92,
         "anchorY": 294,
-        "footCenterX": 70.0,
+        "footCenterX": 70,
         "sourceGridIndex": 1
       },
       {
@@ -4381,7 +4381,7 @@
         "cellH": 314,
         "anchorX": 79,
         "anchorY": 296,
-        "footCenterX": 91.0,
+        "footCenterX": 91,
         "sourceGridIndex": 2
       },
       {
@@ -4395,7 +4395,7 @@
         "cellH": 314,
         "anchorX": 79,
         "anchorY": 296,
-        "footCenterX": 96.0,
+        "footCenterX": 96,
         "sourceGridIndex": 3
       },
       {
@@ -4409,7 +4409,7 @@
         "cellH": 313,
         "anchorX": 80,
         "anchorY": 297,
-        "footCenterX": 106.0,
+        "footCenterX": 106,
         "sourceGridIndex": 4
       },
       {
@@ -4423,7 +4423,7 @@
         "cellH": 313,
         "anchorX": 82,
         "anchorY": 296,
-        "footCenterX": 64.0,
+        "footCenterX": 64,
         "sourceGridIndex": 5
       },
       {
@@ -4476,7 +4476,7 @@
         "cellH": 313,
         "anchorX": 108,
         "anchorY": 288,
-        "footCenterX": 105.0,
+        "footCenterX": 105,
         "sourceGridIndex": 8,
         "mouthX": 144,
         "mouthY": 129,
@@ -4494,7 +4494,7 @@
         "cellH": 313,
         "anchorX": 101,
         "anchorY": 292,
-        "footCenterX": 96.0,
+        "footCenterX": 96,
         "sourceGridIndex": 9,
         "mouthX": 138,
         "mouthY": 122,
@@ -4584,7 +4584,7 @@
         "cellH": 314,
         "anchorX": 123,
         "anchorY": 296,
-        "footCenterX": 123.0,
+        "footCenterX": 123,
         "sourceGridIndex": 14,
         "mouthX": 158,
         "mouthY": 144,
@@ -4629,9 +4629,9 @@
         "cellY": 0,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 65.0,
+        "anchorX": 65,
         "anchorY": 235,
-        "footCenterX": 65.0,
+        "footCenterX": 65,
         "sourceGridIndex": 0
       },
       {
@@ -4685,9 +4685,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 66.0,
+        "anchorX": 66,
         "anchorY": 234,
-        "footCenterX": 66.0,
+        "footCenterX": 66,
         "sourceGridIndex": 4
       },
       {
@@ -4713,9 +4713,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 65.0,
+        "anchorX": 65,
         "anchorY": 234,
-        "footCenterX": 65.0,
+        "footCenterX": 65,
         "sourceGridIndex": 6
       },
       {
@@ -4727,9 +4727,9 @@
         "cellY": 256,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 59.0,
+        "anchorX": 59,
         "anchorY": 238,
-        "footCenterX": 59.0,
+        "footCenterX": 59,
         "sourceGridIndex": 7
       },
       {
@@ -4741,9 +4741,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 54.0,
+        "anchorX": 54,
         "anchorY": 208,
-        "footCenterX": 54.0,
+        "footCenterX": 54,
         "sourceGridIndex": 8
       },
       {
@@ -4755,9 +4755,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 50.0,
+        "anchorX": 50,
         "anchorY": 228,
-        "footCenterX": 50.0,
+        "footCenterX": 50,
         "sourceGridIndex": 9
       },
       {
@@ -4769,9 +4769,9 @@
         "cellY": 512,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 67.0,
+        "anchorX": 67,
         "anchorY": 209,
-        "footCenterX": 67.0,
+        "footCenterX": 67,
         "sourceGridIndex": 10
       },
       {
@@ -4825,9 +4825,9 @@
         "cellY": 768,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 20.0,
+        "anchorX": 20,
         "anchorY": 220,
-        "footCenterX": 20.0,
+        "footCenterX": 20,
         "sourceGridIndex": 14
       },
       {
@@ -4867,9 +4867,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 53.0,
+        "anchorX": 53,
         "anchorY": 245,
-        "footCenterX": 53.0,
+        "footCenterX": 53,
         "sourceGridIndex": 17
       },
       {
@@ -4881,9 +4881,9 @@
         "cellY": 1024,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 53.0,
+        "anchorX": 53,
         "anchorY": 244,
-        "footCenterX": 53.0,
+        "footCenterX": 53,
         "sourceGridIndex": 18
       },
       {
@@ -4909,9 +4909,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 67.0,
+        "anchorX": 67,
         "anchorY": 236,
-        "footCenterX": 67.0,
+        "footCenterX": 67,
         "sourceGridIndex": 20
       },
       {
@@ -4951,9 +4951,9 @@
         "cellY": 1280,
         "cellW": 256,
         "cellH": 256,
-        "anchorX": 71.0,
+        "anchorX": 71,
         "anchorY": 239,
-        "footCenterX": 71.0,
+        "footCenterX": 71,
         "sourceGridIndex": 23
       }
     ],
@@ -4978,7 +4978,7 @@
         "cellH": 314,
         "anchorX": 95,
         "anchorY": 291,
-        "footCenterX": 100.0,
+        "footCenterX": 100,
         "sourceGridIndex": 0
       },
       {
@@ -5034,7 +5034,7 @@
         "cellH": 313,
         "anchorX": 89,
         "anchorY": 289,
-        "footCenterX": 84.0,
+        "footCenterX": 84,
         "sourceGridIndex": 4
       },
       {
@@ -5062,7 +5062,7 @@
         "cellH": 313,
         "anchorX": 71,
         "anchorY": 292,
-        "footCenterX": 62.0,
+        "footCenterX": 62,
         "sourceGridIndex": 6
       },
       {
@@ -5076,7 +5076,7 @@
         "cellH": 313,
         "anchorX": 72,
         "anchorY": 289,
-        "footCenterX": 27.0,
+        "footCenterX": 27,
         "sourceGridIndex": 7
       }
     ],
@@ -5101,7 +5101,7 @@
         "cellH": 313,
         "anchorX": 84,
         "anchorY": 288,
-        "footCenterX": 83.0,
+        "footCenterX": 83,
         "sourceGridIndex": 8
       },
       {
@@ -5129,7 +5129,7 @@
         "cellH": 313,
         "anchorX": 86,
         "anchorY": 288,
-        "footCenterX": 85.0,
+        "footCenterX": 85,
         "sourceGridIndex": 10
       },
       {
@@ -5143,7 +5143,7 @@
         "cellH": 313,
         "anchorX": 86,
         "anchorY": 288,
-        "footCenterX": 86.0,
+        "footCenterX": 86,
         "sourceGridIndex": 11
       },
       {
@@ -5886,6 +5886,113 @@
         "sourceGridIndex": 15,
         "handX": 184,
         "handY": 127
+      }
+    ]
+  },
+  "cantrap": {
+    "src": "assets/cant-rap.webp",
+    "width": 448,
+    "height": 224,
+    "cols": 4,
+    "rows": 2,
+    "alphaThreshold": 35,
+    "referenceHeight": 104,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 112,
+        "cellX": 0,
+        "cellY": 0,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
+      },
+      {
+        "x": 112,
+        "y": 0,
+        "w": 112,
+        "h": 112,
+        "cellX": 112,
+        "cellY": 0,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
+      },
+      {
+        "x": 224,
+        "y": 0,
+        "w": 112,
+        "h": 112,
+        "cellX": 224,
+        "cellY": 0,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
+      },
+      {
+        "x": 336,
+        "y": 0,
+        "w": 112,
+        "h": 112,
+        "cellX": 336,
+        "cellY": 0,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
+      },
+      {
+        "x": 0,
+        "y": 112,
+        "w": 112,
+        "h": 112,
+        "cellX": 0,
+        "cellY": 112,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
+      },
+      {
+        "x": 112,
+        "y": 112,
+        "w": 112,
+        "h": 112,
+        "cellX": 112,
+        "cellY": 112,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
+      },
+      {
+        "x": 224,
+        "y": 112,
+        "w": 112,
+        "h": 112,
+        "cellX": 224,
+        "cellY": 112,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
+      },
+      {
+        "x": 336,
+        "y": 112,
+        "w": 112,
+        "h": 112,
+        "cellX": 336,
+        "cellY": 112,
+        "cellW": 112,
+        "cellH": 112,
+        "anchorX": 56,
+        "anchorY": 109
       }
     ]
   }

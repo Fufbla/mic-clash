@@ -1,10 +1,10 @@
 # Mic Clash
 
-A self-contained browser fighting game with ten selectable chibi fighters, a selectable CPU opponent, and 90-second rounds. Built with vanilla JavaScript and canvas; no install or build step is required.
+A self-contained browser fighting game with eleven selectable chibi fighters, a selectable CPU opponent, and 90-second rounds. Built with vanilla JavaScript and canvas; no install or build step is required.
 
 ## Play
 
-Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get It**, **Loud Bull**, **FatBoi**, **Ice Spice**, **HeHaw**, or **Dr. No Bunnies**, pick an opponent, then select **Start fight**. On phones, drag the analog stick on the left to move. The four circular buttons on the right are Jump, Punch, Kick, and Special. Get It and Dr. No Bunnies use the Slap button for open-hand attacks (keyboard J). The arena and controls automatically adapt to portrait or landscape when the phone rotates; rotation does not restart the round. Sound starts muted and can be enabled in the header.
+Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get It**, **Loud Bull**, **FatBoi**, **Ice Spice**, **HeHaw**, **Dr. No Bunnies**, or **Can’t Rap**, pick an opponent, then select **Start fight**. On phones, drag the analog stick on the left to move. The four circular buttons on the right are Jump, Punch, Kick, and Special. Get It and Dr. No Bunnies use the Slap button for open-hand attacks (keyboard J). The arena and controls automatically adapt to portrait or landscape when the phone rotates; rotation does not restart the round. Sound starts muted and can be enabled in the header.
 
 | Action | Keyboard |
 | --- | --- |
@@ -24,6 +24,7 @@ If a knockout or timeout happens during a special, the existing presentation fin
 
 - **Dr. No Bunnies / African Pride Belt Slap:** the approved curly black hair, dark beard, blue-and-white patterned suit, and gold necklace. His normal attack is an open-handed slap, with standard kicks, movement, double jump, and block. With a full meter and an opponent within 285 world pixels in front, the belt presentation lasts 2.7 seconds. Its red, black, and green belt has a gold Africa-shaped buckle. Hits at 0.72, 1.43, and 2.15 seconds each deal 16 damage (48 total) and display **LASHES!**; the last launches the opponent backward. Ordinary targets remain caught through the sequence, and block/recovery i-frames cannot prevent the hits. An opposing special retains its own protection. All three strike cues and the final launch finish even after an early knockout; further HP damage stops once the round result is latched. Failed out-of-range activation preserves the meter.
 
+- **Can’t Rap / Turban Crew Jump-In:** red turban, dark sunglasses, plaid vest, tattooed arms, gold chain, red sneakers, and a microphone in hand. The Punch button delivers a microphone strike (10 damage on an unblocked hit and 20% meter). His special summons eight small red-turban crew members who rush the opponent from both sides and deliver up to eight 6-damage cartoon hits (48 total). The crew ignores Block, cannot be interrupted, and does not refill the meter. The sprite atlas contains eight separate movement and combat poses, with the crew rendered as smaller chibi summons.
 - **Owl Striker / Owl Strike:** three descending golden owls.
 - **Night Rider / Black Coupe:** a black two-door car attack.
 - **Karate Fighter / Rapid Punches:** a brief transformation from the blue street outfit into a white karate gi and black belt, followed by twelve fast punches. This is a close-range special; each punch must connect and the barrage does not recharge the meter. The second jump performs a forward somersault, while the first jump is a normal jump.
@@ -40,6 +41,7 @@ If a knockout or timeout happens during a special, the existing presentation fin
 - `dist/combat.js`: fixed-step combat simulation, hit detection, meter rules, CPU behavior, and round results.
 - `dist/game.js`: sprite animation, canvas stage, input, UI, and synthesized audio.
 - `dist/assets/`: chibi sprite atlases and transparent special-effect assets.
+- `dist/assets/cant-rap.webp`: transparent eight-frame chibi atlas (idle, walk, run, jump, microphone windup, microphone strike, kick, and damage), drawn from the approved Can’t Rap design.
 - `dist/assets/karate-flip.png`: twelve individually drawn forward-somersault poses. The double jump advances through the tuck, inversion, opening, and recovery frames using a common body-center anchor and scale; it does not rotate a static fighter image.
 - `dist/assets/snitchy-fighter.png` and `snitchy-actions.png`: 24 basic movement/attack poses, twelve authored flip poses, and four phone-call poses. `police-car.png` supplies four door/light states, and `police-officers.png` supplies eight movement/attack poses for each of the three officers.
 - `dist/assets/get-it-fighter.png` and `get-it-actions.png`: 24 basic combat poses, an eight-frame heel-toe walk, and eight microphone-performance poses. `get-it-explosion.png` supplies the eight-frame pink burst and dissipating smoke. All character movement uses full-body sprites; the open hands in the slap are drawn into the frames.
@@ -78,8 +80,12 @@ Generation briefs: identity-preserving transparent 4×6 atlas, right-facing full
 
 ## GitHub copy and hosting
 
-This repository contains the complete Mic Clash game from live release version 12 (source commit `b272aa027abf732e46df53956b0ff7dcb31b5e0a`), including all ten fighters and their art. The existing game remains at https://mic-clash-arena-prototype.fufbla.chatgpt.site.
+This repository was initially copied from the complete Mic Clash game at live release version 12 (source commit `b272aa027abf732e46df53956b0ff7dcb31b5e0a`), including all ten fighters and their art. The existing game remains at https://mic-clash-arena-prototype.fufbla.chatgpt.site.
 
 The root `index.html` loads the same `dist/game.js` and `dist/style.css` for GitHub Pages. All gameplay code and artwork are unchanged from the production release. Enable Pages from the main branch, root folder. No build step, API keys, or backend are required.
 
 Run `npm test` for combat checks. Run `npm start` and open http://localhost:8000 to play locally. Python 3 is needed only for the local server and atlas indexing; Node.js runs the tests.
+
+## Can’t Rap GitHub Pages update (2026-11-21)
+
+The GitHub Pages roster now has eleven fighters. Can’t Rap is selectable as either the player or CPU. His regular Punch button swings the microphone. Turban Crew Jump-In calls eight small red-turban helpers from the edges, who rush in and land up to eight timed, unblockable hits. The presentation completes before knockout or timeout results, and the existing fighters and phone controls are preserved. Run `npm test` for combat verification.

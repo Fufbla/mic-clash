@@ -1,6 +1,6 @@
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies'];
+const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -21,6 +21,8 @@ const BACKUP = { call: .4, arrive: .55, exit: .32, exitStagger: .12, rushSpeed: 
   rushDeadline: 2.7, range: 145, punchWindup: .08, punchInterval: .36,
   punchStagger: .12, punchesEach: 3, attackDuration: 1.32, returnDeadline: 1.25,
   departDuration: .55, duration: 6 };
+const CREW = { call: .35, attackStart: 1.12, interval: .17, hits: 8,
+  retreatStart: 2.54, duration: 3.18, damage: 6 };
 const ATTACKS = {
   punch: { duration: .40, start: .10, end: .20, range: 132, damage: 10, meter: 20, stun: .20, knock: 180 },
   kick: { duration: .58, start: .18, end: .30, range: 178, damage: 15, meter: 25, stun: .26, knock: 250 }
@@ -77,7 +79,7 @@ export class CombatGame {
       actionRemaining: 0, attack: null, attackProgress: 0, inCar: false,
       specialCooldown: 0, landedHits: 0, damageDealt: 0,
       flipDuration: .48, flipRemaining: 0, flipProgress: 0, flipDirection: facing,
-      outfit: type === 'karate' ? 'blue' : 'normal', backupActive: false, vocalActive: false,
+      outfit: type === 'karate' ? 'blue' : 'normal', backupActive: false, crewActive: false, vocalActive: false,
       yellActive: false, wingActive: false, munchActive: false, horseActive: false, grabbedBy: null,
       beltActive: false, beltHeldBy: null, beltLaunched: false };
   }
@@ -122,7 +124,7 @@ export class CombatGame {
   }
 
   useSpecial(f) {
-    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive) return false;
+    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.crewActive) return false;
     const target = this.fighters.find(other => other !== f);
     if (f.type === 'dr-no-bunnies' && (Math.abs(target.x - f.x) > BELT.range
       || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
@@ -130,9 +132,9 @@ export class CombatGame {
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : 'owl';
+    const kind = f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : .66;
+    f.actionRemaining = kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
@@ -223,6 +225,16 @@ export class CombatGame {
         facing: f.facing, age: 0, ttl: VOCAL.duration, active: true, delay: 0,
         ...VOCAL, phase: 'windup', phaseAge: 0, progress: 0, waveIndex: 0,
         hitCount: 0, hitIds: [], waves: [], interrupted: false });
+    } else if (kind === 'crew') {
+      f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.crewActive = true;
+      f.flipRemaining = 0; f.flipProgress = 0;
+      this.specials.push({ kind, owner: f.id, targetId: target.id, facing: f.facing,
+        age: 0, ttl: CREW.duration, active: true, delay: 0, phase: 'calling',
+        strikeIndex: 0, hitCount: 0, focusX: target.x,
+        crew: Array.from({ length: 8 }, (_, i) => ({
+          index: i, x: i % 2 ? 1400 + i * 20 : -120 - i * 20, y: 0,
+          facing: i % 2 ? -1 : 1, visible: false, pose: 0
+        })) });
     } else if (kind === 'backup') {
       f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
       f.flipRemaining = 0; f.flipProgress = 0; f.backupActive = true;
@@ -401,7 +413,7 @@ export class CombatGame {
     }
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
-      heavy: kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
+      heavy: kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
       blocked, kind, style: ['getit', 'dr-no-bunnies'].includes(attacker.type) && kind === 'punch' ? 'slap' : kind });
     return true;
   }
@@ -453,6 +465,12 @@ export class CombatGame {
         else this.endVocal(owner);
         continue;
       }
+      if (s.kind === 'crew') {
+        this.updateCrew(s, owner, target);
+        if (s.ttl > 1e-9 && s.active) alive.push(s);
+        else this.endCrew(owner);
+        continue;
+      }
       if (s.kind === 'backup') {
         this.updateBackup(s, owner, target, dt);
         if (s.ttl > 1e-9 && s.active) alive.push(s);
@@ -482,6 +500,47 @@ export class CombatGame {
       else if (s.kind === 'car') this.dismount(owner, s);
     }
     this.specials = alive;
+  }
+
+  updateCrew(s, owner, target) {
+    if (!owner || !target) { s.active = false; return; }
+    const age = s.age;
+    s.phase = age < CREW.call ? 'calling' : age < CREW.attackStart ? 'rushing'
+      : age < CREW.retreatStart ? 'attack' : 'retreat';
+    s.focusX = target.x;
+    for (const kid of s.crew) {
+      const side = kid.index % 2 ? 1 : -1;
+      const slot = Math.floor(kid.index / 2);
+      const destination = clamp(target.x + side * (35 + slot * 23), 65, 1215);
+      const start = side < 0 ? -120 - kid.index * 20 : 1400 + kid.index * 20;
+      const rush = clamp((age - CREW.call - kid.index * .035) /
+        (CREW.attackStart - CREW.call - kid.index * .035), 0, 1);
+      const smooth = rush * rush * (3 - 2 * rush);
+      const leave = clamp((age - CREW.retreatStart) / (CREW.duration - CREW.retreatStart), 0, 1);
+      kid.x = age >= CREW.retreatStart ? destination + (start - destination) * leave
+        : start + (destination - start) * smooth;
+      kid.y = s.phase === 'attack' ? 12 + Math.abs(Math.sin((age - CREW.attackStart) * 17 + kid.index)) * (15 + slot * 5) : 0;
+      kid.visible = age >= CREW.call + kid.index * .035 && age < CREW.duration;
+      kid.facing = s.phase === 'retreat' ? side : target.x >= kid.x ? 1 : -1;
+      kid.pose = s.phase === 'attack' ? (Math.floor(age * 12 + kid.index) % 2 ? 5 : 4)
+        : s.phase === 'rushing' || s.phase === 'retreat' ? 1 + Math.floor(age * 13 + kid.index) % 2 : 0;
+    }
+    while (s.strikeIndex < CREW.hits && age >= CREW.attackStart + s.strikeIndex * CREW.interval) {
+      const index = s.strikeIndex++;
+      const final = index === CREW.hits - 1;
+      const connected = target.y < 165 && this.hit(owner, target, CREW.damage, 'crew',
+        final ? 470 : 65, final ? .42 : .14, target.x - s.facing * 34);
+      if (connected) s.hitCount++;
+      this.events.push({ type: 'crewStrike', fighter: owner.id, defender: target.id,
+        index, connected, final, x: target.x, y: target.y + 100 });
+    }
+    if (s.ttl <= 1e-9) s.active = false;
+  }
+
+  endCrew(owner) {
+    if (!owner) return;
+    owner.crewActive = false;
+    if (owner.state === 'special' && owner.actionRemaining <= 1e-9) this.setState(owner, owner.hp > 0 ? 'idle' : 'ko');
   }
 
   updateEffects(dt) {
@@ -1018,7 +1077,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {
@@ -1041,6 +1100,7 @@ export class CombatGame {
       if (s.kind === 'car') this.dismount(owner, s);
       else if (s.kind === 'barrage') this.endBarrage(owner);
       else if (s.kind === 'backup') this.endBackup(owner);
+      else if (s.kind === 'crew') this.endCrew(owner);
       else if (s.kind === 'vocal') this.endVocal(owner);
       else if (s.kind === 'yell') this.endYell(owner);
       else if (s.kind === 'wing') { if (s.projectile) s.projectile.active = false; this.endWing(owner); }
