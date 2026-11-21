@@ -1,4 +1,5 @@
-import { CombatGame } from './combat.js?v=smackprince-20261121';
+import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
+import { CombatGame } from './combat.js?v=babybigfists-20261121';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -14,6 +15,7 @@ const META = {
   icespice: { name: 'Ice Spice', special: 'Munch', color: '#ff9748', glow: 'rgba(255,151,72,.4)' },
   hehaw: { name: 'HeHaw', special: 'Horse Power', color: '#e8e6ed', glow: 'rgba(225,222,239,.4)' },
   'dr-no-bunnies': { name: 'Dr. No Bunnies', hudName: 'Dr. No Bunnies', special: 'African Pride Belt Slap', color: '#70adff', glow: 'rgba(70,140,255,.4)' },
+  babybigfists: { name: 'Baby Big Fists', special: 'Giant Fists', color: '#49dcea', glow: 'rgba(105,65,255,.4)' },
   smackprince: { name: 'Smack Prince', special: 'The Smack Upgrade', color: '#bbf15a', glow: 'rgba(178,240,70,.4)' },
   cantrap: { name: "Can't Rap", special: 'Turban Crew Jump-In', color: '#ff7076', glow: 'rgba(255,80,90,.4)' }
 };
@@ -70,6 +72,7 @@ function actionDown(action) {
     else if (state.game.fighters[0].meter < 100) showToast(['getit', 'dr-no-bunnies', 'smackprince'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
     else if (state.game.fighters[0].type === 'dr-no-bunnies' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > 285 || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for the belt slap. Your full meter is saved.', 1.8);
     else if (state.game.fighters[0].type === 'smackprince' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > SMACK_UPGRADE.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for The Smack Upgrade. Your full meter is saved.', 1.8);
+    else if (state.game.fighters[0].type === 'babybigfists' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > GIANT_FISTS.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for Giant Fists. Your full meter is saved.', 1.8);
     else { pressed.specialPressed = true; state.specialBuffer = .65; }
   }
 }
@@ -101,6 +104,18 @@ class Sound {
   }
   hit(heavy, blocked) { this.noise(blocked ? .035 : .08, blocked ? .02 : .055); this.tone(heavy ? 100 : 155, 38, .14, .07, 'triangle'); }
   slap(blocked) { this.noise(blocked ? .025 : .055, blocked ? .025 : .075); this.tone(410, 130, .06, .035, 'triangle'); }
+  mmm(number) {
+    if (!state.audio || !this.context) return;
+    // An original closed-mouth arcade hum, synchronized with each punch.
+    const c = this.context, t = c.currentTime, length = .28;
+    const voice = c.createOscillator(), nasal = c.createBiquadFilter(), volume = c.createGain();
+    voice.type = 'triangle'; voice.frequency.setValueAtTime(number === 2 ? 125 : 138, t);
+    voice.frequency.exponentialRampToValueAtTime(100, t + length);
+    nasal.type = 'lowpass'; nasal.frequency.value = 650; nasal.Q.value = 2.4;
+    volume.gain.setValueAtTime(.0001, t); volume.gain.linearRampToValueAtTime(.16, t + .035);
+    volume.gain.setValueAtTime(.13, t + .18); volume.gain.exponentialRampToValueAtTime(.0001, t + length);
+    voice.connect(nasal).connect(volume).connect(c.destination); voice.start(t); voice.stop(t + length + .02);
+  }
   bite() { this.noise(.095, .045); this.tone(185, 70, .08, .035, 'triangle'); }
   munch(index = 0) {
     this.noise(.065, .05);
@@ -198,7 +213,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=smackprince-20261121', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=babybigfists-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -525,6 +540,10 @@ function updateHUD() {
   canvas.dataset.crewOwner = crew?.owner || 'none';
   canvas.dataset.crewVisible = String(crew?.crew?.filter(k => k.visible).length || 0);
   canvas.dataset.crewHits = String(crew?.hitCount || 0);
+  const giantFists = state.game.specials.find(s => s.kind === 'giantFists');
+  canvas.dataset.giantFistsPunch = String(giantFists?.punchIndex || 0);
+  canvas.dataset.giantFistsHits = String(giantFists?.hitCount || 0);
+  canvas.dataset.giantFistsSpeech = babyBigFistsSpeech(giantFists);
   const spotlight = state.game.specials.find(s => s.kind === 'spotlight');
   canvas.dataset.spotlightPhase = spotlight?.phase || 'none';
   canvas.dataset.spotlightHits = String(spotlight?.hitCount || 0);
@@ -532,7 +551,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -564,6 +583,13 @@ function processEvents() {
       if (event.kind !== 'crew') state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
       if (!['vocal', 'yell', 'wing', 'munch', 'horse'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
       if (event.kind === 'backup') sound.siren();
+    }
+    if (event.type === 'giantPunch') {
+      sound.mmm(event.number);
+      if (event.impact) {
+        state.shake = Math.max(state.shake, event.final ? 14 : 8);
+        particleBurst(event.x, GROUND - event.y, event.final ? '#bd8aff' : '#57f0ff', event.final ? 25 : 16, event.final ? 290 : 200);
+      }
     }
     if (event.type === 'suitUp') sound.tone(523, 1046, .22, .04, 'triangle');
     if (event.type === 'royalSmack' && event.connected) {
@@ -781,8 +807,7 @@ function cantRapSprite(f) {
   return cantRapPose(f, crew);
 }
 
-function drawCantRapSpeech(s, viewScale, offsetX, offsetY) {
-  const text = cantRapSpeech(s);
+function drawFighterSpeech(s, text, viewScale, offsetX, offsetY) {
   const owner = state.game.fighters.find(f => f.id === s.owner);
   if (!text || !owner) return;
   // Screen-space minimum keeps the call readable when the camera widens on phones.
@@ -803,6 +828,10 @@ function drawCantRapSpeech(s, viewScale, offsetX, offsetY) {
   ctx.fillStyle = '#28121c'; ctx.font = `900 ${Math.max(30 * viewScale, 23 * ratio)}px system-ui`;
   ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(text, x + width / 2, y + height / 2);
   ctx.restore();
+}
+
+function bigFistsSprite(f) {
+  return babyBigFistsPose(f, state.game?.specials.find(s => s.kind === 'giantFists' && s.owner === f.id));
 }
 
 function princeSprite(f) {
@@ -907,6 +936,7 @@ function drawFighter(f) {
   if (f.type === 'dr-no-bunnies') ({ key, index } = noBunniesSprite(f));
   if (f.type === 'cantrap') ({ key, index } = cantRapSprite(f));
   if (f.type === 'smackprince') ({ key, index } = princeSprite(f));
+  if (f.type === 'babybigfists') ({ key, index } = bigFistsSprite(f));
   const flipIndex = flipFrameIndex(f);
   const flipping = flipIndex >= 0;
   if (flipping) { key = FLIP_ASSETS[f.type]; index = flipIndex; }
@@ -928,7 +958,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -1136,7 +1166,7 @@ function drawMunch(s) {
   if (target) {
     // Use the selected opponent's own sprite. No generic victim is baked into
     // the artwork, and the normal fighter pass omits the held character.
-    const victim = frame(target.type, target.type === 'smackprince' ? 14 : 22) || frame(target.type, 0);
+    const victim = frame(target.type, ['smackprince', 'babybigfists'].includes(target.type) ? 14 : 22) || frame(target.type, 0);
     if (victim) {
       const progress = Math.max(0, Math.min(1, (s.age - .46) / .20));
       const lift = progress * progress * (3 - 2 * progress);
@@ -1312,12 +1342,18 @@ function draw(dt) {
   if (state.game) {
     for (const s of state.game.specials) if (s.kind === 'backup' && s.active) drawBackupCar(s);
     for (const s of state.game.specials) if (s.kind === 'spotlight') drawSmackSpotlight(s);
-    for (const f of state.game.fighters) drawFighter(f);
+    // The enlarged fist must stay visible in front of the opponent on contact.
+    const giantCasters = state.game.fighters.filter(f => f.type === 'babybigfists' && f.state === 'special');
+    for (const f of state.game.fighters) if (!giantCasters.includes(f)) drawFighter(f);
+    for (const f of giantCasters) drawFighter(f);
     for (const s of state.game.specials) drawSpecial(s);
   }
   drawEffects(state.phase === 'paused' ? 0 : dt);
   ctx.restore();
-  for (const s of state.game?.specials || []) if (s.kind === 'crew') drawCantRapSpeech(s, viewScale, offsetX, offsetY);
+  for (const s of state.game?.specials || []) {
+    if (s.kind === 'crew') drawFighterSpeech(s, cantRapSpeech(s), viewScale, offsetX, offsetY);
+    if (s.kind === 'giantFists') drawFighterSpeech(s, babyBigFistsSpeech(s), viewScale, offsetX, offsetY);
+  }
   ctx.setTransform(canvas.width / WORLD_W, 0, 0, canvas.height / WORLD_H, 0, 0);
   for (const label of state.labels.filter(l => l.big)) {
     ctx.save(); ctx.globalAlpha = Math.min(1, Math.max(0, label.life * 2)); ctx.textAlign = 'center'; ctx.font = '900 42px system-ui';
