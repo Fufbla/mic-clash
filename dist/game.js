@@ -1,8 +1,9 @@
+import { NAIL_PIERCE, ocrrrrrPose, nailSegments } from './ocrrrrr.js';
 import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=demon-munchy-20261121';
+import { CombatGame } from './combat.js?v=ocrrrrr-20261121';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -18,6 +19,7 @@ const META = {
   icespice: { name: 'Munchy', special: 'Munch', color: '#ff9748', glow: 'rgba(255,151,72,.4)' },
   hehaw: { name: 'HeHaw', special: 'Horse Power', color: '#e8e6ed', glow: 'rgba(225,222,239,.4)' },
   'dr-no-bunnies': { name: 'Dr. No Bunnies', hudName: 'Dr. No Bunnies', special: 'African Pride Belt Slap', color: '#70adff', glow: 'rgba(70,140,255,.4)' },
+  ocrrrrr: { name: 'Ocrrrrr!', special: 'Nail Pierce', color: '#ff72ba', glow: 'rgba(255,53,155,.4)' },
   demon: { name: 'Demon', special: 'The Crew', color: '#c18aff', glow: 'rgba(167,82,255,.4)' },
   cranes: { name: 'Cranes', special: 'Elevator Drop', color: '#ffafd6', glow: 'rgba(255,116,191,.4)' },
   mooja: { name: 'MooJa', special: 'Cow Mode: Milk Missiles', color: '#ff83cc', glow: 'rgba(255,98,201,.4)' },
@@ -75,7 +77,7 @@ function actionDown(action) {
   if (action === 'kick') pressed.kickPressed = true;
   if (action === 'special') {
     if (presenting) showToast(`${META[state.game.fighters[0].type].special} is still playing.`, 1.5);
-    else if (state.game.fighters[0].meter < 100) showToast(['getit', 'dr-no-bunnies', 'smackprince', 'mooja'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
+    else if (state.game.fighters[0].meter < 100) showToast(['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
     else if (state.game.fighters[0].type === 'dr-no-bunnies' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > 285 || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for the belt slap. Your full meter is saved.', 1.8);
     else if (state.game.fighters[0].type === 'smackprince' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > SMACK_UPGRADE.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for The Smack Upgrade. Your full meter is saved.', 1.8);
     else if (state.game.fighters[0].type === 'babybigfists' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > GIANT_FISTS.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for Giant Fists. Your full meter is saved.', 1.8);
@@ -219,7 +221,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=demon-munchy-20261121', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=ocrrrrr-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -315,7 +317,7 @@ function startFight() {
   state.particles = []; state.labels = []; state.resultDelay = 0; state.countdown = 2.8; state.shake = 0;
   $('p1Name').textContent = META[state.selected].hudName || META[state.selected].name;
   $('p2Name').textContent = META[opponent].hudName || META[opponent].name;
-  const slaps = ['getit', 'dr-no-bunnies', 'smackprince', 'mooja'].includes(state.selected);
+  const slaps = ['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr'].includes(state.selected);
   const mic = state.selected === 'cantrap';
   document.querySelector('[data-control="punch"]')?.setAttribute('aria-label', mic ? 'Microphone strike. Keyboard J.' : slaps ? 'Open-hand slap. Keyboard J.' : 'Punch. Keyboard J.');
   document.querySelector('[data-control="punch"] .control-label').textContent = mic ? 'MIC HIT' : slaps ? 'SLAP' : 'PUNCH';
@@ -546,6 +548,11 @@ function updateHUD() {
   canvas.dataset.crewOwner = crew?.owner || 'none';
   canvas.dataset.crewVisible = String(crew?.crew?.filter(k => k.visible).length || 0);
   canvas.dataset.crewHits = String(crew?.hitCount || 0);
+  const nails = state.game.specials.find(s => s.kind === 'nailPierce');
+  canvas.dataset.nailPhase = nails?.phase || 'none';
+  canvas.dataset.nailExtension = String(nails?.extension || 0);
+  canvas.dataset.nailHits = String(nails?.hitCount || 0);
+  canvas.dataset.nailCount = String(nails ? nailSegments(nails, state.game.fighters.find(f => f.id === nails.owner)).length : 0);
   const masked = state.game.specials.find(s => s.kind === 'maskedCrew');
   canvas.dataset.demonPhase = masked?.phase || 'none';
   canvas.dataset.demonStrikes = String(masked?.strikeIndex || 0);
@@ -573,7 +580,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -605,6 +612,12 @@ function processEvents() {
       if (event.kind !== 'crew') state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
       if (!['vocal', 'yell', 'wing', 'munch', 'horse', 'elevator'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
       if (event.kind === 'backup') sound.siren();
+    }
+    if (event.type === 'nailsExtend') { sound.tone(320, 1250, .34, .035, 'triangle'); sound.noise(.12, .025); }
+    if (event.type === 'nailsRetract') sound.tone(820, 250, .25, .02, 'sine');
+    if (event.type === 'nailPierceHit') {
+      particleBurst(event.x, GROUND - event.y, '#ffe8fa', 22, 260);
+      sound.noise(.12, .06); sound.tone(950, 180, .16, .05, 'triangle'); state.shake = Math.max(state.shake, 11);
     }
     if (event.type === 'maskedEnter') sound.noise(.20, .035);
     if (event.type === 'maskedStrike' && event.impact) {
@@ -872,6 +885,10 @@ function drawFighterSpeech(s, text, viewScale, offsetX, offsetY) {
   ctx.restore();
 }
 
+function ocrrrrrSprite(f) {
+  return ocrrrrrPose(f, state.game?.specials.find(s => s.kind === 'nailPierce' && s.owner === f.id));
+}
+
 function demonSprite(f) {
   return demonPose(f, state.game?.specials.find(s => s.kind === 'maskedCrew' && s.owner === f.id));
 }
@@ -991,6 +1008,7 @@ function drawFighter(f) {
   if (f.type === 'cantrap') ({ key, index } = cantRapSprite(f));
   if (f.type === 'smackprince') ({ key, index } = princeSprite(f));
   if (f.type === 'babybigfists') ({ key, index } = bigFistsSprite(f));
+  if (f.type === 'ocrrrrr') ({ key, index } = ocrrrrrSprite(f));
   if (f.type === 'demon') ({ key, index } = demonSprite(f));
   if (f.type === 'cranes') ({ key, index } = cranesSprite(f));
   if (f.type === 'mooja') ({ key, index } = moojaSprite(f));
@@ -1015,7 +1033,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -1039,7 +1057,7 @@ function drawFighter(f) {
     ctx.restore();
   }
   ctx.drawImage(s.image, -s.anchorX * scale, -s.anchorY * scale, s.w * scale, s.h * scale);
-  if (['getit', 'dr-no-bunnies', 'smackprince', 'mooja'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
+  if (['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
     ctx.save(); ctx.strokeStyle = '#ffe1ed'; ctx.lineWidth = 3; ctx.globalAlpha = .55;
     ctx.beginPath(); ctx.moveTo(32, -148); ctx.quadraticCurveTo(135, -157, 128, -95); ctx.stroke(); ctx.restore();
   }
@@ -1223,7 +1241,7 @@ function drawMunch(s) {
   if (target) {
     // Use the selected opponent's own sprite. No generic victim is baked into
     // the artwork, and the normal fighter pass omits the held character.
-    const victim = frame(target.type, ['smackprince', 'babybigfists', 'mooja', 'cranes', 'demon'].includes(target.type) ? 14 : 22) || frame(target.type, 0);
+    const victim = frame(target.type, ['smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(target.type) ? 14 : 22) || frame(target.type, 0);
     if (victim) {
       const progress = Math.max(0, Math.min(1, (s.age - .46) / .20));
       const lift = progress * progress * (3 - 2 * progress);
@@ -1405,6 +1423,32 @@ function drawMilkSplashes() {
   }
 }
 
+function drawNailPierce(s) {
+  const owner = state.game.fighters.find(f => f.id === s.owner); if (!owner) return;
+  const index = s.phase === 'retract' ? 3 : s.contact && s.age - s.contact.age < .14 ? 2 : Math.floor(s.age * 16) % 2;
+  const sprite = frame('ocrrrrrNails', index); if (!sprite) return;
+  for (const nail of nailSegments(s, owner)) {
+    ctx.save(); ctx.translate(nail.rootX, GROUND - nail.rootY); ctx.scale(s.facing, 1); ctx.rotate(nail.angle);
+    ctx.drawImage(sprite.image, 0, -nail.width / 2, nail.length, nail.width); ctx.restore();
+  }
+}
+
+function drawNailImpacts() {
+  for (const effect of state.game?.effects || []) {
+    if (effect.kind !== 'nailImpact') continue;
+    const progress = effect.age / effect.duration, radius = 24 + progress * 80;
+    ctx.save(); ctx.translate(effect.x, GROUND - effect.y); ctx.globalAlpha = 1 - progress;
+    ctx.fillStyle = '#fff5fc'; ctx.strokeStyle = '#ff65b7'; ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let i = 0; i < 20; i++) {
+      const angle = i * Math.PI / 10, r = i % 2 ? radius * .28 : radius;
+      const x = Math.cos(angle) * r, y = Math.sin(angle) * r;
+      if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+    }
+    ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
+  }
+}
+
 function drawMaskedCrew(s) {
   const c = DEMON_CREW;
   if (s.age >= c.enterAt && s.age < c.retreatAt) {
@@ -1426,6 +1470,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if (s.kind === 'nailPierce') { drawNailPierce(s); return; }
   if (s.kind === 'maskedCrew') return; // Crew is drawn behind the actual fighters.
   if (s.kind === 'elevator') { drawElevatorDrop(s); return; }
   if (s.kind === 'milk') { drawMilkMissiles(s); return; }
@@ -1478,6 +1523,7 @@ function drawEffects(dt) {
   drawHorseImpacts();
   drawMilkSplashes();
   drawElevatorImpacts();
+  drawNailImpacts();
   for (const p of state.particles) {
     p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 180 * dt;
     ctx.save(); ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.color; ctx.translate(p.x, p.y); ctx.rotate(p.life * 4); ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size); ctx.restore();

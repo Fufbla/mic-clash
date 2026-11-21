@@ -1,3 +1,4 @@
+import { NAIL_PIERCE, nailSegments, nailExtension } from './ocrrrrr.js';
 import { DEMON_CREW, maskedCrewPose } from './demon.js';
 import { ELEVATOR_DROP } from './cranes.js';
 import { COW_MODE } from './mooja.js';
@@ -5,7 +6,7 @@ import { GIANT_FISTS } from './baby-big-fists.js';
 import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon'];
+const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -55,6 +56,8 @@ export class CombatGame {
       this.endMunch(this.fighters.find(f => f.id === s.owner), s, 'reset');
     } else if (s.kind === 'horse') {
       this.endHorse(this.fighters.find(f => f.id === s.owner), s, 'reset');
+    } else if (s.kind === 'nailPierce') {
+      this.endNailPierce(this.fighters.find(f => f.id === s.owner), s);
     } else if (s.kind === 'maskedCrew') {
       this.endMaskedCrew(this.fighters.find(f => f.id === s.owner), s);
     } else if (s.kind === 'elevator') {
@@ -90,7 +93,7 @@ export class CombatGame {
       actionRemaining: 0, attack: null, attackProgress: 0, inCar: false,
       specialCooldown: 0, landedHits: 0, damageDealt: 0,
       flipDuration: .48, flipRemaining: 0, flipProgress: 0, flipDirection: facing,
-      outfit: type === 'karate' ? 'blue' : 'normal', spotlightLaunched: false, bigFistsLaunched: false, milkLaunched: false, elevatorLaunched: false, demonLaunched: false, maskedCrewActive: false, elevatorActive: false, cowActive: false, backupActive: false, crewActive: false, vocalActive: false,
+      outfit: type === 'karate' ? 'blue' : 'normal', spotlightLaunched: false, bigFistsLaunched: false, milkLaunched: false, elevatorLaunched: false, demonLaunched: false, nailLaunched: false, nailActive: false, maskedCrewActive: false, elevatorActive: false, cowActive: false, backupActive: false, crewActive: false, vocalActive: false,
       yellActive: false, wingActive: false, munchActive: false, horseActive: false, grabbedBy: null,
       beltActive: false, beltHeldBy: null, beltLaunched: false };
   }
@@ -120,7 +123,7 @@ export class CombatGame {
   startAttack(f, kind) {
     const spec = ATTACKS[kind];
     if (!spec || !this.canAct(f) || this.isPresenting(f)) return false;
-    const style = ['getit', 'dr-no-bunnies', 'smackprince', 'mooja'].includes(f.type) && kind === 'punch' ? 'slap' : kind;
+    const style = ['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr'].includes(f.type) && kind === 'punch' ? 'slap' : kind;
     f.attack = { kind, style, elapsed: 0, connected: false, ...spec };
     // Contact is the second authored slap pose, after a readable wind-up.
     if (f.type === 'dr-no-bunnies' && kind === 'punch') {
@@ -135,7 +138,7 @@ export class CombatGame {
   }
 
   useSpecial(f) {
-    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.crewActive || f.cowActive || f.elevatorActive || f.maskedCrewActive) return false;
+    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.crewActive || f.cowActive || f.elevatorActive || f.maskedCrewActive || f.nailActive) return false;
     const target = this.fighters.find(other => other !== f);
     if (f.type === 'dr-no-bunnies' && (Math.abs(target.x - f.x) > BELT.range
       || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
@@ -147,14 +150,20 @@ export class CombatGame {
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
+    const kind = f.type === 'ocrrrrr' ? 'nailPierce' : f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
+    f.actionRemaining = kind === 'nailPierce' ? NAIL_PIERCE.duration : kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
     f.invuln = 0;
-    if (kind === 'maskedCrew') {
+    if (kind === 'nailPierce') {
+      f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.nailActive = true;
+      f.flipRemaining = 0; f.flipProgress = 0;
+      this.specials.push({ kind, owner: f.id, facing: f.facing, age: 0,
+        ttl: NAIL_PIERCE.duration, active: true, delay: 0, phase: 'gather',
+        extension: 0, hitCount: 0, extended: false, retracted: false, contact: null });
+    } else if (kind === 'maskedCrew') {
       f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.maskedCrewActive = true;
       f.flipRemaining = 0; f.flipProgress = 0;
       this.specials.push({ kind, owner: f.id, targetId: target.id, facing: f.facing,
@@ -352,7 +361,7 @@ export class CombatGame {
       this.roundEnding = { winner, timedOut: this.timeRemaining <= 0 };
       for (const f of this.fighters) {
         f.attack = null; f.attackProgress = 0;
-        if (!f.inCar && !f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched && !f.demonLaunched) f.vx = 0;
+        if (!f.inCar && !f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched && !f.demonLaunched && !f.nailLaunched) f.vx = 0;
         if (!this.isPresenting(f) && f.hp > 0) this.setState(f, 'idle');
       }
       if (!this.hasPresentations()) this.finish(winner);
@@ -398,7 +407,7 @@ export class CombatGame {
       }
     }
     if (f.inCar) return;
-    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched && !f.demonLaunched) return; }
+    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched && !f.demonLaunched && !f.nailLaunched) return; }
     if (this.roundEnding && f.state === 'special' && f.actionRemaining <= 1e-9) {
       this.setState(f, f.hp > 0 ? 'idle' : 'ko');
     }
@@ -429,7 +438,7 @@ export class CombatGame {
       f.vy -= 1800 * dt;
       if (f.y <= 0) {
         f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
-        f.beltLaunched = false; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false; f.demonLaunched = false;
+        f.beltLaunched = false; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false; f.demonLaunched = false; f.nailLaunched = false;
         f.flipRemaining = 0; f.flipProgress = 0;
         this.events.push({ type: 'land', fighter: f.id, x: f.x, y: 0 });
         if (this.canAct(f)) this.setState(f, 'idle');
@@ -466,7 +475,7 @@ export class CombatGame {
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
       heavy: kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
-      blocked, kind, style: ['getit', 'dr-no-bunnies', 'smackprince', 'mooja'].includes(attacker.type) && kind === 'punch' ? 'slap' : kind });
+      blocked, kind, style: ['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr'].includes(attacker.type) && kind === 'punch' ? 'slap' : kind });
     return true;
   }
 
@@ -545,6 +554,12 @@ export class CombatGame {
         this.updateVocal(s, owner, target, dt);
         if (s.ttl > 1e-9 && s.active) alive.push(s);
         else this.endVocal(owner);
+        continue;
+      }
+      if (s.kind === 'nailPierce') {
+        this.updateNailPierce(s, owner, target);
+        if (s.ttl > 1e-9 && s.active) alive.push(s);
+        else this.endNailPierce(owner, s);
         continue;
       }
       if (s.kind === 'maskedCrew') {
@@ -741,6 +756,57 @@ export class CombatGame {
         x: target.x, y: target.y + 145 });
     }
     if (s.ttl <= 1e-9) s.active = false;
+  }
+
+  updateNailPierce(s, owner, target) {
+    if (!owner || !target) { s.active = false; return; }
+    const m = NAIL_PIERCE;
+    s.extension = nailExtension(s.age);
+    s.phase = s.age < m.reachAt ? 'gather' : s.age < m.extendAt ? 'reach'
+      : s.age < m.fullAt ? 'extend' : s.age < m.retractAt ? 'pierce'
+      : s.age < m.shrinkEnd ? 'retract' : 'recover';
+    if (!s.extended && s.age + 1e-9 >= m.extendAt) {
+      s.extended = true; this.events.push({ type: 'nailsExtend', fighter: owner.id });
+    }
+    if (!s.retracted && s.age + 1e-9 >= m.retractAt) {
+      s.retracted = true; this.events.push({ type: 'nailsRetract', fighter: owner.id });
+    }
+    if (!s.hitCount && s.age + 1e-9 >= m.strikeAt && s.age <= m.hitEnd + 1e-9
+      && (target.x - owner.x) * s.facing >= 0) {
+      // Each visible nail is a continuous root-to-tip segment. This catches a
+      // growing tip crossing a hurtbox between frames without invisible reach.
+      for (const nail of nailSegments(s, owner)) {
+        const radius = nail.width / 2;
+        const entry = sweptHit(nail.rootX, nail.rootY, nail.tipX, nail.tipY,
+          target.x - 24 - radius, target.x + 24 + radius,
+          target.y + 40 - radius, target.y + 185 + radius);
+        if (entry === null) continue;
+        if (this.hit(owner, target, m.damage, 'nailPierce', m.knock, .52, owner.x)) {
+          s.hitCount = 1;
+          s.contact = { x: nail.rootX + (nail.tipX - nail.rootX) * entry,
+            y: nail.rootY + (nail.tipY - nail.rootY) * entry, age: s.age };
+          target.vx = s.facing * m.knock; target.vy = m.lift; target.grounded = false;
+          target.nailLaunched = true; target.actionRemaining = .52;
+          const effect = { kind: 'nailImpact', owner: owner.id, defender: target.id,
+            x: s.contact.x, y: s.contact.y, age: 0, ttl: .34, duration: .34 };
+          this.effects.push(effect);
+          this.events.push({ type: 'nailPierceHit', fighter: owner.id, defender: target.id, ...s.contact });
+        }
+        break;
+      }
+    }
+    if (s.ttl <= 1e-9) s.active = false;
+  }
+
+  endNailPierce(owner, s) {
+    s.active = false; s.extension = 0; s.contact = null;
+    this.effects = this.effects.filter(e => e.kind !== 'nailImpact' || e.owner !== s.owner);
+    if (!owner) return;
+    owner.nailActive = false;
+    if (owner.state === 'special') {
+      owner.actionRemaining = 0; owner.vx = 0;
+      this.setState(owner, owner.hp > 0 ? 'idle' : 'ko');
+    }
   }
 
   updateMaskedCrew(s, owner, target) {
@@ -1379,7 +1445,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = ai.type === 'ocrrrrr' ? NAIL_PIERCE.range : ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {
@@ -1404,6 +1470,7 @@ export class CombatGame {
       else if (s.kind === 'backup') this.endBackup(owner);
       else if (s.kind === 'crew') this.endCrew(owner);
       else if (s.kind === 'maskedCrew') this.endMaskedCrew(owner, s);
+      else if (s.kind === 'nailPierce') this.endNailPierce(owner, s);
       else if (s.kind === 'vocal') this.endVocal(owner);
       else if (s.kind === 'yell') this.endYell(owner);
       else if (s.kind === 'wing') { if (s.projectile) s.projectile.active = false; this.endWing(owner); }
@@ -1415,7 +1482,7 @@ export class CombatGame {
     }
     this.specials = [];
     for (const f of this.fighters) {
-      f.attack = null; f.vx = 0; f.vy = 0; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false; f.demonLaunched = false;
+      f.attack = null; f.vx = 0; f.vy = 0; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false; f.demonLaunched = false; f.nailLaunched = false;
       f.actionRemaining = 0;
       f.flipRemaining = 0; f.flipProgress = 0;
       if (f.hp <= 0) this.setState(f, 'ko');
