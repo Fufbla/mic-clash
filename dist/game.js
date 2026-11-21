@@ -381,7 +381,8 @@ $('closeHelpButton')?.addEventListener('click', () => {
 // Full-viewport play works everywhere; offer browser fullscreen when supported.
 const fullscreenButton = $('fullscreenButton');
 const fullscreenRoot = document.documentElement;
-fullscreenButton.hidden = !(fullscreenRoot.requestFullscreen || fullscreenRoot.webkitRequestFullscreen);
+fullscreenButton.hidden = !(document.fullscreenEnabled || document.webkitFullscreenEnabled)
+  || !(fullscreenRoot.requestFullscreen || fullscreenRoot.webkitRequestFullscreen);
 fullscreenButton.addEventListener('click', async () => {
   try {
     if (document.fullscreenElement || document.webkitFullscreenElement) {
