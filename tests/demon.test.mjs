@@ -19,7 +19,7 @@ function activate(g, a) { a.meter = 100; assert.ok(g.useSpecial(a)); return g.sp
 test('Demon has standard hit-powered punch and kick, block and two ordinary jumps', () => {
   for (const side of ['p1', 'p2']) {
     const { g, a, b } = match(side, 1, 100);
-    g.startAttack(a, 'punch'); step(g, .5); assert.equal(b.hp, 150); assert.equal(a.meter, 20);
+    g.startAttack(a, 'punch'); step(g, .5); assert.equal(b.hp, b.maxHp - 10); assert.equal(a.meter, 20);
     b.x = a.x + 100; b.state = 'block'; b.actionRemaining = 1;
     g.startAttack(a, 'punch'); step(g, .5); assert.equal(a.meter, 20);
     b.state = 'idle'; b.x = a.x + 100; g.startAttack(a, 'kick'); step(g, .6); assert.equal(a.meter, 45);
@@ -79,7 +79,7 @@ test('Twelve unblockable four-damage strikes complete on both sides and directio
   for (const fps of [30, 60, 120]) for (const direction of [-1, 1]) for (const side of ['p1', 'p2']) {
     const { g, a, b } = match(side, direction); b.state = 'block'; b.actionRemaining = 6;
     const s = activate(g, a); step(g, 4.5, fps);
-    assert.equal(b.hp, 112); assert.equal(s.hitCount, 12); assert.equal(s.strikeIndex, 12);
+    assert.equal(b.hp, b.maxHp - 48); assert.equal(s.hitCount, 12); assert.equal(s.strikeIndex, 12);
     assert.equal(a.meter, 0); assert.equal(a.landedHits, 0);
     const events = g.drainEvents(), hits = events.filter(e => e.type === 'hit');
     assert.equal(hits.length, 12); assert.ok(hits.every(e => e.damage === 4 && !e.blocked && e.kind === 'maskedCrew'));
@@ -94,7 +94,7 @@ test('The crew locks its target area and running away evades every strike', () =
     const { g, a, b } = match('p2', -1, 500); const s = activate(g, a);
     step(g, 1.3, fps); const focus = s.focusX; assert.ok(s.locked);
     step(g, 3, fps, { left: true });
-    assert.equal(s.focusX, focus); assert.equal(b.hp, 160); assert.equal(s.hitCount, 0);
+    assert.equal(s.focusX, focus); assert.equal(b.hp, b.maxHp); assert.equal(s.hitCount, 0);
     assert.equal(s.strikeIndex, 12); assert.equal(a.meter, 0);
   }
 });
@@ -102,7 +102,7 @@ test('The crew locks its target area and running away evades every strike', () =
 test('Jumping over the first attacks avoids their damage and does not move the target area', () => {
   const { g, a, b } = match(); const s = activate(g, a); step(g, 1.3);
   assert.ok(g.jump(b)); step(g, .2); assert.ok(g.jump(b)); step(g, .45);
-  assert.ok(s.strikeIndex >= 3); assert.equal(s.hitCount, 0); assert.equal(b.hp, 160);
+  assert.ok(s.strikeIndex >= 3); assert.equal(s.hitCount, 0); assert.equal(b.hp, b.maxHp);
   assert.equal(s.focusX, 600); step(g, 3); assert.ok(s.hitCount < 12);
 });
 
@@ -142,6 +142,6 @@ test('Reset and forced finish remove all crew references, caster state and launc
 test('CPU Demon uses the same point, turn, arrivals and combo across the arena', () => {
   const { g, a, b } = match('p2', -1, 700); a.meter = 100; g.aiEnabled = true; g.ai.think = 0; g.random = () => .8;
   g.update(1 / 120, {}); assert.equal(a.meter, 0); assert.equal(g.specials[0].kind, 'maskedCrew');
-  g.aiEnabled = false; step(g, 4.5); assert.equal(b.hp, 112);
+  g.aiEnabled = false; step(g, 4.5); assert.equal(b.hp, b.maxHp - 48);
   assert.equal(g.drainEvents().filter(e => e.type === 'maskedStrike').length, 12);
 });

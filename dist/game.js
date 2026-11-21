@@ -3,7 +3,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=ocrrrrr-20261121';
+import { CombatGame } from './combat.js?v=fullscreen-20261121';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -332,9 +332,14 @@ function showSelection() {
   if ($('toast')) $('toast').hidden = true;
 }
 function pause() {
-  if (state.phase === 'paused') { setPhase(state.pausedFrom); $('phaseText').textContent = 'Round 1'; return; }
   if (!['playing', 'countdown'].includes(state.phase)) return;
   state.pausedFrom = state.phase; setPhase('paused'); $('phaseText').textContent = 'Paused';
+  $('resumeButton').focus({ preventScroll: true });
+}
+function resumeFight() {
+  if (state.phase !== 'paused') return;
+  setPhase(state.pausedFrom); $('phaseText').textContent = 'Round 1';
+  $('resumeButton').blur();
 }
 function showResults() {
   const winner = state.game.winner;
@@ -355,7 +360,7 @@ $('rematchButton').addEventListener('click', startFight);
 $('changeFighterButton').addEventListener('click', showSelection);
 $('backButton')?.addEventListener('click', showSelection);
 $('pauseButton')?.addEventListener('click', pause);
-$('resumeButton')?.addEventListener('click', pause);
+$('resumeButton')?.addEventListener('click', resumeFight);
 $('restartButton')?.addEventListener('click', startFight);
 $('selectButton')?.addEventListener('click', showSelection);
 $('soundButton')?.addEventListener('click', () => {
@@ -365,15 +370,35 @@ $('soundButton')?.addEventListener('click', () => {
   $('soundButton').textContent = state.audio ? 'Sound on' : 'Sound off';
 });
 $('helpButton')?.addEventListener('click', () => {
-  if (state.phase === 'playing' || state.phase === 'countdown') pause();
-  if ($('helpScreen')) $('helpScreen').hidden = false;
+  if (state.phase !== 'paused') return;
+  $('helpScreen').hidden = false;
+  $('closeHelpButton').focus({ preventScroll: true });
 });
-$('closeHelpButton')?.addEventListener('click', () => { $('helpScreen').hidden = true; });
+$('closeHelpButton')?.addEventListener('click', () => {
+  $('helpScreen').hidden = true; $('helpButton').focus({ preventScroll: true });
+});
+
+// Full-viewport play works everywhere; offer browser fullscreen when supported.
+const fullscreenButton = $('fullscreenButton');
+const fullscreenRoot = document.documentElement;
+fullscreenButton.hidden = !(fullscreenRoot.requestFullscreen || fullscreenRoot.webkitRequestFullscreen);
+fullscreenButton.addEventListener('click', async () => {
+  try {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      await (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    } else {
+      await (fullscreenRoot.requestFullscreen || fullscreenRoot.webkitRequestFullscreen).call(fullscreenRoot);
+    }
+  } catch { showToast('Full screen is unavailable in this browser.'); }
+});
+for (const type of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(type, () => {
+  fullscreenButton.textContent = document.fullscreenElement || document.webkitFullscreenElement ? 'EXIT FULL SCREEN' : 'FULL SCREEN';
+  syncViewport();
+});
 
 const KEYMAP = { ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', ArrowUp: 'jump', KeyW: 'jump', Space: 'jump', KeyJ: 'punch', KeyK: 'kick', KeyL: 'special', KeyB: 'block' };
 window.addEventListener('keydown', event => {
   if (['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)) return;
-  if (event.code === 'Escape' || event.code === 'KeyP') { if (!event.repeat) pause(); event.preventDefault(); return; }
   const control = KEYMAP[event.code]; if (!control) return;
   if (state.phase !== 'select') event.preventDefault();
   held.add(event.code);
@@ -434,8 +459,28 @@ for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
   analogStick?.addEventListener(type, event => { if (event.pointerId === analog.pointerId) resetAnalog(); });
 }
 analogStick?.addEventListener('contextmenu', event => event.preventDefault());
-window.addEventListener('blur', () => { clearInput(); if (['playing', 'countdown'].includes(state.phase)) pause(); });
-document.addEventListener('visibilitychange', () => { if (document.hidden) { clearInput(); if (['playing', 'countdown'].includes(state.phase)) pause(); } });
+// Losing focus releases held controls, but only the Pause button pauses a round.
+window.addEventListener('blur', clearInput);
+document.addEventListener('visibilitychange', () => {
+  clearInput(); state.last = 0; state.accumulator = 0;
+});
+
+const fightIsActive = () => ['playing', 'countdown'].includes(state.phase);
+const onFightSurface = event => fightIsActive()
+  && event.target.closest?.('.arena-frame, .control-deck, .match-hud');
+// Safari can interpret rapid taps, two-thumb input and holds on labels or
+// disabled buttons as page gestures. Guard the entire play surface, while
+// leaving roster and pause-menu scrolling and normal button clicks available.
+for (const type of ['touchstart', 'touchmove', 'touchend', 'dblclick', 'contextmenu', 'selectstart']) {
+  $('gameApp').addEventListener(type, event => {
+    if (onFightSurface(event) && event.cancelable) event.preventDefault();
+  }, { passive: false });
+}
+for (const type of ['gesturestart', 'gesturechange', 'gestureend']) {
+  document.addEventListener(type, event => {
+    if (fightIsActive() && event.cancelable) event.preventDefault();
+  }, { passive: false });
+}
 
 function resize() {
   const rect = canvas.getBoundingClientRect(); const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -450,8 +495,9 @@ function syncViewport() {
   requestAnimationFrame(() => {
     viewportQueued = false;
     const viewport = window.visualViewport;
-    const width = viewport?.width || window.innerWidth;
-    const height = viewport?.height || window.innerHeight;
+    const scale = viewport?.scale || 1;
+    const width = viewport ? viewport.width * scale : window.innerWidth;
+    const height = viewport ? viewport.height * scale : window.innerHeight;
     const orientation = width > height ? 'landscape' : 'portrait';
     const root = document.documentElement;
     if (root.dataset.orientation && root.dataset.orientation !== orientation) clearInput();
@@ -475,7 +521,7 @@ function updateHUD() {
     $(`p${i}Health`).setAttribute('aria-valuenow', String(Math.ceil(hp)));
     $(`p${i}Health`).setAttribute('aria-valuemax', String(f.maxHp));
     $(`p${i}Meter`).style.width = `${Math.min(100, f.meter)}%`;
-    $(`p${i}HpText`).textContent = `${Math.ceil(hp)} / ${f.maxHp}`;
+    $(`p${i}HpText`).textContent = String(Math.ceil(hp));
     const active = state.game.isPresenting(f);
     $(`p${i}MeterText`).textContent = active ? 'ACTIVE' : f.meter >= 100 ? 'READY' : `${Math.floor(f.meter)}%`;
     $(`p${i}Meter`).classList.toggle('ready', f.meter >= 100 && !active);
@@ -1553,11 +1599,20 @@ function draw(dt) {
   const visibleWidth = canvas.width / viewScale;
   const cameraX = visibleWidth >= 1280 ? 640 : Math.max(visibleWidth / 2, Math.min(1280 - visibleWidth / 2, state.cameraX));
   const offsetX = canvas.width / 2 - cameraX * viewScale;
-  const offsetY = canvas.height * .79 - GROUND * viewScale;
+  const portrait = canvas.width < canvas.height;
+  const floorY = canvas.height * (portrait ? .69 : .82);
+  const offsetY = floorY - GROUND * viewScale;
+  // Fill tall and wide viewports with the existing stage artwork. Keep its
+  // floor aligned with the fighters without stretching the fighter sprites.
+  const stageScale = Math.max(canvas.width / WORLD_W, floorY / GROUND);
+  const stageCameraX = Math.max(canvas.width / stageScale / 2,
+    Math.min(WORLD_W - canvas.width / stageScale / 2, cameraX));
+  ctx.setTransform(stageScale, 0, 0, stageScale,
+    canvas.width / 2 - stageCameraX * stageScale, floorY - GROUND * stageScale);
+  drawStage();
   ctx.setTransform(viewScale, 0, 0, viewScale, offsetX, offsetY);
   ctx.save();
   if (state.shake > .2) ctx.translate((Math.random() - .5) * state.shake, (Math.random() - .5) * state.shake);
-  drawStage();
   if (state.game) {
     for (const s of state.game.specials) if (s.kind === 'backup' && s.active) drawBackupCar(s);
     for (const s of state.game.specials) if (s.kind === 'spotlight') drawSmackSpotlight(s);

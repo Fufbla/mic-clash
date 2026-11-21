@@ -20,7 +20,7 @@ test('Ocrrrrr! is selectable on both sides with claw slaps, hit-powered meter, k
   for (const side of ['p1', 'p2']) {
     const { g, a, b } = match(side, 1, 100);
     g.startAttack(a, 'punch'); assert.equal(a.attack.style, 'slap'); step(g, .5);
-    assert.equal(b.hp, 150); assert.equal(a.meter, 20);
+    assert.equal(b.hp, b.maxHp - 10); assert.equal(a.meter, 20);
     b.x = a.x + 100; b.state = 'block'; b.actionRemaining = 1;
     g.startAttack(a, 'punch'); step(g, .5); assert.equal(a.meter, 20);
     b.state = 'idle'; b.x = a.x + 100; g.startAttack(a, 'kick'); step(g, .6); assert.equal(a.meter, 45);
@@ -66,8 +66,8 @@ test('Hands reach first, ten attached nails grow, hold, retract, and disappear b
 test('One 48-damage piercing hit ignores block on both sides at close and extended reach at 30/60/120 fps', () => {
   for (const fps of [30,60,120]) for (const direction of [-1,1]) for (const side of ['p1','p2']) for (const distance of [100,250,370]) {
     const { g, a, b } = match(side, direction, distance); b.state = 'block'; b.actionRemaining = 5;
-    const s = activate(g, a); step(g, .75, fps); assert.equal(b.hp, 160);
-    step(g, 2.5, fps); assert.equal(b.hp, 112); assert.equal(s.hitCount, 1); assert.equal(a.meter, 0);
+    const s = activate(g, a); step(g, .75, fps); assert.equal(b.hp, b.maxHp);
+    step(g, 2.5, fps); assert.equal(b.hp, b.maxHp - 48); assert.equal(s.hitCount, 1); assert.equal(a.meter, 0);
     const events = g.drainEvents();
     assert.deepEqual(events.filter(e => e.type === 'hit').map(e => [e.damage,e.blocked,e.kind]), [[48,false,'nailPierce']]);
     assert.equal(events.filter(e => e.type === 'nailsExtend').length, 1);
@@ -104,7 +104,7 @@ test('Behind, out-of-range and invulnerable targets evade; retracting nails neve
     if (mode === 'invulnerable') b.invuln=4;
     const s=activate(g,a); step(g,1.2);
     if(mode==='late') b.x=a.x+110;
-    step(g,1.5); assert.equal(b.hp,160); assert.equal(s.hitCount,0); assert.equal(a.meter,0);
+    step(g,1.5); assert.equal(b.hp,b.maxHp); assert.equal(s.hitCount,0); assert.equal(a.meter,0);
   }
 });
 
@@ -112,7 +112,7 @@ test('A timed double jump clears the nail fan while a grounded opponent is hitta
   for (const fps of [30,60,120]) {
     const { g,a,b }=match(); const s=activate(g,a); step(g,.5,fps);
     assert.ok(g.jump(b)); step(g,.2,fps); assert.ok(g.jump(b)); step(g,2,fps);
-    assert.equal(b.hp,160); assert.equal(s.hitCount,0);
+    assert.equal(b.hp,b.maxHp); assert.equal(s.hitCount,0);
   }
 });
 
@@ -150,7 +150,7 @@ test('CPU uses Nail Pierce in reach and saves its meter when too far away', () =
   for(const distance of [250,650]) {
     const {g,a,b}=match('p2',-1,distance);a.meter=100;g.aiEnabled=true;g.ai.think=0;g.random=()=>.8;
     g.update(1/120,{});g.aiEnabled=false;
-    assert.equal(a.meter,distance<400?0:100);step(g,3);assert.equal(b.hp,distance<400?112:160);
+    assert.equal(a.meter,distance<400?0:100);step(g,3);assert.equal(b.hp,distance<400?b.maxHp - 48:b.maxHp);
   }
   assert.equal(nailExtension(N.shrinkEnd),0);
 });

@@ -19,7 +19,7 @@ test('Cranes is selectable on either side with standard punch, kick, block and d
   for (const side of ['p1', 'p2']) {
     const { g, a, b } = match(side, 1, 100);
     g.startAttack(a, 'punch'); assert.equal(a.attack.style, 'punch'); step(g, .5);
-    assert.equal(b.hp, 150); assert.equal(a.meter, 20);
+    assert.equal(b.hp, b.maxHp - 10); assert.equal(a.meter, 20);
     b.x = a.x + 100; b.state = 'block'; b.actionRemaining = 1;
     g.startAttack(a, 'punch'); step(g, .5); assert.equal(a.meter, 20);
     b.state = 'idle'; b.x = a.x + 100; g.startAttack(a, 'kick'); step(g, .6); assert.equal(a.meter, 45);
@@ -66,9 +66,9 @@ test('The elevator deals one 48-damage unblockable hit on both sides and directi
     for (let n = 0; n < fps * 3; n++) {
       poses.add(pose(a, s).key + ':' + pose(a, s).index);
       g.update(1 / fps, {});
-      if (s.age < E.dropAt) assert.equal(b.hp, 160);
+      if (s.age < E.dropAt) assert.equal(b.hp, b.maxHp);
     }
-    assert.equal(b.hp, 112); assert.equal(s.hitCount, 1); assert.equal(a.meter, 0);
+    assert.equal(b.hp, b.maxHp - 48); assert.equal(s.hitCount, 1); assert.equal(a.meter, 0);
     const events = g.drainEvents();
     assert.deepEqual(events.filter(e => e.type === 'hit').map(e => [e.damage, e.blocked, e.kind]), [[48, false, 'elevator']]);
     assert.equal(events.filter(e => e.type === 'cranesShout').length, 1);
@@ -83,8 +83,8 @@ test('Moving out of the warning evades the drop and the settled cab never deals 
     const { g, a, b } = match('p2', -1, 400); a.meter = 100; g.useSpecial(a);
     step(g, .5, fps); const s = g.specials[0], lockedX = s.x;
     step(g, 1.1, fps, { left: true });
-    assert.equal(s.x, lockedX); assert.ok(s.landed); assert.equal(b.hp, 160);
-    b.x = lockedX; step(g, 1, fps); assert.equal(b.hp, 160); assert.equal(s.hitCount, 0);
+    assert.equal(s.x, lockedX); assert.ok(s.landed); assert.equal(b.hp, b.maxHp);
+    b.x = lockedX; step(g, 1, fps); assert.equal(b.hp, b.maxHp); assert.equal(s.hitCount, 0);
     assert.equal(a.meter, 0); assert.equal(g.specials.length, 0);
   }
 });
@@ -92,15 +92,15 @@ test('Moving out of the warning evades the drop and the settled cab never deals 
 test('A falling cab hits an airborne opponent without tunneling through the hurtbox', () => {
   for (const fps of [30, 60, 120]) {
     const { g, a, b } = match(); a.meter = 100; g.useSpecial(a); step(g, 1, fps);
-    assert.ok(g.jump(b)); step(g, .45, fps); assert.equal(b.hp, 112);
+    assert.ok(g.jump(b)); step(g, .45, fps); assert.equal(b.hp, b.maxHp - 48);
     assert.ok(b.elevatorLaunched); assert.ok(b.y > 0);
-    step(g, 2, fps); assert.equal(b.hp, 112);
+    step(g, 2, fps); assert.equal(b.hp, b.maxHp - 48);
   }
 });
 
 test('Opposing invulnerability is respected and the elevator still lands and clears', () => {
   const { g, a, b } = match(); a.meter = 100; b.invuln = 10; g.useSpecial(a);
-  const s = g.specials[0]; step(g, 3); assert.equal(b.hp, 160); assert.equal(s.hitCount, 0);
+  const s = g.specials[0]; step(g, 3); assert.equal(b.hp, b.maxHp); assert.equal(s.hitCount, 0);
   assert.ok(s.landed); assert.equal(g.specials.length, 0); assert.equal(g.effects.length, 0);
 });
 
@@ -118,7 +118,7 @@ test('KO and timeout finish the whole drop with a frozen result and no later dam
     g.useSpecial(a); if (mode === 'timeout') g.timeRemaining = .01;
     step(g, 1.5); assert.ok(g.roundEnding); assert.equal(g.over, false);
     const clock = g.timeRemaining; step(g, 2); assert.ok(g.over); assert.equal(g.timeRemaining, clock);
-    assert.equal(g.winner, mode === 'ko' ? a.id : 'draw'); assert.equal(b.hp, mode === 'ko' ? 0 : 160);
+    assert.equal(g.winner, mode === 'ko' ? a.id : 'draw'); assert.equal(b.hp, mode === 'ko' ? 0 : b.maxHp);
     const events = g.drainEvents(); assert.equal(events.filter(e => e.type === 'ko').length, 1);
     assert.equal(events.filter(e => e.type === 'cranesShout').length, 1);
     assert.equal(events.filter(e => e.type === 'elevatorLand').length, 1);
@@ -139,6 +139,6 @@ test('Reset and forced finish remove the cab, targeting and caster state', () =>
 test('CPU Cranes uses the same shout and elevator drop across the arena', () => {
   const { g, a, b } = match('p2', -1, 700); a.meter = 100; g.aiEnabled = true; g.ai.think = 0; g.random = () => .8;
   g.update(1 / 120, {}); assert.equal(a.meter, 0); assert.equal(g.specials[0].kind, 'elevator');
-  g.aiEnabled = false; step(g, 3); assert.equal(b.hp, 112);
+  g.aiEnabled = false; step(g, 3); assert.equal(b.hp, b.maxHp - 48);
   assert.equal(g.drainEvents().filter(e => e.type === 'cranesShout').length, 1);
 });

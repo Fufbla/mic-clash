@@ -16,7 +16,7 @@ test('Baby Big Fists is playable on both sides with regular punch meter, block, 
   for (const side of ['p1', 'p2']) {
     const { g, a, b } = match(side); b.x = a.x + 100;
     assert.equal(g.startAttack(a, 'punch'), true); assert.equal(a.attack.style, 'punch');
-    step(g, .5); assert.equal(b.hp, 150); assert.equal(a.meter, 20);
+    step(g, .5); assert.equal(b.hp, b.maxHp - 10); assert.equal(a.meter, 20);
     b.x = a.x + 100; b.state = 'block'; b.actionRemaining = 1;
     g.startAttack(a, 'punch'); step(g, .5); assert.equal(a.meter, 20);
     b.state = 'idle'; b.x = a.x + 100;
@@ -58,11 +58,11 @@ test('Exactly two 24-damage punches and mmm cues, then launch and normal fists a
       if (text && !lastSpeech) bubbleStarts++; lastSpeech = text;
       if (text) assert.equal(text, 'mmm');
       poses.add(pose(a, s).key + ':' + pose(a, s).index);
-      if (s.age < .68 - 1e-9) assert.equal(b.hp, 160);
-      else if (s.age < 1.24 - 1e-9) assert.equal(b.hp, 136);
+      if (s.age < .68 - 1e-9) assert.equal(b.hp, b.maxHp);
+      else if (s.age < 1.24 - 1e-9) assert.equal(b.hp, b.maxHp - 24);
       if (s.hitCount === 2 && b.y > 0) launched = true;
     }
-    assert.equal(b.hp, 112); assert.equal(s.hitCount, 2); assert.equal(s.punchIndex, 2);
+    assert.equal(b.hp, b.maxHp - 48); assert.equal(s.hitCount, 2); assert.equal(s.punchIndex, 2);
     assert.equal(a.meter, 0); assert.equal(bubbleStarts, 2); assert.ok(launched);
     for (const i of [8, 9, 10, 11, 12, 13, 14, 15]) assert.ok(poses.has('babyBigFistsActions:' + i), `Special pose ${i}`);
     const cues = g.drainEvents().filter(e => e.type === 'giantPunch');
@@ -76,7 +76,7 @@ test('Range and jump evasion avoid damage, while both punch cues still play', ()
     const { g, a, b } = match(); a.meter = 100; g.useSpecial(a); step(g, .6);
     if (evade === 'range') b.x = 1100;
     else { b.y = 800; b.vy = 0; b.grounded = false; }
-    step(g, 2); assert.equal(b.hp, 160); assert.equal(a.meter, 0);
+    step(g, 2); assert.equal(b.hp, b.maxHp); assert.equal(a.meter, 0);
     const cues = g.drainEvents().filter(e => e.type === 'giantPunch');
     assert.equal(cues.length, 2); assert.ok(cues.every(e => !e.connected));
   }

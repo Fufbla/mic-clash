@@ -15,7 +15,7 @@ test('Smack Prince is selectable on both sides, slaps for meter, and double jump
   for(const side of ['p1','p2']){
     const {g,a,b}=match(side);b.x=a.x+100;
     assert.equal(g.startAttack(a,'punch'),true);assert.equal(a.attack.style,'slap');
-    step(g,.5);assert.equal(b.hp,150);assert.equal(a.meter,20);
+    step(g,.5);assert.equal(b.hp,b.maxHp - 10);assert.equal(a.meter,20);
     b.x=a.x+100;b.state='block';b.actionRemaining=1;
     g.startAttack(a,'punch');step(g,.5);assert.equal(a.meter,20);
     assert.equal(g.jump(a),true);step(g,.12);assert.equal(g.jump(a),true);
@@ -51,10 +51,10 @@ test('Suit and spotlight precede one unblockable slap, launch and outfit recover
     for(let n=0;n<fps*3;n++){
       poses.add(smackPrincePose(a,s).key+':'+smackPrincePose(a,s).index);
       g.update(1/fps,{});
-      if(s.age<M.strikeAt-1e-9)assert.equal(b.hp,160);
+      if(s.age<M.strikeAt-1e-9)assert.equal(b.hp,b.maxHp);
       if(s.hitCount===1&&b.y>0){launched=true;assert.ok((b.x-a.x)*direction>0);}
     }
-    assert.equal(b.hp,112);assert.equal(a.meter,0);assert.equal(s.hitCount,1);assert.ok(launched);
+    assert.equal(b.hp,b.maxHp - 48);assert.equal(a.meter,0);assert.equal(s.hitCount,1);assert.ok(launched);
     for(const i of [8,9,10,11,12,13,14,15])assert.ok(poses.has('smackPrinceActions:'+i),`Special pose ${i}`);
     assert.equal(smackPrincePose(a).key,'smackprince');assert.equal(g.isPresenting(a),false);
     const events=g.drainEvents();assert.equal(events.filter(e=>e.type==='suitUp').length,1);
@@ -66,7 +66,7 @@ test('Jumping or moving out during the windup avoids the slap',()=>{
   for(const evade of ['range','air']){
     const {g,a,b}=match();a.meter=100;g.useSpecial(a);step(g,1);
     if(evade==='range')b.x=1100;else{b.y=300;b.vy=0;b.grounded=false;}
-    step(g,.2);assert.equal(b.hp,160);step(g,2);assert.equal(b.hp,160);assert.equal(a.meter,0);
+    step(g,.2);assert.equal(b.hp,b.maxHp);step(g,2);assert.equal(b.hp,b.maxHp);assert.equal(a.meter,0);
   }
 });
 

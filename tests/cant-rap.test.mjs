@@ -29,7 +29,7 @@ test('Microphone strike uses the punch button and charges meter only when unbloc
   p.x=400;e.x=505;
   assert.equal(g.startAttack(p,'punch'),true);
   advance(g,.5);
-  assert.equal(e.hp,150);assert.equal(p.meter,20);
+  assert.equal(e.hp,e.maxHp - 10);assert.equal(p.meter,20);
   assert.equal(g.drainEvents().filter(ev=>ev.type==='hit'&&ev.kind==='punch').length,1);
   e.x=505;e.state='block';e.actionRemaining=1;
   assert.equal(g.startAttack(p,'punch'),true);
@@ -55,8 +55,8 @@ test('Turban Crew Jump-In lands eight unblockable hits at 30, 60 and 120 fps in 
     }
     assert.equal(s.strikeIndex,8);
     assert.equal(s.hitCount,8);
-    assert.equal(e.hp,112);
-    assert.equal(p.hp,160);
+    assert.equal(e.hp,e.maxHp - 48);
+    assert.equal(p.hp,p.maxHp);
     assert.equal(p.meter,0);
     assert.equal(p.crewActive,false);
     assert.equal(g.specials.length,0);
@@ -74,7 +74,7 @@ test('The crew cannot be interrupted, stacked, or blocked by ordinary defense',(
   advance(g,.5);
   assert.equal(g.isPresenting(p),true);
   assert.equal(g.hit(e,p,30,'kick',300,.3,e.x),false);
-  assert.equal(p.hp,160);
+  assert.equal(p.hp,p.maxHp);
   assert.equal(g.startAttack(p,'punch'),false);
   p.meter=100;assert.equal(g.useSpecial(p),false);
   advance(g,3.3);
@@ -88,14 +88,14 @@ test('An opposing protected special and airborne escape can avoid the crew',()=>
   assert.equal(g.useSpecial(e),true);
   assert.equal(g.useSpecial(p),true);
   advance(g,3.6);
-  assert.equal(p.hp,160);
+  assert.equal(p.hp,p.maxHp);
   const h=match(),[a,b]=h.fighters;
   a.x=400;b.x=540;a.meter=100;h.useSpecial(a);
   for(let i=0;i<240;i++){
     b.y=240;b.grounded=false;b.vy=0;
     h.update(1/120,{});
   }
-  assert.equal(b.hp,160);
+  assert.equal(b.hp,b.maxHp);
 });
 
 test('Early knockout waits for the full crew presentation before showing results',()=>{

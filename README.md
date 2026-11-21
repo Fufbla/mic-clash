@@ -4,7 +4,7 @@ A self-contained browser fighting game with seventeen selectable chibi fighters,
 
 ## Play
 
-Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get It**, **Loud Bull**, **FatBoi**, **Munchy**, **HeHaw**, **Dr. No Bunnies**, **Can’t Rap**, **Smack Prince**, **Baby Big Fists**, **MooJa**, **Cranes**, **Demon**, or **Ocrrrrr!**, pick an opponent, then select **Start fight**. On phones, drag the analog stick on the left to move. The four circular buttons on the right are Jump, Punch, Kick, and Special. Get It, Dr. No Bunnies, Smack Prince, MooJa, and Ocrrrrr! use the Slap button for open-hand attacks (keyboard J). The arena and controls automatically adapt to portrait or landscape when the phone rotates; rotation does not restart the round. Sound starts muted and can be enabled in the header.
+Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get It**, **Loud Bull**, **FatBoi**, **Munchy**, **HeHaw**, **Dr. No Bunnies**, **Can’t Rap**, **Smack Prince**, **Baby Big Fists**, **MooJa**, **Cranes**, **Demon**, or **Ocrrrrr!**, pick an opponent, then select **Start fight**. On phones, drag the analog stick on the left to move. The four circular buttons on the right are Jump, Punch, Kick, and Special. Get It, Dr. No Bunnies, Smack Prince, MooJa, and Ocrrrrr! use the Slap button for open-hand attacks (keyboard J). The arena and controls automatically adapt to portrait or landscape when the phone rotates; rotation does not restart the round. Sound starts muted and can be enabled in the Pause menu.
 
 | Action | Keyboard |
 | --- | --- |
@@ -14,7 +14,7 @@ Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get 
 | Kick | K |
 | Special | L |
 | Block | Hold B |
-| Pause | P or Escape |
+| Pause | On-screen Pause button only |
 
 Hold punch or kick to repeat attacks when recovery ends. Move close enough to connect. Landed, unblocked punches add 20% special meter and kicks add 25%. Misses, blocked attacks, elapsed time, and special attacks add no meter. A special requires and consumes the full meter.
 
@@ -177,3 +177,13 @@ The built-in image generator used the supplied Ocrrrrr! concept sheet. Generatio
 All 151 combat behavior checks pass, including all 272 ordered simultaneous-special pairings. New checks cover both player sides and directions at 30/60/120 fps, meter gates, normal attacks and double jumps, all walking and kick phases, hands-before-nails timing, ten attached and mirrored nail segments, one exact damage event, visual reach and collision agreement, misses, jump evasion, opposing special protection, full recovery, KO/timeout completion, cleanup and CPU use. Browser checks cover growth, contact, knockback, retraction, walking, planted kick recovery, mirrored 844×390 landscape and 390×844 portrait layouts, and on-screen special activation with sound enabled, meter consumption and full recovery without game errors. These are browser viewport and pointer checks, not physical-device tests.
 
 Run `node tools/prepare-ocrrrrr-qa.mjs` for local visual scenes at `/__qa-ocrrrrr-runner.html`, then run it with `--clean` before release. Full-meter fixtures are excluded from production. All sixteen previous fighter asset bytes and atlas entries are unchanged.
+
+## Full-screen play and longer rounds (2026-11-21)
+
+The arena fills the available browser viewport in portrait and landscape. Compact health and special meters sit over the top edge; the single Pause button opens Resume, Sound, Controls, Restart, Fighters, and browser fullscreen where supported. Safari’s browser chrome remains under Safari’s control. The existing stage artwork fills tall viewports without stretching fighter sprites.
+
+Only the Pause button enters the paused state. P, Escape, focus loss, and visibility changes do not pause; focus/visibility changes still release held input and discard timing backlog. Touch gestures, double taps, text selection, and callouts are prevented on the live play surface, including disabled controls. Roster and menu scrolling remain available.
+
+Every fighter now starts with 320 HP, up from 160, on both sides and after each restart. Attack damage, special timing, and meter gains are preserved. An unblocked KO takes 32 normal punches or 22 kicks. Rounds retain the 90-second timer.
+
+Validation: 153 combat checks passed, including all 17 fighters and new endurance/reset checks at 30/60/120 fps. Browser checks covered 1280×760, 844×390, 844×326, 390×844, and 320×568 layouts, menu/help/resume, simulated touch/gesture defaults, blur and keyboard pause regressions, rapid jump taps, held attacks, and stick release. These are desktop browser checks of mobile layouts and input handling; physical iPhone Safari behavior was not directly tested.

@@ -15,7 +15,7 @@ test('MooJa is selectable on both sides, uses slaps for meter, kicks, block and 
   for (const side of ['p1', 'p2']) {
     const { g, a, b } = match(side); b.x = a.x + 100;
     g.startAttack(a, 'punch'); assert.equal(a.attack.style, 'slap'); step(g, .5);
-    assert.equal(b.hp, 150); assert.equal(a.meter, 20);
+    assert.equal(b.hp, b.maxHp - 10); assert.equal(a.meter, 20);
     b.x = a.x + 100; b.state = 'block'; b.actionRemaining = 1;
     g.startAttack(a, 'punch'); step(g, .5); assert.equal(a.meter, 20);
     b.state = 'idle'; b.x = a.x + 100; g.startAttack(a, 'kick'); step(g, .6); assert.equal(a.meter, 45);
@@ -51,9 +51,9 @@ test('Three mouth-fired missiles deal exactly 16 damage each through block on bo
     g.useSpecial(a); const s = g.specials[0], poses = new Set();
     for (let i = 0; i < fps * 4; i++) {
       g.update(1 / fps, {}); poses.add(pose(a, s).key + ':' + pose(a, s).index);
-      if (s.age < .82 - 1e-9) assert.equal(b.hp, 160);
+      if (s.age < .82 - 1e-9) assert.equal(b.hp, b.maxHp);
     }
-    assert.equal(b.hp, 112); assert.equal(s.shotIndex, 3); assert.equal(s.hitCount, 3); assert.equal(a.meter, 0);
+    assert.equal(b.hp, b.maxHp - 48); assert.equal(s.shotIndex, 3); assert.equal(s.hitCount, 3); assert.equal(a.meter, 0);
     for (const i of [8, 9, 10, 11, 12, 13, 14, 15]) assert.ok(poses.has('mooJaActions:' + i), `Pose ${i}`);
     const events = g.drainEvents(), shots = events.filter(e => e.type === 'milkShot'), hits = events.filter(e => e.type === 'hit');
     assert.equal(shots.length, 3); assert.ok(shots.every(e => Math.abs(e.x - (a.x + direction * 80)) < .001 && e.y === 92));
@@ -67,22 +67,22 @@ test('Long-range missiles keep protection after human recovery and end after the
   const s = g.specials[0]; step(g, 2.2);
   assert.equal(pose(a, s).key, 'mooja'); assert.ok(s.missiles.some(p => p.active)); assert.ok(g.isPresenting(a));
   assert.equal(g.startAttack(a, 'punch'), false); assert.equal(g.hit(b, a, 15, 'kick', 300, .4, b.x), false);
-  step(g, 1.5); assert.equal(b.hp, 112); assert.equal(g.isPresenting(a), false); assert.equal(g.specials.length, 0); assert.equal(g.effects.length, 0);
+  step(g, 1.5); assert.equal(b.hp, b.maxHp - 48); assert.equal(g.isPresenting(a), false); assert.equal(g.specials.length, 0); assert.equal(g.effects.length, 0);
 });
 
 test('Missiles can be jumped over and do not turn around to hit an opponent behind MooJa', () => {
   const { g, a, b } = match('p1', 1, 260); a.meter = 100; g.useSpecial(a); step(g, .65);
   // Delay the second jump so the trailing missile clears before the landing.
   assert.equal(g.jump(b), true); step(g, .5); assert.equal(g.jump(b), true); step(g, 3);
-  assert.equal(b.hp, 160); assert.equal(a.meter, 0);
+  assert.equal(b.hp, b.maxHp); assert.equal(a.meter, 0);
   const other = match(); other.a.x = 600; other.b.x = 200; other.a.meter = 100;
-  other.g.useSpecial(other.a); step(other.g, 4); assert.equal(other.b.hp, 160);
+  other.g.useSpecial(other.a); step(other.g, 4); assert.equal(other.b.hp, other.b.maxHp);
   assert.equal(other.g.drainEvents().filter(e => e.type === 'milkShot').length, 3);
 });
 
 test('Missiles hit once, expire at their range, and respect opposing invulnerability', () => {
   const { g, a, b } = match('p1', 1, 600); a.meter = 100; b.invuln = 10; g.useSpecial(a);
-  const s = g.specials[0]; step(g, 4); assert.equal(b.hp, 160); assert.equal(s.hitCount, 0);
+  const s = g.specials[0]; step(g, 4); assert.equal(b.hp, b.maxHp); assert.equal(s.hitCount, 0);
   assert.ok(s.missiles.every(p => !p.active && Math.abs(p.x - p.startX) <= M.range + .001));
   assert.equal(g.specials.length, 0);
 });
@@ -110,5 +110,5 @@ test('Reset and forced finish clear cow form and every remaining missile', () =>
 test('CPU MooJa fires the same three-missile special at range', () => {
   const { g, a, b } = match('p2', -1, 600); a.meter = 100; g.aiEnabled = true; g.ai.think = 0; g.random = () => .8;
   g.update(1 / 120, {}); assert.equal(a.meter, 0); assert.equal(g.specials[0].kind, 'milk');
-  g.aiEnabled = false; step(g, 4); assert.equal(b.hp, 112); assert.equal(g.drainEvents().filter(e => e.type === 'milkShot').length, 3);
+  g.aiEnabled = false; step(g, 4); assert.equal(b.hp, b.maxHp - 48); assert.equal(g.drainEvents().filter(e => e.type === 'milkShot').length, 3);
 });

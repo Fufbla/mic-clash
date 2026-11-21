@@ -34,6 +34,9 @@ const ATTACKS = {
   kick: { duration: .58, start: .18, end: .30, range: 178, damage: 15, meter: 25, stun: .26, knock: 250 }
 };
 
+// Twice the original endurance, with the same responsive attacks and meter gain.
+export const ROUND_HEALTH = 320;
+
 // Entry time of a moving projectile into an expanded rectangular hurtbox.
 function sweptHit(x0, y0, x1, y1, left, right, bottom, top) {
   let enter = 0, leave = 1;
@@ -88,7 +91,7 @@ export class CombatGame {
   }
 
   makeFighter(id, type, x, facing) {
-    return { id, type, x, y: 0, vx: 0, vy: 0, facing, hp: 160, maxHp: 160,
+    return { id, type, x, y: 0, vx: 0, vy: 0, facing, hp: ROUND_HEALTH, maxHp: ROUND_HEALTH,
       meter: 0, state: 'idle', stateTime: 0, grounded: true, jumps: 0, invuln: 0,
       actionRemaining: 0, attack: null, attackProgress: 0, inCar: false,
       specialCooldown: 0, landedHits: 0, damageDealt: 0,
