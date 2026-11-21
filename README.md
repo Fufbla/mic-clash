@@ -1,6 +1,10 @@
-# Mic Clash
+# Celebrity Gauntlet
 
-A self-contained browser fighting game with twenty-three selectable chibi fighters, a selectable CPU opponent, and 90-second rounds. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
+A self-contained browser fighting game with twenty-three selectable chibi fighters, a selectable CPU opponent, and 90-second rounds on an illustrated city rooftop. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
+
+## City rooftop and name update — November 21, 2026
+
+The title, roster wordmark, pause menu, and accessible arena label now use **Celebrity Gauntlet**. The existing play URL stays the same. A new original blue-hour rooftop painting replaces the procedural skyline, speakers, neon floor grid, and old floor wordmark. It features a layered city skyline, lit windows, brick parapet, water tank, stairwell, ventilation equipment, and an open concrete fighting surface. The stage fills the viewport above and below the fighters’ foot-contact line without changing fighter scale or combat physics. Artwork provenance is in `references/city-rooftop-art.json`.
 
 ## Play
 

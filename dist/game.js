@@ -7,7 +7,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=rush-slime-chase-20261121';
+import { CombatGame } from './combat.js?v=celebrity-rooftop-20261121';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -249,7 +249,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=rush-slime-chase-20261121', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=celebrity-rooftop-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -791,56 +791,11 @@ function processEvents() {
   }
 }
 
-const skyline = Array.from({ length: 32 }, (_, i) => ({ x: i * 44 - 25, w: 29 + (i * 17 % 30), h: 50 + (i * 37 % 130), seed: i * 11 }));
-function paintStage(g) {
-  const sky = g.createLinearGradient(0, 0, 0, WORLD_H); sky.addColorStop(0, '#090d21'); sky.addColorStop(.52, '#25203e'); sky.addColorStop(1, '#100f22');
-  g.fillStyle = sky; g.fillRect(-1500, -1000, 4280, 2720);
-  const haze = g.createRadialGradient(650, 330, 20, 650, 330, 520); haze.addColorStop(0, 'rgba(122,67,150,.22)'); haze.addColorStop(1, 'transparent'); g.fillStyle = haze; g.fillRect(0, 0, WORLD_W, WORLD_H);
-  g.fillStyle = '#ebd7b8'; g.beginPath(); g.arc(1050, 107, 30, 0, Math.PI * 2); g.fill();
-  g.fillStyle = '#14162b';
-  for (let i = 0; i < 38; i++) { const x = (i * 103.3) % 1280, y = 24 + (i * 47.9) % 245; g.fillStyle = `rgba(222,224,255,${.25 + (i % 3) * .12})`; g.fillRect(x, y, i % 3 ? 1.5 : 2.5, 1.5); }
-  for (const b of skyline) {
-    g.fillStyle = '#0d1225'; g.fillRect(b.x, 365 - b.h, b.w, b.h + 65);
-    for (let x = b.x + 7; x < b.x + b.w - 3; x += 10) for (let y = 375 - b.h; y < 350; y += 16) {
-      if ((Math.floor(x) + y + b.seed) % 5 < 2) { g.fillStyle = (y + b.seed) % 3 ? 'rgba(148,118,220,.25)' : 'rgba(245,186,119,.35)'; g.fillRect(x, y, 3, 5); }
-    }
-  }
-  g.fillStyle = '#171829'; g.fillRect(-1500, 386, 4280, 145);
-  g.strokeStyle = 'rgba(151,133,181,.12)'; g.lineWidth = 1;
-  for (let y = 402; y < 530; y += 24) { g.beginPath(); g.moveTo(0, y); g.lineTo(1280, y); g.stroke(); }
-  g.fillStyle = '#242137'; g.fillRect(-1500, 383, 4280, 9);
-  g.save(); g.globalAlpha = .15;
-  for (const [x, color] of [[100, '#bc76ff'], [1180, '#5bdfe5']]) {
-    g.fillStyle = color; g.beginPath(); g.moveTo(x - 15, 220); g.lineTo(x + 15, 220); g.lineTo(x + 240 * Math.sin(state.time * .35 + x), 535); g.lineTo(x - 160, 535); g.closePath(); g.fill();
-  } g.restore();
-  // Stage speakers anchor the music-fighting setting without obscuring combat.
-  for (const x of [18, 1166]) {
-    g.fillStyle = '#101220'; g.fillRect(x, 354, 96, 188); g.strokeStyle = '#34344c'; g.lineWidth = 3; g.strokeRect(x + 4, 358, 88, 178);
-    for (const y of [400, 485]) { g.fillStyle = '#080d18'; g.beginPath(); g.arc(x + 48, y, 31, 0, Math.PI * 2); g.fill(); g.strokeStyle = '#2e3045'; g.stroke(); g.beginPath(); g.arc(x + 48, y, 13 + Math.sin(state.time * 9) * .7, 0, Math.PI * 2); g.fillStyle = '#24273b'; g.fill(); }
-  }
-  const floor = g.createLinearGradient(0, 530, 0, 720); floor.addColorStop(0, '#302a43'); floor.addColorStop(1, '#131522'); g.fillStyle = floor; g.fillRect(-1500, 535, 4280, 1500);
-  g.strokeStyle = 'rgba(183,167,212,.12)'; g.lineWidth = 1;
-  for (let x = -150; x < 1500; x += 110) { g.beginPath(); g.moveTo(640 + (x - 640) * .7, 535); g.lineTo(x, 720); g.stroke(); }
-  for (const y of [565, 610, 675]) { g.beginPath(); g.moveTo(0, y); g.lineTo(1280, y); g.stroke(); }
-  g.fillStyle = '#a66fdd'; g.globalAlpha = .7; g.fillRect(-1500, 534, 4280, 3); g.globalAlpha = 1;
-  // Low equalizer at the front lip of the rooftop stage.
-  for (let i = 0; i < 100; i++) { const h = 3 + (Math.sin(i * .7 + state.time * 3) + 1) * 6; g.fillStyle = i % 8 < 4 ? '#b68aff' : '#efb367'; g.globalAlpha = .18; g.fillRect(i * 13, 711 - h, 6, h); } g.globalAlpha = 1;
-  g.save(); g.translate(640, 626); g.fillStyle = 'rgba(232,219,255,.06)'; g.textAlign = 'center'; g.font = '900 42px system-ui'; g.fillText('MIC CLASH', 0, 0); g.restore();
-}
-
-let stageBuffer = null;
 function drawStage() {
-  if (!stageBuffer) {
-    stageBuffer = document.createElement('canvas'); stageBuffer.width = WORLD_W; stageBuffer.height = WORLD_H;
-    paintStage(stageBuffer.getContext('2d'));
-  }
-  ctx.fillStyle = '#101223'; ctx.fillRect(-1500, -1000, 4280, 2720);
-  ctx.fillStyle = '#131522'; ctx.fillRect(-1500, 535, 4280, 1500);
-  ctx.drawImage(stageBuffer, 0, 0);
-  for (let i=0;i<64;i++) {
-    const h=3+(Math.sin(i*.7+state.time*4)+1)*5;
-    ctx.fillStyle=i%8<4?'rgba(182,138,255,.23)':'rgba(239,179,103,.23)'; ctx.fillRect(i*20,711-h,8,h);
-  }
+  const rooftop = state.assets?.cityRooftop?.image;
+  // Loading keeps the existing dark canvas behind the roster. Starting a
+  // round waits for this background and every fighter asset to be ready.
+  if (rooftop) ctx.drawImage(rooftop, 0, 0, WORLD_W, WORLD_H);
 }
 
 // Give the tuck and extension a little more time than the fast middle of the roll.
@@ -1658,9 +1613,11 @@ function draw(dt) {
   const portrait = canvas.width < canvas.height;
   const floorY = canvas.height * (portrait ? .69 : .82);
   const offsetY = floorY - GROUND * viewScale;
-  // Fill tall and wide viewports with the existing stage artwork. Keep its
-  // floor aligned with the fighters without stretching the fighter sprites.
-  const stageScale = Math.max(canvas.width / WORLD_W, floorY / GROUND);
+  // Cover the viewport above AND below the shared foot-contact line. Tall
+  // phones keep textured rooftop under the controls, with no empty floor band.
+  // The background camera scales independently of the fighter sprites.
+  const stageScale = Math.max(canvas.width / WORLD_W, floorY / GROUND,
+    (canvas.height - floorY) / (WORLD_H - GROUND));
   const stageCameraX = Math.max(canvas.width / stageScale / 2,
     Math.min(WORLD_W - canvas.width / stageScale / 2, cameraX));
   ctx.setTransform(stageScale, 0, 0, stageScale,
@@ -1734,7 +1691,7 @@ function loop(now) {
 }
 
 selectFighter('owl'); setPhase('select'); requestAnimationFrame(loop);
-loadAssets().catch(error => { console.error(error); $('startFight').textContent = 'Reload to retry'; showToast('The fighter art did not load. Please refresh to retry.', 30); });
+loadAssets().catch(error => { console.error(error); $('startFight').textContent = 'Reload to retry'; showToast('The game art did not load. Please refresh to retry.', 30); });
 
 // A small read-only snapshot helps verify the prototype without affecting combat.
 window.micClashSnapshot = () => ({ phase: state.phase, selected: state.selected, fighters: state.game?.fighters.map(f => ({ id: f.id, type: f.type, x: Math.round(f.x), y: Math.round(f.y), hp: f.hp, meter: f.meter, state: f.state })), over: state.game?.over, winner: state.game?.winner });

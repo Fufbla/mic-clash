@@ -129,3 +129,17 @@ body[data-phase="playing"], body[data-phase="countdown"] { touch-action: none; }
 @media (max-width: 360px) and (orientation: portrait) {
   .control-deck { --action-size: 60px; --stick-size: 112px; left: 12px; right: 12px; }
 }
+
+/* Keep the longer name readable in the roster without using arena space. */
+.selection-brand { gap: 14px; }
+.selection-brand .wordmark {
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1;
+  letter-spacing: -.6px;
+  white-space: nowrap;
+  text-align: left;
+}
+.selection-brand .prototype-pill { white-space: nowrap; }
+@media (max-height: 610px) and (orientation: landscape) {
+  .selection-brand { gap: 7px; }
+}
