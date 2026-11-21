@@ -1,10 +1,11 @@
+import { DEMON_CREW, maskedCrewPose } from './demon.js';
 import { ELEVATOR_DROP } from './cranes.js';
 import { COW_MODE } from './mooja.js';
 import { GIANT_FISTS } from './baby-big-fists.js';
 import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes'];
+const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -54,6 +55,8 @@ export class CombatGame {
       this.endMunch(this.fighters.find(f => f.id === s.owner), s, 'reset');
     } else if (s.kind === 'horse') {
       this.endHorse(this.fighters.find(f => f.id === s.owner), s, 'reset');
+    } else if (s.kind === 'maskedCrew') {
+      this.endMaskedCrew(this.fighters.find(f => f.id === s.owner), s);
     } else if (s.kind === 'elevator') {
       this.endElevator(this.fighters.find(f => f.id === s.owner), s);
     } else if (s.kind === 'milk') {
@@ -87,7 +90,7 @@ export class CombatGame {
       actionRemaining: 0, attack: null, attackProgress: 0, inCar: false,
       specialCooldown: 0, landedHits: 0, damageDealt: 0,
       flipDuration: .48, flipRemaining: 0, flipProgress: 0, flipDirection: facing,
-      outfit: type === 'karate' ? 'blue' : 'normal', spotlightLaunched: false, bigFistsLaunched: false, milkLaunched: false, elevatorLaunched: false, elevatorActive: false, cowActive: false, backupActive: false, crewActive: false, vocalActive: false,
+      outfit: type === 'karate' ? 'blue' : 'normal', spotlightLaunched: false, bigFistsLaunched: false, milkLaunched: false, elevatorLaunched: false, demonLaunched: false, maskedCrewActive: false, elevatorActive: false, cowActive: false, backupActive: false, crewActive: false, vocalActive: false,
       yellActive: false, wingActive: false, munchActive: false, horseActive: false, grabbedBy: null,
       beltActive: false, beltHeldBy: null, beltLaunched: false };
   }
@@ -132,7 +135,7 @@ export class CombatGame {
   }
 
   useSpecial(f) {
-    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.crewActive || f.cowActive || f.elevatorActive) return false;
+    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.crewActive || f.cowActive || f.elevatorActive || f.maskedCrewActive) return false;
     const target = this.fighters.find(other => other !== f);
     if (f.type === 'dr-no-bunnies' && (Math.abs(target.x - f.x) > BELT.range
       || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
@@ -144,14 +147,28 @@ export class CombatGame {
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
+    const kind = f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
+    f.actionRemaining = kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
     f.invuln = 0;
-    if (kind === 'elevator') {
+    if (kind === 'maskedCrew') {
+      f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.maskedCrewActive = true;
+      f.flipRemaining = 0; f.flipProgress = 0;
+      this.specials.push({ kind, owner: f.id, targetId: target.id, facing: f.facing,
+        age: 0, ttl: DEMON_CREW.duration, active: true, delay: 0,
+        phase: 'point', strikeIndex: 0, hitCount: 0, focusX: target.x, locked: false, entered: false,
+        crew: Array.from({ length: 6 }, (_, index) => {
+          const side = index % 2 ? 1 : -1, entry = index >= 4 ? 'top' : side < 0 ? 'left' : 'right';
+          const offset = side * (65 + Math.floor(index / 2) * 40);
+          const startX = entry === 'top' ? clamp(target.x + offset, 35, 1245) : side < 0 ? -120 : 1400;
+          return { index, entry, side, offset, startX, x: startX, y: entry === 'top' ? 720 : 0,
+            facing: -side, visible: false, pose: 0, enterAt: DEMON_CREW.enterAt + index * .025,
+            arriveAt: index >= 4 ? 1.46 + (index - 4) * .06 : 1.50, destination: target.x + offset };
+        }) });
+    } else if (kind === 'elevator') {
       f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.elevatorActive = true;
       f.flipRemaining = 0; f.flipProgress = 0;
       this.specials.push({ kind, owner: f.id, facing: f.facing, age: 0,
@@ -335,7 +352,7 @@ export class CombatGame {
       this.roundEnding = { winner, timedOut: this.timeRemaining <= 0 };
       for (const f of this.fighters) {
         f.attack = null; f.attackProgress = 0;
-        if (!f.inCar && !f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched) f.vx = 0;
+        if (!f.inCar && !f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched && !f.demonLaunched) f.vx = 0;
         if (!this.isPresenting(f) && f.hp > 0) this.setState(f, 'idle');
       }
       if (!this.hasPresentations()) this.finish(winner);
@@ -381,7 +398,7 @@ export class CombatGame {
       }
     }
     if (f.inCar) return;
-    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched) return; }
+    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched && !f.demonLaunched) return; }
     if (this.roundEnding && f.state === 'special' && f.actionRemaining <= 1e-9) {
       this.setState(f, f.hp > 0 ? 'idle' : 'ko');
     }
@@ -412,7 +429,7 @@ export class CombatGame {
       f.vy -= 1800 * dt;
       if (f.y <= 0) {
         f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
-        f.beltLaunched = false; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false;
+        f.beltLaunched = false; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false; f.demonLaunched = false;
         f.flipRemaining = 0; f.flipProgress = 0;
         this.events.push({ type: 'land', fighter: f.id, x: f.x, y: 0 });
         if (this.canAct(f)) this.setState(f, 'idle');
@@ -528,6 +545,12 @@ export class CombatGame {
         this.updateVocal(s, owner, target, dt);
         if (s.ttl > 1e-9 && s.active) alive.push(s);
         else this.endVocal(owner);
+        continue;
+      }
+      if (s.kind === 'maskedCrew') {
+        this.updateMaskedCrew(s, owner, target);
+        if (s.ttl > 1e-9 && s.active) alive.push(s);
+        else this.endMaskedCrew(owner, s);
         continue;
       }
       if (s.kind === 'crew') {
@@ -718,6 +741,67 @@ export class CombatGame {
         x: target.x, y: target.y + 145 });
     }
     if (s.ttl <= 1e-9) s.active = false;
+  }
+
+  updateMaskedCrew(s, owner, target) {
+    if (!owner || !target) { s.active = false; return; }
+    const c = DEMON_CREW, age = s.age;
+    s.phase = age < c.lookAwayAt ? 'point' : age < c.enterAt ? 'lookAway'
+      : age < c.attackAt ? 'entrance' : age < c.retreatAt ? 'attack'
+      : age < c.exitAt ? 'exit' : 'recover';
+    if (!s.locked) {
+      s.focusX = target.x;
+      if (age + 1e-9 >= c.lockAt) s.locked = true;
+    }
+    if (!s.entered && age + 1e-9 >= c.enterAt) {
+      s.entered = true; this.events.push({ type: 'maskedEnter', fighter: owner.id });
+    }
+    for (const member of s.crew) {
+      member.destination = clamp(s.focusX + member.offset, 35, 1245);
+      const rush = clamp((age - member.enterAt) / (member.arriveAt - member.enterAt), 0, 1);
+      const leave = clamp((age - c.retreatAt) / (c.exitAt - c.retreatAt), 0, 1);
+      if (member.entry === 'top') {
+        member.x = member.destination;
+        member.y = age >= c.retreatAt ? 720 * leave : 720 * (1 - rush * rush);
+      } else {
+        const smooth = rush * rush * (3 - 2 * rush);
+        member.x = age >= c.retreatAt ? member.destination + (member.startX - member.destination) * leave
+          : member.startX + (member.destination - member.startX) * smooth;
+        member.y = 0;
+      }
+      member.visible = age >= member.enterAt && age < c.exitAt;
+      member.facing = age >= c.retreatAt ? member.side : -member.side;
+      member.pose = maskedCrewPose(member, age);
+    }
+    while (s.strikeIndex < c.strikes && age + 1e-9 >= c.attackAt + s.strikeIndex * c.interval) {
+      const index = s.strikeIndex++, member = s.crew[index % 6], final = index === c.strikes - 1;
+      const inReach = Math.abs(target.x - s.focusX) <= c.targetRadius
+        && Math.abs(target.x - member.x) <= c.range && target.y < 145;
+      const connected = inReach && this.hit(owner, target, c.damage, 'maskedCrew',
+        final ? c.knock : 12, final ? .50 : .16, target.x - s.facing);
+      if (connected) s.hitCount++;
+      const koFollowThrough = final && s.hitCount > 0 && target.hp <= 0 && inReach
+        && !target.inCar && !this.isPresenting(target);
+      if (final && (connected || koFollowThrough)) {
+        target.vx = s.facing * c.knock; target.vy = c.lift; target.grounded = false;
+        target.demonLaunched = true; target.actionRemaining = .50;
+      }
+      this.events.push({ type: 'maskedStrike', fighter: owner.id, defender: target.id,
+        index, member: member.index, final, connected, impact: connected || koFollowThrough,
+        x: target.x, y: target.y + 110 });
+    }
+    if (s.ttl <= 1e-9) s.active = false;
+  }
+
+  endMaskedCrew(owner, s) {
+    s.active = false; s.locked = false;
+    for (const member of s.crew) member.visible = false;
+    if (!owner) return;
+    owner.maskedCrewActive = false;
+    if (owner.state === 'special') {
+      owner.actionRemaining = 0; owner.vx = 0;
+      this.setState(owner, owner.hp > 0 ? 'idle' : 'ko');
+    }
   }
 
   updateCrew(s, owner, target) {
@@ -1295,7 +1379,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {
@@ -1319,6 +1403,7 @@ export class CombatGame {
       else if (s.kind === 'barrage') this.endBarrage(owner);
       else if (s.kind === 'backup') this.endBackup(owner);
       else if (s.kind === 'crew') this.endCrew(owner);
+      else if (s.kind === 'maskedCrew') this.endMaskedCrew(owner, s);
       else if (s.kind === 'vocal') this.endVocal(owner);
       else if (s.kind === 'yell') this.endYell(owner);
       else if (s.kind === 'wing') { if (s.projectile) s.projectile.active = false; this.endWing(owner); }
@@ -1330,7 +1415,7 @@ export class CombatGame {
     }
     this.specials = [];
     for (const f of this.fighters) {
-      f.attack = null; f.vx = 0; f.vy = 0; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false;
+      f.attack = null; f.vx = 0; f.vy = 0; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false; f.demonLaunched = false;
       f.actionRemaining = 0;
       f.flipRemaining = 0; f.flipProgress = 0;
       if (f.hp <= 0) this.setState(f, 'ko');

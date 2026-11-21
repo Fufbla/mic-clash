@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Fifteen-fighter arcade prototype with hit-powered specials.",
+  "description": "Sixteen-fighter arcade prototype with hit-powered specials.",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "start": "python3 -m http.server 8000"
