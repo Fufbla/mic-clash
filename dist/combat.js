@@ -1,9 +1,10 @@
+import { ELEVATOR_DROP } from './cranes.js';
 import { COW_MODE } from './mooja.js';
 import { GIANT_FISTS } from './baby-big-fists.js';
 import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja'];
+const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -53,6 +54,8 @@ export class CombatGame {
       this.endMunch(this.fighters.find(f => f.id === s.owner), s, 'reset');
     } else if (s.kind === 'horse') {
       this.endHorse(this.fighters.find(f => f.id === s.owner), s, 'reset');
+    } else if (s.kind === 'elevator') {
+      this.endElevator(this.fighters.find(f => f.id === s.owner), s);
     } else if (s.kind === 'milk') {
       this.endCowMode(this.fighters.find(f => f.id === s.owner), s);
     } else if (s.kind === 'belt') {
@@ -84,7 +87,7 @@ export class CombatGame {
       actionRemaining: 0, attack: null, attackProgress: 0, inCar: false,
       specialCooldown: 0, landedHits: 0, damageDealt: 0,
       flipDuration: .48, flipRemaining: 0, flipProgress: 0, flipDirection: facing,
-      outfit: type === 'karate' ? 'blue' : 'normal', spotlightLaunched: false, bigFistsLaunched: false, milkLaunched: false, cowActive: false, backupActive: false, crewActive: false, vocalActive: false,
+      outfit: type === 'karate' ? 'blue' : 'normal', spotlightLaunched: false, bigFistsLaunched: false, milkLaunched: false, elevatorLaunched: false, elevatorActive: false, cowActive: false, backupActive: false, crewActive: false, vocalActive: false,
       yellActive: false, wingActive: false, munchActive: false, horseActive: false, grabbedBy: null,
       beltActive: false, beltHeldBy: null, beltLaunched: false };
   }
@@ -129,7 +132,7 @@ export class CombatGame {
   }
 
   useSpecial(f) {
-    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.crewActive || f.cowActive) return false;
+    if (!this.canAct(f) || this.isPresenting(f) || f.meter < 100 || f.specialCooldown > 0 || f.backupActive || f.vocalActive || f.yellActive || f.wingActive || f.munchActive || f.horseActive || f.crewActive || f.cowActive || f.elevatorActive) return false;
     const target = this.fighters.find(other => other !== f);
     if (f.type === 'dr-no-bunnies' && (Math.abs(target.x - f.x) > BELT.range
       || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
@@ -141,14 +144,21 @@ export class CombatGame {
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
+    const kind = f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
+    f.actionRemaining = kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
     f.invuln = 0;
-    if (kind === 'milk') {
+    if (kind === 'elevator') {
+      f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.elevatorActive = true;
+      f.flipRemaining = 0; f.flipProgress = 0;
+      this.specials.push({ kind, owner: f.id, facing: f.facing, age: 0,
+        ttl: ELEVATOR_DROP.duration, active: true, delay: 0, x: target.x,
+        bottom: ELEVATOR_DROP.startBottom, locked: false, shouted: false,
+        shoutEnded: false, landed: false, hitCount: 0, phase: 'gather' });
+    } else if (kind === 'milk') {
       f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.cowActive = true;
       f.flipRemaining = 0; f.flipProgress = 0;
       this.specials.push({ kind, owner: f.id, facing: f.facing, age: 0,
@@ -325,7 +335,7 @@ export class CombatGame {
       this.roundEnding = { winner, timedOut: this.timeRemaining <= 0 };
       for (const f of this.fighters) {
         f.attack = null; f.attackProgress = 0;
-        if (!f.inCar && !f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched) f.vx = 0;
+        if (!f.inCar && !f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched) f.vx = 0;
         if (!this.isPresenting(f) && f.hp > 0) this.setState(f, 'idle');
       }
       if (!this.hasPresentations()) this.finish(winner);
@@ -371,7 +381,7 @@ export class CombatGame {
       }
     }
     if (f.inCar) return;
-    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched) return; }
+    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched && !f.spotlightLaunched && !f.bigFistsLaunched && !f.milkLaunched && !f.elevatorLaunched) return; }
     if (this.roundEnding && f.state === 'special' && f.actionRemaining <= 1e-9) {
       this.setState(f, f.hp > 0 ? 'idle' : 'ko');
     }
@@ -402,7 +412,7 @@ export class CombatGame {
       f.vy -= 1800 * dt;
       if (f.y <= 0) {
         f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
-        f.beltLaunched = false; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false;
+        f.beltLaunched = false; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false;
         f.flipRemaining = 0; f.flipProgress = 0;
         this.events.push({ type: 'land', fighter: f.id, x: f.x, y: 0 });
         if (this.canAct(f)) this.setState(f, 'idle');
@@ -438,7 +448,7 @@ export class CombatGame {
     }
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
-      heavy: kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
+      heavy: kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
       blocked, kind, style: ['getit', 'dr-no-bunnies', 'smackprince', 'mooja'].includes(attacker.type) && kind === 'punch' ? 'slap' : kind });
     return true;
   }
@@ -458,6 +468,12 @@ export class CombatGame {
         this.updateBelt(s, owner, target);
         if (s.controller.active) alive.push(s);
         else this.endBelt(owner, s);
+        continue;
+      }
+      if (s.kind === 'elevator') {
+        this.updateElevator(s, owner, target);
+        if (s.ttl > 1e-9 && s.active) alive.push(s);
+        else this.endElevator(owner, s);
         continue;
       }
       if (s.kind === 'milk') {
@@ -549,6 +565,59 @@ export class CombatGame {
       else if (s.kind === 'car') this.dismount(owner, s);
     }
     this.specials = alive;
+  }
+
+  updateElevator(s, owner, target) {
+    if (!owner || !target) { s.active = false; return; }
+    const e = ELEVATOR_DROP;
+    if (!s.shouted && s.age + 1e-9 >= e.shoutAt) {
+      s.shouted = true; s.locked = true; s.x = target.x;
+      this.events.push({ type: 'cranesShout', fighter: owner.id, x: owner.x, y: 160 });
+    }
+    if (!s.shoutEnded && s.age + 1e-9 >= e.exhaleAt) {
+      s.shoutEnded = true; this.events.push({ type: 'yellEnd', fighter: owner.id });
+    }
+    s.phase = s.age < e.shoutAt ? 'gather' : s.age < e.dropAt ? 'warning'
+      : s.age < e.landAt ? 'falling' : s.age < e.fadeAt ? 'impact' : 'departing';
+    if (s.age + 1e-9 >= e.dropAt && !s.landed) {
+      const previous = s.bottom;
+      const p = clamp((s.age - e.dropAt) / (e.landAt - e.dropAt), 0, 1);
+      s.bottom = e.startBottom * (1 - p * p);
+      // Sweep the bottom edge through the opponent's hurtbox, expanded by
+      // the cab's full height. A jump alone cannot evade a falling elevator.
+      const contact = sweptHit(s.x, previous, s.x, s.bottom,
+        target.x - 26 - e.width / 2, target.x + 26 + e.width / 2,
+        target.y + 15 - e.height, target.y + 185);
+      if (!s.hitCount && contact !== null) {
+        const direction = target.x >= owner.x ? 1 : -1;
+        if (this.hit(owner, target, e.damage, 'elevator', e.knock, e.stun, target.x - direction)) {
+          s.hitCount = 1;
+          target.vx = direction * e.knock; target.vy = e.lift; target.grounded = false;
+          target.elevatorLaunched = true;
+          this.events.push({ type: 'elevatorHit', fighter: owner.id, defender: target.id,
+            x: target.x, y: target.y + 105 });
+        }
+      }
+      if (p >= 1 - 1e-9) {
+        s.landed = true; s.bottom = 0;
+        const effect = { kind: 'elevatorImpact', owner: owner.id, x: s.x, y: 0,
+          age: 0, ttl: e.impactDuration, duration: e.impactDuration };
+        this.effects.push(effect); this.events.push({ type: 'elevatorLand', ...effect });
+      }
+    }
+    if (s.age + 1e-9 >= e.duration) s.active = false;
+  }
+
+  endElevator(owner, s) {
+    s.active = false; s.locked = false;
+    this.effects = this.effects.filter(effect => effect.kind !== 'elevatorImpact' || effect.owner !== s.owner);
+    if (!owner) return;
+    owner.elevatorActive = false;
+    this.events.push({ type: 'yellEnd', fighter: owner.id });
+    if (owner.state === 'special') {
+      owner.actionRemaining = 0; owner.vx = 0;
+      this.setState(owner, owner.hp > 0 ? 'idle' : 'ko');
+    }
   }
 
   updateCowMode(s, owner, target, dt) {
@@ -1226,7 +1295,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {
@@ -1257,10 +1326,11 @@ export class CombatGame {
       else if (s.kind === 'horse') this.endHorse(owner, s, 'finish');
       else if (s.kind === 'belt') this.endBelt(owner, s);
       else if (s.kind === 'milk') this.endCowMode(owner, s);
+      else if (s.kind === 'elevator') this.endElevator(owner, s);
     }
     this.specials = [];
     for (const f of this.fighters) {
-      f.attack = null; f.vx = 0; f.vy = 0; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false;
+      f.attack = null; f.vx = 0; f.vy = 0; f.spotlightLaunched = false; f.bigFistsLaunched = false; f.milkLaunched = false; f.elevatorLaunched = false;
       f.actionRemaining = 0;
       f.flipRemaining = 0; f.flipProgress = 0;
       if (f.hp <= 0) this.setState(f, 'ko');
