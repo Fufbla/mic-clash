@@ -18,7 +18,7 @@ async function qaRun() {
  for(let n=0;n<200&&!state.ready;n++)await qaWait(100);
  showSelection();$('localMode').click();controllers.reset();qaPads=[];updateLobby();
  check('Local mode waits for two controllers',$('startFight').disabled&&state.mode==='local');
- check('All 23 fighters remain available',document.querySelectorAll('[data-fighter]').length===23);
+ check('All 26 fighters remain available',document.querySelectorAll('[data-fighter]').length===26);
  await qaPulse(0,0);check('First controller joins P1 only',controllers.connected(0)&&!controllers.connected(1)&&$('startFight').disabled);
  await qaPulse(1,0);check('Second controller joins P2 and enables start',controllers.bothConnected()&&!$('startFight').disabled);
  const before=[state.selected,state.opponent];

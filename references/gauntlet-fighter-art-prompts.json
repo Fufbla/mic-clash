@@ -1,0 +1,224 @@
+{
+  "createdAt": "2026-11-21",
+  "generator": "image_gen.imagegen",
+  "transparent_background": true,
+  "outputFormat": "Unchanged RGBA PNG, 1254x1254. Crop/anchor metadata only; no programmatic pixel edits.",
+  "referenceSources": [
+    {
+      "fighter": "bigmumble",
+      "path": "/workspace/scratch/348a43a3c143/upload/AFBE99F3-A2BB-4982-BBBC-AB3D2F47EBBB.jpeg"
+    },
+    {
+      "fighter": "djbeigey",
+      "path": "/workspace/scratch/348a43a3c143/upload/622EDA31-E17F-43C7-86BE-BC95EC3FE29E.jpeg"
+    },
+    {
+      "fighter": "nobuttons",
+      "path": "/workspace/scratch/348a43a3c143/upload/6878F862-DE3E-4F9E-ABD4-415AAB16BE27.jpeg"
+    }
+  ],
+  "basicFrameMap": [
+    "idle",
+    "breathing",
+    "jump",
+    "double-jump tuck",
+    "attack windup",
+    "attack contact",
+    "attack retract",
+    "block",
+    "kick windup",
+    "knee chamber",
+    "kick contact",
+    "kick retract",
+    "foot lowering",
+    "planted",
+    "hit recoil",
+    "intact KO"
+  ],
+  "actionFrameMap": {
+    "bigmumble": [
+      "walk0",
+      "walk1",
+      "walk2",
+      "walk3",
+      "walk4",
+      "walk5",
+      "walk6",
+      "walk7",
+      "ball at chest",
+      "raise ball",
+      "release ball at fingertip",
+      "empty-handed followthrough",
+      "lower arms",
+      "shrug",
+      "shrug variation",
+      "idle"
+    ],
+    "djbeigey": [
+      "walk0",
+      "walk1",
+      "walk2",
+      "walk3",
+      "walk4",
+      "walk5",
+      "walk6",
+      "walk7",
+      "call car",
+      "beckon",
+      "enter crouch",
+      "seated driving",
+      "exit crouch",
+      "stand",
+      "shrug",
+      "idle"
+    ],
+    "nobuttons": [
+      "walk0",
+      "walk1",
+      "walk2",
+      "walk3",
+      "walk4",
+      "walk5",
+      "walk6",
+      "walk7",
+      "shout",
+      "summon crew",
+      "punch windup",
+      "punch contact",
+      "punch retract",
+      "cheer",
+      "smile",
+      "idle"
+    ]
+  },
+  "propFrameMap": [
+    "basketball",
+    "rotated basketball",
+    "poleless hoop and backboard",
+    "white sedan facing right"
+  ],
+  "crewRows": [
+    "Yellow Hoodie",
+    "Rugby",
+    "Polo",
+    "Black Hoodie"
+  ],
+  "crewColumns": [
+    "running stride",
+    "opposite running stride",
+    "punch windup",
+    "punch contact"
+  ],
+  "validation": {
+    "inspectedAllSheets": true,
+    "preservedOriginalPixels": true,
+    "notes": [
+      "Big Mumble basic attack frames4-6 are headbutts.",
+      "Big Mumble action frame10 includes the released basketball; frame11 is empty-handed.",
+      "The DJ KO pose and white sedan slightly cross nominal cell boundaries. Indexer samples complete sprites using adjacent transparent gutters.",
+      "All helpers are separate, with reference-specific faces and clothing."
+    ]
+  },
+  "generations": [
+    {
+      "key": "bigmumble",
+      "file": "dist/assets/bigmumble-fighter.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-78c2e386-f306-4f70-bbe1-3811c36e6196.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/AFBE99F3-A2BB-4982-BBBC-AB3D2F47EBBB.jpeg"
+      ],
+      "prompt": "Production game art for Celebrity Gauntlet. Create ONE transparent RGBA PNG sprite atlas, exactly FOUR columns by FOUR rows (16 evenly sized square cells), preferably 1280x1280. Use the attached poster ONLY as an identity/style reference. Preserve the EXACT face, clothing, hairstyle, colors and polished chibi linework. Every cell is a full-body pose of the SAME fighter facing RIGHT in a three-quarter side view. Consistent head/body scale: standing figure about250px tall inside320px cell, centered rootx160 and feetbaseline295. Leave at least20px transparent gutters all sides. NO panel lines, background, floor, shadow, glow, checkerboard, label, numbers, logos outside clothing, or other characters. All bodies and limbs must stay completely inside their own cell. Anatomical scale constant even in crouch or lying pose.\nBIG MUMBLE: huge stocky muscular dark-brown adult man, bald shiny head, short squared black goatee, mismatched/crossed pupils as in reference, serious confused expressive face, broad shoulders and oversized chibi head. Purple basketball jersey and shorts, yellow-gold trim, ONLY jersey text34 in white with gold border, NO team name. Tattoos on arms, purple-and-white high-top sneakers. EXACT reference appearance. BASIC ATTACK4-6 is a HEADBUTT:4lean backward head cocked and fists down;5lunge forward with forehead extended RIGHT and arms behind (head still attached);6pull head back into guard. DO NOT punch in4-6.\nRow-major frame map (instructions only; never print frame numbers):0ready idle,1subtle breathing idle,2first jump knees raised,3double jump compact tuck,4basic attack wind-up,5fully extended attack contact towardRIGHT,6attack retraction,7forearms crossed defensive block,8kick wind-up,9raised knee chamber,10fully extended front/sweep kick towardRIGHT at waist height,11kicking leg retract,12foot lowering,13bothfeet planted upright again,14recoil backward from hit,15defeated lying sideways intact on ground without any wound. Distinct silhouettes for each action; no repeated frames.",
+      "cols": 4,
+      "rows": 4,
+      "sha256": "a6ef0e4d9939bd453494e2920428f8cc4824c8e9e67c030d866efbe77f8f5d4c"
+    },
+    {
+      "key": "bigmumbleActions",
+      "file": "dist/assets/bigmumble-actions.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-9bed1c69-2693-415a-ad50-5c6c1a65c65a.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/generated_images/exec-78c2e386-f306-4f70-bbe1-3811c36e6196.png",
+        "/workspace/scratch/348a43a3c143/upload/AFBE99F3-A2BB-4982-BBBC-AB3D2F47EBBB.jpeg"
+      ],
+      "prompt": "Create a NEW production animation sheet for the SAME fighter in reference images. Firstreference is approved basic sprite sheet; second is original concept. Identity and character proportions must match FIRSTreference exactly. TRUE TRANSPARENT RGBA PNG, 4columns x4rows,16 distinct fullbody sprites, ideally1280x1280. Equal320px cells, figure about250px standingheight, feetbaseline295, rootcenterx160; at least20px fully transparent gutters on every edge. Every pose faces RIGHT threequarter sideview. No text, frames, backgrounds, floor, shadows, checkerboard or effects. Do not change headscale acrossposes. No extracharacters. Rowmajor frameinstructions only not printed. \nBIG MUMBLE: huge stocky muscular dark-brown adult man, bald shiny head, short squared black goatee, mismatched/crossed pupils as in reference, serious confused expressive face, broad shoulders and oversized chibi head. Purple basketball jersey and shorts, yellow-gold trim, ONLY jersey text34 in white with gold border, NO team name. Tattoos on arms, purple-and-white high-top sneakers. EXACT reference appearance. BASIC ATTACK4-6 is a HEADBUTT:4lean backward head cocked and fists down;5lunge forward with forehead extended RIGHT and arms behind (head still attached);6pull head back into guard. DO NOT punch in4-6.\nFrames0-7: a continuous EIGHT distinct poses HEAVY LUMBERING walk/run cycle toRIGHT, alternating contact/down/passing/up phases, big belly and shoulders sway naturally. Frames8-15:8holding an orange basketball in bothhands at chest looking puzzled;9raise basketball above forehead preparing shot;10extend shooting arm upward/right fingertips releasing ball (ball just abovehand);11emptyhands shot followthrough wristbent towardright;12armslowering looking towardright;13bothpalmsup confused shrug;14same shrug eyebrowsraised variation;15hands-on-hips idle exactly matches firstsheet frame0. ONLY8,9,10 show basketball; otherposes NO props.",
+      "cols": 4,
+      "rows": 4,
+      "sha256": "048786dea6cc0f8695cdbb524204e22adc8ee986eb6a8acbacf9cc81f32f1aa9"
+    },
+    {
+      "key": "djbeigey",
+      "file": "dist/assets/djbeigey-fighter.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-4189daf0-66ca-408d-b934-16cf539d021d.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/622EDA31-E17F-43C7-86BE-BC95EC3FE29E.jpeg"
+      ],
+      "prompt": "Production game art for Celebrity Gauntlet. Create ONE transparent RGBA PNG sprite atlas, exactly FOUR columns by FOUR rows (16 evenly sized square cells), preferably 1280x1280. Use the attached poster ONLY as an identity/style reference. Preserve the EXACT face, clothing, hairstyle, colors and polished chibi linework. Every cell is a full-body pose of the SAME fighter facing RIGHT in a three-quarter side view. Consistent head/body scale: standing figure about250px tall inside320px cell, centered rootx160 and feetbaseline295. Leave at least20px transparent gutters all sides. NO panel lines, background, floor, shadow, glow, checkerboard, label, numbers, logos outside clothing, or other characters. All bodies and limbs must stay completely inside their own cell. Anatomical scale constant even in crouch or lying pose.\nDJ BEIGEY: exact bald light-tan man with thick neatly shaped BLACK full beard, bold eyebrows, slightly narrowed eyes, confident face. Bright hot-PINK leopard-print suit jacket and matching trousers over white shirt; layered silver necklaces and broad sparkling pendant, gold watch, rings; white sneakers. Same chibi proportions and face as reference. BASIC ATTACK4-6 is a quick PUNCH: wind-up clenched fist, arm extended towardRIGHT, retract. Preserve pink leopard spots and jewelry every pose.\nRow-major frame map (instructions only; never print frame numbers):0ready idle,1subtle breathing idle,2first jump knees raised,3double jump compact tuck,4basic attack wind-up,5fully extended attack contact towardRIGHT,6attack retraction,7forearms crossed defensive block,8kick wind-up,9raised knee chamber,10fully extended front/sweep kick towardRIGHT at waist height,11kicking leg retract,12foot lowering,13bothfeet planted upright again,14recoil backward from hit,15defeated lying sideways intact on ground without any wound. Distinct silhouettes for each action; no repeated frames.",
+      "cols": 4,
+      "rows": 4,
+      "sha256": "1573fa0bb34ccdf4d6810224c017a2edff85f45a19d7cafb089b85695121eb67"
+    },
+    {
+      "key": "djbeigeyActions",
+      "file": "dist/assets/djbeigey-actions.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-a87b8364-9680-4046-b78e-9727904f21aa.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/generated_images/exec-4189daf0-66ca-408d-b934-16cf539d021d.png",
+        "/workspace/scratch/348a43a3c143/upload/622EDA31-E17F-43C7-86BE-BC95EC3FE29E.jpeg"
+      ],
+      "prompt": "Create a NEW production animation sheet for the SAME fighter in reference images. Firstreference is approved basic sprite sheet; second is original concept. Identity and character proportions must match FIRSTreference exactly. TRUE TRANSPARENT RGBA PNG, 4columns x4rows,16 distinct fullbody sprites, ideally1280x1280. Equal320px cells, figure about250px standingheight, feetbaseline295, rootcenterx160; at least20px fully transparent gutters on every edge. Every pose faces RIGHT threequarter sideview. No text, frames, backgrounds, floor, shadows, checkerboard or effects. Do not change headscale acrossposes. No extracharacters. Rowmajor frameinstructions only not printed. \nDJ BEIGEY: exact bald light-tan man with thick neatly shaped BLACK full beard, bold eyebrows, slightly narrowed eyes, confident face. Bright hot-PINK leopard-print suit jacket and matching trousers over white shirt; layered silver necklaces and broad sparkling pendant, gold watch, rings; white sneakers. Same chibi proportions and face as reference. BASIC ATTACK4-6 is a quick PUNCH: wind-up clenched fist, arm extended towardRIGHT, retract. Preserve pink leopard spots and jewelry every pose.\nFrames0-7: EIGHT distinct smooth confident STRUT walk poses towardRIGHT, alternate legs contact/down/passing/up and gentle swinging arms, preserve allpink leopard suit/jewelry. Frames8-15:8raise right hand and call for car;9beckon right with openpalm;10crouch as if entering car (NO CAR shown);11fullbody seated driving pose torso upright kneesbent arms out toward imaginary steeringwheel (no chair,carorwheel drawn);12lowcrouch stepping out;13stand back up;14bothhands out confident shrug;15confident idle handsclasped as basicframe0. ALWAYS fullbody even drivingpose. No vehicle onthissheet.",
+      "cols": 4,
+      "rows": 4,
+      "sha256": "ceb0505649796fab872afdd7cf5c0216a568b9d86c5a79cd96f77e1abdb5ea55"
+    },
+    {
+      "key": "nobuttons",
+      "file": "dist/assets/nobuttons-fighter.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-28d2d28e-b29a-4728-8347-82e7f35707f5.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/6878F862-DE3E-4F9E-ABD4-415AAB16BE27.jpeg"
+      ],
+      "prompt": "Production game art for Celebrity Gauntlet. Create ONE transparent RGBA PNG sprite atlas, exactly FOUR columns by FOUR rows (16 evenly sized square cells), preferably 1280x1280. Use the attached poster ONLY as an identity/style reference. Preserve the EXACT face, clothing, hairstyle, colors and polished chibi linework. Every cell is a full-body pose of the SAME fighter facing RIGHT in a three-quarter side view. Consistent head/body scale: standing figure about250px tall inside320px cell, centered rootx160 and feetbaseline295. Leave at least20px transparent gutters all sides. NO panel lines, background, floor, shadow, glow, checkerboard, label, numbers, logos outside clothing, or other characters. All bodies and limbs must stay completely inside their own cell. Anatomical scale constant even in crouch or lying pose.\nNO BUTTONS: exact playable fighter from reference main portrait, medium-brown man with short salt-and-pepper full beard, narrowed eyes, black fitted cap with red brim/underside and white interlocking NY emblem. Plain white short-sleeved T-SHIRT, tattooed forearms, black trousers, white-and-black sneakers, gold watch. Keep cap on and exact face everypose. BASIC ATTACK4-6 is PUNCH: wind-up, extended jab RIGHT, retract. Draw only this man, not his four helpers.\nRow-major frame map (instructions only; never print frame numbers):0ready idle,1subtle breathing idle,2first jump knees raised,3double jump compact tuck,4basic attack wind-up,5fully extended attack contact towardRIGHT,6attack retraction,7forearms crossed defensive block,8kick wind-up,9raised knee chamber,10fully extended front/sweep kick towardRIGHT at waist height,11kicking leg retract,12foot lowering,13bothfeet planted upright again,14recoil backward from hit,15defeated lying sideways intact on ground without any wound. Distinct silhouettes for each action; no repeated frames.",
+      "cols": 4,
+      "rows": 4,
+      "sha256": "91e9b3f460b5e15bb672968d4d553b6f1e8e1de8d360a1700e61cdb10542b30d"
+    },
+    {
+      "key": "nobuttonsActions",
+      "file": "dist/assets/nobuttons-actions.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-bf6d41d7-fe5b-4508-b168-f6c9c717fc3a.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/generated_images/exec-28d2d28e-b29a-4728-8347-82e7f35707f5.png",
+        "/workspace/scratch/348a43a3c143/upload/6878F862-DE3E-4F9E-ABD4-415AAB16BE27.jpeg"
+      ],
+      "prompt": "Create a NEW production animation sheet for the SAME fighter in reference images. Firstreference is approved basic sprite sheet; second is original concept. Identity and character proportions must match FIRSTreference exactly. TRUE TRANSPARENT RGBA PNG, 4columns x4rows,16 distinct fullbody sprites, ideally1280x1280. Equal320px cells, figure about250px standingheight, feetbaseline295, rootcenterx160; at least20px fully transparent gutters on every edge. Every pose faces RIGHT threequarter sideview. No text, frames, backgrounds, floor, shadows, checkerboard or effects. Do not change headscale acrossposes. No extracharacters. Rowmajor frameinstructions only not printed. \nNO BUTTONS: exact playable fighter from reference main portrait, medium-brown man with short salt-and-pepper full beard, narrowed eyes, black fitted cap with red brim/underside and white interlocking NY emblem. Plain white short-sleeved T-SHIRT, tattooed forearms, black trousers, white-and-black sneakers, gold watch. Keep cap on and exact face everypose. BASIC ATTACK4-6 is PUNCH: wind-up, extended jab RIGHT, retract. Draw only this man, not his four helpers.\nFrames0-7: EIGHT distinct steady confident WALK cycle poses toRIGHT, alternate contact/down/passing/up, cap andtattoos intact. Frames8-15:8hands cupped around mouth and mouthopen shouting;9arms spreadwidely summoning helpers mouthopen;10punchwindup bentarms;11full forwardpunch right;12punchretract;13both fists raised cheering;14relaxed smile armslowered;15idle exactly matches basicframe0. Draw only NoButtons, no helpers, no text, no speechbubble.",
+      "cols": 4,
+      "rows": 4,
+      "sha256": "a8a7d89aef354f4fb17279006f98a905d28bbf7d122a1a1dfa154c5074ae0352"
+    },
+    {
+      "key": "gauntletProps",
+      "file": "dist/assets/gauntlet-props.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-f133befc-03c3-48d5-a80d-5a32cc1ac477.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/AFBE99F3-A2BB-4982-BBBC-AB3D2F47EBBB.jpeg",
+        "/workspace/scratch/348a43a3c143/upload/622EDA31-E17F-43C7-86BE-BC95EC3FE29E.jpeg"
+      ],
+      "prompt": "Create a production 2D game PROP atlas on true transparent RGBA background, exactly TWO columns by TWO rows, 4 separate assets within equalcells, ideally1280x1280. Use attached character concept sheets for style and specified props; DO NOT draw any people. Clean detailed chibi-game illustration with crisp dark outlines and bright shading. No text, panels, floor, glow, shadows, backgrounds or numbers. Keep each object wholly inside its owncell with minimum40px transparent gutters. Rowmajor cells:0 a single orange basketball as in BigMumble reference, round with black curvedseams;1 sameorange basketball rotated45degrees, same size;2 a basketball backboard withred rectangle, redmetal hoop and white danglingnet, front/slightlythreequarter view, NO supportingpole or floor, isolated complete object;3 the white RollsRoyce luxury sedan fromDJBeigey poster, fullyvisible and facingRIGHT, side/threequarter profile showing bothwheels with chrome grille at RIGHT, blueheadlights, silverhoodornament, black tintedwindows, no people. Car should have widehorizontal proportions fitting fullywithinitscell; preserveproportions never squash. Balls may be240pxdiameter, backboard about420pxwide, carabout530pxwide. These are usable isolated game sprites, notaposter.",
+      "cols": 2,
+      "rows": 2,
+      "sha256": "7d0d66d9fc65b35fa814e6945740cba9ed246b2eeea8779394919c886bffc599"
+    },
+    {
+      "key": "nobuttonsCrew",
+      "file": "dist/assets/nobuttons-crew.png",
+      "generatedPath": "/workspace/scratch/348a43a3c143/generated_images/exec-3e813a8e-2253-40d8-80e4-788f384593aa.png",
+      "referencePaths": [
+        "/workspace/scratch/348a43a3c143/upload/6878F862-DE3E-4F9E-ABD4-415AAB16BE27.jpeg"
+      ],
+      "prompt": "Create production 2D fighter HELPER animation sprite atlas based on the FOUR helpers in the LEFT crew column and bottom specialmove panels of attached NoButtons reference. Do NOT draw playable NoButtons in whiteTshirt. TRUE TRANSPARENT RGBA PNG, exactlyFOUR columns xFOUR rows,16 distinct fullbody sprites. Ideally1536x1536, equal384squarecells, eachstandinghelper280pxtall, feetbaseline350, rootcenter192,20pxtransparentgutters. FacingRIGHT inthreequarter sideview. Eachrow SAME helper infourdifferentposes. ROW0:YELLOW HOODIE man, darkbrownskin, shortblackhair, shortshapedblackbeard, determinedface, yellowhoodie withhooddown, darktrousers, whiteblackshoes. ROW1:RUGBY man, lighttanwhite skin, shortbrown darkhair andbrownfulltrimmedbeard, eyebrowsfrowning, green-and-tan horizontalstriped rugby long-sleeve shirt, bluejeans, whitesneakers. ROW2:POLO man, mediumbrownskin, baldhead andshortblack beard/goatee, blackshortsleeve poloTshirt with smallgold POLO lettering, bluejeans, darkshoes. ROW3:BLACK HOODIE man, darkbrownskin, fullthickblackbeard, blackhoodie withhoodupbehindblackcap bearingwhiteSox-styleemblem, blacktrousers, blackwhiteshoes. Exact four distinctfaces andclothes fromreference; notgeneric fighters. EVERY ROW column0:longrunningstride RIGHT leadingfrontleg;column1:oppositerunningstride RIGHT oppositeleg;column2:plantedpunchwindup fist pulledback;column3:punchcontact armextendedRIGHT. Use identicalanatomicalscale anddetails acrossfourposes eachrow. No background, floor, smoke, shadows, panels, labels, numbers, halos, weapons, otherpeople, or text except clothingidentifiers. Alllimbs andhead fullyinsideeachcell.",
+      "cols": 4,
+      "rows": 4,
+      "sha256": "7b234a04a4fc436b2e5e92f0cacbbbafa50d07a4bd1fddda55ecc6c490e4ab34"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "generation_id": "iSlNEGQfSseHeXb4gQXY",
+  "flow_id": "V5QVq65eJyXP2Cs9wMm3",
+  "model": "eleven_v4",
+  "prompt": "[shouting] Prize Picks!",
+  "duration": 1.44,
+  "voice_id": "ataV0GNgfIus2NWdTJP0",
+  "voice_name": "Louie the Legend",
+  "file": "dist/assets/nobuttons-prize-picks.mp3",
+  "character": "No Buttons",
+  "note": "Original performed voice line. Not a recreation or clone of a real person's voice."
+}

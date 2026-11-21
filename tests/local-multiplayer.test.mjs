@@ -31,7 +31,7 @@ test('Player 2 can jump twice, block, punch, charge meter and defeat Player 1 th
   tick(g, 1); a.x = 500; b.x = 600; a.hp = 1;
   tick(g, 1, {}, { kickPressed: true }); assert.equal(g.winner, 'p2');
 });
-test('All 23 fighters can activate and land their special as human Player 2', () => {
+test('All 26 fighters can activate and land their special as human Player 2', () => {
   for (const type of FIGHTERS) {
     const g = local('owl', type), [a, b] = g.fighters;
     a.x = 540; b.x = 650; b.meter = 100;
