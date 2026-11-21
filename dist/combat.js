@@ -8,7 +8,7 @@ import { GIANT_FISTS } from './baby-big-fists.js';
 import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors'];
+export const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -53,7 +53,10 @@ function sweptHit(x0, y0, x1, y1, left, right, bottom, top) {
 
 /** Pure simulation. y is height above the floor, not a canvas coordinate. */
 export class CombatGame {
-  constructor(playerType = 'owl', opponentType) { this.reset(playerType, opponentType); }
+  constructor(playerType = 'owl', opponentType, options = {}) {
+    this.localMultiplayer = options.localMultiplayer === true;
+    this.reset(playerType, opponentType);
+  }
 
   reset(playerType = this.playerType, opponentType) {
     // Release references held by an outgoing round before replacing its fighters.
@@ -75,7 +78,7 @@ export class CombatGame {
     if (arguments.length === 0) opponentType = this.opponentType;
     this.playerType = FIGHTERS.includes(playerType) ? playerType : 'owl';
     const fallback = this.playerType === 'owl' ? 'coupe' : 'owl';
-    this.opponentType = FIGHTERS.includes(opponentType) && opponentType !== this.playerType ? opponentType : fallback;
+    this.opponentType = FIGHTERS.includes(opponentType) && (this.localMultiplayer || opponentType !== this.playerType) ? opponentType : fallback;
     this.fighters = [this.makeFighter('p1', this.playerType, 340, 1),
       this.makeFighter('p2', this.opponentType, 940, -1)];
     this.timeRemaining = 90;
@@ -86,7 +89,7 @@ export class CombatGame {
     this.specials = [];
     this.effects = [];
     this.events = [];
-    this.aiEnabled = true;
+    this.aiEnabled = !this.localMultiplayer;
     this.seed = 0x12f34ab;
     this.ai = { think: .45, blockFor: 0, retreatFor: 0 };
     return this;
@@ -352,7 +355,7 @@ export class CombatGame {
     return true;
   }
 
-  update(dt, input = {}) {
+  update(dt, input = {}, opponentInput = {}) {
     dt = clamp(Number(dt) || 0, 0, 1 / 30);
     if (!dt) return;
     this.updateEffects(dt);
@@ -368,7 +371,7 @@ export class CombatGame {
     }
     this.timeRemaining = Math.max(0, this.timeRemaining - dt);
     const [player, enemy] = this.fighters;
-    const aiInput = this.aiEnabled ? this.updateAI(dt) : {};
+    const aiInput = this.localMultiplayer ? opponentInput : this.aiEnabled ? this.updateAI(dt) : {};
     this.updateFighter(player, enemy, dt, input);
     this.updateFighter(enemy, player, dt, aiInput);
     this.updateSpecials(dt);

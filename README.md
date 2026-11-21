@@ -1,10 +1,32 @@
 # Celebrity Gauntlet
 
-A self-contained browser fighting game with twenty-three selectable chibi fighters, a selectable CPU opponent, and 90-second rounds on an illustrated city rooftop. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
+A self-contained browser fighting game with twenty-three selectable chibi fighters, a selectable CPU opponent or local two-player versus, and 90-second rounds on an illustrated city rooftop. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
 
 ## City rooftop and name update — November 21, 2026
 
 The title, roster wordmark, pause menu, and accessible arena label now use **Celebrity Gauntlet**. The existing play URL stays the same. A new original blue-hour rooftop painting replaces the procedural skyline, speakers, neon floor grid, and old floor wordmark. It features a layered city skyline, lit windows, brick parapet, water tank, stairwell, ventilation equipment, and an open concrete fighting surface. The stage fills the viewport above and below the fighters’ foot-contact line without changing fighter scale or combat physics. Artwork provenance is in `references/city-rooftop-art.json`.
+
+## Local two-player controllers
+
+Choose **LOCAL 2P** on the fighter screen. Connect two standard controllers to the same phone, tablet, or computer through Bluetooth or USB, then press **A / ×** on each to join. Join order assigns P1 and P2. Each player picks a fighter with left/right and presses A / × again to ready; both ready starts the match. The on-screen Start local fight button also starts once both have joined. Tapping a Player 1 / Player 2 card chooses which fighter the roster edits. Mirror matches are allowed.
+
+| Controller control | Action |
+| --- | --- |
+| Left stick / D-pad | Move; choose a fighter in the lobby |
+| Bottom face button: A / × | Jump; press again for double jump; join / ready / confirm in menus |
+| Left face button: X / □ | Punch, slap, microphone hit, or headbutt |
+| Right face button: B / ○ | Kick; cancel ready or return from a pause menu |
+| Top face button: Y / △ | Special; switch modes from P1's fighter screen |
+| Shoulder button or trigger | Block |
+| Menu / Options | Pause / resume |
+
+Either controller can navigate pause and result menus with the D-pad and confirm with A / ×. A single controller also works in VS CPU. Local play hides touch controls, labels fighters P1 and P2, and uses two separate human input streams; the AI is disabled throughout the match and rematches. Both players keep the same roster, specials, 320 health, and 90-second clock.
+
+Disconnecting releases that player's inputs and shows a reconnect notice. It does not pause or replace the player with AI, and the other controller keeps its slot. Reconnect and press A / ×; release controls before continuing. Pause with Menu / Options or the on-screen Pause button when needed. Focus loss clears held input without pausing. Controller support uses the browser's standard Gamepad mapping; the game explains unavailable APIs or unrecognized layouts. Physical controller compatibility depends on the device/browser.
+
+Implementation: `dist/controllers.js` samples controller edges once per display frame and keeps separate jump queues and special buffers for the fixed-step simulation. `CombatGame` accepts `{ localMultiplayer: true }` and a third `update` argument for P2. Normal CPU calls remain compatible. The local browser QA generator accepts simulated standard Gamepad snapshots; generated `__qa*` fixtures are excluded from releases. Mapping reference: https://www.w3.org/TR/gamepad/#remapping.
+
+Validation on November 21, 2026: all 126 Node test entries passed, including the existing combat regression suite, independent controller inputs, disconnection/reconnection, mirror matches, and every fighter's special as human P2. The browser fixture passed 21 checks covering joining, independent selection, movement, double jump, attacks, pause/resume, controller navigation through Controls, reconnecting without switching slots, human winner labels, and rematches. The lobby and arena were inspected at 320×568 portrait and 844×326 landscape. Controllers were simulated; physical Bluetooth/USB pairing has not been verified.
 
 ## Play
 
@@ -18,7 +40,7 @@ Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get 
 | Kick | K |
 | Special | L |
 | Block | Hold B |
-| Pause | On-screen Pause button only |
+| Pause | On-screen Pause or controller Menu / Options |
 
 Hold punch or kick to repeat attacks when recovery ends. Move close enough to connect. Landed, unblocked punches add 20% special meter and kicks add 25%. Misses, blocked attacks, elapsed time, and special attacks add no meter. A special requires and consumes the full meter.
 
@@ -186,7 +208,7 @@ Run `node tools/prepare-ocrrrrr-qa.mjs` for local visual scenes at `/__qa-ocrrrr
 
 The arena fills the available browser viewport in portrait and landscape. Compact health and special meters sit over the top edge; the single Pause button opens Resume, Sound, Controls, Restart, Fighters, and browser fullscreen where supported. Safari’s browser chrome remains under Safari’s control. The existing stage artwork fills tall viewports without stretching fighter sprites.
 
-Only the Pause button enters the paused state. P, Escape, focus loss, and visibility changes do not pause; focus/visibility changes still release held input and discard timing backlog. Touch gestures, double taps, text selection, and callouts are prevented on the live play surface, including disabled controls. Roster and menu scrolling remain available.
+Only the on-screen Pause button or a controller’s dedicated Menu / Options button enters the paused state. P, Escape, focus loss, and visibility changes do not pause; focus/visibility changes still release held input and discard timing backlog. Touch gestures, double taps, text selection, and callouts are prevented on the live play surface, including disabled controls. Roster and menu scrolling remain available.
 
 Every fighter now starts with 320 HP, up from 160, on both sides and after each restart. Attack damage, special timing, and meter gains are preserved. An unblocked KO takes 32 normal punches or 22 kicks. Rounds retain the 90-second timer.
 
