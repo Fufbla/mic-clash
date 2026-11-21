@@ -1,4 +1,5 @@
-import { CombatGame } from './combat.js?v=cantrap-20261121';
+import { CombatGame } from './combat.js?v=smackprince-20261121';
+import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
 const $ = id => document.getElementById(id);
@@ -13,6 +14,7 @@ const META = {
   icespice: { name: 'Ice Spice', special: 'Munch', color: '#ff9748', glow: 'rgba(255,151,72,.4)' },
   hehaw: { name: 'HeHaw', special: 'Horse Power', color: '#e8e6ed', glow: 'rgba(225,222,239,.4)' },
   'dr-no-bunnies': { name: 'Dr. No Bunnies', hudName: 'Dr. No Bunnies', special: 'African Pride Belt Slap', color: '#70adff', glow: 'rgba(70,140,255,.4)' },
+  smackprince: { name: 'Smack Prince', special: 'The Smack Upgrade', color: '#bbf15a', glow: 'rgba(178,240,70,.4)' },
   cantrap: { name: "Can't Rap", special: 'Turban Crew Jump-In', color: '#ff7076', glow: 'rgba(255,80,90,.4)' }
 };
 const ROSTER = Object.keys(META);
@@ -65,8 +67,9 @@ function actionDown(action) {
   if (action === 'kick') pressed.kickPressed = true;
   if (action === 'special') {
     if (presenting) showToast(`${META[state.game.fighters[0].type].special} is still playing.`, 1.5);
-    else if (state.game.fighters[0].meter < 100) showToast(['getit', 'dr-no-bunnies'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
+    else if (state.game.fighters[0].meter < 100) showToast(['getit', 'dr-no-bunnies', 'smackprince'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
     else if (state.game.fighters[0].type === 'dr-no-bunnies' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > 285 || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for the belt slap. Your full meter is saved.', 1.8);
+    else if (state.game.fighters[0].type === 'smackprince' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > SMACK_UPGRADE.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for The Smack Upgrade. Your full meter is saved.', 1.8);
     else { pressed.specialPressed = true; state.specialBuffer = .65; }
   }
 }
@@ -195,7 +198,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=cantrap-20261121', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=smackprince-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -291,7 +294,7 @@ function startFight() {
   state.particles = []; state.labels = []; state.resultDelay = 0; state.countdown = 2.8; state.shake = 0;
   $('p1Name').textContent = META[state.selected].hudName || META[state.selected].name;
   $('p2Name').textContent = META[opponent].hudName || META[opponent].name;
-  const slaps = ['getit', 'dr-no-bunnies'].includes(state.selected);
+  const slaps = ['getit', 'dr-no-bunnies', 'smackprince'].includes(state.selected);
   const mic = state.selected === 'cantrap';
   document.querySelector('[data-control="punch"]')?.setAttribute('aria-label', mic ? 'Microphone strike. Keyboard J.' : slaps ? 'Open-hand slap. Keyboard J.' : 'Punch. Keyboard J.');
   document.querySelector('[data-control="punch"] .control-label').textContent = mic ? 'MIC HIT' : slaps ? 'SLAP' : 'PUNCH';
@@ -522,11 +525,14 @@ function updateHUD() {
   canvas.dataset.crewOwner = crew?.owner || 'none';
   canvas.dataset.crewVisible = String(crew?.crew?.filter(k => k.visible).length || 0);
   canvas.dataset.crewHits = String(crew?.hitCount || 0);
+  const spotlight = state.game.specials.find(s => s.kind === 'spotlight');
+  canvas.dataset.spotlightPhase = spotlight?.phase || 'none';
+  canvas.dataset.spotlightHits = String(spotlight?.hitCount || 0);
   canvas.dataset.crewSpeech = cantRapSpeech(crew);
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -558,6 +564,12 @@ function processEvents() {
       if (event.kind !== 'crew') state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
       if (!['vocal', 'yell', 'wing', 'munch', 'horse'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
       if (event.kind === 'backup') sound.siren();
+    }
+    if (event.type === 'suitUp') sound.tone(523, 1046, .22, .04, 'triangle');
+    if (event.type === 'royalSmack' && event.connected) {
+      sound.slap(false); state.shake = Math.max(state.shake, 12);
+      particleBurst(event.x, GROUND - event.y, '#f3f68c', 22, 260);
+      state.labels.push({ x: event.x, y: GROUND - event.y - 48, text: 'SMACK!', color: '#e8ff94', life: .65 });
     }
     if (event.type === 'crewStrike' && event.connected) {
       state.shake = Math.max(state.shake, event.final ? 10 : 3);
@@ -793,6 +805,36 @@ function drawCantRapSpeech(s, viewScale, offsetX, offsetY) {
   ctx.restore();
 }
 
+function princeSprite(f) {
+  return smackPrincePose(f, state.game?.specials.find(s => s.kind === 'spotlight' && s.owner === f.id));
+}
+
+function drawSmackSpotlight(s) {
+  const f = state.game.fighters.find(f => f.id === s.owner), m = SMACK_UPGRADE;
+  if (!f || s.age < m.suitAt || s.age >= m.restoreAt) return;
+  const fade = Math.min(1, (s.age - m.suitAt) / .12, (m.restoreAt - s.age) / .18);
+  ctx.save(); ctx.globalAlpha = fade;
+  ctx.fillStyle = 'rgba(8,5,20,.28)'; ctx.fillRect(-400, -600, 2100, 1600);
+  const light = ctx.createLinearGradient(f.x, GROUND - 530, f.x, GROUND);
+  light.addColorStop(0, 'rgba(255,255,232,.85)');
+  light.addColorStop(.65, 'rgba(255,230,108,.35)');
+  light.addColorStop(1, 'rgba(255,235,130,.12)');
+  ctx.fillStyle = light; ctx.beginPath(); ctx.moveTo(f.x - 25, GROUND - 530);
+  ctx.lineTo(f.x + 25, GROUND - 530); ctx.lineTo(f.x + 145, GROUND);
+  ctx.lineTo(f.x - 145, GROUND); ctx.closePath(); ctx.fill();
+  const pool = ctx.createRadialGradient(f.x, GROUND, 8, f.x, GROUND, 140);
+  pool.addColorStop(0, '#fffec2'); pool.addColorStop(.5, 'rgba(255,226,87,.65)'); pool.addColorStop(1, 'rgba(255,211,65,0)');
+  ctx.fillStyle = pool; ctx.beginPath(); ctx.ellipse(f.x, GROUND, 145, 20, 0, 0, Math.PI * 2); ctx.fill();
+  for (let i = 0; i < 6; i++) {
+    const x = f.x + Math.sin(i * 2.4) * 108, y = GROUND - 55 - i * 43;
+    const radius = 4 + 3 * (1 + Math.sin(s.age * 11 + i));
+    ctx.fillStyle = '#fff8b1'; ctx.beginPath(); ctx.moveTo(x, y - radius);
+    ctx.lineTo(x + radius * .35, y); ctx.lineTo(x, y + radius);
+    ctx.lineTo(x - radius * .35, y); ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+}
+
 function drawPrideBelt(s) {
   const owner = state.game.fighters.find(f => f.id === s.owner);
   if (!owner || s.age > 2.58) return;
@@ -864,6 +906,7 @@ function drawFighter(f) {
   if (f.type === 'hehaw') ({ key, index } = hehawSprite(f));
   if (f.type === 'dr-no-bunnies') ({ key, index } = noBunniesSprite(f));
   if (f.type === 'cantrap') ({ key, index } = cantRapSprite(f));
+  if (f.type === 'smackprince') ({ key, index } = princeSprite(f));
   const flipIndex = flipFrameIndex(f);
   const flipping = flipIndex >= 0;
   if (flipping) { key = FLIP_ASSETS[f.type]; index = flipIndex; }
@@ -885,7 +928,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 / (flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -909,7 +952,7 @@ function drawFighter(f) {
     ctx.restore();
   }
   ctx.drawImage(s.image, -s.anchorX * scale, -s.anchorY * scale, s.w * scale, s.h * scale);
-  if (['getit', 'dr-no-bunnies'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
+  if (['getit', 'dr-no-bunnies', 'smackprince'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
     ctx.save(); ctx.strokeStyle = '#ffe1ed'; ctx.lineWidth = 3; ctx.globalAlpha = .55;
     ctx.beginPath(); ctx.moveTo(32, -148); ctx.quadraticCurveTo(135, -157, 128, -95); ctx.stroke(); ctx.restore();
   }
@@ -1093,7 +1136,7 @@ function drawMunch(s) {
   if (target) {
     // Use the selected opponent's own sprite. No generic victim is baked into
     // the artwork, and the normal fighter pass omits the held character.
-    const victim = frame(target.type, 22) || frame(target.type, 0);
+    const victim = frame(target.type, target.type === 'smackprince' ? 14 : 22) || frame(target.type, 0);
     if (victim) {
       const progress = Math.max(0, Math.min(1, (s.age - .46) / .20));
       const lift = progress * progress * (3 - 2 * progress);
@@ -1268,6 +1311,7 @@ function draw(dt) {
   drawStage();
   if (state.game) {
     for (const s of state.game.specials) if (s.kind === 'backup' && s.active) drawBackupCar(s);
+    for (const s of state.game.specials) if (s.kind === 'spotlight') drawSmackSpotlight(s);
     for (const f of state.game.fighters) drawFighter(f);
     for (const s of state.game.specials) drawSpecial(s);
   }

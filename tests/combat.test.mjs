@@ -156,8 +156,8 @@ test('A timed match correctly declares a draw with equal health', () => {
   assert.equal(g.over, true); assert.equal(g.winner, 'draw');
 });
 
-test('All eleven fighters support valid opponent choices and safe default pairings', () => {
-  const defaults = { owl: 'coupe', coupe: 'owl', karate: 'owl', snitchy: 'owl', getit: 'owl', loudbull: 'owl', fatboi: 'owl', icespice: 'owl', hehaw: 'owl', 'dr-no-bunnies': 'owl', cantrap: 'owl' };
+test('All twelve fighters support valid opponent choices and safe default pairings', () => {
+  const defaults = { owl: 'coupe', coupe: 'owl', karate: 'owl', snitchy: 'owl', getit: 'owl', loudbull: 'owl', fatboi: 'owl', icespice: 'owl', hehaw: 'owl', 'dr-no-bunnies': 'owl', cantrap: 'owl', smackprince: 'owl' };
   for (const player of Object.keys(defaults)) {
     assert.equal(new CombatGame(player).fighters[1].type, defaults[player]);
     assert.equal(new CombatGame(player, player).fighters[1].type, defaults[player]);
@@ -1070,10 +1070,10 @@ test('CPU HeHaw calls the stallion from across the arena using the same special 
   assert.equal(ai.horseActive, false); assert.equal(g.specials.length, 0);
 });
 
-const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'];
-const specialKinds = ['owl', 'car', 'barrage', 'backup', 'vocal', 'yell', 'wing', 'munch', 'horse', 'belt', 'crew'];
+const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince'];
+const specialKinds = ['owl', 'car', 'barrage', 'backup', 'vocal', 'yell', 'wing', 'munch', 'horse', 'belt', 'crew', 'spotlight'];
 
-test('All eleven specials deal full damage through a facing block at 30/60/120 fps in both directions', () => {
+test('All twelve specials deal full damage through a facing block at 30/60/120 fps in both directions', () => {
   for (const type of roster) for (const fps of [30, 60, 120]) for (const direction of [-1, 1]) {
     const g = fresh(type), [p, e] = g.fighters;
     p.x = direction > 0 ? 450 : 830; e.x = p.x + direction * 100;
@@ -1082,7 +1082,7 @@ test('All eleven specials deal full damage through a facing block at 30/60/120 f
     assert.equal(g.useSpecial(p), true);
     for (let i = 0; i < fps * 8; i++) g.update(1 / fps, {});
     const hits = g.drainEvents().filter(evt => evt.type === 'hit');
-    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'].includes(type) ? 48 : 36;
+    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince'].includes(type) ? 48 : 36;
     assert.equal(e.hp, 160 - total, `${type}, ${fps}fps, facing ${direction}`);
     assert.equal(hits.reduce((sum, hit) => sum + hit.damage, 0), total);
     assert.ok(hits.length > 0 && hits.every(hit => hit.blocked === false));
@@ -1159,7 +1159,7 @@ test('Simultaneous specials preserve both presentations across all ordered fight
   }
 });
 
-test('All eleven specials finish after knockout with one frozen result and no subsequent damage', () => {
+test('All twelve specials finish after knockout with one frozen result and no subsequent damage', () => {
   for (const type of roster) {
     const g = fresh(type); setClose(g); const [p, e] = g.fighters;
     p.meter = 100; e.hp = 1; g.useSpecial(p);
@@ -1199,7 +1199,7 @@ test('All eleven specials finish after knockout with one frozen result and no su
 test('Timeout freezes the result and lets every existing presentation finish without extra damage', () => {
   for (const type of roster) {
     const g = fresh(type), [p, e] = g.fighters;
-    p.x = 100; e.x = 1180; if (type === 'dr-no-bunnies') setClose(g); p.meter = 100; g.useSpecial(p); g.timeRemaining = .001;
+    p.x = 100; e.x = 1180; if (['dr-no-bunnies', 'smackprince'].includes(type)) setClose(g); p.meter = 100; g.useSpecial(p); g.timeRemaining = .001;
     g.update(1 / 120, {});
     assert.equal(g.over, false); assert.equal(g.timeRemaining, 0);
     assert.equal(g.roundEnding.winner, 'draw'); assert.equal(g.roundEnding.timedOut, true);
@@ -1217,7 +1217,7 @@ test('Timeout freezes the result and lets every existing presentation finish wit
 
 test('Reset immediately clears pending results and presentations for every fighter', () => {
   for (const type of roster) {
-    const g = fresh(type); if (type === 'dr-no-bunnies') setClose(g); g.fighters[0].meter = 100; g.useSpecial(g.fighters[0]);
+    const g = fresh(type); if (['dr-no-bunnies', 'smackprince'].includes(type)) setClose(g); g.fighters[0].meter = 100; g.useSpecial(g.fighters[0]);
     g.timeRemaining = .01; advance(g, .1);
     assert.ok(g.roundEnding); assert.ok(g.hasPresentations());
     g.reset(); g.aiEnabled = false;
@@ -1235,7 +1235,7 @@ test('Reset immediately clears pending results and presentations for every fight
 test('A resolved owner knockout preserves its existing presentation until the latched result completes', () => {
   for (const type of roster) {
     const g = fresh(type), [p, e] = g.fighters;
-    p.x = 100; e.x = 1180; if (type === 'dr-no-bunnies') setClose(g); p.meter = 100; g.useSpecial(p); advance(g, .20);
+    p.x = 100; e.x = 1180; if (['dr-no-bunnies', 'smackprince'].includes(type)) setClose(g); p.meter = 100; g.useSpecial(p); advance(g, .20);
     // A direct health resolution is an exceptional game-state transition, not an interrupting hit.
     p.hp = 0; g.update(1 / 120, {});
     assert.equal(g.over, false); assert.equal(g.roundEnding.winner, 'p2');

@@ -1,6 +1,7 @@
+import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap'];
+const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -79,7 +80,7 @@ export class CombatGame {
       actionRemaining: 0, attack: null, attackProgress: 0, inCar: false,
       specialCooldown: 0, landedHits: 0, damageDealt: 0,
       flipDuration: .48, flipRemaining: 0, flipProgress: 0, flipDirection: facing,
-      outfit: type === 'karate' ? 'blue' : 'normal', backupActive: false, crewActive: false, vocalActive: false,
+      outfit: type === 'karate' ? 'blue' : 'normal', spotlightLaunched: false, backupActive: false, crewActive: false, vocalActive: false,
       yellActive: false, wingActive: false, munchActive: false, horseActive: false, grabbedBy: null,
       beltActive: false, beltHeldBy: null, beltLaunched: false };
   }
@@ -109,7 +110,7 @@ export class CombatGame {
   startAttack(f, kind) {
     const spec = ATTACKS[kind];
     if (!spec || !this.canAct(f) || this.isPresenting(f)) return false;
-    const style = ['getit', 'dr-no-bunnies'].includes(f.type) && kind === 'punch' ? 'slap' : kind;
+    const style = ['getit', 'dr-no-bunnies', 'smackprince'].includes(f.type) && kind === 'punch' ? 'slap' : kind;
     f.attack = { kind, style, elapsed: 0, connected: false, ...spec };
     // Contact is the second authored slap pose, after a readable wind-up.
     if (f.type === 'dr-no-bunnies' && kind === 'punch') {
@@ -128,18 +129,26 @@ export class CombatGame {
     const target = this.fighters.find(other => other !== f);
     if (f.type === 'dr-no-bunnies' && (Math.abs(target.x - f.x) > BELT.range
       || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
+    if (f.type === 'smackprince' && (Math.abs(target.x - f.x) > SMACK_UPGRADE.range
+      || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
     f.meter = 0;
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
+    const kind = f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl';
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
+    f.actionRemaining = kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66;
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
     f.invuln = 0;
-    if (kind === 'belt') {
+    if (kind === 'spotlight') {
+      f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
+      f.flipRemaining = 0; f.flipProgress = 0;
+      this.specials.push({ kind, owner: f.id, facing: f.facing, age: 0,
+        ttl: SMACK_UPGRADE.duration, active: true, delay: 0,
+        phase: 'windup', suited: false, struck: false, hitCount: 0 });
+    } else if (kind === 'belt') {
       f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0; f.beltActive = true;
       const s = { kind, owner: f.id, targetId: target.id, facing: f.facing,
         age: 0, ttl: BELT.durationMs / 1000, active: true, delay: 0,
@@ -300,7 +309,7 @@ export class CombatGame {
       this.roundEnding = { winner, timedOut: this.timeRemaining <= 0 };
       for (const f of this.fighters) {
         f.attack = null; f.attackProgress = 0;
-        if (!f.inCar && !f.beltLaunched) f.vx = 0;
+        if (!f.inCar && !f.beltLaunched && !f.spotlightLaunched) f.vx = 0;
         if (!this.isPresenting(f) && f.hp > 0) this.setState(f, 'idle');
       }
       if (!this.hasPresentations()) this.finish(winner);
@@ -346,7 +355,7 @@ export class CombatGame {
       }
     }
     if (f.inCar) return;
-    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched) return; }
+    if (f.hp <= 0 && !this.isPresenting(f)) { this.setState(f, 'ko'); if (!f.beltLaunched && !f.spotlightLaunched) return; }
     if (this.roundEnding && f.state === 'special' && f.actionRemaining <= 1e-9) {
       this.setState(f, f.hp > 0 ? 'idle' : 'ko');
     }
@@ -377,7 +386,7 @@ export class CombatGame {
       f.vy -= 1800 * dt;
       if (f.y <= 0) {
         f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
-        f.beltLaunched = false;
+        f.beltLaunched = false; f.spotlightLaunched = false;
         f.flipRemaining = 0; f.flipProgress = 0;
         this.events.push({ type: 'land', fighter: f.id, x: f.x, y: 0 });
         if (this.canAct(f)) this.setState(f, 'idle');
@@ -413,8 +422,8 @@ export class CombatGame {
     }
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
-      heavy: kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
-      blocked, kind, style: ['getit', 'dr-no-bunnies'].includes(attacker.type) && kind === 'punch' ? 'slap' : kind });
+      heavy: kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
+      blocked, kind, style: ['getit', 'dr-no-bunnies', 'smackprince'].includes(attacker.type) && kind === 'punch' ? 'slap' : kind });
     return true;
   }
 
@@ -433,6 +442,15 @@ export class CombatGame {
         this.updateBelt(s, owner, target);
         if (s.controller.active) alive.push(s);
         else this.endBelt(owner, s);
+        continue;
+      }
+      if (s.kind === 'spotlight') {
+        this.updateSmackUpgrade(s, owner, target);
+        if (s.ttl > 1e-9 && s.active) alive.push(s);
+        else {
+          s.active = false;
+          if (owner?.state === 'special') this.setState(owner, owner.hp > 0 ? 'idle' : 'ko');
+        }
         continue;
       }
       if (s.kind === 'horse') {
@@ -500,6 +518,31 @@ export class CombatGame {
       else if (s.kind === 'car') this.dismount(owner, s);
     }
     this.specials = alive;
+  }
+
+  updateSmackUpgrade(s, owner, target) {
+    if (!owner || !target) { s.active = false; return; }
+    const m = SMACK_UPGRADE;
+    s.phase = s.age < m.suitAt ? 'windup' : s.age < m.windupAt ? 'spotlight'
+      : s.age < m.strikeAt ? 'slapWindup' : s.age < m.recoverAt ? 'slap'
+      : s.age < m.restoreAt ? 'recovery' : 'restore';
+    if (!s.suited && s.age >= m.suitAt) {
+      s.suited = true; this.events.push({ type: 'suitUp', fighter: owner.id });
+    }
+    if (!s.struck && s.age >= m.strikeAt) {
+      s.struck = true;
+      const forward = (target.x - owner.x) * s.facing;
+      const connected = forward >= 0 && forward <= m.range && Math.abs(target.y - owner.y) < 112
+        && this.hit(owner, target, m.damage, 'spotlight', m.knock, .65, owner.x);
+      if (connected) {
+        s.hitCount = 1; target.vy = m.lift; target.grounded = false;
+        // Continue the airborne knockback even when this strike ends the round.
+        target.spotlightLaunched = true;
+      }
+      this.events.push({ type: 'royalSmack', fighter: owner.id, connected,
+        x: target.x, y: target.y + 145 });
+    }
+    if (s.ttl <= 1e-9) s.active = false;
   }
 
   updateCrew(s, owner, target) {
@@ -1077,7 +1120,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {
@@ -1110,7 +1153,7 @@ export class CombatGame {
     }
     this.specials = [];
     for (const f of this.fighters) {
-      f.attack = null; f.vx = 0; f.vy = 0;
+      f.attack = null; f.vx = 0; f.vy = 0; f.spotlightLaunched = false;
       f.actionRemaining = 0;
       f.flipRemaining = 0; f.flipProgress = 0;
       if (f.hp <= 0) this.setState(f, 'ko');
