@@ -1,10 +1,10 @@
 # Mic Clash
 
-A self-contained browser fighting game with twenty selectable chibi fighters, a selectable CPU opponent, and 90-second rounds. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
+A self-contained browser fighting game with twenty-three selectable chibi fighters, a selectable CPU opponent, and 90-second rounds. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
 
 ## Play
 
-Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get It**, **Loud Bull**, **FatBoi**, **Munchy**, **HeHaw**, **Dr. No Bunnies**, **Can’t Rap**, **Smack Prince**, **Baby Big Fists**, **MooJa**, **Cranes**, **Demon**, or **Ocrrrrr!**, pick an opponent, then select **Start fight**. On phones, drag the analog stick on the left to move. The four circular buttons on the right are Jump, Punch, Kick, and Special. Get It, Dr. No Bunnies, Smack Prince, MooJa, and Ocrrrrr! use the Slap button for open-hand attacks (keyboard J). The arena and controls automatically adapt to portrait or landscape when the phone rotates; rotation does not restart the round. Sound starts muted and can be enabled in the Pause menu.
+Choose **Owl Striker**, **Night Rider**, **Karate Fighter**, **Snitchy**, **Get It**, **Loud Bull**, **FatBoi**, **Munchy**, **HeHaw**, **Dr. No Bunnies**, **Can’t Rap**, **Smack Prince**, **Baby Big Fists**, **MooJa**, **Cranes**, **Demon**, **Ocrrrrr!**, **The President**, **O’whinny**, **RoboKing**, **Quick Fast**, **Sassy T**, or **J Minors**, pick an opponent, then select **Start fight**. On phones, drag the analog stick on the left to move. The four circular buttons on the right are Jump, Punch, Kick, and Special. Get It, Dr. No Bunnies, Smack Prince, MooJa, Ocrrrrr!, and Sassy T use the Slap button for open-hand attacks (keyboard J). The arena and controls automatically adapt to portrait or landscape when the phone rotates; rotation does not restart the round. Sound starts muted and can be enabled in the Pause menu.
 
 | Action | Keyboard |
 | --- | --- |
@@ -196,3 +196,14 @@ Three fighters added from the supplied character designs, with 96 transparent ch
 The President and RoboKing have Personal Security: a follower blocks every tenth eligible incoming punch/kick contact (including a manually blocked contact), consumes that attack once, and grants no damage or meter. Misses, invulnerable contacts, and specials do not count. The counter resets each round; all specials bypass the passive. The robot joins the truck during Cybertruck Protocol, then returns as a follower.
 
 Implementation: `dist/executive-fighters.js` contains shared pose mappings and simulation timelines; `dist/executive-renderer.js` draws the supplied-design sprites. `tools/build-executive-atlas.py` indexes alpha bounds without altering generated artwork. Artwork prompts and source paths are recorded in `references/three-fighter-art-prompts.json`.
+
+
+### Quick Fast, Sassy T, and J Minors
+
+The roster now has 23 fighters. The new transparent sprite sheets add 96 full-body poses and 12 effect/companion frames, based on the supplied designs.
+
+- **Quick Fast:** headbutt on J, a six-phase backflip kick on K, and Quick Fast Rush. The full-meter rush physically crosses the stage, deals one 48-damage hit, then skids and recovers.
+- **Sassy T:** runway strut, open-hand slap, back kick, and SLIIIIME! He opens his pink purse, throws a green slime projectile, and coats the actual opponent on contact. An original male voice shouts “Sliiiime!” with Sound enabled. Muting, pausing, and leaving a round stop the cue.
+- **J Minors:** cool strut, jab, front kick, and The Chase. He panics and runs past his rival while a blonde handbag-wielding pursuer follows and strikes the marked position. Moving out of that position avoids the strike.
+
+Each special deals 48 damage, consumes a full meter, has complete presentation protection and recovery, and uses the same player/CPU logic. The existing 320-health rounds, fullscreen arena, compact HUD, consolidated Pause options, and touch gesture handling are retained. See `references/rush-fighters-release.md` for validation and `references/rush-fighter-art-prompts.json` for asset provenance.

@@ -1,3 +1,4 @@
+import { RUSH_FIGHTERS, RUSH_KINDS, createRushSpecial, updateRushSpecial } from './rush-fighters.js';
 import { EXECUTIVE_FIGHTERS, EXECUTIVE_KINDS, createExecutiveSpecial, updateExecutiveSpecial } from './executive-fighters.js';
 import { NAIL_PIERCE, nailSegments, nailExtension } from './ocrrrrr.js';
 import { DEMON_CREW, maskedCrewPose } from './demon.js';
@@ -7,7 +8,7 @@ import { GIANT_FISTS } from './baby-big-fists.js';
 import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking'];
+const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -128,13 +129,16 @@ export class CombatGame {
   startAttack(f, kind) {
     const spec = ATTACKS[kind];
     if (!spec || !this.canAct(f) || this.isPresenting(f)) return false;
-    const style = ['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr'].includes(f.type) && kind === 'punch' ? 'slap' : kind;
+    const style = ['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt'].includes(f.type) && kind === 'punch' ? 'slap' : f.type === 'quickfast' && kind === 'punch' ? 'headbutt' : kind;
     f.attack = { kind, style, elapsed: 0, connected: false, ...spec };
     // Contact is the second authored slap pose, after a readable wind-up.
     if (f.type === 'dr-no-bunnies' && kind === 'punch') {
       f.attack.start = .11; f.attack.end = .20;
     }
-    f.actionRemaining = spec.duration;
+    if (f.type === 'quickfast' && kind === 'kick') {
+      f.attack.duration = .76; f.attack.start = .24; f.attack.end = .36;
+    }
+    f.actionRemaining = f.attack.duration;
     f.attackProgress = 0;
     f.state = kind; f.stateTime = 0;
     f.vx *= .3;
@@ -155,14 +159,18 @@ export class CombatGame {
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = EXECUTIVE_FIGHTERS[f.type]?.kind || (f.type === 'ocrrrrr' ? 'nailPierce' : f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl');
+    const kind = RUSH_FIGHTERS[f.type]?.kind || EXECUTIVE_FIGHTERS[f.type]?.kind || (f.type === 'ocrrrrr' ? 'nailPierce' : f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl');
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = EXECUTIVE_FIGHTERS[f.type]?.duration || (kind === 'nailPierce' ? NAIL_PIERCE.duration : kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66);
+    f.actionRemaining = RUSH_FIGHTERS[f.type]?.duration || EXECUTIVE_FIGHTERS[f.type]?.duration || (kind === 'nailPierce' ? NAIL_PIERCE.duration : kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66);
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
     f.invuln = 0;
-    if (EXECUTIVE_FIGHTERS[f.type]) {
+    if (RUSH_FIGHTERS[f.type]) {
+      f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
+      f.flipRemaining = 0; f.flipProgress = 0;
+      this.specials.push(createRushSpecial(f, target));
+    } else if (EXECUTIVE_FIGHTERS[f.type]) {
       f.y = 0; f.vy = 0; f.grounded = true; f.jumps = 0;
       f.flipRemaining = 0; f.flipProgress = 0;
       this.specials.push(createExecutiveSpecial(f, target));
@@ -491,8 +499,8 @@ export class CombatGame {
     }
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
-      heavy: EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
-      blocked, kind, style: ['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr'].includes(attacker.type) && kind === 'punch' ? 'slap' : kind });
+      heavy: RUSH_KINDS.includes(kind) || EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
+      blocked, kind, style: ['getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt'].includes(attacker.type) && kind === 'punch' ? 'slap' : attacker.type === 'quickfast' && kind === 'punch' ? 'headbutt' : kind });
     return true;
   }
 
@@ -507,6 +515,11 @@ export class CombatGame {
       s.age += dt; s.ttl -= dt;
       const owner = this.fighters.find(f => f.id === s.owner);
       const target = this.fighters.find(f => f.id !== s.owner);
+      if (RUSH_KINDS.includes(s.kind)) {
+        updateRushSpecial(this, s, owner, target, dt);
+        if (s.active && s.ttl > 1e-9) alive.push(s);
+        continue;
+      }
       if (EXECUTIVE_KINDS.includes(s.kind)) {
         updateExecutiveSpecial(this, s, owner, target);
         if (s.active && s.ttl > 1e-9) alive.push(s);
@@ -1441,6 +1454,8 @@ export class CombatGame {
   }
 
   separateFighters() {
+    // These moves run past the opponent; body separation must not cancel the pass.
+    if (this.specials.some(s => s.active && (s.kind === 'quickRush' || s.kind === 'chase'))) return;
     const [a, b] = this.fighters;
     if (a.inCar || b.inCar || a.grabbedBy || b.grabbedBy || a.beltHeldBy || b.beltHeldBy || a.y > 65 || b.y > 65) return;
     const dx = b.x - a.x;
@@ -1467,7 +1482,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = EXECUTIVE_FIGHTERS[ai.type] ? 1200 : ai.type === 'ocrrrrr' ? NAIL_PIERCE.range : ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = RUSH_FIGHTERS[ai.type] ? 1200 : EXECUTIVE_FIGHTERS[ai.type] ? 1200 : ai.type === 'ocrrrrr' ? NAIL_PIERCE.range : ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {

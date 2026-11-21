@@ -1,0 +1,124 @@
+{
+  "references": [
+    {
+      "id": "quickfast",
+      "source": "5CBA16D0-A928-4789-8F2D-E873C372D65B.jpeg",
+      "identity": "QUICK FAST: dark brown skin, wild short black twisted dreadlocks spreading upward/outward, very expressive huge eyes and wide manic smile revealing colorful jeweled teeth, diamond stud earrings, bright RED short-sleeve T-shirt with small WHITE stylized crown emblem, silver chain with crown pendant, baggy dark charcoal trousers, red-white sneakers. Exactly match the reference face, hairstyle and clothing. Low energetic hunched fighting stance."
+    },
+    {
+      "id": "sassyt",
+      "source": "DF845ED2-DA9A-40B1-9E8C-F7841C69C217.jpeg",
+      "identity": "SASSY T: dark brown skin, slim adult male chibi with angular face and defined cheekbones, neat mustache and goatee, copper/pink-tipped short locs swept/tied back, large square rose-tinted sunglasses with gold frames, diamond earrings and layered silver necklaces, HOT PINK textured jacket over pink shirt, pink trousers and pink-white shoes, bright pink cross-body handbag with gold T clasp at his rear hip. EXACT supplied face, hair, outfit and pink purse. Confident hands-on-hips stance."
+    },
+    {
+      "id": "jminors",
+      "source": "D312AD82-0B76-4FB8-A35B-CC9FCDD384D7.jpeg",
+      "identity": "J MINORS: dark brown skin, short close-cropped black curly hair, neat mustache and full short beard, broad nose and expressive brows, TAN brown two-piece suit, cream white open-collar shirt with NO tie, black belt with silver buckle, dark brown shoes. Exact supplied face, hairstyle, outfit and chibi proportions. Confident hands-on-hips idle."
+    }
+  ],
+  "basicPrompts": {
+    "quickfast": "Convert the supplied character poster into a production-ready TRANSPARENT 2D fighter sprite sheet. QUICK FAST: dark brown skin, wild short black twisted dreadlocks spreading upward/outward, very expressive huge eyes and wide manic smile revealing colorful jeweled teeth, diamond stud earrings, bright RED short-sleeve T-shirt with small WHITE stylized crown emblem, silver chain with crown pendant, baggy dark charcoal trousers, red-white sneakers. Exactly match the reference face, hairstyle and clothing. Low energetic hunched fighting stance.\nMatch the polished detailed outlined/chibi rendering of Mic Clash. Exactly FOUR columns by FOUR rows, sixteen equal square cells, 1280x1280 PNG with TRUE ALPHA. One complete full-body character per cell, NEVER any panels, text, labels, borders, backgrounds, halos, floor shadows or additional figures. Every sprite must fit inside its own cell with at least 18px clear transparent gutter on ALL edges; absolutely no hair, hands or shoes cross cell boundaries. Constant head/body scale all cells, standing figure about260px tall within320px cells, feet baseline300px, body center x160. Face RIGHT unless the backflip/backkick pose requires rotation. Identity locked.\nRow-major cells: 0 confident idle, 1 subtle breathing variation of same idle, 2 first jump with knees lifted, 3 compact double-jump tuck, 4-6 attack sequence, 7 defensive forearm block, 8-13 six distinct kick sequence poses, 14 recoil from a hit, 15 defeated lying sideways on floor (intact body, no injury). Cells4-6 MUST be HEADBUTT instead of punch: 4 deep lean-back with fists down for windup, 5 lunging headfirst toward RIGHT with forehead fully extended forward, eyes focused, arms stretched backward, neck and head still attached; 6 pull head back and recover low. Cells8-13 MUST show a real BACKFLIP KICK: 8 crouch on both feet; 9 lean backward lifting the front knee; 10 rotate backward until torso reclines nearly horizontal and one shoe kicks high toward RIGHT; 11 upside-down tuck with head below feet, continuing backflip; 12 near landing with feet reaching floor and torso hunched; 13 both feet planted upright ready stance. Each distinct action remains FULL BODY with all limbs. No duplicate kick frames.\nKeep the facial features, clothes and color palette consistent. NO words or lettering except the small costume emblem already specified. This is usable game art, not a presentation poster.",
+    "sassyt": "Convert the supplied character poster into a production-ready TRANSPARENT 2D fighter sprite sheet. SASSY T: dark brown skin, slim adult male chibi with angular face and defined cheekbones, neat mustache and goatee, copper/pink-tipped short locs swept/tied back, large square rose-tinted sunglasses with gold frames, diamond earrings and layered silver necklaces, HOT PINK textured jacket over pink shirt, pink trousers and pink-white shoes, bright pink cross-body handbag with gold T clasp at his rear hip. EXACT supplied face, hair, outfit and pink purse. Confident hands-on-hips stance.\nMatch the polished detailed outlined/chibi rendering of Mic Clash. Exactly FOUR columns by FOUR rows, sixteen equal square cells, 1280x1280 PNG with TRUE ALPHA. One complete full-body character per cell, NEVER any panels, text, labels, borders, backgrounds, halos, floor shadows or additional figures. Every sprite must fit inside its own cell with at least 18px clear transparent gutter on ALL edges; absolutely no hair, hands or shoes cross cell boundaries. Constant head/body scale all cells, standing figure about260px tall within320px cells, feet baseline300px, body center x160. Face RIGHT unless the backflip/backkick pose requires rotation. Identity locked.\nRow-major cells: 0 confident idle, 1 subtle breathing variation of same idle, 2 first jump with knees lifted, 3 compact double-jump tuck, 4-6 attack sequence, 7 defensive forearm block, 8-13 six distinct kick sequence poses, 14 recoil from a hit, 15 defeated lying sideways on floor (intact body, no injury). Cells4-6 open-hand SLAP: 4 open right palm winds back, 5 open palm fully extended toward RIGHT at opponent-face height, fingers together with no fist, 6 retract open palm. Cells8-13 a BACK KICK toward RIGHT: 8 windup half turn, 9 look back over shoulder and chamber leg, 10 torso faces left while head looks back RIGHT and heel extends hard RIGHT into opponent, 11 withdraw leg, 12 lower kicking foot, 13 plant both feet, face RIGHT again. Keep pink purse on body in every pose.\nKeep the facial features, clothes and color palette consistent. NO words or lettering except the small costume emblem already specified. This is usable game art, not a presentation poster.",
+    "jminors": "Convert the supplied character poster into a production-ready TRANSPARENT 2D fighter sprite sheet. J MINORS: dark brown skin, short close-cropped black curly hair, neat mustache and full short beard, broad nose and expressive brows, TAN brown two-piece suit, cream white open-collar shirt with NO tie, black belt with silver buckle, dark brown shoes. Exact supplied face, hairstyle, outfit and chibi proportions. Confident hands-on-hips idle.\nMatch the polished detailed outlined/chibi rendering of Mic Clash. Exactly FOUR columns by FOUR rows, sixteen equal square cells, 1280x1280 PNG with TRUE ALPHA. One complete full-body character per cell, NEVER any panels, text, labels, borders, backgrounds, halos, floor shadows or additional figures. Every sprite must fit inside its own cell with at least 18px clear transparent gutter on ALL edges; absolutely no hair, hands or shoes cross cell boundaries. Constant head/body scale all cells, standing figure about260px tall within320px cells, feet baseline300px, body center x160. Face RIGHT unless the backflip/backkick pose requires rotation. Identity locked.\nRow-major cells: 0 confident idle, 1 subtle breathing variation of same idle, 2 first jump with knees lifted, 3 compact double-jump tuck, 4-6 attack sequence, 7 defensive forearm block, 8-13 six distinct kick sequence poses, 14 recoil from a hit, 15 defeated lying sideways on floor (intact body, no injury). Cells4-6: punch windup, full forward jab RIGHT, jab retract. Cells8-13: kick windup, knee chamber, full front kick toward RIGHT, retract leg, lower foot, both feet planted.\nKeep the facial features, clothes and color palette consistent. NO words or lettering except the small costume emblem already specified. This is usable game art, not a presentation poster."
+  },
+  "jobs": [
+    {
+      "id": "quickfastActions",
+      "prompt": "Production-ready 2D game sprite atlas, true TRANSPARENT RGBA background. Match reference identity, chibi anatomy, face, outfit, linework exactly. FOUR columns FOUR rows, 16 separate full-body sprites, equal cells, row-major numbering for instructions ONLY (NO written numbers or words). 1280x1280. Keep every sprite entirely inside its own cell with clear transparent gutters of at least 20px. Uniform anatomical scale: standing character 250px tall per 320px cell, feet baseline 295px, center root at cell x160. No panel lines, no glow, no shadow, no floor, no scene, no background colors or checkerboard, no weapons/props except explicitly described. Facing RIGHT three-quarter side view. Each frame a distinct full-body drawing. Do not enlarge short poses. QUICK FAST: dark brown skin, wild short black twisted dreadlocks spreading upward/outward, very expressive huge eyes and wide manic smile revealing colorful jeweled teeth, diamond stud earrings, bright RED short-sleeve T-shirt with small WHITE stylized crown emblem, silver chain with crown pendant, baggy dark charcoal trousers, red-white sneakers. Exactly match the reference face, hairstyle and clothing. Low energetic hunched fighting stance. Frames0-7 (first two rows): continuous eight-step energetic low RUN cycle to RIGHT, pumping arms, alternate stretched stride/contact/passing/flight, expression huge excited grin, both red shoes in every frame. Third/fourth rows8-15: 8 crouch low hands on floor charging;9 tightly compressed crouch eyes glowing determination;10 forward launch torso very low;11 fastest sprint broad extended stride;12 fastest sprint opposite stride;13 skidding backward lean with both shoes in front;14 arms wide proud huge grin;15 same low idle as first reference sheet frame0. All16 keep entire dreadlocks inside cells. No speed lines, dust or colored backdrop.",
+      "paths": [
+        "exec-440e7595-7fe2-404c-8b4b-21755d798af0.png",
+        "5CBA16D0-A928-4789-8F2D-E873C372D65B.jpeg"
+      ]
+    },
+    {
+      "id": "sassytActions",
+      "prompt": "Production-ready 2D game sprite atlas, true TRANSPARENT RGBA background. Match reference identity, chibi anatomy, face, outfit, linework exactly. FOUR columns FOUR rows, 16 separate full-body sprites, equal cells, row-major numbering for instructions ONLY (NO written numbers or words). 1280x1280. Keep every sprite entirely inside its own cell with clear transparent gutters of at least 20px. Uniform anatomical scale: standing character 250px tall per 320px cell, feet baseline 295px, center root at cell x160. No panel lines, no glow, no shadow, no floor, no scene, no background colors or checkerboard, no weapons/props except explicitly described. Facing RIGHT three-quarter side view. Each frame a distinct full-body drawing. Do not enlarge short poses. SASSY T: dark brown skin, slim adult male chibi with angular face and defined cheekbones, neat mustache and goatee, copper/pink-tipped short locs swept/tied back, large square rose-tinted sunglasses with gold frames, diamond earrings and layered silver necklaces, HOT PINK textured jacket over pink shirt, pink trousers and pink-white shoes, bright pink cross-body handbag with gold T clasp at his rear hip. EXACT supplied face, hair, outfit and pink purse. Confident hands-on-hips stance. Frames0-7: eight distinct sequential runway STRUT walk poses to RIGHT, hip sway, elegant arm gestures, alternate crossing steps, pink purse sways on strap, consistent anatomy. Frames8-15:8 turns toward purse,9 opens pink purse with one hand reaches inside,10 pulls a bright lime green sticky slime blob out,11 draws arm back with green blob while pink purse in other hand,12 THROWS right with open right palm extended, MOUTH OPEN WIDE SHOUTING, tiny green slime leaving hand but no long projectile,13 followthrough arm extended mouth shouting purse visible,14 closes purse,15 confident hands on hips idle matching reference. Pink purse and sunglasses present allframes. Every sprite fullbody with shoes.",
+      "paths": [
+        "exec-70992300-20e9-45ca-94c0-5ff18785e8ba.png",
+        "DF845ED2-DA9A-40B1-9E8C-F7841C69C217.jpeg"
+      ]
+    },
+    {
+      "id": "jminorsActions",
+      "prompt": "Production-ready 2D game sprite atlas, true TRANSPARENT RGBA background. Match reference identity, chibi anatomy, face, outfit, linework exactly. FOUR columns FOUR rows, 16 separate full-body sprites, equal cells, row-major numbering for instructions ONLY (NO written numbers or words). 1280x1280. Keep every sprite entirely inside its own cell with clear transparent gutters of at least 20px. Uniform anatomical scale: standing character 250px tall per 320px cell, feet baseline 295px, center root at cell x160. No panel lines, no glow, no shadow, no floor, no scene, no background colors or checkerboard, no weapons/props except explicitly described. Facing RIGHT three-quarter side view. Each frame a distinct full-body drawing. Do not enlarge short poses. J MINORS: dark brown skin, short close-cropped black curly hair, neat mustache and full short beard, broad nose and expressive brows, TAN brown two-piece suit, cream white open-collar shirt with NO tie, black belt with silver buckle, dark brown shoes. Exact supplied face, hairstyle, outfit and chibi proportions. Confident hands-on-hips idle. Frames0-7: eight distinct sequential cool strut WALK poses to RIGHT, hands and suit moving naturally, alternating contact/down/passing/up steps, confident expression. Frames8-15:8 suddenly panics wide terrified eyes mouth open hands raised;9 sprint RIGHT scared full stretch;10 sprint passing pose arms pumping terrified;11 sprint opposite full stretch looking back over shoulder afraid;12 sprint flight phase mouth wide open sweat droplets;13 skid stop leaning back;14 bends forward hands knees panting looks relieved;15 hands hips confident idle same as first reference frame0. Preserve tan suit and white open collar throughout. Only J Minors in this sheet no chaser.",
+      "paths": [
+        "exec-0cb839fc-ffc0-4ee7-b274-5bea2346f187.png",
+        "D312AD82-0B76-4FB8-A35B-CC9FCDD384D7.jpeg"
+      ]
+    },
+    {
+      "id": "quickfastClean",
+      "prompt": "Edit this exact 4x4 sprite atlas ONLY to remove ALL the gray background and ALL haze/noise between sprites. Output clean true transparent alpha PNG. Preserve all sixteen poses, exact layout, size, colors, face, dreadlocks, clothing, crown jewelry, shoes and outlines. Every pixel outside characters must be fully transparent alpha0. Do not add a checkerboard or shadow or color halo. Do not crop or change any pose.",
+      "paths": [
+        "exec-440e7595-7fe2-404c-8b4b-21755d798af0.png"
+      ]
+    },
+    {
+      "id": "jminorsSupport",
+      "prompt": "Create an animation game sprite atlas of ONLY the blonde woman who chases J Minors in the bottom panels of attached reference. True transparent RGBA PNG, NO background or panel lines. FOUR columns TWO rows EIGHT evenly separated full body sprites, output1280x640. Exact design: stout curvy adult light-skinned white woman, blonde messy tied-up bun, black sunglasses on top of head, gold hoop earrings, expressive determined angry face, white sleeveless top, dark charcoal fitted trousers, white sneakers, brown quilted handbag. Match chibi bighead cartoon linework of reference, NOT JMinors; do not draw any other character. Facing RIGHT. Consistent scale standing250px high per320cell, baseline295, centerx160. Minimum20px empty gutters and all limbs/hair/purse fully contained in eachcell. Poses row-major0: run right long forward stride holding handbag;1:run passing opposite feet;2:run opposite long stride;3:run flight phase;4:draw handbag far back for swing;5:big forward swinging handbag fully extended RIGHT at opponent chest height;6:handbag swing recovery across body;7:stand with arms crossed scowling handbag dangling. No text, no glow or dust or floor.8distinct complete sprites.",
+      "paths": [
+        "D312AD82-0B76-4FB8-A35B-CC9FCDD384D7.jpeg"
+      ]
+    },
+    {
+      "id": "sassytSupport",
+      "prompt": "Create 4 separate 2D cartoon game VFX sprites of neon lime green sticky SLIME matching the green slime in attached Sassy T poster. FOUR cells arranged TWO columns TWO rows in square1024x1024 transparent RGBA PNG, eachcell512x512 and clear50px gutters. No background, NO black silhouette NO person NO scene NO typography NO labels NO border. Rowmajor0: compact goo projectile flying RIGHT as asymmetrical oval with backward fluid tail and3droplets;1: alternate compact fluid projectile shape RIGHT with lively dripping tail;2: large radial impact SPLASH of goo with center semi-transparent so the actual game fighter remains visible under it, bright globs around the edges;3: dripping goo overlay as several irregular vertical goo rivulets running downward and small puddle, only slime matter transparent empty space between strands, designed to overlay the existing opponent. Crisp bold dark-green outlines, wet highlights; bright readable green. Keepeach fullyinsidecell.",
+      "paths": [
+        "DF845ED2-DA9A-40B1-9E8C-F7841C69C217.jpeg"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "id": "quickfast",
+      "dest": "dist/assets/quickfast-fighter.png",
+      "generatedFile": "exec-299d1ae3-6709-4c37-92cb-99f1721702eb.png"
+    },
+    {
+      "id": "sassyt",
+      "dest": "dist/assets/sassyt-fighter.png",
+      "generatedFile": "exec-70992300-20e9-45ca-94c0-5ff18785e8ba.png"
+    },
+    {
+      "id": "jminors",
+      "dest": "dist/assets/jminors-fighter.png",
+      "generatedFile": "exec-0cb839fc-ffc0-4ee7-b274-5bea2346f187.png"
+    },
+    {
+      "id": "quickfastActions",
+      "dest": "dist/assets/quickfast-actions.png",
+      "generatedFile": "exec-87489df6-6ce5-4e88-bb20-ba06edd3eff8.png"
+    },
+    {
+      "id": "sassytActions",
+      "dest": "dist/assets/sassyt-actions.png",
+      "generatedFile": "exec-1fa0ef69-0206-4fdd-acbf-a25e6be4abfd.png"
+    },
+    {
+      "id": "jminorsActions",
+      "dest": "dist/assets/jminors-actions.png",
+      "generatedFile": "exec-e52b1880-a24e-4a3b-aeb6-589e2600dedb.png"
+    },
+    {
+      "id": "sassytSupport",
+      "dest": "dist/assets/sassyt-support.png",
+      "generatedFile": "exec-3106262a-b9a6-4d39-b2b6-ced53faef8b8.png"
+    },
+    {
+      "id": "jminorsSupport",
+      "dest": "dist/assets/jminors-support.png",
+      "generatedFile": "exec-4ca1d258-df9e-4255-b1d0-0f86dcdbab3d.png"
+    }
+  ],
+  "purseCorrection": "Removed duplicate hip bags from held-purse special frames, preserving the single held bag.",
+  "audio": {
+    "file": "assets/sassyt-slime.mp3",
+    "provider": "ElevenLabs",
+    "voice": "Louie the Legend",
+    "voiceId": "ataV0GNgfIus2NWdTJP0",
+    "model": "eleven_v4",
+    "prompt": "[shouting] Sliiiime!",
+    "generationId": "XCniAefXSwntAR5vBDYZ",
+    "durationSeconds": 1.6
+  }
+}

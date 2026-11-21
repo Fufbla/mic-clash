@@ -1070,7 +1070,7 @@ test('CPU HeHaw calls the stallion from across the arena using the same special 
   assert.equal(ai.horseActive, false); assert.equal(g.specials.length, 0);
 });
 
-const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking'];
+const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors'];
 const specialKinds = ['owl', 'car', 'barrage', 'backup', 'vocal', 'yell', 'wing', 'munch', 'horse', 'belt', 'crew', 'spotlight', 'giantFists', 'milk', 'elevator', 'maskedCrew', 'nailPierce', 'airstrike', 'moneyRain', 'cybertruck'];
 
 test('All twenty specials deal full damage through a facing block at 30/60/120 fps in both directions', () => {
@@ -1082,7 +1082,7 @@ test('All twenty specials deal full damage through a facing block at 30/60/120 f
     assert.equal(g.useSpecial(p), true);
     for (let i = 0; i < fps * 8; i++) g.update(1 / fps, {});
     const hits = g.drainEvents().filter(evt => evt.type === 'hit');
-    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking'].includes(type) ? 48 : 36;
+    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors'].includes(type) ? 48 : 36;
     assert.equal(e.hp, e.maxHp - total, `${type}, ${fps}fps, facing ${direction}`);
     assert.equal(hits.reduce((sum, hit) => sum + hit.damage, 0), total);
     assert.ok(hits.length > 0 && hits.every(hit => hit.blocked === false));

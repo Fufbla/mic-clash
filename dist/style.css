@@ -336,3 +336,6 @@
 .fighter-card.owhinny-card{--fighter-accent:#ffdc78;--fighter-glow:#ffc44650;background:linear-gradient(145deg,#3c2d39,#211825 78%)}
 .fighter-card.roboking-card{--fighter-accent:#76e9ff;--fighter-glow:#42ceff50;background:linear-gradient(145deg,#233944,#141d29 78%)}
 .president-card .fighter-name{font-size:clamp(16px,2.1vw,24px)}
+.fighter-card.quickfast-card{--fighter-accent:#ffe544;--fighter-glow:#ff464e50;background:linear-gradient(145deg,#4a2028,#211322 78%)}
+.fighter-card.sassyt-card{--fighter-accent:#ff70ce;--fighter-glow:#ff46be50;background:linear-gradient(145deg,#471b40,#231329 78%)}
+.fighter-card.jminors-card{--fighter-accent:#efbe85;--fighter-glow:#e7ab5550;background:linear-gradient(145deg,#433123,#241b24 78%)}

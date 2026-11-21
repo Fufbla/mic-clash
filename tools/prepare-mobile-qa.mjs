@@ -39,7 +39,7 @@ window.addEventListener('message', event => {
   check('Arena fills viewport',Math.abs(arenaRect.width-window.innerWidth)<1 && Math.abs(arenaRect.height-window.innerHeight)<1);
   check('HUD stays under 60px',document.querySelector('.match-hud').getBoundingClientRect().height<60);
   check('No horizontal or vertical page overflow',document.documentElement.scrollWidth<=window.innerWidth && document.documentElement.scrollHeight<=window.innerHeight);
-  check('Roster retains all 20 fighters',document.querySelectorAll('[data-fighter]').length===20);
+  check('Roster retains all 23 fighters',document.querySelectorAll('[data-fighter]').length===23);
   parent.postMessage({type:'mobile-results',results},location.origin);
 });`;
 await writeFile(base+'__qa-game.js', await readFile(base+'__qa-game.js','utf8')+fixture);
