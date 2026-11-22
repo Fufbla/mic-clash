@@ -1,7 +1,7 @@
 name: Mic Clash combat checks
 on:
   push:
-    branches: [main]
+    branches: [main, four-fighters-20261122]
   workflow_dispatch:
 jobs:
   test:
