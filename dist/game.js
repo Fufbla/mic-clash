@@ -1274,7 +1274,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 / (FOUR_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = (215 / (FOUR_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h)) * (key==='shannondullGiant'?2.2:key==='czrAlien'?1.14:1);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
