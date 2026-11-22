@@ -1,10 +1,8 @@
-import {FOUR_FIGHTERS,FOUR_KINDS,fourPose} from './four-fighters.js';
-import {createFourAssets,drawFourSpecial} from './four-fighters-art.js';
 import { ASCENSION_FIGHTERS, ASCENSION_KINDS, ascensionPose } from './ascension-fighters.js';
 import { createAscensionRenderer } from './ascension-renderer.js';
 import { GAUNTLET_FIGHTERS, GAUNTLET_KINDS, gauntletPose } from './gauntlet-fighters.js';
 import { createGauntletRenderer } from './gauntlet-renderer.js';
-import { LocalControllers } from './controllers.js?v=four-fighters-20261122';
+import { LocalControllers } from './controllers.js?v=ascension-three-20261121';
 import { RUSH_FIGHTERS, RUSH_KINDS, rushPose } from './rush-fighters.js';
 import { createRushRenderer } from './rush-renderer.js';
 import { EXECUTIVE_FIGHTERS, EXECUTIVE_KINDS, executivePose } from './executive-fighters.js';
@@ -14,16 +12,12 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=four-fighters-20261122';
+import { CombatGame } from './combat.js?v=ascension-three-20261121';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
 const $ = id => document.getElementById(id);
 const META = {
-  czr:{name:'CZR',special:'Alien Invasion',color:'#bd99ff',glow:'rgba(160,75,250,.4)'},
-  shannondull:{name:'Shannon Dull',special:'Giant Smash',color:'#ffbe76',glow:'rgba(220,158,65,.4)'},
-  redrolls:{name:'Red Rolls',special:'Lowrider Takeover',color:'#ff586e',glow:'rgba(245,50,70,.4)'},
-  smokelord:{name:'Smoke Lord',special:'Giant Cone Smash',color:'#c5cfdf',glow:'rgba(175,185,200,.4)'},
   eynakeast: {name:'Eynak East', special:'Ghost Ascension', color:'#ce94ff', glow:'rgba(170,70,255,.4)'},
   goat: {name:'GOAT', special:'The Sign', color:'#ffdf72', glow:'rgba(255,209,70,.4)'},
   taytay: {name:'TayTay', special:'Travy!!!', color:'#ffe455', glow:'rgba(255,222,75,.4)'},
@@ -299,7 +293,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=four-fighters-20261122', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=ascension-three-20261121', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -307,7 +301,6 @@ async function loadAssets() {
     await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; img.src = new URL(entry.src, import.meta.url).href; });
     entry.image = img;
   }));
-  Object.assign(atlas,createFourAssets());
   state.assets = atlas;
   state.ready = true;
   updateLobby();
@@ -1246,8 +1239,7 @@ function drawFighter(f) {
   if (f.type === 'babybigfists') ({ key, index } = bigFistsSprite(f));
   if (EXECUTIVE_FIGHTERS[f.type]) ({ key, index } = executiveSprite(f));
   if (RUSH_FIGHTERS[f.type]) ({ key, index } = rushSprite(f));
-  if (FOUR_FIGHTERS[f.type]) ({key,index}=fourPose(f,state.game?.specials.find(s=>FOUR_KINDS.includes(s.kind)&&s.owner===f.id)));
-   if (ASCENSION_FIGHTERS[f.type]) ({ key, index } = ascensionSprite(f));
+  if (ASCENSION_FIGHTERS[f.type]) ({ key, index } = ascensionSprite(f));
   else if (GAUNTLET_FIGHTERS[f.type]) ({ key, index } = gauntletSprite(f));
   if (f.type === 'ocrrrrr') ({ key, index } = ocrrrrrSprite(f));
   if (f.type === 'demon') ({ key, index } = demonSprite(f));
@@ -1274,7 +1266,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = (215 / (FOUR_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h)) * (key==='shannondullGiant'?2.2:key==='czrAlien'?1.14:1);
+  const scale = 215 / (ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -1716,8 +1708,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
-  if(FOUR_KINDS.includes(s.kind)) {drawFourSpecial(ctx,s,state.game,frame,GROUND);return;}
-   if (ASCENSION_KINDS.includes(s.kind)) { ascensionRenderer.special(s,state.game); return; }
+  if (ASCENSION_KINDS.includes(s.kind)) { ascensionRenderer.special(s,state.game); return; }
   if (GAUNTLET_KINDS.includes(s.kind)) { gauntletRenderer.special(s,state.game); return; }
   if (RUSH_KINDS.includes(s.kind)) { rushRenderer.special(s,state.game); return; }
   if (EXECUTIVE_KINDS.includes(s.kind)) { executiveRenderer.special(s); return; }
@@ -1793,7 +1784,7 @@ function draw(dt) {
   ctx.fillStyle = '#101223'; ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (state.game) {
     const [a, b] = state.game.fighters;
-    const wideSpecialActive = state.game.specials.some(s => (s.kind === 'car' && s.active) || (s.kind === 'backup' && s.car?.visible) || (s.kind === 'horse' && s.active) || (s.kind === 'crew' && s.active) || (s.kind === 'maskedCrew' && s.active) || (s.kind === 'royce' && s.active) || (s.kind === 'prizeCrew' && s.active) || (s.kind==='lowriderCrew' && s.active));
+    const wideSpecialActive = state.game.specials.some(s => (s.kind === 'car' && s.active) || (s.kind === 'backup' && s.car?.visible) || (s.kind === 'horse' && s.active) || (s.kind === 'crew' && s.active) || (s.kind === 'maskedCrew' && s.active) || (s.kind === 'royce' && s.active) || (s.kind === 'prizeCrew' && s.active));
     const framing = [a.x,b.x];
     for (const s of state.game.specials) {
       if (s.kind === 'faceShot') framing.push(s.focusX);
