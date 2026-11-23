@@ -1,3 +1,4 @@
+import { FUED, fuedPose, drawFuedBoard } from './fued-fam.js';
 import { CHARLES, charlesPose, drawCharlesSpray } from './charles.js';
 import {NEON_FIGHTERS,NEON_KINDS,neonPose} from './neon-fighters.js';
 import {createNeonRenderer} from './neon-renderer.js';
@@ -5,7 +6,7 @@ import { ASCENSION_FIGHTERS, ASCENSION_KINDS, ascensionPose } from './ascension-
 import { createAscensionRenderer } from './ascension-renderer.js';
 import { GAUNTLET_FIGHTERS, GAUNTLET_KINDS, gauntletPose } from './gauntlet-fighters.js';
 import { createGauntletRenderer } from './gauntlet-renderer.js';
-import { LocalControllers } from './controllers.js?v=charles-20261123';
+import { LocalControllers } from './controllers.js?v=fuedfam-20261123';
 import { RUSH_FIGHTERS, RUSH_KINDS, rushPose } from './rush-fighters.js';
 import { createRushRenderer } from './rush-renderer.js';
 import { EXECUTIVE_FIGHTERS, EXECUTIVE_KINDS, executivePose } from './executive-fighters.js';
@@ -15,12 +16,13 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=charles-20261123';
+import { CombatGame } from './combat.js?v=fuedfam-20261123';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
 const $ = id => document.getElementById(id);
 const META = {
+  fuedfam: FUED,
   charles: CHARLES,
  ...Object.fromEntries(Object.entries(NEON_FIGHTERS).map(([k,f])=>[k,{...f,color:k==='redrolls'?'#ff5353':'#c487ff',glow:'rgba(180,70,255,.4)'}])),
   eynakeast: {name:'Eynak East', special:'Ghost Ascension', color:'#ce94ff', glow:'rgba(170,70,255,.4)'},
@@ -299,7 +301,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=charles-20261123', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=fuedfam-20261123', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -822,7 +824,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -1107,6 +1109,7 @@ function drawFighterSpeech(s, text, viewScale, offsetX, offsetY) {
   ctx.restore();
 }
 
+function fuedSprite(f) { return fuedPose(f,state.game?.specials.find(s=>s.kind===FUED.kind && s.owner===f.id)); }
 function charlesSprite(f) { return charlesPose(f, state.game?.specials.find(s => s.kind === CHARLES.kind && s.owner === f.id)); }
 function neonSprite(f){return neonPose(f,state.game?.specials.find(s=>NEON_KINDS.includes(s.kind)&&s.owner===f.id));}
 function ascensionSprite(f) {
@@ -1236,6 +1239,7 @@ function drawFighter(f) {
   // The captured fighter is drawn once, held at the actual mouth, below.
   if (f.inCar || f.grabbedBy) return;
   let key = f.type, index = poseIndex(f);
+  if (f.type === 'fuedfam') ({key,index}=fuedSprite(f));
   if (f.type === 'charles') ({ key, index } = charlesSprite(f));
   if (f.type === 'getit') ({ key, index } = getItSprite(f));
   if (f.type === 'loudbull') ({ key, index } = loudBullSprite(f));
@@ -1276,7 +1280,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -1718,6 +1722,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if (s.kind === FUED.kind) { drawFuedBoard(ctx,s,frame,GROUND); return; }
   if (s.kind === CHARLES.kind) { drawCharlesSpray(ctx, s, GROUND); return; }
   if (NEON_KINDS.includes(s.kind)) {neonRenderer.special(s);return;}
   if (ASCENSION_KINDS.includes(s.kind)) { ascensionRenderer.special(s,state.game); return; }

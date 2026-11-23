@@ -98,10 +98,10 @@ test('GOAT forms the sign before one full opaque whiteout and exactly one 48-dam
 });
 test('Both entry points have 29 unique fighters, 120 new frames and the Travy voice',()=>{
   const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
-  assert.equal(FIGHTERS.length,34);
+  assert.equal(FIGHTERS.length,35);
   for(const path of ['../index.html','../dist/index.html']){
     const html=readFileSync(new URL(path,import.meta.url),'utf8'),cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,34);assert.deepEqual(new Set(cards),new Set(FIGHTERS));
+    assert.equal(cards.length,35);assert.deepEqual(new Set(cards),new Set(FIGHTERS));
     assert.deepEqual(new Set([...html.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1])),new Set(FIGHTERS));
     assert.ok(html.includes('id="goatWhiteout"'));
   }

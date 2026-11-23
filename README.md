@@ -237,3 +237,7 @@ Each special deals 48 damage, consumes a full meter, has complete presentation p
 ## Cockeyed Charles
 
 The roster now includes Cockeyed Charles with 16 transparent poses matching the supplied green hoodie, blue cap, gold chains, thin body, oversized head and visibly crossed eyes. His basic attack swipes downward. Bear Spray Call-Out shows a phone call, draws the can, and sprays a broad yellow cone across most of the arena. Four pulses deal 12 damage each (48 total), require the full meter, and do not recharge it. He is selectable by either local player and as a CPU opponent.
+
+## Fued Fam
+
+Fued Fam joins the roster with his bald head, black mustache, charcoal-purple suit and purple polka-dot tie. His 15 character poses include movement, punches, a kick, blocking, hurt, victory and pointing. The Board Drop points upward, reveals a separate illuminated scoreboard above the opponent, locks its location, then drops it for one 48-damage impact. The move requires the full meter and can be dodged after the board appears. Available in CPU and local two-player modes.

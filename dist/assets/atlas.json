@@ -16923,5 +16923,217 @@
         "anchorY": 301
       }
     ]
+  },
+  "fuedfam": {
+    "src": "assets/fued-fam.png",
+    "width": 1254,
+    "height": 1254,
+    "cols": 4,
+    "rows": 4,
+    "referenceHeight": 283,
+    "frames": [
+      {
+        "x": 72,
+        "y": 23,
+        "w": 179,
+        "h": 283,
+        "cellX": 0,
+        "cellY": 0,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 90.76000000000002,
+        "anchorY": 282
+      },
+      {
+        "x": 378,
+        "y": 25,
+        "w": 183,
+        "h": 280,
+        "cellX": 313,
+        "cellY": 0,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 98.28,
+        "anchorY": 279
+      },
+      {
+        "x": 696,
+        "y": 27,
+        "w": 185,
+        "h": 277,
+        "cellX": 627,
+        "cellY": 0,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 93.76000000000002,
+        "anchorY": 276
+      },
+      {
+        "x": 984,
+        "y": 29,
+        "w": 228,
+        "h": 268,
+        "cellX": 940,
+        "cellY": 0,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 119.28,
+        "anchorY": 267
+      },
+      {
+        "x": 81,
+        "y": 331,
+        "w": 166,
+        "h": 256,
+        "cellX": 0,
+        "cellY": 313,
+        "cellW": 313,
+        "cellH": 314,
+        "anchorX": 81.76000000000002,
+        "anchorY": 287
+      },
+      {
+        "x": 383,
+        "y": 335,
+        "w": 177,
+        "h": 280,
+        "cellX": 313,
+        "cellY": 313,
+        "cellW": 314,
+        "cellH": 314,
+        "anchorX": 93.28,
+        "anchorY": 279
+      },
+      {
+        "x": 667,
+        "y": 352,
+        "w": 228,
+        "h": 262,
+        "cellX": 627,
+        "cellY": 313,
+        "cellW": 313,
+        "cellH": 314,
+        "anchorX": 113.37,
+        "anchorY": 261
+      },
+      {
+        "x": 1024,
+        "y": 331,
+        "w": 164,
+        "h": 287,
+        "cellX": 940,
+        "cellY": 313,
+        "cellW": 314,
+        "cellH": 314,
+        "anchorX": 79.28,
+        "anchorY": 286
+      },
+      {
+        "x": 45,
+        "y": 648,
+        "w": 218,
+        "h": 273,
+        "cellX": 0,
+        "cellY": 627,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 105.23999999999998,
+        "anchorY": 272
+      },
+      {
+        "x": 353,
+        "y": 652,
+        "w": 261,
+        "h": 269,
+        "cellX": 313,
+        "cellY": 627,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 104.44,
+        "anchorY": 268
+      },
+      {
+        "x": 672,
+        "y": 651,
+        "w": 211,
+        "h": 268,
+        "cellX": 627,
+        "cellY": 627,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 108.37,
+        "anchorY": 267
+      },
+      {
+        "x": 986,
+        "y": 647,
+        "w": 233,
+        "h": 275,
+        "cellX": 940,
+        "cellY": 627,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 92.16,
+        "anchorY": 274
+      },
+      {
+        "x": 62,
+        "y": 964,
+        "w": 211,
+        "h": 281,
+        "cellX": 0,
+        "cellY": 940,
+        "cellW": 313,
+        "cellH": 314,
+        "anchorX": 91.37,
+        "anchorY": 281
+      },
+      {
+        "x": 355,
+        "y": 967,
+        "w": 243,
+        "h": 277,
+        "cellX": 313,
+        "cellY": 940,
+        "cellW": 314,
+        "cellH": 314,
+        "anchorX": 105.57999999999998,
+        "anchorY": 277
+      },
+      {
+        "x": 634,
+        "y": 972,
+        "w": 267,
+        "h": 271,
+        "cellX": 627,
+        "cellY": 940,
+        "cellW": 297,
+        "cellH": 314,
+        "anchorX": 132.59,
+        "anchorY": 271
+      }
+    ]
+  },
+  "fuedfamBoard": {
+    "src": "assets/fued-fam.png",
+    "width": 1254,
+    "height": 1254,
+    "cols": 4,
+    "rows": 4,
+    "referenceHeight": 283,
+    "frames": [
+      {
+        "x": 939,
+        "y": 994,
+        "w": 315,
+        "h": 196,
+        "cellX": 924,
+        "cellY": 940,
+        "cellW": 330,
+        "cellH": 314,
+        "anchorX": 150.0,
+        "anchorY": 196
+      }
+    ]
   }
 }
