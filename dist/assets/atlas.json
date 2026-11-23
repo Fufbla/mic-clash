@@ -16721,5 +16721,207 @@
         "anchorY": 266
       }
     ]
+  },
+  "charles": {
+    "src": "assets/charles-fighter.png",
+    "width": 1254,
+    "height": 1254,
+    "cols": 4,
+    "rows": 4,
+    "referenceHeight": 303,
+    "frames": [
+      {
+        "x": 101,
+        "y": 7,
+        "w": 139,
+        "h": 303,
+        "cellX": 0,
+        "cellY": 0,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 71.15,
+        "anchorY": 302
+      },
+      {
+        "x": 408,
+        "y": 12,
+        "w": 152,
+        "h": 296,
+        "cellX": 313,
+        "cellY": 0,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 74.56,
+        "anchorY": 295
+      },
+      {
+        "x": 708,
+        "y": 13,
+        "w": 179,
+        "h": 296,
+        "cellX": 627,
+        "cellY": 0,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 84.89000000000001,
+        "anchorY": 295
+      },
+      {
+        "x": 1009,
+        "y": 27,
+        "w": 185,
+        "h": 276,
+        "cellX": 940,
+        "cellY": 0,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 97.42000000000002,
+        "anchorY": 275
+      },
+      {
+        "x": 71,
+        "y": 325,
+        "w": 167,
+        "h": 248,
+        "cellX": 0,
+        "cellY": 313,
+        "cellW": 313,
+        "cellH": 314,
+        "anchorX": 85.5,
+        "anchorY": 297
+      },
+      {
+        "x": 396,
+        "y": 329,
+        "w": 164,
+        "h": 289,
+        "cellX": 313,
+        "cellY": 313,
+        "cellW": 314,
+        "cellH": 314,
+        "anchorX": 80.28,
+        "anchorY": 288
+      },
+      {
+        "x": 666,
+        "y": 340,
+        "w": 229,
+        "h": 275,
+        "cellX": 627,
+        "cellY": 313,
+        "cellW": 313,
+        "cellH": 314,
+        "anchorX": 114.37,
+        "anchorY": 274
+      },
+      {
+        "x": 1022,
+        "y": 322,
+        "w": 169,
+        "h": 298,
+        "cellX": 940,
+        "cellY": 313,
+        "cellW": 314,
+        "cellH": 314,
+        "anchorX": 81.28,
+        "anchorY": 297
+      },
+      {
+        "x": 56,
+        "y": 634,
+        "w": 191,
+        "h": 296,
+        "cellX": 0,
+        "cellY": 627,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 94.23999999999998,
+        "anchorY": 295
+      },
+      {
+        "x": 370,
+        "y": 641,
+        "w": 217,
+        "h": 289,
+        "cellX": 313,
+        "cellY": 627,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 93.72,
+        "anchorY": 288
+      },
+      {
+        "x": 673,
+        "y": 656,
+        "w": 209,
+        "h": 274,
+        "cellX": 627,
+        "cellY": 627,
+        "cellW": 313,
+        "cellH": 313,
+        "anchorX": 107.37,
+        "anchorY": 274
+      },
+      {
+        "x": 992,
+        "y": 635,
+        "w": 206,
+        "h": 295,
+        "cellX": 940,
+        "cellY": 627,
+        "cellW": 314,
+        "cellH": 313,
+        "anchorX": 95.57999999999998,
+        "anchorY": 294
+      },
+      {
+        "x": 89,
+        "y": 945,
+        "w": 156,
+        "h": 305,
+        "cellX": 0,
+        "cellY": 940,
+        "cellW": 313,
+        "cellH": 314,
+        "anchorX": 73.76000000000002,
+        "anchorY": 305
+      },
+      {
+        "x": 379,
+        "y": 945,
+        "w": 171,
+        "h": 305,
+        "cellX": 313,
+        "cellY": 940,
+        "cellW": 314,
+        "cellH": 314,
+        "anchorX": 87.85999999999999,
+        "anchorY": 304
+      },
+      {
+        "x": 676,
+        "y": 948,
+        "w": 232,
+        "h": 301,
+        "cellX": 627,
+        "cellY": 940,
+        "cellW": 313,
+        "cellH": 314,
+        "anchorX": 88.72,
+        "anchorY": 301
+      },
+      {
+        "x": 991,
+        "y": 948,
+        "w": 229,
+        "h": 301,
+        "cellX": 940,
+        "cellY": 940,
+        "cellW": 314,
+        "cellH": 314,
+        "anchorX": 87.16,
+        "anchorY": 301
+      }
+    ]
   }
 }

@@ -233,3 +233,7 @@ The roster now has 23 fighters. The new transparent sprite sheets add 96 full-bo
 - **J Minors:** cool strut, jab, front kick, and The Chase. He panics and runs past his rival while a blonde handbag-wielding pursuer follows and strikes the marked position. Moving out of that position avoids the strike.
 
 Each special deals 48 damage, consumes a full meter, has complete presentation protection and recovery, and uses the same player/CPU logic. The existing 320-health rounds, fullscreen arena, compact HUD, consolidated Pause options, and touch gesture handling are retained. See `references/rush-fighters-release.md` for validation and `references/rush-fighter-art-prompts.json` for asset provenance.
+
+## Cockeyed Charles
+
+The roster now includes Cockeyed Charles with 16 transparent poses matching the supplied green hoodie, blue cap, gold chains, thin body, oversized head and visibly crossed eyes. His basic attack swipes downward. Bear Spray Call-Out shows a phone call, draws the can, and sprays a broad yellow cone across most of the arena. Four pulses deal 12 damage each (48 total), require the full meter, and do not recharge it. He is selectable by either local player and as a CPU opponent.
