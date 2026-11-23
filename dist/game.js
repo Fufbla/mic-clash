@@ -1,6 +1,7 @@
+import {TRINI,triniPose,drawTriniSpecial,drawTriniWhip} from './trini-gold.js';
 import {TREE,treePose,drawTreeSpecial} from './tree-a-yawl.js';
 import {SABER,saberPose,drawSaberSlash} from './ooou-saber.js';
-import { FUED, fuedPose, drawFuedBoard } from './fued-fam.js?v=treeyawl-20261123';
+import { FUED, fuedPose, drawFuedBoard } from './fued-fam.js?v=trinigold-20261123';
 import { CHARLES, charlesPose, drawCharlesSpray } from './charles.js';
 import {NEON_FIGHTERS,NEON_KINDS,neonPose} from './neon-fighters.js';
 import {createNeonRenderer} from './neon-renderer.js';
@@ -8,7 +9,7 @@ import { ASCENSION_FIGHTERS, ASCENSION_KINDS, ascensionPose } from './ascension-
 import { createAscensionRenderer } from './ascension-renderer.js';
 import { GAUNTLET_FIGHTERS, GAUNTLET_KINDS, gauntletPose } from './gauntlet-fighters.js';
 import { createGauntletRenderer } from './gauntlet-renderer.js';
-import { LocalControllers } from './controllers.js?v=treeyawl-20261123';
+import { LocalControllers } from './controllers.js?v=trinigold-20261123';
 import { RUSH_FIGHTERS, RUSH_KINDS, rushPose } from './rush-fighters.js';
 import { createRushRenderer } from './rush-renderer.js';
 import { EXECUTIVE_FIGHTERS, EXECUTIVE_KINDS, executivePose } from './executive-fighters.js';
@@ -18,12 +19,13 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=treeyawl-20261123';
+import { CombatGame } from './combat.js?v=trinigold-20261123';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
 const $ = id => document.getElementById(id);
 const META = {
+  trinigold:TRINI,
   treeyawl:TREE,
   ooousaber:SABER,
   fuedfam: FUED,
@@ -117,7 +119,7 @@ function actionDown(action) {
   if (action === 'kick') pressed.kickPressed = true;
   if (action === 'special') {
     if (presenting) showToast(`${META[state.game.fighters[0].type].special} is still playing.`, 1.5);
-    else if (state.game.fighters[0].meter < 100) showToast(['treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : ['quickfast','bigmumble'].includes(state.game.fighters[0].type) ? 'Land headbutts and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
+    else if (state.game.fighters[0].meter < 100) showToast(state.game.fighters[0].type==='trinigold' ? 'Land chain whips and kicks to fill your special meter.' : ['treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : ['quickfast','bigmumble'].includes(state.game.fighters[0].type) ? 'Land headbutts and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
     else if (state.game.fighters[0].type === 'dr-no-bunnies' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > 285 || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for the belt slap. Your full meter is saved.', 1.8);
     else if (state.game.fighters[0].type === 'smackprince' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > SMACK_UPGRADE.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for The Smack Upgrade. Your full meter is saved.', 1.8);
     else if (state.game.fighters[0].type === 'babybigfists' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > GIANT_FISTS.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for Giant Fists. Your full meter is saved.', 1.8);
@@ -305,7 +307,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=treeyawl-20261123', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=trinigold-20261123', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -514,8 +516,8 @@ function startFight() {
     : 'Celebrity Gauntlet fighting arena. Use the left analog stick and four action buttons, keyboard, or a controller.');
   const slaps = ['treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.selected);
   const mic = state.selected === 'cantrap';
-  document.querySelector('[data-control="punch"]')?.setAttribute('aria-label', ['charles','ooousaber'].includes(state.selected) ? 'Downward swipe. Keyboard J.' : ['quickfast','bigmumble'].includes(state.selected) ? 'Headbutt. Keyboard J.' : state.selected==='redrolls' ? 'Bottle strike. Keyboard J.' : mic ? 'Microphone strike. Keyboard J.' : slaps ? 'Open-hand slap. Keyboard J.' : 'Punch. Keyboard J.');
-  document.querySelector('[data-control="punch"] .control-label').textContent = ['charles','ooousaber'].includes(state.selected) ? 'SWIPE' : ['quickfast','bigmumble'].includes(state.selected) ? 'HEADBUTT' : state.selected==='redrolls' ? 'BOTTLE' : mic ? 'MIC HIT' : slaps ? 'SLAP' : 'PUNCH';
+  document.querySelector('[data-control="punch"]')?.setAttribute('aria-label', state.selected==='trinigold' ? 'Chain whip. Keyboard J.' : ['charles','ooousaber'].includes(state.selected) ? 'Downward swipe. Keyboard J.' : ['quickfast','bigmumble'].includes(state.selected) ? 'Headbutt. Keyboard J.' : state.selected==='redrolls' ? 'Bottle strike. Keyboard J.' : mic ? 'Microphone strike. Keyboard J.' : slaps ? 'Open-hand slap. Keyboard J.' : 'Punch. Keyboard J.');
+  document.querySelector('[data-control="punch"] .control-label').textContent = state.selected==='trinigold' ? 'CHAIN' : ['charles','ooousaber'].includes(state.selected) ? 'SWIPE' : ['quickfast','bigmumble'].includes(state.selected) ? 'HEADBUTT' : state.selected==='redrolls' ? 'BOTTLE' : mic ? 'MIC HIT' : slaps ? 'SLAP' : 'PUNCH';
   setPhase('countdown');
   $('phaseText').textContent = 'Get ready';
   updateHUD();
@@ -828,7 +830,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -1113,6 +1115,7 @@ function drawFighterSpeech(s, text, viewScale, offsetX, offsetY) {
   ctx.restore();
 }
 
+function triniSprite(f){return triniPose(f,state.game?.specials.find(s=>s.kind===TRINI.kind&&s.owner===f.id));}
 function treeSprite(f){return treePose(f,state.game?.specials.find(s=>s.kind===TREE.kind&&s.owner===f.id));}
 function saberSprite(f){return saberPose(f,state.game?.specials.find(s=>s.kind===SABER.kind&&s.owner===f.id));}
 function fuedSprite(f) { return fuedPose(f,state.game?.specials.find(s=>s.kind===FUED.kind && s.owner===f.id)); }
@@ -1245,7 +1248,8 @@ function drawFighter(f) {
   // The captured fighter is drawn once, held at the actual mouth, below.
   if (f.inCar || f.grabbedBy) return;
   let key = f.type, index = poseIndex(f);
-  if(f.type==='treeyawl')({key,index}=treeSprite(f));
+  if(f.type==='trinigold')({key,index}=triniSprite(f));
+  else if(f.type==='treeyawl')({key,index}=treeSprite(f));
   else if(f.type==='ooousaber')({key,index}=saberSprite(f));
   if (f.type === 'fuedfam') ({key,index}=fuedSprite(f));
   if (f.type === 'charles') ({ key, index } = charlesSprite(f));
@@ -1288,7 +1292,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -1317,6 +1321,7 @@ function drawFighter(f) {
     ctx.beginPath(); ctx.moveTo(32, -148); ctx.quadraticCurveTo(135, -157, 128, -95); ctx.stroke(); ctx.restore();
   }
   ctx.restore();
+  drawTriniWhip(ctx,f,GROUND);
   if ((f.id === 'p1' || state.mode === 'local') && !state.game.over) {
     ctx.fillStyle = state.mode === 'local' ? f.id === 'p1' ? '#ff82bf' : '#87b9ff' : META[f.type].color;
     ctx.beginPath(); ctx.moveTo(f.x - 7, GROUND - f.y - 238); ctx.lineTo(f.x + 7, GROUND - f.y - 238); ctx.lineTo(f.x, GROUND - f.y - 229); ctx.fill();
@@ -1730,6 +1735,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if(s.kind===TRINI.kind){drawTriniSpecial(ctx,s,GROUND);return;}
   if(s.kind===TREE.kind){drawTreeSpecial(ctx,s,state.game,frame,GROUND);return;}
   if(s.kind===SABER.kind){drawSaberSlash(ctx,s,state.game,GROUND);return;}
   if (s.kind === FUED.kind) { drawFuedBoard(ctx,s,frame,GROUND); return; }
@@ -1811,7 +1817,7 @@ function draw(dt) {
   ctx.fillStyle = '#101223'; ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (state.game) {
     const [a, b] = state.game.fighters;
-    const wideSpecialActive = state.game.specials.some(s => s.kind === TREE.kind || s.kind === CHARLES.kind || NEON_KINDS.includes(s.kind) || (s.kind === 'car' && s.active) || (s.kind === 'backup' && s.car?.visible) || (s.kind === 'horse' && s.active) || (s.kind === 'crew' && s.active) || (s.kind === 'maskedCrew' && s.active) || (s.kind === 'royce' && s.active) || (s.kind === 'prizeCrew' && s.active));
+    const wideSpecialActive = state.game.specials.some(s => s.kind === TRINI.kind || s.kind === TREE.kind || s.kind === CHARLES.kind || NEON_KINDS.includes(s.kind) || (s.kind === 'car' && s.active) || (s.kind === 'backup' && s.car?.visible) || (s.kind === 'horse' && s.active) || (s.kind === 'crew' && s.active) || (s.kind === 'maskedCrew' && s.active) || (s.kind === 'royce' && s.active) || (s.kind === 'prizeCrew' && s.active));
     const framing = [a.x,b.x];
     for (const s of state.game.specials) {
       if (s.kind === 'faceShot') framing.push(s.focusX);

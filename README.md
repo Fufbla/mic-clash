@@ -247,3 +247,5 @@ Feud Fam joins the roster with his bald head, black mustache, charcoal-purple su
 Ooou Saber has 16 transparent poses matching the red cap, dreadlocks, white shirt, gray sweats, front pouch and silver chains. Basic attacks swipe downward. Jelly Saber Strike reaches into the pouch, draws a glowing magenta fantasy sword, then slashes with an “OOOUUU!” speech bubble. One hit deals 48 damage within 340 world pixels, requires the full meter, and can miss. Selectable for CPU and local two-player matches.
 
 Tree-a Yawl joins the 37-fighter roster with hand-rubbing movement, open-hand slaps, and Orb Dragon Rush: seven orange orbs summon a sweeping green dragon. Available in solo and local two-player modes.
+
+Trini-Gold joins the 38-fighter roster with a 245-unit chain-whip basic attack and six-projectile Chain Barrage. Available in solo and local two-player modes.

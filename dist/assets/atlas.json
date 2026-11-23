@@ -17541,5 +17541,203 @@
       }
     ],
     "referenceHeight": 281
+  },
+  "trinigold": {
+    "src": "./assets/trini-gold.png",
+    "frames": [
+      {
+        "x": 114,
+        "y": 10,
+        "w": 165,
+        "h": 260,
+        "cellX": 0,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 74.24000000000001,
+        "anchorY": 259
+      },
+      {
+        "x": 469,
+        "y": 15,
+        "w": 162,
+        "h": 254,
+        "cellX": 362,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 81.24000000000001,
+        "anchorY": 253
+      },
+      {
+        "x": 831,
+        "y": 10,
+        "w": 168,
+        "h": 260,
+        "cellX": 724,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 81.24000000000001,
+        "anchorY": 259
+      },
+      {
+        "x": 1166,
+        "y": 16,
+        "w": 207,
+        "h": 252,
+        "cellX": 1086,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 108.24000000000001,
+        "anchorY": 251
+      },
+      {
+        "x": 91,
+        "y": 281,
+        "w": 211,
+        "h": 237,
+        "cellX": 0,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 97.24000000000001,
+        "anchorY": 259
+      },
+      {
+        "x": 451,
+        "y": 293,
+        "w": 193,
+        "h": 243,
+        "cellX": 362,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 99.24000000000001,
+        "anchorY": 243
+      },
+      {
+        "x": 791,
+        "y": 293,
+        "w": 230,
+        "h": 243,
+        "cellX": 724,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 121.24000000000001,
+        "anchorY": 243
+      },
+      {
+        "x": 1177,
+        "y": 283,
+        "w": 197,
+        "h": 253,
+        "cellX": 1086,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 97.24000000000001,
+        "anchorY": 253
+      },
+      {
+        "x": 44,
+        "y": 558,
+        "w": 242,
+        "h": 244,
+        "cellX": 0,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 144.24,
+        "anchorY": 243
+      },
+      {
+        "x": 428,
+        "y": 556,
+        "w": 277,
+        "h": 246,
+        "cellX": 362,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 96.9,
+        "anchorY": 245
+      },
+      {
+        "x": 778,
+        "y": 557,
+        "w": 269,
+        "h": 244,
+        "cellX": 724,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 108.9,
+        "anchorY": 243
+      },
+      {
+        "x": 1148,
+        "y": 553,
+        "w": 242,
+        "h": 249,
+        "cellX": 1086,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 126.24000000000001,
+        "anchorY": 248
+      },
+      {
+        "x": 89,
+        "y": 823,
+        "w": 199,
+        "h": 254,
+        "cellX": 0,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 99.24000000000001,
+        "anchorY": 254
+      },
+      {
+        "x": 394,
+        "y": 824,
+        "w": 296,
+        "h": 253,
+        "cellX": 362,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 156.24,
+        "anchorY": 253
+      },
+      {
+        "x": 766,
+        "y": 828,
+        "w": 298,
+        "h": 250,
+        "cellX": 724,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 120.9,
+        "anchorY": 249
+      },
+      {
+        "x": 1184,
+        "y": 825,
+        "w": 214,
+        "h": 252,
+        "cellX": 1086,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 90.24000000000001,
+        "anchorY": 252
+      }
+    ],
+    "referenceHeight": 260
   }
 }
