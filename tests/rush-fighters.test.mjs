@@ -83,11 +83,11 @@ test('The new fighters keep specials immune to each other and to personal-securi
     a.meter=100;g.useSpecial(a);step(g,5);assert.equal(b.hp,272);assert.equal(b.incomingBasics,9);assert.equal(b.securityBlocks,0);
   }
 });
-test('All 33 roster cards/opponent choices and the 108 new sprite frames ship in both entry points',()=>{
+test('All 29 roster cards/opponent choices and the 108 new sprite frames ship in both entry points',()=>{
   const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
   for(const entry of ['../index.html','../dist/index.html']){
     const html=readFileSync(new URL(entry,import.meta.url),'utf8');const cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,33);assert.equal(new Set(cards).size,33);
+    assert.equal(cards.length,29);assert.equal(new Set(cards).size,29);
     const options=[...html.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1]);assert.deepEqual(new Set(options),new Set(cards));
     for(const type of Object.keys(roster))assert.ok(cards.includes(type));
   }

@@ -96,12 +96,12 @@ test('GOAT forms the sign before one full opaque whiteout and exactly one 48-dam
   }
   assert.equal(goatWhiteout(0),0);assert.equal(goatWhiteout(1.5),1);assert.equal(goatWhiteout(3),0);
 });
-test('Both entry points have 33 unique fighters, 120 new frames and the Travy voice',()=>{
+test('Both entry points have 29 unique fighters, 120 new frames and the Travy voice',()=>{
   const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
-  assert.equal(FIGHTERS.length,33);
+  assert.equal(FIGHTERS.length,29);
   for(const path of ['../index.html','../dist/index.html']){
     const html=readFileSync(new URL(path,import.meta.url),'utf8'),cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,33);assert.deepEqual(new Set(cards),new Set(FIGHTERS));
+    assert.equal(cards.length,29);assert.deepEqual(new Set(cards),new Set(FIGHTERS));
     assert.deepEqual(new Set([...html.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1])),new Set(FIGHTERS));
     assert.ok(html.includes('id="goatWhiteout"'));
   }

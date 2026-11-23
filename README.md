@@ -1,6 +1,6 @@
 # Celebrity Gauntlet
 
-A self-contained browser fighting game with thirty-three selectable chibi fighters, a selectable CPU opponent or local two-player versus, and 90-second rounds on an illustrated city rooftop. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
+A self-contained browser fighting game with twenty-three selectable chibi fighters, a selectable CPU opponent or local two-player versus, and 90-second rounds on an illustrated city rooftop. Built with vanilla JavaScript and canvas; no install or build step is required. Play the current release at https://fufbla.github.io/mic-clash/.
 
 ## City rooftop and name update — November 21, 2026
 
@@ -233,7 +233,3 @@ The roster now has 23 fighters. The new transparent sprite sheets add 96 full-bo
 - **J Minors:** cool strut, jab, front kick, and The Chase. He panics and runs past his rival while a blonde handbag-wielding pursuer follows and strikes the marked position. Moving out of that position avoids the strike.
 
 Each special deals 48 damage, consumes a full meter, has complete presentation protection and recovery, and uses the same player/CPU logic. The existing 320-health rounds, fullscreen arena, compact HUD, consolidated Pause options, and touch gesture handling are retained. See `references/rush-fighters-release.md` for validation and `references/rush-fighter-art-prompts.json` for asset provenance.
-
-## Four fighters — November 22, 2026
-
-CZR, Shannon Dull, Red Rolls and Smoke Lord join the selectable roster in VS CPU and local two-player. Their specials are Alien Invasion (48 damage), Giant Smash (48), Lowrider Takeover (4 × 12) and Giant Cone Smash (48). They have self-contained, illustrated in-engine chibi sprites while the recovered high-resolution asset package awaits integration. All existing fighters remain available.
