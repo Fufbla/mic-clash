@@ -17337,5 +17337,209 @@
         "anchorY": 293
       }
     ]
+  },
+  "treeyawl": {
+    "src": "./assets/tree-a-yawl.png",
+    "frames": [
+      {
+        "x": 110,
+        "y": 28,
+        "w": 155,
+        "h": 268,
+        "cellX": 0,
+        "cellY": 0,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 47.5,
+        "anchorY": 267
+      },
+      {
+        "x": 415,
+        "y": 28,
+        "w": 154,
+        "h": 270,
+        "cellX": 315,
+        "cellY": 0,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 57.5,
+        "anchorY": 269
+      },
+      {
+        "x": 720,
+        "y": 28,
+        "w": 144,
+        "h": 273,
+        "cellX": 630,
+        "cellY": 0,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 67.5,
+        "anchorY": 272
+      },
+      {
+        "x": 1012,
+        "y": 25,
+        "w": 161,
+        "h": 276,
+        "cellX": 945,
+        "cellY": 0,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 90.5,
+        "anchorY": 275
+      },
+      {
+        "x": 91,
+        "y": 332,
+        "w": 181,
+        "h": 242,
+        "cellX": 0,
+        "cellY": 311,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 66.5,
+        "anchorY": 274
+      },
+      {
+        "x": 381,
+        "y": 343,
+        "w": 205,
+        "h": 258,
+        "cellX": 315,
+        "cellY": 311,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 91.5,
+        "anchorY": 258
+      },
+      {
+        "x": 697,
+        "y": 350,
+        "w": 210,
+        "h": 251,
+        "cellX": 630,
+        "cellY": 311,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 90.5,
+        "anchorY": 250
+      },
+      {
+        "x": 987,
+        "y": 341,
+        "w": 211,
+        "h": 258,
+        "cellX": 945,
+        "cellY": 311,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 115.5,
+        "anchorY": 257
+      },
+      {
+        "x": 60,
+        "y": 640,
+        "w": 210,
+        "h": 256,
+        "cellX": 0,
+        "cellY": 623,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 97.5,
+        "anchorY": 255
+      },
+      {
+        "x": 352,
+        "y": 643,
+        "w": 243,
+        "h": 253,
+        "cellX": 315,
+        "cellY": 623,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 104.75,
+        "anchorY": 252
+      },
+      {
+        "x": 676,
+        "y": 640,
+        "w": 236,
+        "h": 294,
+        "cellX": 630,
+        "cellY": 623,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 95.75,
+        "anchorY": 294
+      },
+      {
+        "x": 986,
+        "y": 637,
+        "w": 234,
+        "h": 259,
+        "cellX": 945,
+        "cellY": 623,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 100.75,
+        "anchorY": 258
+      },
+      {
+        "x": 84,
+        "y": 944,
+        "w": 180,
+        "h": 272,
+        "cellX": 0,
+        "cellY": 935,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 73.5,
+        "anchorY": 271
+      },
+      {
+        "x": 344,
+        "y": 963,
+        "w": 250,
+        "h": 252,
+        "cellX": 315,
+        "cellY": 935,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 128.5,
+        "anchorY": 251
+      }
+    ],
+    "referenceHeight": 268
+  },
+  "treeyawlDragon": {
+    "src": "./assets/tree-a-yawl.png",
+    "frames": [
+      {
+        "x": 639,
+        "y": 935,
+        "w": 306,
+        "h": 281,
+        "cellX": 630,
+        "cellY": 935,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 148.5,
+        "anchorY": 280
+      },
+      {
+        "x": 945,
+        "y": 974,
+        "w": 311,
+        "h": 191,
+        "cellX": 945,
+        "cellY": 935,
+        "cellW": 315,
+        "cellH": 311,
+        "anchorX": 157.5,
+        "anchorY": 189
+      }
+    ],
+    "referenceHeight": 281
   }
 }

@@ -87,7 +87,7 @@ test('All 29 roster cards/opponent choices and the 108 new sprite frames ship in
   const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
   for(const entry of ['../index.html','../dist/index.html']){
     const html=readFileSync(new URL(entry,import.meta.url),'utf8');const cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,36);assert.equal(new Set(cards).size,36);
+    assert.equal(cards.length,37);assert.equal(new Set(cards).size,37);
     const options=[...html.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1]);assert.deepEqual(new Set(options),new Set(cards));
     for(const type of Object.keys(roster))assert.ok(cards.includes(type));
   }
