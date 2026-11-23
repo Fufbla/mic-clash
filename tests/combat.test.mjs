@@ -1070,10 +1070,10 @@ test('CPU HeHaw calls the stallion from across the arena using the same special 
   assert.equal(ai.horseActive, false); assert.equal(g.specials.length, 0);
 });
 
-const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay'];
-const specialKinds = ['owl', 'car', 'barrage', 'backup', 'vocal', 'yell', 'wing', 'munch', 'horse', 'belt', 'crew', 'spotlight', 'giantFists', 'milk', 'elevator', 'maskedCrew', 'nailPierce', 'airstrike', 'moneyRain', 'cybertruck', 'quickRush', 'slime', 'chase', 'faceShot', 'royce', 'prizeCrew', 'ghostAscension', 'goatSign', 'travy'];
+const roster = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay', 'czr', 'shannondull', 'redrolls', 'smokelord'];
+const specialKinds = ['owl', 'car', 'barrage', 'backup', 'vocal', 'yell', 'wing', 'munch', 'horse', 'belt', 'crew', 'spotlight', 'giantFists', 'milk', 'elevator', 'maskedCrew', 'nailPierce', 'airstrike', 'moneyRain', 'cybertruck', 'quickRush', 'slime', 'chase', 'faceShot', 'royce', 'prizeCrew', 'ghostAscension', 'goatSign', 'travy', 'alienStrike', 'giantSmash', 'lowriderCrew', 'coneSmash'];
 
-test('All 29 specials deal full damage through a facing block at 30/60/120 fps in both directions', () => {
+test('All 33 specials deal full damage through a facing block at 30/60/120 fps in both directions', () => {
   for (const type of roster) for (const fps of [30, 60, 120]) for (const direction of [-1, 1]) {
     const g = fresh(type), [p, e] = g.fighters;
     p.x = direction > 0 ? 450 : 830; e.x = p.x + direction * 100;
@@ -1082,7 +1082,7 @@ test('All 29 specials deal full damage through a facing block at 30/60/120 fps i
     assert.equal(g.useSpecial(p), true);
     for (let i = 0; i < fps * 8; i++) g.update(1 / fps, {});
     const hits = g.drainEvents().filter(evt => evt.type === 'hit');
-    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay'].includes(type) ? 48 : 36;
+    const total = type === 'owl' ? 30 : ['icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay', 'czr', 'shannondull', 'redrolls', 'smokelord'].includes(type) ? 48 : 36;
     assert.equal(e.hp, e.maxHp - total, `${type}, ${fps}fps, facing ${direction}`);
     assert.equal(hits.reduce((sum, hit) => sum + hit.damage, 0), total);
     assert.ok(hits.length > 0 && hits.every(hit => hit.blocked === false));
@@ -1159,7 +1159,7 @@ test('Simultaneous specials preserve both presentations across all ordered fight
   }
 });
 
-test('All 29 specials finish after knockout with one frozen result and no subsequent damage', () => {
+test('All 33 specials finish after knockout with one frozen result and no subsequent damage', () => {
   for (const type of roster) {
     const g = fresh(type); setClose(g); const [p, e] = g.fighters;
     p.meter = 100; e.hp = 1; g.useSpecial(p);

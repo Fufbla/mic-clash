@@ -91,12 +91,12 @@ test('New specials reset and force-finish cleanly at every phase, including afte
   }
 });
 
-test('Both served entry points contain the complete 29-fighter roster and atlas assets', () => {
+test('Both served entry points contain the complete 33-fighter roster and atlas assets', () => {
   const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
   for(const entry of ['../index.html','../dist/index.html']) {
     const html=readFileSync(new URL(entry,import.meta.url),'utf8');
     const cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,29);assert.equal(new Set(cards).size,29);
+    assert.equal(cards.length,33);assert.equal(new Set(cards).size,33);
     for(const type of Object.keys(roster))assert.ok(cards.includes(type));
   }
   for(const type of Object.keys(roster))for(const suffix of ['','Actions','Support']) {
