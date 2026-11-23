@@ -1,4 +1,4 @@
-import { FUED, createFuedSpecial, updateFuedSpecial, endFuedSpecial } from './fued-fam.js';
+import { FUED, createFuedSpecial, updateFuedSpecial, endFuedSpecial } from './fued-fam.js?v=feud-name-20261123';
 import { CHARLES, createCharlesSpecial, updateCharlesSpecial, endCharlesSpecial } from './charles.js';
 import { NEON_FIGHTERS, NEON_KINDS, createNeonSpecial, updateNeonSpecial, endNeonSpecial } from './neon-fighters.js';
 import { ASCENSION_FIGHTERS, ASCENSION_KINDS, createAscensionSpecial, updateAscensionSpecial, endAscensionSpecial } from './ascension-fighters.js';

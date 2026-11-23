@@ -1,4 +1,4 @@
-import { FUED, fuedPose, drawFuedBoard } from './fued-fam.js';
+import { FUED, fuedPose, drawFuedBoard } from './fued-fam.js?v=feud-name-20261123';
 import { CHARLES, charlesPose, drawCharlesSpray } from './charles.js';
 import {NEON_FIGHTERS,NEON_KINDS,neonPose} from './neon-fighters.js';
 import {createNeonRenderer} from './neon-renderer.js';
@@ -6,7 +6,7 @@ import { ASCENSION_FIGHTERS, ASCENSION_KINDS, ascensionPose } from './ascension-
 import { createAscensionRenderer } from './ascension-renderer.js';
 import { GAUNTLET_FIGHTERS, GAUNTLET_KINDS, gauntletPose } from './gauntlet-fighters.js';
 import { createGauntletRenderer } from './gauntlet-renderer.js';
-import { LocalControllers } from './controllers.js?v=fuedfam-20261123';
+import { LocalControllers } from './controllers.js?v=feud-name-20261123';
 import { RUSH_FIGHTERS, RUSH_KINDS, rushPose } from './rush-fighters.js';
 import { createRushRenderer } from './rush-renderer.js';
 import { EXECUTIVE_FIGHTERS, EXECUTIVE_KINDS, executivePose } from './executive-fighters.js';
@@ -16,7 +16,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=fuedfam-20261123';
+import { CombatGame } from './combat.js?v=feud-name-20261123';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -301,7 +301,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=fuedfam-20261123', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=feud-name-20261123', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {

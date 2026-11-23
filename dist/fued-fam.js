@@ -1,5 +1,5 @@
 import { charlesPose } from './charles.js';
-export const FUED = Object.freeze({name:'Fued Fam', special:'The Board Drop', kind:'boardDrop', duration:2.75, range:1200, color:'#b58aff', glow:'rgba(170,85,255,.4)'});
+export const FUED = Object.freeze({name:'Feud Fam', special:'The Board Drop', kind:'boardDrop', duration:2.75, range:1200, color:'#b58aff', glow:'rgba(170,85,255,.4)'});
 export function createFuedSpecial(a,b){return {kind:FUED.kind,owner:a.id,facing:a.facing,duration:FUED.duration,ttl:FUED.duration,age:0,delay:0,active:true,phase:'point',focusX:b.x,boardY:310,visible:false,struck:false,hitCount:0};}
 export function endFuedSpecial(g,a,s){s.active=false;s.ttl=0;s.visible=false;if(a){a.vx=0;a.actionRemaining=0;g.setState(a,a.hp>0?'idle':'ko');}}
 export function updateFuedSpecial(g,s,a,b){

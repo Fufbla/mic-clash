@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {CombatGame} from '../dist/combat.js';
-for(const fps of [30,60,120])for(const side of [0,1])test(`Fued Fam board drop, player ${side+1}, ${fps} fps`,()=>{
+for(const fps of [30,60,120])for(const side of [0,1])test(`Feud Fam board drop, player ${side+1}, ${fps} fps`,()=>{
  const g=new CombatGame(...(side?['owl','fuedfam']:['fuedfam','owl']),{localMultiplayer:true}),a=g.fighters[side],b=g.fighters[1-side];
  a.meter=100;assert(g.useSpecial(a));const s=g.specials[0];
  for(let i=0;i<fps;i++)g.update(1/fps);assert.equal(b.hp,320);assert(s.visible);assert(s.boardY>0);
