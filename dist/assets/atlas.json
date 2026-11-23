@@ -17135,5 +17135,207 @@
         "anchorY": 196
       }
     ]
+  },
+  "ooousaber": {
+    "src": "assets/ooou-saber.png",
+    "width": 1247,
+    "height": 1261,
+    "cols": 4,
+    "rows": 4,
+    "referenceHeight": 294,
+    "frames": [
+      {
+        "x": 74,
+        "y": 14,
+        "w": 185,
+        "h": 294,
+        "cellX": 0,
+        "cellY": 0,
+        "cellW": 311,
+        "cellH": 315,
+        "anchorX": 97.05000000000001,
+        "anchorY": 293
+      },
+      {
+        "x": 372,
+        "y": 16,
+        "w": 179,
+        "h": 293,
+        "cellX": 311,
+        "cellY": 0,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 101.24000000000001,
+        "anchorY": 292
+      },
+      {
+        "x": 674,
+        "y": 16,
+        "w": 192,
+        "h": 292,
+        "cellX": 623,
+        "cellY": 0,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 111.24000000000001,
+        "anchorY": 291
+      },
+      {
+        "x": 957,
+        "y": 14,
+        "w": 238,
+        "h": 288,
+        "cellX": 935,
+        "cellY": 0,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 140.24,
+        "anchorY": 287
+      },
+      {
+        "x": 68,
+        "y": 326,
+        "w": 187,
+        "h": 267,
+        "cellX": 0,
+        "cellY": 315,
+        "cellW": 311,
+        "cellH": 315,
+        "anchorX": 93.72,
+        "anchorY": 296
+      },
+      {
+        "x": 370,
+        "y": 336,
+        "w": 199,
+        "h": 285,
+        "cellX": 311,
+        "cellY": 315,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 103.24000000000001,
+        "anchorY": 284
+      },
+      {
+        "x": 645,
+        "y": 345,
+        "w": 244,
+        "h": 274,
+        "cellX": 623,
+        "cellY": 315,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 137.12,
+        "anchorY": 274
+      },
+      {
+        "x": 988,
+        "y": 325,
+        "w": 203,
+        "h": 296,
+        "cellX": 935,
+        "cellY": 315,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 109.24000000000001,
+        "anchorY": 295
+      },
+      {
+        "x": 54,
+        "y": 641,
+        "w": 198,
+        "h": 283,
+        "cellX": 0,
+        "cellY": 630,
+        "cellW": 311,
+        "cellH": 315,
+        "anchorX": 98.38999999999999,
+        "anchorY": 282
+      },
+      {
+        "x": 337,
+        "y": 648,
+        "w": 253,
+        "h": 297,
+        "cellX": 311,
+        "cellY": 630,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 114.4,
+        "anchorY": 297
+      },
+      {
+        "x": 640,
+        "y": 649,
+        "w": 234,
+        "h": 276,
+        "cellX": 623,
+        "cellY": 630,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 132.76,
+        "anchorY": 275
+      },
+      {
+        "x": 952,
+        "y": 645,
+        "w": 243,
+        "h": 281,
+        "cellX": 935,
+        "cellY": 630,
+        "cellW": 312,
+        "cellH": 315,
+        "anchorX": 120.28,
+        "anchorY": 281
+      },
+      {
+        "x": 60,
+        "y": 955,
+        "w": 186,
+        "h": 294,
+        "cellX": 0,
+        "cellY": 945,
+        "cellW": 311,
+        "cellH": 316,
+        "anchorX": 95.5,
+        "anchorY": 294
+      },
+      {
+        "x": 327,
+        "y": 945,
+        "w": 296,
+        "h": 304,
+        "cellX": 311,
+        "cellY": 945,
+        "cellW": 312,
+        "cellH": 316,
+        "anchorX": 118.16,
+        "anchorY": 304
+      },
+      {
+        "x": 623,
+        "y": 956,
+        "w": 312,
+        "h": 293,
+        "cellX": 623,
+        "cellY": 945,
+        "cellW": 312,
+        "cellH": 316,
+        "anchorX": 124.80000000000001,
+        "anchorY": 293
+      },
+      {
+        "x": 935,
+        "y": 956,
+        "w": 312,
+        "h": 294,
+        "cellX": 935,
+        "cellY": 945,
+        "cellW": 312,
+        "cellH": 316,
+        "anchorX": 124.80000000000001,
+        "anchorY": 293
+      }
+    ]
   }
 }

@@ -241,3 +241,7 @@ The roster now includes Cockeyed Charles with 16 transparent poses matching the 
 ## Feud Fam
 
 Feud Fam joins the roster with his bald head, black mustache, charcoal-purple suit and purple polka-dot tie. His 15 character poses include movement, punches, a kick, blocking, hurt, victory and pointing. The Board Drop points upward, reveals a separate illuminated scoreboard above the opponent, locks its location, then drops it for one 48-damage impact. The move requires the full meter and can be dodged after the board appears. Available in CPU and local two-player modes.
+
+## Ooou Saber
+
+Ooou Saber has 16 transparent poses matching the red cap, dreadlocks, white shirt, gray sweats, front pouch and silver chains. Basic attacks swipe downward. Jelly Saber Strike reaches into the pouch, draws a glowing magenta fantasy sword, then slashes with an “OOOUUU!” speech bubble. One hit deals 48 damage within 340 world pixels, requires the full meter, and can miss. Selectable for CPU and local two-player matches.
