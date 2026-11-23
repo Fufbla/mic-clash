@@ -347,3 +347,5 @@
 .fighter-card.eynakeast-card{--fighter-accent:#ce94ff;--fighter-glow:#aa46ff55;background:linear-gradient(145deg,#352346,#15121e 78%)}
 .fighter-card.goat-card{--fighter-accent:#ffdf72;--fighter-glow:#ffd14650;background:linear-gradient(145deg,#3c3420,#1c1a18 78%)}
 .fighter-card.taytay-card{--fighter-accent:#ffe455;--fighter-glow:#ffde4b50;background:linear-gradient(145deg,#45392b,#241827 78%)}
+
+.czr-card,.shannondull-card,.smokelord-card{--fighter-accent:#bc7cff;--fighter-glow:rgba(176,68,255,.35)}.redrolls-card{--fighter-accent:#ff5555;--fighter-glow:rgba(255,55,55,.35)}
