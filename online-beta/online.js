@@ -1,7 +1,7 @@
 // Private, casual 1v1 rooms. The host owns combat; guests send controls only.
 // PeerJS is loaded only on demand, so offline and local modes never need it.
-export const PROTOCOL = 1;
-const PREFIX = 'celebrity-gauntlet-v1-';
+export const PROTOCOL = 2;
+const PREFIX = 'celebrity-gauntlet-v2-';
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 export const validCode = code => typeof code === 'string' && /^[A-HJ-NP-Z2-9]{8}$/.test(code);
 export function createCode() {
@@ -61,6 +61,38 @@ export function applySnapshot(game, snapshot, roster) {
       !Number.isFinite(snapshot.timeRemaining) || !Number.isFinite(snapshot.elapsed)) return false;
   for (const key of ['fighters','specials','effects','timeRemaining','elapsed','roundEnding','over','winner']) game[key] = snapshot[key];
   return true;
+}
+// Rendering only: reconcile toward the newest authoritative position at the
+// display's refresh rate. Cap extrapolation so stalls cannot cause runaway
+// movement, and snap cinematic grabs/teleports instead of smearing them.
+export class FighterSmoothing {
+  constructor() { this.reset(); }
+  reset() { this.visual = []; this.receivedAt = 0; }
+  receive(fighters, now) {
+    this.receivedAt = now;
+    this.visual = fighters.map((f, i) => {
+      const previous = this.visual[i];
+      const locked = !!(f.grabbedBy || f.beltHeldBy || f.inCar || f.state === 'special');
+      const snap = !previous || previous.id !== f.id || previous.locked !== locked ||
+        Math.abs(previous.x - f.x) > 180 || Math.abs(previous.y - f.y) > 140 || locked;
+      return {id:f.id, x:snap ? f.x : previous.x, y:snap ? f.y : previous.y, locked};
+    });
+  }
+  positions(fighters, now, dt) {
+    if (this.visual.length !== fighters.length) this.receive(fighters, now);
+    const lead = Math.min(.045, Math.max(0, (now-this.receivedAt)/1000));
+    const alpha = 1-Math.exp(-Math.max(0,Math.min(.1,dt))/.034);
+    return fighters.map((f,i) => {
+      const v = this.visual[i];
+      if (v.locked || f.state === 'ko') {v.x=f.x;v.y=f.y;}
+      else {
+        const tx=Math.max(0,Math.min(1280,f.x+(Number.isFinite(f.vx)?f.vx:0)*lead));
+        const ty=Math.max(0,f.y+(Number.isFinite(f.vy)?f.vy:0)*lead);
+        v.x += (tx-v.x)*alpha; v.y += (ty-v.y)*alpha;
+      }
+      return {x:v.x,y:v.y};
+    });
+  }
 }
 let peerLibrary;
 function loadPeer() {
@@ -138,7 +170,9 @@ export class OnlineRoom {
   }
   send(message, {snapshot = false} = {}) {
     if (!this.connected || !this.conn?.open) return false;
-    if (snapshot && this.conn.bufferSize > 3) return false;
+    // Avoid building up stale world states in the reliable WebRTC queue.
+    if (snapshot && ((this.conn.bufferSize || 0) > 0 ||
+        (this.conn.dataChannel?.bufferedAmount || 0) > 12000)) return false;
     try { this.conn.send({...message, v: PROTOCOL}); return true; }
     catch { this.fail('The connection was lost.'); return false; }
   }

@@ -23,7 +23,7 @@ import { CombatGame } from './combat.js?v=trinigold-20261123';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
-import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode} from './online.js?v=online-beta-1';
+import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode, FighterSmoothing} from './online.js?v=online-beta-2';
 
 const $ = id => document.getElementById(id);
 const META = {
@@ -71,7 +71,7 @@ const state = { phase: 'select', selected: 'owl', opponent: 'coupe', assets: nul
 Object.assign(state, { mode: 'cpu', selectingPlayer: 0, playersReady: [false, false] });
 const controllers = new LocalControllers();
 const net = {status:'Create a room or enter a friend’s code.', localReady:false, remoteReady:false,
-  remoteFighter:null, match:0, remote:new RemoteInput(), lastSnapshot:0};
+  remoteFighter:null, match:0, remote:new RemoteInput(), lastSnapshot:0, lastInput:0, lastHeld:'', lastHud:0, smooth:new FighterSmoothing()};
 const onlineGuest = () => state.mode === 'online' && room.role === 'guest';
 const humanVersus = () => state.mode !== 'cpu';
 const ownIndex = () => onlineGuest() ? 1 : 0;
@@ -85,7 +85,11 @@ const room = new OnlineRoom({
 });
 function resetOnline() {
   net.localReady = net.remoteReady = false;
-  net.remoteFighter = null; net.match = 0; net.remote.reset(); net.lastSnapshot = 0;
+  net.remoteFighter = null; net.match = 0; net.remote.reset(); resetNetworkFrames();
+}
+function resetNetworkFrames() {
+  net.lastSnapshot = net.lastInput = net.lastHud = 0;
+  net.lastHeld = ''; net.smooth.reset();
 }
 function roomSelection() {
   room.send({type:'selection',fighter:state.selected,ready:net.localReady && state.ready});
@@ -100,11 +104,18 @@ function renderOnlineLobby() {
   $('onlineInvite').hidden = room.role !== 'host';
   $('onlineInvite').disabled = !room.code;
   $('onlineLeave').hidden = !room.role;
+  $('onlineSetup').hidden = !!room.role;
+  $('onlineConnected').hidden = !room.role;
   $('onlineCreate').disabled = !!room.role;
   $('onlineJoin').disabled = !!room.role;
   $('onlineCodeInput').disabled = !!room.role;
-  $('onlinePlayers').textContent = 'You: ' + META[state.selected].name + (net.localReady ? ' · READY' : '') +
-    ' | Opponent: ' + (net.remoteFighter ? META[net.remoteFighter].name : 'Waiting') + (net.remoteReady ? ' · READY' : '');
+  $('onlinePlayers').hidden = !room.role;
+  $('onlineYou').textContent = META[state.selected].name;
+  $('onlineOpponent').textContent = net.remoteFighter ? META[net.remoteFighter].name : 'Waiting';
+  $('onlineYouReady').textContent = net.localReady ? 'READY' : 'Not ready';
+  $('onlineOpponentReady').textContent = net.remoteReady ? 'READY' : 'Not ready';
+  $('onlinePlayers').dataset.youReady = String(net.localReady);
+  $('onlinePlayers').dataset.opponentReady = String(net.remoteReady);
   $('startFight').disabled = !state.ready || !room.connected;
   $('startFight').textContent = !state.ready ? 'Loading fighters…' : !room.connected ? 'Connect to a room' : net.localReady ? 'Cancel ready' : 'Ready to fight';
   $('selectionInstructions').textContent = 'Online 1v1 · Choose your fighter and ready up.';
@@ -114,7 +125,7 @@ function renderOnlineLobby() {
 function maybeStartOnline() {
   if (state.mode !== 'online' || room.role !== 'host' || !room.connected || state.phase !== 'select' ||
       !state.ready || !net.localReady || !net.remoteReady || !Object.hasOwn(META, net.remoteFighter)) return;
-  net.match += 1; net.remote.reset(); net.lastSnapshot = 0;
+  net.match += 1; net.remote.reset(); resetNetworkFrames();
   if (!room.send({type:'start',match:net.match,p1:state.selected,p2:net.remoteFighter})) return;
   net.localReady = net.remoteReady = false;
   beginFight(state.selected, net.remoteFighter);
@@ -140,12 +151,15 @@ function receiveOnline(message) {
   if (message.type === 'snapshot' && onlineGuest() && state.game &&
       ['countdown','playing','result'].includes(message.phase) &&
       applySnapshot(state.game, message.game, ROSTER)) {
+    const receivedAt = performance.now();
+    net.smooth.receive(state.game.fighters, receivedAt);
     if (Number.isFinite(message.countdown)) state.countdown = Math.max(0, message.countdown);
     if (message.phase !== state.phase) {
       if (message.phase === 'result') showResults();
       else { setPhase(message.phase); $('phaseText').textContent = message.phase === 'playing' ? 'Round 1 · land hits to charge' : 'Get ready'; }
     }
-    updateHUD(); return;
+    if (receivedAt - net.lastHud >= 40 || state.phase !== 'playing') { updateHUD(); net.lastHud = receivedAt; }
+    return;
   }
   if (message.type === 'events' && onlineGuest() && state.game && Array.isArray(message.events) && message.events.length <= 128) {
     state.game.events.push(...message.events.filter(event => event && typeof event.type === 'string'));
@@ -159,7 +173,7 @@ function receiveOnline(message) {
 }
 function onlineSnapshot(now) {
   if (state.mode !== 'online' || room.role !== 'host' || !room.connected || !state.game ||
-      now - net.lastSnapshot < 1000 / 30) return;
+      now - net.lastSnapshot < 1000 / 25) return;
   net.lastSnapshot = now;
   room.send({type:'snapshot',match:net.match,phase:state.phase,countdown:state.countdown,
     game:makeSnapshot(state.game)}, {snapshot:true});
@@ -546,7 +560,7 @@ function updateLobby() {
 function setMode(mode) {
   if (state.phase !== 'select' || !['cpu', 'local', 'online'].includes(mode) || state.mode === mode) return;
   if (state.mode === 'online') { room.close(); resetOnline(); net.status = 'Create a room or enter a friend’s code.'; }
-  state.mode = mode; state.selectingPlayer = 0; state.playersReady = [false, false];
+  state.mode = mode; resize(); state.selectingPlayer = 0; state.playersReady = [false, false];
   controllers.reset(); clearInput();
   selectFighter(state.selected, 0);
 }
@@ -634,6 +648,7 @@ function startFight() {
 function beginFight(p1 = state.selected, p2 = state.opponent) {
   if (!state.ready || (state.mode === 'local' && !controllers.bothConnected())) return;
   state.game = new CombatGame(p1, p2, { localMultiplayer: humanVersus() });
+  if (state.mode === 'online') resetNetworkFrames();
   state.playersReady = [false, false];
   const opponent = state.game.fighters[1].type;
   state.cameraX = 640; state.cameraWidth = 1280;
@@ -662,7 +677,7 @@ function showSelection(fromRemote = false) {
   if (state.mode === 'online') {
     if (!fromRemote && room.connected && state.phase === 'result') room.send({type:'lobby',match:net.match});
     else if (!fromRemote && room.connected && state.phase !== 'select') { leaveOnline(); return; }
-    net.localReady = net.remoteReady = false; net.remote.reset(); net.lastSnapshot = 0;
+    net.localReady = net.remoteReady = false; net.remote.reset(); resetNetworkFrames();
   }
   state.game = null; state.particles = []; state.labels = [];
   state.playersReady = [false, false];
@@ -832,7 +847,7 @@ for (const type of ['gesturestart', 'gesturechange', 'gestureend']) {
 }
 
 function resize() {
-  const rect = canvas.getBoundingClientRect(); const ratio = Math.min(window.devicePixelRatio || 1, 2);
+  const rect = canvas.getBoundingClientRect(); const ratio = Math.min(window.devicePixelRatio || 1, state.mode === 'online' ? 1.5 : 2);
   const w = Math.round(Math.max(1, rect.width) * ratio), h = Math.round(Math.max(1, rect.height) * ratio);
   if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
 }
@@ -1962,7 +1977,7 @@ function drawEffects(dt) {
   state.labels = state.labels.filter(l => l.life > 0);
 }
 function draw(dt) {
-  resize(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (state.mode !== 'online') resize(); ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.fillStyle = '#101223'; ctx.fillRect(0, 0, canvas.width, canvas.height);
   if (state.game) {
     const [a, b] = state.game.fighters;
@@ -2031,7 +2046,7 @@ function draw(dt) {
     if (s.kind === 'giantFists') drawFighterSpeech(s, babyBigFistsSpeech(s), viewScale, offsetX, offsetY);
   }
   // Keep special announcements below the compact HUD and undistorted in portrait.
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, state.mode === 'online' ? 1.5 : 2);
   const titleSize = Math.max(17, Math.min(30, canvas.width / pixelRatio * .026));
   ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   for (const label of state.labels.filter(l => l.big)) {
@@ -2059,9 +2074,15 @@ function loop(now) {
   state.shake = Math.max(0, state.shake - dt * 25); state.flash = Math.max(0, state.flash - dt);
   if (onlineGuest() && state.phase === 'playing') {
     const input = localInput(controllers.consume(0, dt), true);
-    room.send({type:'input',match:net.match,input});
-    jumpQueue = Math.max(0, jumpQueue - 1);
-    Object.keys(pressed).forEach(k => pressed[k] = false);
+    const heldState = [Math.round(input.moveX*20), input.block, input.punchPressed, input.kickPressed].join(':');
+    const edge = input.jumpPressed || input.specialPressed || heldState !== net.lastHeld;
+    if (edge || now - net.lastInput >= 1000/30) {
+      if (room.send({type:'input',match:net.match,input})) {
+        net.lastInput = now; net.lastHeld = heldState;
+        jumpQueue = Math.max(0, jumpQueue - 1);
+        Object.keys(pressed).forEach(k => pressed[k] = false);
+      }
+    }
     sound.tick();
   }
   if (!onlineGuest() && state.phase === 'countdown') { state.countdown -= dt; if (state.countdown <= 0) { setPhase('playing'); $('phaseText').textContent = 'Round 1 · land hits to charge'; } }
@@ -2083,11 +2104,19 @@ function loop(now) {
       Object.keys(pressed).forEach(k => pressed[k] = false);
       state.accumulator -= 1 / 60; steps++;
     }
-    processEvents(); sound.tick(); updateHUD();
+    processEvents(); sound.tick();
+    if (state.mode !== 'online' || now-net.lastHud >= 40 || state.game?.over) { updateHUD(); net.lastHud=now; }
     if (state.game?.over) { state.resultDelay += dt; if (state.resultDelay > .9) showResults(); }
   }
   onlineSnapshot(now);
-  draw(dt); requestAnimationFrame(loop);
+  // Guest display uses smoothed positions; gameplay/HUD retain host authority.
+  if (onlineGuest() && state.game && state.phase === 'playing') {
+    const fighters=state.game.fighters, authoritative=fighters.map(f=>({x:f.x,y:f.y}));
+    const visual=net.smooth.positions(fighters, now, dt);
+    fighters.forEach((f,i)=>Object.assign(f,visual[i]));
+    try { draw(dt); } finally { fighters.forEach((f,i)=>Object.assign(f,authoritative[i])); }
+  } else draw(dt);
+  requestAnimationFrame(loop);
 }
 
 selectFighter('owl'); setPhase('select');
