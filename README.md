@@ -254,3 +254,7 @@ Trini-Gold joins the 38-fighter roster with a 245-unit chain-whip basic attack a
 ## Online multiplayer — live release (November 23, 2026)
 
 Online 1v1 is available at the existing game URL. Create a private room, share the eight-character code or invite link, choose fighters, and ready up on both devices. The release promotes the user-approved V3 test build, including the compact room lobby, guest-side movement smoothing, network backpressure, and iOS keyboard/viewport fixes. The existing 38-fighter roster, CPU mode, local two-controller mode, rooftop arena and combat rules remain unchanged. Uses WebRTC via PeerJS public signaling; network connectivity can vary. The separate online-beta test URL remains available.
+
+### Mobile room recovery
+
+Host room identity and selected fighter are saved for two hours and restored with the same code after a browser reload. The app no longer destroys rooms on pagehide. Share link uses the native share sheet when available. Guests retry the same code while waiting for a host to return. Leaving explicitly clears the saved room. Peer-to-peer play still requires the host's browser to be active; interrupted rounds return to the lobby.

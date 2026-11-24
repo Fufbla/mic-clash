@@ -23,7 +23,7 @@ import { CombatGame } from './combat.js?v=trinigold-20261123';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
-import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode, FighterSmoothing} from './online.js?v=online-beta-2';
+import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode, FighterSmoothing, readSavedRoom, saveRoom} from './online-recovery.js?v=room-recovery-4';
 
 const $ = id => document.getElementById(id);
 const META = {
@@ -76,13 +76,30 @@ const onlineGuest = () => state.mode === 'online' && room.role === 'guest';
 const humanVersus = () => state.mode !== 'cpu';
 const ownIndex = () => onlineGuest() ? 1 : 0;
 const room = new OnlineRoom({
-  onStatus(message) { net.status = message; updateLobby(); },
+  onStatus(message) { net.status = message; rememberOnlineRoom(); updateLobby(); },
   onMessage: receiveOnline,
   onDisconnect(message) {
     resetOnline();
     if (state.mode === 'online') { showSelection(true); showToast(message, 5); }
   }
 });
+const ROOM_STORAGE_KEY='celebrity-gauntlet:room:v2:'+location.pathname.replace(/index\.html$/,'').replace(/\/$/,'');
+function getRoomStorage(kind){try{return window[kind];}catch{return null;}}
+function rememberOnlineRoom(){
+  if(!room.role||!validCode(room.code))return;
+  saveRoom(getRoomStorage('sessionStorage'),ROOM_STORAGE_KEY,room,state.selected);
+  if(room.role==='host')saveRoom(getRoomStorage('localStorage'),ROOM_STORAGE_KEY,room,state.selected);
+}
+function clearOnlineRoom(){
+  const local=getRoomStorage('localStorage'),saved=readSavedRoom(local,ROOM_STORAGE_KEY);
+  saveRoom(getRoomStorage('sessionStorage'),ROOM_STORAGE_KEY,null);
+  if(room.role==='host'&&saved?.code===room.code)saveRoom(local,ROOM_STORAGE_KEY,null);
+  const url=new URL(location.href);
+  if(url.searchParams.has('room')){url.searchParams.delete('room');try{history.replaceState(null,'',url.href);}catch{}}
+}
+function resumeOnlineRoom(){
+  if(state.mode==='online'&&room.role){rememberOnlineRoom();room.resume();}
+}
 function resetOnline() {
   net.localReady = net.remoteReady = false;
   net.remoteFighter = null; net.match = 0; net.remote.reset(); resetNetworkFrames();
@@ -92,6 +109,7 @@ function resetNetworkFrames() {
   net.lastHeld = ''; net.smooth.reset();
 }
 function roomSelection() {
+  rememberOnlineRoom();
   room.send({type:'selection',fighter:state.selected,ready:net.localReady && state.ready});
 }
 function renderOnlineLobby() {
@@ -103,6 +121,7 @@ function renderOnlineLobby() {
   $('onlineCode').textContent = room.code ? 'ROOM: ' + room.code : '';
   $('onlineInvite').hidden = room.role !== 'host';
   $('onlineInvite').disabled = !room.code;
+  $('onlineInvite').textContent = navigator.share ? 'Share link' : 'Copy link';
   $('onlineLeave').hidden = !room.role;
   $('onlineSetup').hidden = !!room.role;
   $('onlineConnected').hidden = !room.role;
@@ -186,7 +205,7 @@ function localInput(pad, guest = false) {
     kickPressed:pad.kickPressed || pressed.kickPressed || controlHeld('kick')};
 }
 function leaveOnline() {
-  room.close(); resetOnline();
+  clearOnlineRoom(); room.close(); resetOnline();
   net.status = 'Create a room or enter a friend’s code.';
   showSelection(true);
 }
@@ -206,13 +225,24 @@ $('onlineCodeInput').addEventListener('keydown', event => {
 });
 $('onlineLeave').addEventListener('click', leaveOnline);
 $('onlineInvite').addEventListener('click', async () => {
-  if (!room.code) return;
-  const url = new URL(location.href); url.searchParams.set('room', room.code);
-  try { await navigator.clipboard.writeText(url.href); net.status = 'Invite link copied. Send it to your opponent.'; }
-  catch { net.status = 'Share this room code: ' + room.code; }
+  if(!room.code||room.role!=='host')return;
+  rememberOnlineRoom();
+  const code=room.code,url=new URL(location.href);url.searchParams.set('room',code);
+  if(navigator.share){
+    try{await navigator.share({title:'Celebrity Gauntlet',text:'Fight me! Room code: '+code,url:url.href});
+      if(room.code===code){net.status='Invite shared. Return here to play.';updateLobby();}return;
+    }catch(error){if(error?.name==='AbortError')return;}
+  }
+  try{await navigator.clipboard.writeText(url.href);if(room.code===code)net.status='Invite copied. Send it to your opponent.';}
+  catch{if(room.code===code)net.status='Share this room code: '+code;}
   updateLobby();
 });
-window.addEventListener('pagehide', () => room.close());
+// Preserve room identity on backgrounding or browser eviction; only explicit
+// Leave or switching modes forgets a room.
+window.addEventListener('pagehide',rememberOnlineRoom);
+window.addEventListener('pageshow',resumeOnlineRoom);
+window.addEventListener('focus',resumeOnlineRoom);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)rememberOnlineRoom();else resumeOnlineRoom();});
 const CARD_ORDER = [...document.querySelectorAll('[data-fighter]')].map(el => el.dataset.fighter);
 const neonRenderer=createNeonRenderer(ctx,frame,()=>state.assets,GROUND);
 const ascensionRenderer = createAscensionRenderer(ctx, frame, () => state.assets, GROUND);
@@ -570,7 +600,7 @@ function updateLobby() {
 }
 function setMode(mode) {
   if (state.phase !== 'select' || !['cpu', 'local', 'online'].includes(mode) || state.mode === mode) return;
-  if (state.mode === 'online') { room.close(); resetOnline(); net.status = 'Create a room or enter a friend’s code.'; }
+  if (state.mode === 'online') { clearOnlineRoom(); room.close(); resetOnline(); net.status = 'Create a room or enter a friend’s code.'; }
   state.mode = mode; resize(); state.selectingPlayer = 0; state.playersReady = [false, false];
   controllers.reset(); clearInput();
   selectFighter(state.selected, 0);
@@ -2164,7 +2194,20 @@ function loop(now) {
 
 selectFighter('owl'); setPhase('select');
 const invitedRoom = new URL(location.href).searchParams.get('room')?.toUpperCase();
-if (validCode(invitedRoom)) { setMode('online'); $('onlineCodeInput').value = invitedRoom; net.status = 'Invite received. Press Join room.'; updateLobby(); }
+const savedSession=readSavedRoom(getRoomStorage('sessionStorage'),ROOM_STORAGE_KEY);
+const savedHost=readSavedRoom(getRoomStorage('localStorage'),ROOM_STORAGE_KEY);
+const recovered=validCode(invitedRoom)
+  ? (savedSession?.role==='guest'&&savedSession.code===invitedRoom?savedSession:null)
+  : (savedSession||(savedHost?.role==='host'?savedHost:null));
+if(recovered){
+  setMode('online');
+  if(Object.hasOwn(META,recovered.fighter))selectFighter(recovered.fighter);
+  net.status='Restoring room '+recovered.code+'…';updateLobby();
+  room.open(recovered.role,recovered.code);
+}else if(validCode(invitedRoom)){
+  setMode('online');$('onlineCodeInput').value=invitedRoom;
+  net.status='Invite received. Press Join room.';updateLobby();
+}
 requestAnimationFrame(loop);
 loadAssets().catch(error => { console.error(error); $('startFight').textContent = 'Reload to retry'; showToast('The game art did not load. Please refresh to retry.', 30); });
 
