@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { CombatGame } from '../dist/combat.js';
+import { CombatGame, FIGHTERS } from '../dist/combat.js';
 import { RUSH_FIGHTERS as roster, rushPose } from '../dist/rush-fighters.js';
 const step=(g,t,fps=120,input={})=>{for(let n=0;n<Math.round(t*fps);n++)g.update(1/fps,input);};
 function match(type,side=0,facing=1,distance=320){
@@ -83,11 +83,11 @@ test('The new fighters keep specials immune to each other and to personal-securi
     a.meter=100;g.useSpecial(a);step(g,5);assert.equal(b.hp,272);assert.equal(b.incomingBasics,9);assert.equal(b.securityBlocks,0);
   }
 });
-test('All 29 roster cards/opponent choices and the 108 new sprite frames ship in both entry points',()=>{
+test('All roster cards/opponent choices and the 108 new sprite frames ship in both entry points',()=>{
   const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
   for(const entry of ['../index.html','../dist/index.html']){
     const html=readFileSync(new URL(entry,import.meta.url),'utf8');const cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,40);assert.equal(new Set(cards).size,40);
+    assert.equal(cards.length,FIGHTERS.length);assert.deepEqual(new Set(cards),new Set(FIGHTERS));
     const options=[...html.matchAll(/<option value="([^"]+)"/g)].map(m=>m[1]);assert.deepEqual(new Set(options),new Set(cards));
     for(const type of Object.keys(roster))assert.ok(cards.includes(type));
   }

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { CombatGame } from '../dist/combat.js';
+import { CombatGame, FIGHTERS } from '../dist/combat.js';
 import { EXECUTIVE_FIGHTERS as roster, executivePose } from '../dist/executive-fighters.js';
 const step = (g, sec, fps = 120, input = {}) => { for (let i = 0; i < Math.round(sec * fps); i++) g.update(1 / fps, input); };
 function match(type, side = 0, facing = 1) {
@@ -91,12 +91,12 @@ test('New specials reset and force-finish cleanly at every phase, including afte
   }
 });
 
-test('Both served entry points contain the complete 29-fighter roster and atlas assets', () => {
+test('Both served entry points contain the complete fighter roster and atlas assets', () => {
   const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
   for(const entry of ['../index.html','../dist/index.html']) {
     const html=readFileSync(new URL(entry,import.meta.url),'utf8');
     const cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,40);assert.equal(new Set(cards).size,40);
+    assert.equal(cards.length,FIGHTERS.length);assert.deepEqual(new Set(cards),new Set(FIGHTERS));
     for(const type of Object.keys(roster))assert.ok(cards.includes(type));
   }
   for(const type of Object.keys(roster))for(const suffix of ['','Actions','Support']) {
