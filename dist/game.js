@@ -513,6 +513,17 @@ function frame(asset, index) {
   const g = c.getContext('2d', { willReadFrequently: true });
   g.drawImage(entry.image, spec.x, spec.y, spec.w, spec.h, 0, 0, spec.w, spec.h);
   const pixels = g.getImageData(0, 0, c.width, c.height);
+  // QueenBee idle: restore 83 eye pixels from the original artwork; leave all other pixels untouched.
+  if (asset === 'queenbee' && index === 0 && c.width === 247 && c.height === 319) {
+    const eye = atob('rlwoCgCvXBUAAKxdJQgCrV0SAACuXQsAAK9dGQYAsV0nDAWpXiQMAKpeGgkCq14NAgCsXgsBAK1eBwAArl4GAACvXhEGArBeEwIAsV4eBgCnXyYJAKhfEAAAqV8IAACqXwcBA6tfAgICrF8AAACtXwEAAK5fBgIAr18MAgCwXxcIA7FfJxEGpmALAACnYAgAAKhgDQQAqWASCAmqYBEIC6tgBAIFrGAAAACtYAEAAK5gCQQAr2AJAQCwYBMFArFgHAgApGEgAAClYQsAAKZhBAAAp2EIAwCoYQsDAKlhCgAAqmELAQKrYQEAAqxhBAYFrWEFAgCuYQsEAK9hEgcFsGEaCASxYSsTCaNiHwEApGIfDQOnYhULAqhiCwAAq2IIBwWsYgIEAa1iCgcCrmIQBQGvYhcEALBiJAkCo2MSAACnYyIUCahjEAEAq2MNCgOsYwcGAq1jDwYBrmMgDQaiZCYAAKNkIQQApGQrEAenZBIAAKtkCwMArGQNBACtZBQDAKtlGgoArGUXBgCtZRoGAKxmGgQArWYbCAGsZxcAAA==');
+    for (let j = 0; j < eye.length; j += 5) {
+      const p = 4 * (eye.charCodeAt(j + 1) * c.width + eye.charCodeAt(j));
+      pixels.data[p] = eye.charCodeAt(j + 2);
+      pixels.data[p + 1] = eye.charCodeAt(j + 3);
+      pixels.data[p + 2] = eye.charCodeAt(j + 4);
+      pixels.data[p + 3] = 255;
+    }
+  }
   // Sprite compositing: discard nearly transparent matte pixels at render time.
   const threshold = asset === 'owls' ? 18 : 35;
   let footLeft = c.width, footRight = 0, bottom = 0;
