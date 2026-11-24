@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const root=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const dist=readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
+const js=readFileSync(new URL('../dist/game.js',import.meta.url),'utf8');
+const cards=[...root.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
+const choices=html=>[...html.match(/<select id="opponentSelect">([\s\S]*?)<\/select>/)[1].matchAll(/<option value="([^"]+)"/g)].map(m=>m[1]);
+test('all live fighter cards are CPU choices in both entry pages',()=>{assert.equal(new Set(cards).size,cards.length);assert.deepEqual(choices(root),cards);assert.deepEqual(choices(dist),cards);for(const k of ['joosie','breezy','queenbee'])assert.ok(cards.includes(k));});
+test('CPU dropdown is rebuilt from the current roster, not a hardcoded list',()=>{assert.match(js,/\.\.\.ROSTER\]\)\]/);assert.match(js,/opponentSelect\.replaceChildren\(\.\.\.ordered\.map/);});

@@ -575,6 +575,12 @@ function selectFighter(type, player = state.selectingPlayer) {
   if (!META[state.opponent] || (state.mode === 'cpu' && state.opponent === state.selected)) state.opponent = ROSTER.find(other => other !== state.selected);
   const opponentSelect = $('opponentSelect');
   if (opponentSelect) {
+    // Keep the CPU choices synchronized with the authoritative fighter roster.
+    // Preserve the visible character-card order and append any additional roster entries.
+    const ordered = [...new Set([...Array.from(document.querySelectorAll('[data-fighter]'), el => el.dataset.fighter), ...ROSTER])].filter(type => Object.hasOwn(META, type));
+    if (opponentSelect.options.length !== ordered.length || ordered.some((type, i) => opponentSelect.options[i].value !== type || opponentSelect.options[i].textContent !== META[type].name)) {
+      opponentSelect.replaceChildren(...ordered.map(type => new Option(META[type].name, type)));
+    }
     for (const option of opponentSelect.options) {
       option.hidden = state.mode === 'cpu' && option.value === state.selected;
       option.disabled = option.hidden;
