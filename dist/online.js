@@ -114,6 +114,8 @@ export class OnlineRoom {
   attach(conn, generation) {
     this.conn = conn;
     const current = () => this.generation === generation && this.conn === conn;
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => { if (current() && !this.connected) this.fail('Connection timed out. Try creating or joining a new room.'); }, 20000);
     conn.on('open', () => {
       if (!current()) return;
       clearTimeout(this.timeout);

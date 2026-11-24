@@ -126,10 +126,10 @@ function receiveOnline(message) {
     net.remoteFighter = message.fighter; net.remoteReady = message.ready === true;
     updateLobby(); maybeStartOnline(); return;
   }
-  if (message.type === 'start' && onlineGuest() && state.phase === 'select' && state.ready && net.localReady &&
+  if (message.type === 'start' && onlineGuest() && state.phase === 'select' && state.ready &&
       Number.isSafeInteger(message.match) && message.match > net.match &&
-      Object.hasOwn(META, message.p1) && message.p2 === state.selected) {
-    net.match = message.match; net.remoteFighter = message.p1;
+      Object.hasOwn(META, message.p1) && Object.hasOwn(META, message.p2)) {
+    net.match = message.match; net.remoteFighter = message.p1; state.selected = message.p2;
     net.localReady = net.remoteReady = false;
     beginFight(message.p1, message.p2); return;
   }
@@ -990,6 +990,7 @@ function particleBurst(x, y, color, count = 10, force = 180) {
 function processEvents() {
   const events = state.game.drainEvents();
   if (events.length && state.mode === 'online' && room.role === 'host') room.send({type:'events',match:net.match,events});
+  if (!state.game) return;
   for (const event of events) {
     if (event.type === 'hit') {
       const target = state.game.fighters.find(f => f.id === event.defender);
@@ -2083,7 +2084,7 @@ function loop(now) {
       state.accumulator -= 1 / 60; steps++;
     }
     processEvents(); sound.tick(); updateHUD();
-    if (state.game.over) { state.resultDelay += dt; if (state.resultDelay > .9) showResults(); }
+    if (state.game?.over) { state.resultDelay += dt; if (state.resultDelay > .9) showResults(); }
   }
   onlineSnapshot(now);
   draw(dt); requestAnimationFrame(loop);
