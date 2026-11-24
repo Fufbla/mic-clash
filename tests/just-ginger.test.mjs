@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {CombatGame,FIGHTERS} from '../dist/combat.js';
+import {GINGER,gingerPose,createGingerSpecial,updateGingerSpecial} from '../dist/just-ginger.js';
+import {readFileSync} from 'node:fs';
+test('Ginger atlas, roster and poses',()=>{const a=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url))).justginger;assert.equal(a.frames.length,24);assert.equal(a.frames[0].h,a.referenceHeight);assert.ok(FIGHTERS.includes('justginger'));assert.equal(new CombatGame('justginger','coupe').fighters[0].type,'justginger');assert.deepEqual([.1,.4,.65].map(attackProgress=>gingerPose({state:'punch',grounded:true,attackProgress}).index),[10,11,12]);});
+test('camera launches from in front, hits once and cleans up',()=>{for(const facing of [1,-1]){const a={id:'p1',x:500,facing,hp:100},b={id:'p2',x:500+300*facing,y:0};const s=createGingerSpecial(a,b);assert.ok(s.cameraOffset>0);let damage=0;const g={hit(a,b,n){damage+=n;return true},setState(a,state){a.state=state}};s.age=.4;s.ttl=1.32;updateGingerSpecial(g,s,a,b);assert.equal(damage,0);s.age=.9;s.ttl=.82;updateGingerSpecial(g,s,a,b);updateGingerSpecial(g,s,a,b);assert.equal(damage,46);assert.equal(s.hitCount,1);s.ttl=0;updateGingerSpecial(g,s,a,b);assert.equal(s.active,false);assert.equal(a.state,'idle');}});
+test('meter activation and reset',()=>{const g=new CombatGame('justginger','coupe');const a=g.fighters[0];a.meter=100;assert.equal(g.useSpecial(a),true);assert.equal(g.specials[0].kind,GINGER.kind);g.reset('justginger','coupe');assert.equal(g.specials.length,0);});
