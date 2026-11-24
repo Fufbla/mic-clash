@@ -56,3 +56,15 @@ body[data-mode="local"] .control-deck { display: none; }
   .local-mode .player-slot strong { font-size: 13px; line-height: 1.15; }
   .local-mode .player-slot > span:last-child { line-height: 1.2; }
 }
+
+/* Private online room controls; no layout changes to CPU or local 2P. */
+.online-lobby[hidden], .online-lobby [hidden] {display:none!important}
+.online-lobby {width:min(680px,100%);margin:6px auto;padding:10px;border:1px solid #504254;border-radius:12px;background:#211b2bcc;text-align:center;color:#fff}
+.online-actions {display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin:4px 0}
+.online-actions button {padding:7px 10px;min-height:34px;border:1px solid #716078;border-radius:8px;background:#34263e;color:#ffdfaa;font:800 11px system-ui;cursor:pointer}
+.online-actions button:disabled {opacity:.45;cursor:default}
+.online-code-label {display:flex;align-items:center;gap:6px;font:600 12px system-ui}
+#onlineCodeInput {width:105px;padding:7px;border-radius:7px;background:#14101b;color:#fff;border:1px solid #716078;font:700 13px monospace;text-transform:uppercase}
+.online-lobby p {margin:5px 0;font:600 12px/1.4 system-ui;color:#ded2e5}
+body[data-mode="online"] .opponent-picker {display:none}
+@media(max-width:420px){.mode-switch{flex-wrap:wrap;justify-content:flex-end}.mode-switch button{padding:6px;font-size:9px}.online-lobby{padding:7px}}

@@ -249,3 +249,9 @@ Ooou Saber has 16 transparent poses matching the red cap, dreadlocks, white shir
 Tree-a Yawl joins the 37-fighter roster with hand-rubbing movement, open-hand slaps, and Orb Dragon Rush: seven orange orbs summon a sweeping green dragon. Available in solo and local two-player modes.
 
 Trini-Gold joins the 38-fighter roster with a 245-unit chain-whip basic attack and six-projectile Chain Barrage. Available in solo and local two-player modes.
+
+## Private online 1v1 — beta branch
+
+Choose ONLINE 1V1, create a room, and send its eight-character room code or invite link to a friend. Your friend chooses JOIN ROOM, both select any of the 38 fighters, and both press Ready to fight. Touch, keyboard and one standard controller per device work through the existing combat controls. The host alone runs the fixed-step combat engine with AI off, and the guest receives fighter, health, timer, special and effect snapshots at up to 30 Hz. Both use the original stage and combat rules. Online matches do not pause; the pause icon offers to leave. Rematch returns both players to the room lobby. A lost connection ends the session without recording a winner.
+
+This experimental mode uses PeerJS 1.5.5 and its public signaling service via WebRTC, loaded only when a room is created/joined. No account, paid server, leaderboard or matchmaking is required. Connectivity varies with browser/network restrictions and public signaling/relay availability; production-grade relay hosting, anti-cheat, rollback netcode, and real cross-network device validation are not included. CPU and local 2P remain available offline. This branch has not been merged or deployed.

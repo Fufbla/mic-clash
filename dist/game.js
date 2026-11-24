@@ -23,6 +23,8 @@ import { CombatGame } from './combat.js?v=trinigold-20261123';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
+import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode} from './online.js?v=online-beta-1';
+
 const $ = id => document.getElementById(id);
 const META = {
   trinigold:TRINI,
@@ -68,6 +70,124 @@ const WORLD_W = 1280, WORLD_H = 720, GROUND = 548;
 const state = { phase: 'select', selected: 'owl', opponent: 'coupe', assets: null, game: null, countdown: 0, resultDelay: 0, last: 0, time: 0, shake: 0, flash: 0, particles: [], labels: [], audio: false, pausedFrom: 'playing', ready: false, toastTimer: 0, cameraX: 640, cameraWidth: 1280 };
 Object.assign(state, { mode: 'cpu', selectingPlayer: 0, playersReady: [false, false] });
 const controllers = new LocalControllers();
+const net = {status:'Create a room or enter a friend’s code.', localReady:false, remoteReady:false,
+  remoteFighter:null, match:0, remote:new RemoteInput(), lastSnapshot:0};
+const onlineGuest = () => state.mode === 'online' && room.role === 'guest';
+const humanVersus = () => state.mode !== 'cpu';
+const ownIndex = () => onlineGuest() ? 1 : 0;
+const room = new OnlineRoom({
+  onStatus(message) { net.status = message; updateLobby(); },
+  onMessage: receiveOnline,
+  onDisconnect(message) {
+    resetOnline();
+    if (state.mode === 'online') { showSelection(true); showToast(message, 5); }
+  }
+});
+function resetOnline() {
+  net.localReady = net.remoteReady = false;
+  net.remoteFighter = null; net.match = 0; net.remote.reset(); net.lastSnapshot = 0;
+}
+function roomSelection() {
+  room.send({type:'selection',fighter:state.selected,ready:net.localReady && state.ready});
+}
+function renderOnlineLobby() {
+  const enabled = state.mode === 'online';
+  $('onlineLobby').hidden = !enabled;
+  $('onlineMode').setAttribute('aria-pressed', String(enabled));
+  if (!enabled) return;
+  $('onlineStatus').textContent = net.status;
+  $('onlineCode').textContent = room.code ? 'ROOM: ' + room.code : '';
+  $('onlineInvite').hidden = room.role !== 'host';
+  $('onlineInvite').disabled = !room.code;
+  $('onlineLeave').hidden = !room.role;
+  $('onlineCreate').disabled = !!room.role;
+  $('onlineJoin').disabled = !!room.role;
+  $('onlineCodeInput').disabled = !!room.role;
+  $('onlinePlayers').textContent = 'You: ' + META[state.selected].name + (net.localReady ? ' · READY' : '') +
+    ' | Opponent: ' + (net.remoteFighter ? META[net.remoteFighter].name : 'Waiting') + (net.remoteReady ? ' · READY' : '');
+  $('startFight').disabled = !state.ready || !room.connected;
+  $('startFight').textContent = !state.ready ? 'Loading fighters…' : !room.connected ? 'Connect to a room' : net.localReady ? 'Cancel ready' : 'Ready to fight';
+  $('selectionInstructions').textContent = 'Online 1v1 · Choose your fighter and ready up.';
+  $('rematchButton').disabled = false;
+  $('restartButton').disabled = false;
+}
+function maybeStartOnline() {
+  if (state.mode !== 'online' || room.role !== 'host' || !room.connected || state.phase !== 'select' ||
+      !state.ready || !net.localReady || !net.remoteReady || !Object.hasOwn(META, net.remoteFighter)) return;
+  net.match += 1; net.remote.reset(); net.lastSnapshot = 0;
+  if (!room.send({type:'start',match:net.match,p1:state.selected,p2:net.remoteFighter})) return;
+  net.localReady = net.remoteReady = false;
+  beginFight(state.selected, net.remoteFighter);
+}
+function receiveOnline(message) {
+  if (state.mode !== 'online') return;
+  if (message.type === 'hello') { roomSelection(); return; }
+  if (message.type === 'selection' && state.phase === 'select' && Object.hasOwn(META, message.fighter)) {
+    net.remoteFighter = message.fighter; net.remoteReady = message.ready === true;
+    updateLobby(); maybeStartOnline(); return;
+  }
+  if (message.type === 'start' && onlineGuest() && state.phase === 'select' && state.ready &&
+      Number.isSafeInteger(message.match) && message.match > net.match &&
+      Object.hasOwn(META, message.p1) && Object.hasOwn(META, message.p2)) {
+    net.match = message.match; net.remoteFighter = message.p1; state.selected = message.p2;
+    net.localReady = net.remoteReady = false;
+    beginFight(message.p1, message.p2); return;
+  }
+  if (message.match !== net.match || !net.match) return;
+  if (message.type === 'input' && room.role === 'host' && state.phase === 'playing') {
+    net.remote.receive(message.input); return;
+  }
+  if (message.type === 'snapshot' && onlineGuest() && state.game &&
+      ['countdown','playing','result'].includes(message.phase) &&
+      applySnapshot(state.game, message.game, ROSTER)) {
+    if (Number.isFinite(message.countdown)) state.countdown = Math.max(0, message.countdown);
+    if (message.phase !== state.phase) {
+      if (message.phase === 'result') showResults();
+      else { setPhase(message.phase); $('phaseText').textContent = message.phase === 'playing' ? 'Round 1 · land hits to charge' : 'Get ready'; }
+    }
+    updateHUD(); return;
+  }
+  if (message.type === 'events' && onlineGuest() && state.game && Array.isArray(message.events) && message.events.length <= 128) {
+    state.game.events.push(...message.events.filter(event => event && typeof event.type === 'string'));
+    processEvents(); return;
+  }
+  if (message.type === 'lobby' && state.phase === 'result') {
+    showSelection(true);
+    if (room.role === 'host') room.send({type:'lobby',match:net.match});
+    roomSelection();
+  }
+}
+function onlineSnapshot(now) {
+  if (state.mode !== 'online' || room.role !== 'host' || !room.connected || !state.game ||
+      now - net.lastSnapshot < 1000 / 30) return;
+  net.lastSnapshot = now;
+  room.send({type:'snapshot',match:net.match,phase:state.phase,countdown:state.countdown,
+    game:makeSnapshot(state.game)}, {snapshot:true});
+}
+function localInput(pad, guest = false) {
+  return {moveX:pad.moveX || movementAxis(), block:pad.block || controlHeld('block'),
+    jumpPressed:pad.jumpPressed || jumpQueue > 0,
+    specialPressed:pad.specialPressed || pressed.specialPressed || (!guest && state.specialBuffer > 0),
+    punchPressed:pad.punchPressed || pressed.punchPressed || controlHeld('punch'),
+    kickPressed:pad.kickPressed || pressed.kickPressed || controlHeld('kick')};
+}
+function leaveOnline() {
+  room.close(); resetOnline();
+  net.status = 'Create a room or enter a friend’s code.';
+  showSelection(true);
+}
+$('onlineMode').addEventListener('click', () => setMode('online'));
+$('onlineCreate').addEventListener('click', () => { resetOnline(); room.open('host'); });
+$('onlineJoin').addEventListener('click', () => { resetOnline(); room.open('guest', $('onlineCodeInput').value); });
+$('onlineLeave').addEventListener('click', leaveOnline);
+$('onlineInvite').addEventListener('click', async () => {
+  if (!room.code) return;
+  const url = new URL(location.href); url.searchParams.set('room', room.code);
+  try { await navigator.clipboard.writeText(url.href); net.status = 'Invite link copied. Send it to your opponent.'; }
+  catch { net.status = 'Share this room code: ' + room.code; }
+  updateLobby();
+});
+window.addEventListener('pagehide', () => room.close());
 const CARD_ORDER = [...document.querySelectorAll('[data-fighter]')].map(el => el.dataset.fighter);
 const neonRenderer=createNeonRenderer(ctx,frame,()=>state.assets,GROUND);
 const ascensionRenderer = createAscensionRenderer(ctx, frame, () => state.assets, GROUND);
@@ -111,18 +231,18 @@ function clearInput() {
   });
 }
 function actionDown(action) {
-  if (state.phase !== 'playing' || state.game?.roundEnding || state.game?.over || state.game?.fighters[0].grabbedBy || state.game?.fighters[0].beltHeldBy) return;
-  const presenting = state.game.isPresenting(state.game.fighters[0]);
+  if (state.phase !== 'playing' || state.game?.roundEnding || state.game?.over || state.game?.fighters[ownIndex()].grabbedBy || state.game?.fighters[ownIndex()].beltHeldBy) return;
+  const presenting = state.game.isPresenting(state.game.fighters[ownIndex()]);
   if (presenting && (action === 'punch' || action === 'kick')) return;
   if (action === 'jump') jumpQueue = Math.min(2, jumpQueue + 1);
   if (action === 'punch') pressed.punchPressed = true;
   if (action === 'kick') pressed.kickPressed = true;
   if (action === 'special') {
-    if (presenting) showToast(`${META[state.game.fighters[0].type].special} is still playing.`, 1.5);
-    else if (state.game.fighters[0].meter < 100) showToast(state.game.fighters[0].type==='trinigold' ? 'Land chain whips and kicks to fill your special meter.' : ['treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.game.fighters[0].type) ? 'Land slaps and kicks to fill your special meter.' : ['quickfast','bigmumble'].includes(state.game.fighters[0].type) ? 'Land headbutts and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
-    else if (state.game.fighters[0].type === 'dr-no-bunnies' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > 285 || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for the belt slap. Your full meter is saved.', 1.8);
-    else if (state.game.fighters[0].type === 'smackprince' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > SMACK_UPGRADE.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for The Smack Upgrade. Your full meter is saved.', 1.8);
-    else if (state.game.fighters[0].type === 'babybigfists' && (Math.abs(state.game.fighters[0].x - state.game.fighters[1].x) > GIANT_FISTS.range || Math.abs(state.game.fighters[0].y - state.game.fighters[1].y) > 112)) showToast('Move closer for Giant Fists. Your full meter is saved.', 1.8);
+    if (presenting) showToast(`${META[state.game.fighters[ownIndex()].type].special} is still playing.`, 1.5);
+    else if (state.game.fighters[ownIndex()].meter < 100) showToast(state.game.fighters[ownIndex()].type==='trinigold' ? 'Land chain whips and kicks to fill your special meter.' : ['treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.game.fighters[ownIndex()].type) ? 'Land slaps and kicks to fill your special meter.' : ['quickfast','bigmumble'].includes(state.game.fighters[ownIndex()].type) ? 'Land headbutts and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
+    else if (state.game.fighters[ownIndex()].type === 'dr-no-bunnies' && (Math.abs(state.game.fighters[ownIndex()].x - state.game.fighters[1-ownIndex()].x) > 285 || Math.abs(state.game.fighters[ownIndex()].y - state.game.fighters[1-ownIndex()].y) > 112)) showToast('Move closer for the belt slap. Your full meter is saved.', 1.8);
+    else if (state.game.fighters[ownIndex()].type === 'smackprince' && (Math.abs(state.game.fighters[ownIndex()].x - state.game.fighters[1-ownIndex()].x) > SMACK_UPGRADE.range || Math.abs(state.game.fighters[ownIndex()].y - state.game.fighters[1-ownIndex()].y) > 112)) showToast('Move closer for The Smack Upgrade. Your full meter is saved.', 1.8);
+    else if (state.game.fighters[ownIndex()].type === 'babybigfists' && (Math.abs(state.game.fighters[ownIndex()].x - state.game.fighters[1-ownIndex()].x) > GIANT_FISTS.range || Math.abs(state.game.fighters[ownIndex()].y - state.game.fighters[1-ownIndex()].y) > 112)) showToast('Move closer for Giant Fists. Your full meter is saved.', 1.8);
     else { pressed.specialPressed = true; state.specialBuffer = .65; }
   }
 }
@@ -376,15 +496,16 @@ function selectFighter(type, player = state.selectingPlayer) {
     el.querySelector('.selected-mark').textContent = state.mode === 'local' ? [p1 && 'P1', p2 && 'P2'].filter(Boolean).join(' + ') : '✓';
   });
   const p = $('selectedName'); if (p) p.textContent = META[state.selected].name;
-  if (!META[state.opponent] || (state.mode !== 'local' && state.opponent === state.selected)) state.opponent = ROSTER.find(other => other !== state.selected);
+  if (!META[state.opponent] || (state.mode === 'cpu' && state.opponent === state.selected)) state.opponent = ROSTER.find(other => other !== state.selected);
   const opponentSelect = $('opponentSelect');
   if (opponentSelect) {
     for (const option of opponentSelect.options) {
-      option.hidden = state.mode !== 'local' && option.value === state.selected;
+      option.hidden = state.mode === 'cpu' && option.value === state.selected;
       option.disabled = option.hidden;
     }
     opponentSelect.value = state.opponent;
   }
+  if (state.mode === 'online') { net.localReady = false; roomSelection(); }
   updateLobby();
 }
 let lobbySignature = '';
@@ -392,13 +513,13 @@ function updateLobby() {
   const local = state.mode === 'local';
   const signature = JSON.stringify([state.mode, state.phase, state.ready, state.selected, state.opponent,
     state.selectingPlayer, state.playersReady, controllers.available, controllers.unsupported,
-    controllers.slots.map(s => s && [s.index, s.connected])]);
+    controllers.slots.map(s => s && [s.index, s.connected]), net.status, net.localReady, net.remoteReady, net.remoteFighter, room.role, room.code, room.connected]);
   if (signature === lobbySignature) return;
   lobbySignature = signature;
   document.body.dataset.mode = state.mode;
   $('selectionScreen').classList.toggle('local-mode', local);
   $('localLobby').hidden = !local;
-  $('cpuMode').setAttribute('aria-pressed', String(!local));
+  $('cpuMode').setAttribute('aria-pressed', String(state.mode === 'cpu'));
   $('localMode').setAttribute('aria-pressed', String(local));
   const needsPads = local && !controllers.bothConnected();
   $('startFight').disabled = !state.ready || needsPads;
@@ -420,9 +541,11 @@ function updateLobby() {
   const missing = [0, 1].filter(i => !controllers.connected(i)).map(i => `P${i + 1}`).join(' & ');
   $('controllerNotice').hidden = !local || !missing || !['playing', 'countdown', 'paused', 'result'].includes(state.phase);
   $('controllerNotice').textContent = `${missing}: reconnect and press A / ×. Use Pause to stop the fight.`;
+  renderOnlineLobby();
 }
 function setMode(mode) {
-  if (state.phase !== 'select' || !['cpu', 'local'].includes(mode) || state.mode === mode) return;
+  if (state.phase !== 'select' || !['cpu', 'local', 'online'].includes(mode) || state.mode === mode) return;
+  if (state.mode === 'online') { room.close(); resetOnline(); net.status = 'Create a room or enter a friend’s code.'; }
   state.mode = mode; state.selectingPlayer = 0; state.playersReady = [false, false];
   controllers.reset(); clearInput();
   selectFighter(state.selected, 0);
@@ -435,7 +558,7 @@ function controllerMenus(menus) {
     return;
   }
   if (state.phase === 'select') {
-    if (menus[0].mode) { setMode(state.mode === 'local' ? 'cpu' : 'local'); return; }
+    if (menus[0].mode) { setMode(state.mode === 'cpu' ? 'local' : state.mode === 'local' ? 'online' : 'cpu'); return; }
     for (let i = 0; i < (state.mode === 'local' ? 2 : 1); i++) {
       const menu = menus[i];
       if (menu.cancel) state.playersReady[i] = false;
@@ -489,7 +612,11 @@ function setPhase(phase) {
   $('resultScreen').hidden = phase !== 'result';
   if ($('pauseScreen')) $('pauseScreen').hidden = phase !== 'paused';
   if ($('helpScreen')) $('helpScreen').hidden = true;
-  if ($('pauseButton')) $('pauseButton').disabled = !['playing', 'countdown', 'paused'].includes(phase);
+  if ($('pauseButton')) {
+    $('pauseButton').disabled = !['playing', 'countdown', 'paused'].includes(phase);
+    $('pauseButton').setAttribute('aria-label', state.mode === 'online' ? 'Leave online match' : 'Pause game and open options');
+    $('pauseButton').title = state.mode === 'online' ? 'Leave online match' : 'Pause and options';
+  }
   analogStick?.setAttribute('aria-disabled', String(phase !== 'playing'));
   clearInput();
   if (phase !== 'playing') controllers.suspend();
@@ -497,20 +624,28 @@ function setPhase(phase) {
   updateLobby();
 }
 function startFight() {
+  if (state.mode === 'online') {
+    if (state.phase === 'result') { showSelection(); return; }
+    if (state.phase !== 'select' || !state.ready || !room.connected) return;
+    net.localReady = !net.localReady; roomSelection(); updateLobby(); maybeStartOnline(); return;
+  }
+  beginFight();
+}
+function beginFight(p1 = state.selected, p2 = state.opponent) {
   if (!state.ready || (state.mode === 'local' && !controllers.bothConnected())) return;
-  state.game = new CombatGame(state.selected, state.opponent, { localMultiplayer: state.mode === 'local' });
+  state.game = new CombatGame(p1, p2, { localMultiplayer: humanVersus() });
   state.playersReady = [false, false];
   const opponent = state.game.fighters[1].type;
   state.cameraX = 640; state.cameraWidth = 1280;
-  document.documentElement.style.setProperty('--p1-accent', META[state.selected].color);
+  document.documentElement.style.setProperty('--p1-accent', META[p1].color);
   document.documentElement.style.setProperty('--p2-accent', META[opponent].color);
   state.particles = []; state.labels = []; state.resultDelay = 0; state.countdown = 2.8; state.shake = 0;
-  $('p1Name').textContent = (state.mode === 'local' ? 'P1 · ' : '') + (META[state.selected].hudName || META[state.selected].name);
-  $('p2Name').textContent = (state.mode === 'local' ? 'P2 · ' : '') + (META[opponent].hudName || META[opponent].name);
-  document.querySelector('#p1Card .player-role').textContent = state.mode === 'local' ? 'P1' : 'YOU';
-  document.querySelector('#p2Card .player-role').textContent = state.mode === 'local' ? 'P2' : 'CPU';
-  $('p1Health').setAttribute('aria-label', state.mode === 'local' ? 'Player 1 health' : 'Your health');
-  $('p2Health').setAttribute('aria-label', state.mode === 'local' ? 'Player 2 health' : 'Opponent health');
+  $('p1Name').textContent = (humanVersus() ? 'P1 · ' : '') + (META[p1].hudName || META[p1].name);
+  $('p2Name').textContent = (humanVersus() ? 'P2 · ' : '') + (META[opponent].hudName || META[opponent].name);
+  document.querySelector('#p1Card .player-role').textContent = state.mode === 'online' ? (onlineGuest() ? 'OPPONENT' : 'YOU') : state.mode === 'local' ? 'P1' : 'YOU';
+  document.querySelector('#p2Card .player-role').textContent = state.mode === 'online' ? (onlineGuest() ? 'YOU' : 'OPPONENT') : state.mode === 'local' ? 'P2' : 'CPU';
+  $('p1Health').setAttribute('aria-label', humanVersus() ? 'Player 1 health' : 'Your health');
+  $('p2Health').setAttribute('aria-label', humanVersus() ? 'Player 2 health' : 'Opponent health');
   canvas.setAttribute('aria-label', state.mode === 'local'
     ? 'Celebrity Gauntlet local two-player arena. Each controller moves its own fighter. Menu or Options pauses the round.'
     : 'Celebrity Gauntlet fighting arena. Use the left analog stick and four action buttons, keyboard, or a controller.');
@@ -523,14 +658,24 @@ function startFight() {
   updateHUD();
   if (state.audio) sound.enable(true);
 }
-function showSelection() {
+function showSelection(fromRemote = false) {
+  if (state.mode === 'online') {
+    if (!fromRemote && room.connected && state.phase === 'result') room.send({type:'lobby',match:net.match});
+    else if (!fromRemote && room.connected && state.phase !== 'select') { leaveOnline(); return; }
+    net.localReady = net.remoteReady = false; net.remote.reset(); net.lastSnapshot = 0;
+  }
   state.game = null; state.particles = []; state.labels = [];
   state.playersReady = [false, false];
   setPhase('select'); $('phaseText').textContent = 'Choose your fighter';
   if ($('toast')) $('toast').hidden = true;
+  if (state.mode === 'online') roomSelection();
 }
 function pause() {
   if (!['playing', 'countdown'].includes(state.phase)) return;
+  if (state.mode === 'online') {
+    if (window.confirm('Leave this online match? No result will be recorded.')) leaveOnline();
+    return;
+  }
   state.pausedFrom = state.phase; setPhase('paused'); $('phaseText').textContent = 'Paused';
   $('resumeButton').focus({ preventScroll: true });
 }
@@ -541,7 +686,7 @@ function resumeFight() {
 }
 function showResults() {
   const winner = state.game.winner;
-  $('resultTitle').textContent = winner === 'draw' ? 'Draw!' : state.mode === 'local' ? `Player ${winner === 'p1' ? 1 : 2} wins!` : winner === 'p1' ? 'You win!' : 'Round lost';
+  $('resultTitle').textContent = winner === 'draw' ? 'Draw!' : state.mode === 'online' ? (winner === 'p' + (ownIndex() + 1) ? 'You win!' : 'Round lost') : state.mode === 'local' ? `Player ${winner === 'p1' ? 1 : 2} wins!` : winner === 'p1' ? 'You win!' : 'Round lost';
   const won = state.game.fighters.find(f => f.id === winner);
   $('resultMessage').textContent = won ? `${META[won.type].name} takes the round. Ready for a rematch?` : 'Both fighters held their ground. Run it back.';
   setPhase('result'); $('phaseText').textContent = 'Round complete';
@@ -560,12 +705,12 @@ $('opponentSelect')?.addEventListener('change', event => {
 $('startFight').disabled = true; $('startFight').textContent = 'Loading fighters…';
 $('startFight').addEventListener('click', startFight);
 $('rematchButton').addEventListener('click', startFight);
-$('changeFighterButton').addEventListener('click', showSelection);
-$('backButton')?.addEventListener('click', showSelection);
+$('changeFighterButton').addEventListener('click', () => showSelection());
+$('backButton')?.addEventListener('click', () => showSelection());
 $('pauseButton')?.addEventListener('click', pause);
 $('resumeButton')?.addEventListener('click', resumeFight);
 $('restartButton')?.addEventListener('click', startFight);
-$('selectButton')?.addEventListener('click', showSelection);
+$('selectButton')?.addEventListener('click', () => showSelection());
 $('soundButton')?.addEventListener('click', () => {
   try { state.audio = !state.audio; sound.enable(state.audio); }
   catch { state.audio = false; showToast('Sound is unavailable in this browser.'); }
@@ -731,17 +876,18 @@ function updateHUD() {
     $(`p${i}Meter`).classList.toggle('ready', f.meter >= 100 && !active);
   }
   $('roundClock').textContent = Math.max(0, Math.ceil(state.game.timeRemaining)).toString().padStart(2, '0');
-  const specialActive = state.game.isPresenting(p1);
+  const controlled = state.game.fighters[ownIndex()];
+  const specialActive = state.game.isPresenting(controlled);
   const ending = !!state.game.roundEnding || state.game.over;
-  const grabbed = Boolean(p1.grabbedBy || p1.beltHeldBy);
+  const grabbed = Boolean(controlled.grabbedBy || controlled.beltHeldBy);
   document.querySelectorAll('[data-control]').forEach(button => {
     button.disabled = ending || grabbed || state.phase !== 'playing'
       || (specialActive && ['punch', 'kick', 'special'].includes(button.dataset.control));
   });
   analogStick?.setAttribute('aria-disabled', String(ending || grabbed || state.phase !== 'playing'));
-  $('specialButton').disabled = p1.meter < 100 || specialActive || ending || grabbed || state.phase !== 'playing';
-  $('specialButton').classList.toggle('ready', p1.meter >= 100 && !specialActive);
-  $('specialButton').setAttribute('aria-label', specialActive ? `${META[p1.type].special} is active. Cannot be interrupted.` : p1.meter >= 100 ? `Use ${META[p1.type].special}` : `Special charging: ${Math.floor(p1.meter)} percent. Land hits to charge.`);
+  $('specialButton').disabled = controlled.meter < 100 || specialActive || ending || grabbed || state.phase !== 'playing';
+  $('specialButton').classList.toggle('ready', controlled.meter >= 100 && !specialActive);
+  $('specialButton').setAttribute('aria-label', specialActive ? `${META[controlled.type].special} is active. Cannot be interrupted.` : controlled.meter >= 100 ? `Use ${META[controlled.type].special}` : `Special charging: ${Math.floor(controlled.meter)} percent. Land hits to charge.`);
   if (state.game.roundEnding && state.phase === 'playing') $('phaseText').textContent = state.game.over ? 'Round complete' : 'Finishing special…';
   canvas.dataset.playerProtected = String(specialActive);
   canvas.dataset.opponentProtected = String(state.game.isPresenting(p2));
@@ -842,7 +988,10 @@ function particleBurst(x, y, color, count = 10, force = 180) {
   }
 }
 function processEvents() {
-  for (const event of state.game.drainEvents()) {
+  const events = state.game.drainEvents();
+  if (events.length && state.mode === 'online' && room.role === 'host') room.send({type:'events',match:net.match,events});
+  if (!state.game) return;
+  for (const event of events) {
     if (event.type === 'hit') {
       const target = state.game.fighters.find(f => f.id === event.defender);
       const x = Number.isFinite(event.x) ? event.x : target?.x ?? 640;
@@ -868,7 +1017,7 @@ function processEvents() {
       else if (event.kind === 'moneyRain') { sound.noise(.09, .035); sound.tone(850, 380, .12, .025, 'triangle'); }
       else { sound.hit(true, false); if (event.truck) sound.tone(75, 180, .3, .045, 'sawtooth'); }
     }
-    if (event.type === 'meterReady' && (event.fighter === 'p1' || state.mode === 'local')) {
+    if (event.type === 'meterReady' && (event.fighter === 'p' + (ownIndex() + 1) || state.mode === 'local')) {
       const i = event.fighter === 'p1' ? 0 : 1;
       showToast(`${state.mode === 'local' ? `P${i + 1}: ` : ''}${META[state.game.fighters[i].type].special} ready!`, 2.2);
       sound.tone(440, 880, .25, .04, 'triangle');
@@ -1322,7 +1471,7 @@ function drawFighter(f) {
   }
   ctx.restore();
   drawTriniWhip(ctx,f,GROUND);
-  if ((f.id === 'p1' || state.mode === 'local') && !state.game.over) {
+  if ((f.id === 'p' + (ownIndex() + 1) || state.mode === 'local') && !state.game.over) {
     ctx.fillStyle = state.mode === 'local' ? f.id === 'p1' ? '#ff82bf' : '#87b9ff' : META[f.type].color;
     ctx.beginPath(); ctx.moveTo(f.x - 7, GROUND - f.y - 238); ctx.lineTo(f.x + 7, GROUND - f.y - 238); ctx.lineTo(f.x, GROUND - f.y - 229); ctx.fill();
     if (state.mode === 'local') {
@@ -1905,38 +2054,46 @@ function draw(dt) {
 function loop(now) {
   const dt = Math.min(.16, (now - (state.last || now)) / 1000); state.last = now; state.time += dt;
   pollControllers(dt);
+  if (state.mode === 'online') room.tick(now);
   if (state.toastTimer > 0) { state.toastTimer -= dt; if (state.toastTimer <= 0 && $('toast')) $('toast').hidden = true; }
   state.shake = Math.max(0, state.shake - dt * 25); state.flash = Math.max(0, state.flash - dt);
-  if (state.phase === 'countdown') { state.countdown -= dt; if (state.countdown <= 0) { setPhase('playing'); $('phaseText').textContent = 'Round 1 · land hits to charge'; } }
-  if (state.phase === 'playing') {
+  if (onlineGuest() && state.phase === 'playing') {
+    const input = localInput(controllers.consume(0, dt), true);
+    room.send({type:'input',match:net.match,input});
+    jumpQueue = Math.max(0, jumpQueue - 1);
+    Object.keys(pressed).forEach(k => pressed[k] = false);
+    sound.tick();
+  }
+  if (!onlineGuest() && state.phase === 'countdown') { state.countdown -= dt; if (state.countdown <= 0) { setPhase('playing'); $('phaseText').textContent = 'Round 1 · land hits to charge'; } }
+  if (!onlineGuest() && state.phase === 'playing') {
     state.accumulator = (state.accumulator || 0) + dt;
     let steps = 0;
     while (state.accumulator >= 1 / 60 && steps < 10) {
       const meterBefore = state.game.fighters.map(f => f.meter);
       const pad1 = controllers.consume(0, 1 / 60), pad2 = controllers.consume(1, 1 / 60);
-      const input = state.mode === 'local' ? pad1 : {
-        moveX: pad1.moveX || movementAxis(), block: pad1.block || controlHeld('block'),
-        jumpPressed: pad1.jumpPressed || jumpQueue > 0,
-        specialPressed: pad1.specialPressed || pressed.specialPressed || state.specialBuffer > 0,
-        punchPressed: pad1.punchPressed || pressed.punchPressed || controlHeld('punch'),
-        kickPressed: pad1.kickPressed || pressed.kickPressed || controlHeld('kick') };
-      state.game.update(1 / 60, input, pad2);
+      const input = state.mode === 'local' ? pad1 : localInput(pad1);
+      state.game.update(1 / 60, input, state.mode === 'online' ? net.remote.consume(1/60) : pad2);
       jumpQueue = Math.max(0, jumpQueue - 1);
       state.specialBuffer = Math.max(0, (state.specialBuffer || 0) - 1 / 60);
       for (let i = 0; i < 2; i++) if (meterBefore[i] >= 100 && state.game.fighters[i].meter < 100) {
         controllers.clearSpecial(i);
+        if (i === 1 && state.mode === 'online') net.remote.clearSpecial();
         if (i === 0) state.specialBuffer = 0;
       }
       Object.keys(pressed).forEach(k => pressed[k] = false);
       state.accumulator -= 1 / 60; steps++;
     }
     processEvents(); sound.tick(); updateHUD();
-    if (state.game.over) { state.resultDelay += dt; if (state.resultDelay > .9) showResults(); }
+    if (state.game?.over) { state.resultDelay += dt; if (state.resultDelay > .9) showResults(); }
   }
+  onlineSnapshot(now);
   draw(dt); requestAnimationFrame(loop);
 }
 
-selectFighter('owl'); setPhase('select'); requestAnimationFrame(loop);
+selectFighter('owl'); setPhase('select');
+const invitedRoom = new URL(location.href).searchParams.get('room')?.toUpperCase();
+if (validCode(invitedRoom)) { setMode('online'); $('onlineCodeInput').value = invitedRoom; net.status = 'Invite received. Press Join room.'; updateLobby(); }
+requestAnimationFrame(loop);
 loadAssets().catch(error => { console.error(error); $('startFight').textContent = 'Reload to retry'; showToast('The game art did not load. Please refresh to retry.', 30); });
 
 // A small read-only snapshot helps verify the prototype without affecting combat.
