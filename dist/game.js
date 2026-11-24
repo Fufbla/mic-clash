@@ -257,11 +257,11 @@ const pressed = { jumpPressed: false, punchPressed: false, kickPressed: false, s
 let jumpQueue = 0;
 const frameCache = new Map();
 const analogStick = $('analogStick'), analogKnob = $('analogKnob');
-const analog = { pointerId: null, axis: 0 };
+const analog = { pointerId: null, pointerType: '', touchId: null, axis: 0 };
 
 function resetAnalog() {
   const pointerId = analog.pointerId;
-  analog.pointerId = null; analog.axis = 0;
+  analog.pointerId = null; analog.pointerType = ''; analog.touchId = null; analog.axis = 0;
   if (!analogStick) return;
   analogStick.style.setProperty('--stick-x', '0px');
   analogStick.style.setProperty('--stick-y', '0px');
@@ -269,7 +269,7 @@ function resetAnalog() {
   analogStick.dataset.axis = '0';
   analogStick.setAttribute('aria-valuenow', '0');
   analogStick.setAttribute('aria-valuetext', 'Centered');
-  if (pointerId !== null && analogStick.hasPointerCapture(pointerId)) analogStick.releasePointerCapture(pointerId);
+  try { if (pointerId !== null && analogStick.hasPointerCapture(pointerId)) analogStick.releasePointerCapture(pointerId); } catch { /* The browser may have already ended this pointer. */ }
 }
 
 function showToast(text, seconds = 2.2) {
@@ -856,19 +856,47 @@ function moveAnalog(event) {
 }
 analogStick?.addEventListener('pointerdown', event => {
   event.preventDefault();
-  if (state.phase !== 'playing' || analog.pointerId !== null || state.game?.fighters[0].grabbedBy) return;
+  if (state.phase !== 'playing' || analog.pointerId !== null || state.game?.fighters[ownIndex()].grabbedBy) return;
+  if (event.pointerType === 'mouse' && event.button !== 0) return;
   analog.pointerId = event.pointerId;
-  analogStick.setPointerCapture(event.pointerId);
+  analog.pointerType = event.pointerType;
+  analog.touchId = null;
+  try { analogStick.setPointerCapture(event.pointerId); } catch { /* Window listeners still track the pointer. */ }
   analogStick.classList.add('is-active');
   moveAnalog(event);
 });
-analogStick?.addEventListener('pointermove', event => {
+// Capture at window level so releasing outside the control still centers it.
+window.addEventListener('pointermove', event => {
   if (event.pointerId !== analog.pointerId) return;
-  event.preventDefault(); moveAnalog(event);
-});
-for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) {
-  analogStick?.addEventListener(type, event => { if (event.pointerId === analog.pointerId) resetAnalog(); });
+  if (analog.pointerType === 'mouse' && !(event.buttons & 1)) { resetAnalog(); return; }
+  if (event.cancelable) event.preventDefault();
+  moveAnalog(event);
+}, { capture: true, passive: false });
+const endAnalogPointer = event => { if (event.pointerId === analog.pointerId) resetAnalog(); };
+for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, endAnalogPointer, true);
+analogStick?.addEventListener('lostpointercapture', endAnalogPointer);
+// iOS can omit a pointer release during multi-touch or browser gestures.
+// Track the joystick finger, not the attack-button finger. Touch identifiers
+// and PointerEvent pointerIds are different values.
+const isStickTouch = touch => !!analogStick && analogStick.contains(touch.target);
+window.addEventListener('touchstart', event => {
+  if (analog.pointerType !== 'touch' || analog.touchId !== null) return;
+  const touch = Array.from(event.changedTouches).find(isStickTouch);
+  if (touch) analog.touchId = touch.identifier;
+}, { capture: true, passive: true });
+const recoverAnalogTouch = event => {
+  if (analog.pointerType !== 'touch' || analog.pointerId === null) return;
+  const touches = Array.from(event.touches);
+  const stillHeld = analog.touchId !== null
+    ? touches.some(touch => touch.identifier === analog.touchId)
+    : touches.some(isStickTouch);
+  if (!stillHeld) resetAnalog();
+};
+for (const type of ['touchend', 'touchcancel', 'touchmove']) {
+  window.addEventListener(type, recoverAnalogTouch, { capture: true, passive: true });
 }
+window.addEventListener('pagehide', resetAnalog);
+window.addEventListener('orientationchange', resetAnalog);
 analogStick?.addEventListener('contextmenu', event => event.preventDefault());
 // Losing focus releases held controls, but only the Pause button pauses a round.
 window.addEventListener('blur', () => { clearInput(); controllers.suspend(); });
