@@ -17739,5 +17739,209 @@
       }
     ],
     "referenceHeight": 260
+  },
+  "boat": {
+    "src": "./assets/boat.png",
+    "frames": [
+      {
+        "x": 103,
+        "y": 16,
+        "w": 159,
+        "h": 249,
+        "cellX": 0,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 85.24000000000001,
+        "anchorY": 248
+      },
+      {
+        "x": 460,
+        "y": 17,
+        "w": 159,
+        "h": 248,
+        "cellX": 362,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 90.24000000000001,
+        "anchorY": 247
+      },
+      {
+        "x": 815,
+        "y": 16,
+        "w": 158,
+        "h": 248,
+        "cellX": 724,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 97.24000000000001,
+        "anchorY": 248
+      },
+      {
+        "x": 1180,
+        "y": 13,
+        "w": 151,
+        "h": 240,
+        "cellX": 1086,
+        "cellY": 0,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 94.24000000000001,
+        "anchorY": 251
+      },
+      {
+        "x": 103,
+        "y": 289,
+        "w": 165,
+        "h": 232,
+        "cellX": 0,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 85.24000000000001,
+        "anchorY": 246
+      },
+      {
+        "x": 444,
+        "y": 295,
+        "w": 200,
+        "h": 234,
+        "cellX": 362,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 106.24000000000001,
+        "anchorY": 233
+      },
+      {
+        "x": 775,
+        "y": 307,
+        "w": 230,
+        "h": 222,
+        "cellX": 724,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 137.24,
+        "anchorY": 221
+      },
+      {
+        "x": 1150,
+        "y": 292,
+        "w": 199,
+        "h": 238,
+        "cellX": 1086,
+        "cellY": 271,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 124.24000000000001,
+        "anchorY": 238
+      },
+      {
+        "x": 93,
+        "y": 555,
+        "w": 194,
+        "h": 241,
+        "cellX": 0,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 95.24000000000001,
+        "anchorY": 240
+      },
+      {
+        "x": 402,
+        "y": 562,
+        "w": 285,
+        "h": 234,
+        "cellX": 362,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 122.9,
+        "anchorY": 233
+      },
+      {
+        "x": 792,
+        "y": 560,
+        "w": 189,
+        "h": 236,
+        "cellX": 724,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 94.9,
+        "anchorY": 235
+      },
+      {
+        "x": 1160,
+        "y": 556,
+        "w": 223,
+        "h": 240,
+        "cellX": 1086,
+        "cellY": 543,
+        "cellW": 362,
+        "cellH": 271,
+        "anchorX": 114.24000000000001,
+        "anchorY": 240
+      },
+      {
+        "x": 83,
+        "y": 855,
+        "w": 196,
+        "h": 212,
+        "cellX": 0,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 105.24000000000001,
+        "anchorY": 212
+      },
+      {
+        "x": 439,
+        "y": 818,
+        "w": 192,
+        "h": 246,
+        "cellX": 362,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 111.24000000000001,
+        "anchorY": 260
+      }
+    ],
+    "referenceHeight": 249
+  },
+  "boatVehicle": {
+    "src": "./assets/boat.png",
+    "frames": [
+      {
+        "x": 753,
+        "y": 841,
+        "w": 333,
+        "h": 216,
+        "cellX": 724,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 159.24,
+        "anchorY": 215
+      },
+      {
+        "x": 1086,
+        "y": 842,
+        "w": 336,
+        "h": 222,
+        "cellX": 1086,
+        "cellY": 814,
+        "cellW": 362,
+        "cellH": 272,
+        "anchorX": 188.24,
+        "anchorY": 221
+      }
+    ],
+    "referenceHeight": 216
   }
 }

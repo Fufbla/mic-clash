@@ -258,3 +258,5 @@ Online 1v1 is available at the existing game URL. Create a private room, share t
 ### Mobile room recovery
 
 Host room identity and selected fighter are saved for two hours and restored with the same code after a browser reload. The app no longer destroys rooms on pagehide. Share link uses the native share sheet when available. Guests retry the same code while waiting for a host to return. Leaving explicitly clears the saved room. Peer-to-peer play still requires the host's browser to be active; interrupted rounds return to the lobby.
+
+Boat joins the 39-fighter roster with skipping movement, head-shaking punches, and Boat Run Over: he boards a small speedboat, charges across the arena and launches the opponent. The latest online room recovery changes are preserved.

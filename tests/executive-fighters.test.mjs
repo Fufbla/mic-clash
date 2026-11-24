@@ -96,7 +96,7 @@ test('Both served entry points contain the complete 29-fighter roster and atlas 
   for(const entry of ['../index.html','../dist/index.html']) {
     const html=readFileSync(new URL(entry,import.meta.url),'utf8');
     const cards=[...html.matchAll(/data-fighter="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(cards.length,38);assert.equal(new Set(cards).size,38);
+    assert.equal(cards.length,39);assert.equal(new Set(cards).size,39);
     for(const type of Object.keys(roster))assert.ok(cards.includes(type));
   }
   for(const type of Object.keys(roster))for(const suffix of ['','Actions','Support']) {
