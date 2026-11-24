@@ -21,3 +21,9 @@ for(const mode of ['solo','online'])for(const [width,height] of [[780,1688],[168
  for(let i=0;i<240;i++){game.update(1/60);vm.runInContext('draw(1/60)',sandbox);}
  assert(blizzards>100);assert.equal(game.specials.length,0);
 });
+test('Blizzard restores canvas state even if drawing fails',()=>{
+ let depth=0,strokes=0;
+ const ctx={save(){depth++;},restore(){depth--;},fillRect(){},beginPath(){},moveTo(){},lineTo(){},stroke(){strokes++;throw new Error('canvas failure');}};
+ assert.throws(()=>drawBlizzard(ctx,{age:1,ttl:2},390,844),/canvas failure/);
+ assert.equal(depth,0);assert.equal(strokes,1);
+});

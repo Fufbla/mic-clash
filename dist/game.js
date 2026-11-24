@@ -1,4 +1,4 @@
-import {SNOW,snowPose,drawSnowSpecial,drawBlizzard} from './yung-snow.js';
+import {SNOW,snowPose,drawSnowSpecial,drawBlizzard} from './yung-snow.js?v=snow-recovery-20261124';
 import {BOAT,boatPose,drawBoatSpecial} from './boat.js';
 import {TRINI,triniPose,drawTriniSpecial,drawTriniWhip} from './trini-gold.js';
 import {TREE,treePose,drawTreeSpecial} from './tree-a-yawl.js';
@@ -21,7 +21,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=snow-20261124';
+import { CombatGame } from './combat.js?v=snow-recovery-20261124';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -2182,6 +2182,8 @@ function draw(dt) {
 }
 
 function loop(now) {
+  // Keep the next frame queued even if a canvas draw fails on this frame.
+  requestAnimationFrame(loop);
   const dt = Math.min(.16, (now - (state.last || now)) / 1000); state.last = now; state.time += dt;
   pollControllers(dt);
   if (state.mode === 'online') room.tick(now);
@@ -2231,7 +2233,6 @@ function loop(now) {
     fighters.forEach((f,i)=>Object.assign(f,visual[i]));
     try { draw(dt); } finally { fighters.forEach((f,i)=>Object.assign(f,authoritative[i])); }
   } else draw(dt);
-  requestAnimationFrame(loop);
 }
 
 selectFighter('owl'); setPhase('select');

@@ -15,4 +15,19 @@ export function drawSnowSpecial(ctx,s,frame,ground){
  if(s.kind==='lowSnowball'){ctx.save();ctx.translate(s.x,ground-22);ctx.rotate(s.age*12*s.facing);ctx.fillStyle='#f3fcff';ctx.strokeStyle='#9acfe8';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,22,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#b5def0';ctx.beginPath();ctx.arc(-7,-5,5,0,Math.PI*2);ctx.fill();ctx.restore();return;}
  for(const [i,m] of s.men.entries()){if(!m.visible)continue;const b=frame('snowmen',Math.floor((s.age-m.launch)*9)%2);if(!b)continue;const z=150/b.h;ctx.save();ctx.translate(m.x,ground-i%2*8);ctx.scale(s.facing,1);ctx.globalAlpha=Math.min(1,(s.age-m.launch)*7,Math.max(0,(1.45-s.age+m.launch)*5));ctx.drawImage(b.image,-b.w*z/2,-b.h*z,b.w*z,b.h*z);ctx.restore();}
 }
-export function drawBlizzard(ctx,s,width,height){ctx.save();ctx.globalAlpha=Math.min(1,s.age/.5,s.ttl/.5);ctx.fillStyle='rgba(145,205,240,.12)';ctx.fillRect(0,0,width,height);ctx.strokeStyle='rgba(235,251,255,.8)';ctx.lineWidth=2;for(let i=0;i<150;i++){const x=((i*137.5+s.age*320)%width+width)%width,y=(i*79+s.age*180)%height;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-6-i%6,y+5+i%5);ctx.stroke();}ctx.restore();}
+export function drawBlizzard(ctx,s,width,height){
+ if(!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0)return;
+ ctx.save();
+ try {
+  ctx.globalAlpha=Math.min(1,s.age/.5,s.ttl/.5);
+  ctx.fillStyle='rgba(145,205,240,.12)';ctx.fillRect(0,0,width,height);
+  ctx.strokeStyle='rgba(235,251,255,.8)';ctx.lineWidth=2;
+  // Batch snowfall into one stroke instead of 150 separate canvas submissions.
+  ctx.beginPath();
+  for(let i=0;i<150;i++){
+   const x=((i*137.5+s.age*320)%width+width)%width,y=(i*79+s.age*180)%height;
+   ctx.moveTo(x,y);ctx.lineTo(x-6-i%6,y+5+i%5);
+  }
+  ctx.stroke();
+ } finally {ctx.restore();}
+}
