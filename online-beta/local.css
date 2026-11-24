@@ -125,3 +125,15 @@ body[data-mode="online"] .start-button{min-height:35px;width:min(270px,100%);fon
  body[data-mode="online"] .online-actions button{padding:4px 6px}
  body[data-mode="online"] .online-actions{gap:4px}
 }
+
+/* iOS Safari auto-zooms inputs below 16 CSS px. Keep this larger even in
+   narrow portrait and short landscape layouts. */
+body[data-mode="online"] #onlineCodeInput {
+  font: 700 18px/1.15 monospace !important;
+  height: 34px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-user-select: text;
+  user-select: text;
+  touch-action: manipulation;
+}

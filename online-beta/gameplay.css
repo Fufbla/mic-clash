@@ -146,3 +146,9 @@ body[data-phase="playing"], body[data-phase="countdown"] { touch-action: none; }
 
 /* One smooth full-screen whiteout, below menus and above the arena/HUD. */
 #goatWhiteout{position:absolute;inset:0;z-index:15;background:#fff;opacity:0;pointer-events:none}
+
+/* Game viewport stays at 1x; preserve native keyboard and roster scrolling. */
+html, body { width: 100%; max-width: 100%; overflow: hidden; overscroll-behavior: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+#gameApp { max-width: 100%; }
+.screen-overlay, .fighter-grid, .dialog-card { touch-action: pan-y; }
+input, textarea, select { font-size: 16px; touch-action: manipulation; -webkit-user-select: text; user-select: text; }

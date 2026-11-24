@@ -482,6 +482,10 @@ function pollControllers(dt) {
 }
 
 function setPhase(phase) {
+  if (phase !== 'select' && document.activeElement?.matches('input, textarea, [contenteditable="true"]')) {
+    document.activeElement.blur();
+    syncViewport();
+  }
   if (['select', 'paused', 'result'].includes(phase)) sound.stopYells();
   state.phase = phase; state.accumulator = 0; state.specialBuffer = 0; canvas.dataset.phase = phase;
   document.body.dataset.phase = phase;
@@ -682,7 +686,7 @@ for (const type of ['touchstart', 'touchmove', 'touchend', 'dblclick', 'contextm
 }
 for (const type of ['gesturestart', 'gesturechange', 'gestureend']) {
   document.addEventListener(type, event => {
-    if (fightIsActive() && event.cancelable) event.preventDefault();
+    if (event.cancelable) event.preventDefault();
   }, { passive: false });
 }
 
@@ -692,27 +696,55 @@ function resize() {
   if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
 }
 new ResizeObserver(resize).observe(canvas);
-let viewportQueued = false;
+// Use the actual visible browser viewport, never multiply by its zoom scale.
+// Focusing a room field must not scroll the selected fighter into view or
+// change the arena orientation just because the on-screen keyboard opened.
+let viewportQueued = false, editingOrientation = null;
+const isTextEditing = () => document.activeElement?.matches('input, textarea, [contenteditable="true"]');
+function resetPageOffset() {
+  if (isTextEditing()) return;
+  const scroller = document.scrollingElement;
+  if (scroller && (scroller.scrollLeft || scroller.scrollTop)) {
+    scroller.scrollLeft = 0; scroller.scrollTop = 0;
+  }
+  if (window.scrollX || window.scrollY) window.scrollTo(0, 0);
+}
 function syncViewport() {
   if (viewportQueued) return;
   viewportQueued = true;
   requestAnimationFrame(() => {
     viewportQueued = false;
     const viewport = window.visualViewport;
-    const scale = viewport?.scale || 1;
-    const width = viewport ? viewport.width * scale : window.innerWidth;
-    const height = viewport ? viewport.height * scale : window.innerHeight;
-    const orientation = width > height ? 'landscape' : 'portrait';
     const root = document.documentElement;
+    const width = Math.max(1, Math.floor(root.clientWidth || window.innerWidth));
+    // At 1x the visual height reflects the visible area, including iOS keyboard
+    // and browser bars. Ignore accidental zoom-derived dimensions.
+    const height = Math.max(1, Math.floor(viewport && Math.abs(viewport.scale - 1) < .02
+      ? viewport.height : window.innerHeight));
+    const orientation = isTextEditing() && editingOrientation ? editingOrientation : width > height ? 'landscape' : 'portrait';
     if (root.dataset.orientation && root.dataset.orientation !== orientation) clearInput();
     root.dataset.orientation = orientation;
     root.style.setProperty('--viewport-height', `${height}px`);
+    resetPageOffset();
     resize();
-    if (state.phase === 'select') document.querySelector('[data-fighter][aria-pressed="true"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   });
 }
+document.addEventListener('focusin', event => {
+  if (event.target.matches?.('input, textarea, [contenteditable="true"]')) {
+    editingOrientation = document.documentElement.dataset.orientation ||
+      (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+    syncViewport();
+  }
+});
+document.addEventListener('focusout', event => {
+  if (!event.target.matches?.('input, textarea, [contenteditable="true"]')) return;
+  editingOrientation = null;
+  // iOS animates keyboard dismissal; resync after the animation as well.
+  syncViewport(); setTimeout(syncViewport, 100); setTimeout(syncViewport, 350);
+});
 window.addEventListener('resize', syncViewport);
 window.visualViewport?.addEventListener('resize', syncViewport);
+window.visualViewport?.addEventListener('scroll', syncViewport);
 window.screen.orientation?.addEventListener('change', syncViewport);
 syncViewport();
 
