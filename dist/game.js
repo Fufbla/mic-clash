@@ -1,3 +1,4 @@
+import {BREEZY,breezyPose,drawBreezySpecial} from './breezy.js';
 import {QUEENBEE,queenbeePose,drawBeeSpecial} from './queenbee.js';
 import {SNOW,snowPose,drawSnowSpecial,drawBlizzard} from './yung-snow.js?v=snow-recovery-20261124';
 import {BOAT,boatPose,drawBoatSpecial} from './boat.js';
@@ -22,7 +23,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=queenbee-test';
+import { CombatGame } from './combat.js?v=breezy-rebuilt-1';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -30,6 +31,7 @@ import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode, Fighter
 
 const $ = id => document.getElementById(id);
 const META = {
+  breezy:BREEZY,
   queenbee:QUEENBEE,
   yungsnow:SNOW,
   boat:BOAT,
@@ -488,7 +490,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=queenbee-test', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=breezy-rebuilt-1', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -1109,7 +1111,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'breezy' ? breezySprite(p1) : p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -1397,6 +1399,7 @@ function drawFighterSpeech(s, text, viewScale, offsetX, offsetY) {
   ctx.restore();
 }
 
+function breezySprite(f){return breezyPose(f,state.game?.specials.find(s=>s.kind===BREEZY.kind&&s.owner===f.id));}
 function beeSprite(f){return queenbeePose(f,state.game?.specials.find(s=>s.kind===QUEENBEE.kind&&s.owner===f.id));}
 function snowSprite(f){return snowPose(f,state.game?.specials.find(s=>s.kind===SNOW.kind&&s.owner===f.id));}
 function boatSprite(f){return boatPose(f,state.game?.specials.find(s=>s.kind===BOAT.kind&&s.owner===f.id));}
@@ -1534,7 +1537,8 @@ function drawFighter(f) {
   // The captured fighter is drawn once, held at the actual mouth, below.
   if (f.inCar || f.grabbedBy) return;
   let key = f.type, index = poseIndex(f);
-  if(f.type==='queenbee')({key,index}=beeSprite(f));
+  if(f.type==='breezy')({key,index}=breezySprite(f));
+  else if(f.type==='queenbee')({key,index}=beeSprite(f));
   else if(f.type==='yungsnow')({key,index}=snowSprite(f));
   else if(f.type==='boat')({key,index}=boatSprite(f));
   else if(f.type==='trinigold')({key,index}=triniSprite(f));
@@ -1581,7 +1585,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -1606,6 +1610,7 @@ function drawFighter(f) {
   }
   if(f.type==='boat' && f.state==='run')ctx.translate(0,-Math.abs(Math.sin(f.stateTime*10))*13);
   if(f.type==='queenbee'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
+  if(f.type==='breezy'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   ctx.drawImage(s.image, -s.anchorX * scale, -s.anchorY * scale, s.w * scale, s.h * scale);
   if (['treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
     ctx.save(); ctx.strokeStyle = '#ffe1ed'; ctx.lineWidth = 3; ctx.globalAlpha = .55;
@@ -2026,6 +2031,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if(s.kind===BREEZY.kind){drawBreezySpecial(ctx,s,state.game,GROUND);return;}
   if(s.kind===QUEENBEE.kind){drawBeeSpecial(ctx,s,state.game,GROUND);return;}
   if(s.kind===SNOW.kind||s.kind==='lowSnowball'){drawSnowSpecial(ctx,s,frame,GROUND);return;}
   if(s.kind===BOAT.kind){drawBoatSpecial(ctx,s,frame,GROUND);return;}
