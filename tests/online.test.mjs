@@ -1,0 +1,9 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {cleanInput,RemoteInput,makeSnapshot,applySnapshot,validCode} from '../dist/online.js';
+import {CombatGame,FIGHTERS} from '../dist/combat.js';
+test('online validates codes and clamps inputs',()=>{assert.equal(validCode('ABCD2345'),true);assert.equal(validCode('ABCDEFG0'),false);assert.deepEqual(cleanInput({moveX:99,block:'true',jumpPressed:true}),{moveX:1,block:false,jumpPressed:true,punchPressed:false,kickPressed:false,specialPressed:false});});
+test('remote jump edges are consumed once and stale inputs release',()=>{const r=new RemoteInput();r.receive({moveX:1,jumpPressed:true});r.receive({moveX:1});assert.equal(r.consume(1/60).jumpPressed,true);assert.equal(r.consume(1/60).jumpPressed,false);assert.equal(r.consume(.5).moveX,0);});
+test('online snapshots use the human-vs-human combat engine and preserve every fighter',()=>{for(const fighter of FIGHTERS){const host=new CombatGame(fighter,fighter,{localMultiplayer:true});const guest=new CombatGame(fighter,fighter,{localMultiplayer:true});host.update(1/60,{moveX:1},{moveX:-1});assert.equal(host.aiEnabled,false);assert.equal(applySnapshot(guest,makeSnapshot(host),FIGHTERS),true);assert.deepEqual(guest.fighters,host.fighters);}});
+test('belt snapshot excludes the host-only controller',()=>{const host=new CombatGame('dr-no-bunnies','owl',{localMultiplayer:true});host.fighters[0].meter=100;host.fighters[1].x=host.fighters[0].x+100;assert.equal(host.useSpecial(host.fighters[0]),true);const snap=makeSnapshot(host);assert.equal(snap.specials[0].kind,'belt');assert.equal('controller' in snap.specials[0],false);});
+test('guest rejects fighter mismatch and malformed snapshots',()=>{const game=new CombatGame('owl','coupe',{localMultiplayer:true});const snap=makeSnapshot(game);snap.fighters[0].type='constructor';assert.equal(applySnapshot(game,snap,FIGHTERS),false);assert.equal(applySnapshot(game,null,FIGHTERS),false);});

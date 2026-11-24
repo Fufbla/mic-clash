@@ -249,3 +249,8 @@ Ooou Saber has 16 transparent poses matching the red cap, dreadlocks, white shir
 Tree-a Yawl joins the 37-fighter roster with hand-rubbing movement, open-hand slaps, and Orb Dragon Rush: seven orange orbs summon a sweeping green dragon. Available in solo and local two-player modes.
 
 Trini-Gold joins the 38-fighter roster with a 245-unit chain-whip basic attack and six-projectile Chain Barrage. Available in solo and local two-player modes.
+
+
+## Online multiplayer — live release (November 23, 2026)
+
+Online 1v1 is available at the existing game URL. Create a private room, share the eight-character code or invite link, choose fighters, and ready up on both devices. The release promotes the user-approved V3 test build, including the compact room lobby, guest-side movement smoothing, network backpressure, and iOS keyboard/viewport fixes. The existing 38-fighter roster, CPU mode, local two-controller mode, rooftop arena and combat rules remain unchanged. Uses WebRTC via PeerJS public signaling; network connectivity can vary. The separate online-beta test URL remains available.
