@@ -1,3 +1,4 @@
+import {SNOW,createSnowSpecial,updateSnowSpecial,endSnowSpecial,createSnowball,updateSnowball} from './yung-snow.js';
 import {BOAT,createBoatSpecial,updateBoatSpecial,endBoatSpecial} from './boat.js';
 import {TRINI,createTriniSpecial,updateTriniSpecial,endTriniSpecial} from './trini-gold.js';
 import {TREE,createTreeSpecial,updateTreeSpecial,endTreeSpecial} from './tree-a-yawl.js';
@@ -17,7 +18,7 @@ import { GIANT_FISTS } from './baby-big-fists.js';
 import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-export const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay', 'czr', 'shannondull', 'smokelord', 'redrolls', 'charles', 'fuedfam', 'ooousaber', 'treeyawl', 'trinigold', 'boat'];
+export const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay', 'czr', 'shannondull', 'smokelord', 'redrolls', 'charles', 'fuedfam', 'ooousaber', 'treeyawl', 'trinigold', 'boat', 'yungsnow'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -69,7 +70,9 @@ export class CombatGame {
 
   reset(playerType = this.playerType, opponentType) {
     // Release references held by an outgoing round before replacing its fighters.
-    for (const s of this.specials || []) if (s.kind === BOAT.kind) {
+    for (const s of this.specials || []) if (s.kind === SNOW.kind) {
+      endSnowSpecial(this,this.fighters.find(f=>f.id===s.owner),s);
+    } else if (s.kind === BOAT.kind) {
       endBoatSpecial(this,this.fighters.find(f=>f.id===s.owner),s);
     } else if (s.kind === TRINI.kind) {
       endTriniSpecial(this,this.fighters.find(f=>f.id===s.owner),s);
@@ -150,7 +153,7 @@ export class CombatGame {
     // Delayed birds, detached projectiles, backup, and impact visuals all belong
     // to the presentation even after the fighter's own pose has recovered.
     return (f.state === 'special' && f.actionRemaining > 1e-9)
-      || this.specials.some(s => s.owner === f.id && s.ttl > 1e-9 && (s.active || s.delay > 0))
+      || this.specials.some(s => !s.basic && s.owner === f.id && s.ttl > 1e-9 && (s.active || s.delay > 0))
       || this.effects.some(effect => effect.owner === f.id && effect.ttl > 1e-9);
   }
 
@@ -165,7 +168,7 @@ export class CombatGame {
     if (f.type === 'dr-no-bunnies' && kind === 'punch') {
       f.attack.start = .11; f.attack.end = .20;
     }
-    if (['charles','ooousaber','treeyawl','boat'].includes(f.type) && kind === 'punch') {
+    if (['charles','ooousaber','treeyawl','boat','yungsnow'].includes(f.type) && kind === 'punch') {
       f.attack.start = .12; f.attack.end = .23;
     }
     if (f.type === 'quickfast' && kind === 'kick') {
@@ -193,14 +196,17 @@ export class CombatGame {
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = (f.type === 'boat' && BOAT.kind) || (f.type === 'trinigold' && TRINI.kind) || (f.type === 'treeyawl' && TREE.kind) || (f.type === 'ooousaber' && SABER.kind) || (f.type === 'fuedfam' && FUED.kind) || (f.type === 'charles' && CHARLES.kind) || NEON_FIGHTERS[f.type]?.kind || ASCENSION_FIGHTERS[f.type]?.kind || GAUNTLET_FIGHTERS[f.type]?.kind || RUSH_FIGHTERS[f.type]?.kind || EXECUTIVE_FIGHTERS[f.type]?.kind || (f.type === 'ocrrrrr' ? 'nailPierce' : f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl');
+    const kind = (f.type === 'yungsnow' && SNOW.kind) || (f.type === 'boat' && BOAT.kind) || (f.type === 'trinigold' && TRINI.kind) || (f.type === 'treeyawl' && TREE.kind) || (f.type === 'ooousaber' && SABER.kind) || (f.type === 'fuedfam' && FUED.kind) || (f.type === 'charles' && CHARLES.kind) || NEON_FIGHTERS[f.type]?.kind || ASCENSION_FIGHTERS[f.type]?.kind || GAUNTLET_FIGHTERS[f.type]?.kind || RUSH_FIGHTERS[f.type]?.kind || EXECUTIVE_FIGHTERS[f.type]?.kind || (f.type === 'ocrrrrr' ? 'nailPierce' : f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl');
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = (f.type === 'boat' && BOAT.duration) || (f.type === 'trinigold' && TRINI.duration) || (f.type === 'treeyawl' && TREE.duration) || (f.type === 'ooousaber' && SABER.duration) || (f.type === 'fuedfam' && FUED.duration) || (f.type === 'charles' && CHARLES.duration) || NEON_FIGHTERS[f.type]?.duration || ASCENSION_FIGHTERS[f.type]?.duration || GAUNTLET_FIGHTERS[f.type]?.duration || RUSH_FIGHTERS[f.type]?.duration || EXECUTIVE_FIGHTERS[f.type]?.duration || (kind === 'nailPierce' ? NAIL_PIERCE.duration : kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66);
+    f.actionRemaining = (f.type === 'yungsnow' && SNOW.duration) || (f.type === 'boat' && BOAT.duration) || (f.type === 'trinigold' && TRINI.duration) || (f.type === 'treeyawl' && TREE.duration) || (f.type === 'ooousaber' && SABER.duration) || (f.type === 'fuedfam' && FUED.duration) || (f.type === 'charles' && CHARLES.duration) || NEON_FIGHTERS[f.type]?.duration || ASCENSION_FIGHTERS[f.type]?.duration || GAUNTLET_FIGHTERS[f.type]?.duration || RUSH_FIGHTERS[f.type]?.duration || EXECUTIVE_FIGHTERS[f.type]?.duration || (kind === 'nailPierce' ? NAIL_PIERCE.duration : kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66);
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
     f.invuln = 0;
-    if (f.type === 'boat') {
+    if (f.type === 'yungsnow') {
+      f.y=0;f.vy=0;f.grounded=true;f.jumps=0;f.flipRemaining=0;f.flipProgress=0;
+      this.specials.push(createSnowSpecial(f));
+    } else if (f.type === 'boat') {
       f.y=0;f.vy=0;f.grounded=true;f.jumps=0;f.flipRemaining=0;f.flipProgress=0;
       this.specials.push(createBoatSpecial(f));
     } else if (f.type === 'trinigold') {
@@ -476,6 +482,7 @@ export class CombatGame {
       const attack = f.attack;
       attack.elapsed += dt;
       f.attackProgress = clamp(attack.elapsed / attack.duration, 0, 1);
+      if(f.type==='yungsnow' && attack.kind==='kick' && !attack.connected && attack.elapsed>=attack.start){this.specials.push(createSnowball(f));attack.connected=true;}
       if (!attack.connected && attack.elapsed >= attack.start && attack.elapsed <= attack.end) {
         const forward = (opponent.x - f.x) * f.facing;
         if (forward >= -12 && forward < attack.range && Math.abs(opponent.y - f.y) < 112) {
@@ -562,7 +569,7 @@ export class CombatGame {
     }
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
-      heavy: kind === BOAT.kind || kind === TRINI.kind || kind === TREE.kind || kind === SABER.kind || kind === FUED.kind || kind === CHARLES.kind || NEON_KINDS.includes(kind) || ASCENSION_KINDS.includes(kind) || GAUNTLET_KINDS.includes(kind) || RUSH_KINDS.includes(kind) || EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
+      heavy: kind === SNOW.kind || kind === BOAT.kind || kind === TRINI.kind || kind === TREE.kind || kind === SABER.kind || kind === FUED.kind || kind === CHARLES.kind || NEON_KINDS.includes(kind) || ASCENSION_KINDS.includes(kind) || GAUNTLET_KINDS.includes(kind) || RUSH_KINDS.includes(kind) || EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
       blocked, kind, style: attacker.type==='trinigold' && kind==='punch' ? 'chain' : ['charles','ooousaber'].includes(attacker.type) && kind === 'punch' ? 'swipe' : ['treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(attacker.type) && kind === 'punch' ? 'slap' : ['quickfast', 'bigmumble'].includes(attacker.type) && kind === 'punch' ? 'headbutt' : kind });
     return true;
   }
@@ -578,7 +585,13 @@ export class CombatGame {
       s.age += dt; s.ttl -= dt;
       const owner = this.fighters.find(f => f.id === s.owner);
       const target = this.fighters.find(f => f.id !== s.owner);
-      if(s.kind===BOAT.kind){
+      if(s.kind==='lowSnowball'){
+        updateSnowball(this,s,owner,target,dt);
+        if(s.active&&s.ttl>1e-9)alive.push(s);continue;
+      } else if(s.kind===SNOW.kind){
+        updateSnowSpecial(this,s,owner,target);
+        if(s.active&&s.ttl>1e-9)alive.push(s);continue;
+      } else if(s.kind===BOAT.kind){
         updateBoatSpecial(this,s,owner,target);
         if(s.active&&s.ttl>1e-9)alive.push(s);
         continue;
@@ -1583,7 +1596,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = ai.type === 'boat' ? BOAT.range : ai.type === 'trinigold' ? TRINI.range : ai.type === 'treeyawl' ? TREE.range : ai.type === 'ooousaber' ? SABER.range : ai.type === 'fuedfam' ? FUED.range : ai.type === 'charles' ? CHARLES.range : NEON_FIGHTERS[ai.type] ? NEON_FIGHTERS[ai.type].range : ASCENSION_FIGHTERS[ai.type] ? 1200 : GAUNTLET_FIGHTERS[ai.type] ? 1200 : RUSH_FIGHTERS[ai.type] ? 1200 : EXECUTIVE_FIGHTERS[ai.type] ? 1200 : ai.type === 'ocrrrrr' ? NAIL_PIERCE.range : ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = ai.type === 'yungsnow' ? SNOW.range : ai.type === 'boat' ? BOAT.range : ai.type === 'trinigold' ? TRINI.range : ai.type === 'treeyawl' ? TREE.range : ai.type === 'ooousaber' ? SABER.range : ai.type === 'fuedfam' ? FUED.range : ai.type === 'charles' ? CHARLES.range : NEON_FIGHTERS[ai.type] ? NEON_FIGHTERS[ai.type].range : ASCENSION_FIGHTERS[ai.type] ? 1200 : GAUNTLET_FIGHTERS[ai.type] ? 1200 : RUSH_FIGHTERS[ai.type] ? 1200 : EXECUTIVE_FIGHTERS[ai.type] ? 1200 : ai.type === 'ocrrrrr' ? NAIL_PIERCE.range : ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {
@@ -1604,7 +1617,8 @@ export class CombatGame {
     this.over = true; this.winner = winner;
     for (const s of this.specials) {
       const owner = this.fighters.find(f => f.id === s.owner);
-      if(s.kind===BOAT.kind)endBoatSpecial(this,owner,s);
+      if(s.kind===SNOW.kind)endSnowSpecial(this,owner,s);
+      else if(s.kind===BOAT.kind)endBoatSpecial(this,owner,s);
       else if(s.kind===TRINI.kind)endTriniSpecial(this,owner,s);
       else if(s.kind===TREE.kind)endTreeSpecial(this,owner,s);
       else if(s.kind===SABER.kind)endSaberSpecial(this,owner,s);
