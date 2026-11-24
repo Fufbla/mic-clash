@@ -2150,7 +2150,6 @@ function draw(dt) {
   }
   drawEffects(state.phase === 'paused' ? 0 : dt);
   ctx.restore();
-  for(const s of state.game?.specials||[])if(s.kind===SNOW.kind&&s.active)drawBlizzard(ctx,s,canvas.width/pixelRatio,canvas.height/pixelRatio);
   for (const s of state.game?.specials || []) {
     if(s.kind===SABER.kind&&s.age>=1.05&&s.age<1.9)drawFighterSpeech(s,'OOOUUU!',viewScale,offsetX,offsetY);
     if (s.kind === 'travy' && s.age < 1.05) drawFighterSpeech(s, 'TRAVY!!!', viewScale, offsetX, offsetY);
@@ -2163,6 +2162,8 @@ function draw(dt) {
   const pixelRatio = Math.min(window.devicePixelRatio || 1, state.mode === 'online' ? 1.5 : 2);
   const titleSize = Math.max(17, Math.min(30, canvas.width / pixelRatio * .026));
   ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  // Blizzard uses viewport coordinates after the pixel ratio and transform are ready.
+  for(const s of state.game?.specials||[])if(s.kind===SNOW.kind&&s.active)drawBlizzard(ctx,s,canvas.width/pixelRatio,canvas.height/pixelRatio);
   for (const label of state.labels.filter(l => l.big)) {
     ctx.save(); ctx.globalAlpha = Math.min(1, Math.max(0, label.life * 2)); ctx.textAlign = 'center'; ctx.font = `900 ${titleSize}px system-ui`;
     ctx.strokeStyle = '#171326'; ctx.lineWidth = 4;
