@@ -1,5 +1,5 @@
 import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js';
-import {GUCCI,createGucci,updateGucci,endGucci} from './gucci-mane.js?v=squad-fast-3';
+import {GUCCI,createGucci,updateGucci,endGucci} from './gucci-mane.js?v=squad-fast-4';
 import {DIDDY,OIL,createOil,createOilBarrage,updateDiddy,endOilBarrage} from './diddy.js?v=2';
 import {DAME,DEBT,createDebt,createAchoo,updateDame,endAchoo} from './dame-dash.js';
 import {TYSON,PIGEON,createTysonPigeon,createTysonTiger,updateTyson,endTysonTiger} from './mike-tyson.js';
