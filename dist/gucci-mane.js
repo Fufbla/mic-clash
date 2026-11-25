@@ -77,9 +77,9 @@ export function warmSquadSprites(getFrame){
 }
 export function squadAction(t,l){
  const local=t-l.entry;
- if(t<l.contact-.15)return {pose:l.index===18?'air':'run',step:Math.floor(local*15)};
+ if(t<l.contact-.18)return {pose:l.index===18?'air':'run',step:Math.floor(local*15)};
  for(const contact of [l.contact,l.contact+.48]){
-  const p=(t-contact+.15)/.36;
+  const p=(t-contact+.18)/.36;
   if(p>=0&&p<1)return {pose:'strike',step:Math.min(5,Math.floor(p*6))};
  }
  if(t>=2.90)return {pose:l.index===18?'air':'run',step:Math.floor((t-2.90)*15)};
@@ -99,8 +99,8 @@ export function drawGucci(ctx,s,game,ground,draw){
   const impact=Math.max(0,1-nearest/.13);
   const toward=l.end[0]<0?1:l.end[0]>0?-1:l.facing;
   if(action.pose==='strike')dx+=toward*impact*16;
-  if(l.index===18&&t>=l.contact&&t<2.90){
-   const landing=clamp((t-l.contact)/.28,0,1);dy+=83*landing;dx-=38*landing;
+  if(l.index===18&&t>=l.contact){
+   const landing=clamp((t-l.contact)/.28,0,1)*(1-exit);dy+=83*landing;dx-=38*landing;
   }
   if(action.pose==='run')dy-=Math.abs(Math.sin((t-l.entry)*Math.PI*7.5))*5;
   const x=clamp(target.x+dx,30,1250),y=baseY+dy;
