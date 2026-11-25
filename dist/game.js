@@ -1,5 +1,5 @@
 import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=nicki-1';
-import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-mane.js?v=squad-ground-5';
+import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-mane.js?v=squad-ground-6';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
 import {TYSON,PIGEON,tysonPose,drawTyson} from './mike-tyson.js';
