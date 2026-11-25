@@ -1,4 +1,4 @@
-import {GUCCI,gucciPose,drawGucci} from './gucci-mane.js';
+import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-mane.js?v=squad-2';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
 import {TYSON,PIGEON,tysonPose,drawTyson} from './mike-tyson.js';
@@ -562,6 +562,7 @@ async function loadAssets() {
   }));
   atlas.diddy=await loadDiddyAssets(import.meta.url);
   state.assets = atlas;
+  warmSquadSprites(index=>frame('guccimane',index));
   state.ready = true;
   updateLobby();
   renderPortraits();
@@ -2113,7 +2114,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
-  if(s.kind===GUCCI.kind){drawGucci(ctx,s,state.game,GROUND,(index,x,y,facing,mult)=>{const sp=frame('guccimane',index);if(!sp)return;const scale=215/state.assets.guccimane.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}
+  if(s.kind===GUCCI.kind){drawGucci(ctx,s,state.game,GROUND,(index,x,y,facing,mult,pose,step)=>{const original=frame('guccimane',index);if(!original)return;const sp=squadSprite(original,pose,step);const scale=215/state.assets.guccimane.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}
   if(s.kind===OIL||s.kind===DIDDY.kind){drawDiddy(ctx,s,GROUND,state.assets.diddy.oil);return;}
   if(s.kind===DEBT||s.kind===DAME.kind){drawDame(ctx,s,state.game,GROUND);return;}
   if(s.kind===PIGEON||s.kind===TYSON.kind){drawTyson(s,GROUND,(index,x,y,facing,mult)=>{const sp=frame('miketyson',index);if(!sp)return;const scale=215/state.assets.miketyson.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}
