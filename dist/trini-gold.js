@@ -21,9 +21,9 @@ function chain(ctx,x,y,length,angle=0){
  for(let n=0;n<length;n+=12){ctx.beginPath();ctx.ellipse(n,0,8,n%24?3:5,0,0,Math.PI*2);ctx.strokeStyle='#966116';ctx.lineWidth=4;ctx.stroke();ctx.strokeStyle='#ffe780';ctx.lineWidth=2;ctx.stroke();}ctx.restore();
 }
 export function drawTriniWhip(ctx,f,ground){
- if(f.type!=='trinigold'||f.state!=='punch')return;const p=f.attackProgress||0;if(p<.12||p>.86)return;
+ if(f.type!=='trinigold'||!['punch','uppercut'].includes(f.state))return;const p=f.attackProgress||0;if(p<.12||p>.86)return;
  const reach=p<.32?65+180*(p-.12)/.2:p<.56?245:245-180*(p-.56)/.3;
- ctx.save();ctx.translate(f.x,ground-f.y-112);ctx.scale(f.facing,1);chain(ctx,65,0,reach-65,p<.32?-.45*(1-(p-.12)/.2):0);ctx.restore();
+ ctx.save();ctx.translate(f.x,ground-f.y-112);ctx.scale(f.facing,1);chain(ctx,65,0,reach-65,f.state==='uppercut' ? .55-1.8*Math.min(1,(p-.12)/.48) : p<.32?-.45*(1-(p-.12)/.2):0);ctx.restore();
 }
 export function drawTriniSpecial(ctx,s,ground){
  ctx.save();ctx.globalAlpha=Math.min(1,s.ttl/.25);

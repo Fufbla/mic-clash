@@ -1,3 +1,4 @@
+import { UPPERCUT_PROFILES } from './uppercut.js?v=1';
 import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js?v=nicki-redrawn-2';
 import {GUCCI,createGucci,updateGucci,endGucci} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,createOil,createOilBarrage,updateDiddy,endOilBarrage} from './diddy.js?v=2';
@@ -52,7 +53,8 @@ const CREW = { call: .60, attackStart: 1.37, interval: .17, hits: 8,
   retreatStart: 2.79, duration: 3.43, damage: 6 };
 const ATTACKS = {
   punch: { duration: .40, start: .10, end: .20, range: 132, damage: 10, meter: 20, stun: .20, knock: 180 },
-  kick: { duration: .58, start: .18, end: .30, range: 178, damage: 15, meter: 25, stun: .26, knock: 250 }
+  kick: { duration: .58, start: .18, end: .30, range: 178, damage: 15, meter: 25, stun: .26, knock: 250 },
+  uppercut: { duration: .55, start: .17, end: .30, range: 225, damage: 18, meter: 12, stun: .65, knock: 105 }
 };
 
 // Twice the original endurance, with the same responsive attacks and meter gain.
@@ -146,6 +148,7 @@ export class CombatGame {
     return { id, type, x, y: 0, vx: 0, vy: 0, facing, hp: ROUND_HEALTH, maxHp: ROUND_HEALTH,
       meter: 0, state: 'idle', stateTime: 0, grounded: true, jumps: 0, invuln: 0,
       actionRemaining: 0, attack: null, attackProgress: 0, inCar: false,
+      comboStep: 0, comboDeadline: 0, comboQueue: [], uppercutPending: false, comboPunchDown: false, comboKickDown: false,
       specialCooldown: 0, landedHits: 0, damageDealt: 0,
       incomingBasics: 0, securityBlocks: 0, securityFlash: 0,
       flipDuration: .48, flipRemaining: 0, flipProgress: 0, flipDirection: facing,
@@ -176,9 +179,23 @@ export class CombatGame {
 
   hasPresentations() { return this.fighters.some(f => this.isPresenting(f)); }
 
+  clearCombo(f) { f.comboStep=0; f.comboDeadline=0; f.comboQueue=[]; f.uppercutPending=false; }
+
   startAttack(f, kind) {
     const spec = ATTACKS[kind];
-    if (!spec || !this.canAct(f) || this.isPresenting(f)) return false;
+    if (!spec || !this.canAct(f) || this.isPresenting(f) || (kind==='uppercut' && !f.uppercutPending)) return false;
+    if (kind==='uppercut') {
+      const profile=UPPERCUT_PROFILES[f.type];
+      this.clearCombo(f);
+      f.attack={...spec,kind,style:profile.style,elapsed:0,connected:false,duration:profile.duration,range:profile.range,start:profile.duration*.29,end:profile.duration*.53,rise:profile.rise,lift:profile.lift};
+      f.actionRemaining=f.attack.duration; f.attackProgress=0; f.state='uppercut'; f.stateTime=0;
+      f.flipRemaining=0; f.flipProgress=0; f.vx=180*f.facing;
+      this.events.push({type:'attack',fighter:f.id,kind,style:profile.style}); return true;
+    }
+    if(this.elapsed>f.comboDeadline) this.clearCombo(f);
+    if(kind==='punch') { f.comboStep=Math.min(2,(f.comboStep||0)+1); f.comboDeadline=this.elapsed+1.35; }
+    else if(kind==='kick' && f.comboStep===2) { f.uppercutPending=true; f.comboStep=0; f.comboQueue=[]; }
+    else this.clearCombo(f);
     const style = f.type==='diddy' && kind==='punch' ? 'oil' : f.type==='miketyson' && kind==='punch' ? 'pigeon' : f.type==='trinigold' && kind==='punch' ? 'chain' : ['charles','ooousaber'].includes(f.type) && kind === 'punch' ? 'swipe' : ['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && kind === 'punch' ? 'slap' : ['quickfast', 'bigmumble'].includes(f.type) && kind === 'punch' ? 'headbutt' : kind;
     f.attack = { kind, style, elapsed: 0, connected: false, ...spec };
     if(f.type==='nickiminaj'&&kind==='punch')Object.assign(f.attack,{duration:.475,start:.19,end:.28,range:145});
@@ -216,6 +233,7 @@ export class CombatGame {
       || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
     if (f.type === 'babybigfists' && (Math.abs(target.x - f.x) > GIANT_FISTS.range
       || (target.x - f.x) * f.facing < 0 || Math.abs(target.y - f.y) > 112)) return false;
+    this.clearCombo(f);
     f.meter = 0;
     f.attack = null;
     f.attackProgress = 0;
@@ -462,6 +480,7 @@ export class CombatGame {
 
   jump(f) {
     if (!this.canAct(f) || f.jumps >= 2) return false;
+    this.clearCombo(f);
     f.vy = f.jumps ? 570 : 620;
     f.jumps++; f.grounded = false;
     if ((f.type === 'karate' || f.type === 'snitchy') && f.jumps === 2) {
@@ -510,6 +529,15 @@ export class CombatGame {
       ? clamp(input.moveX, -1, 1)
       : (input.right ? 1 : 0) - (input.left ? 1 : 0);
     f.stateTime += dt;
+    // Buffer the next combo input during an animation, without treating a held button as repeated buffered taps.
+    const punchEdge=!!input.punchPressed&&!f.comboPunchDown, kickEdge=!!input.kickPressed&&!f.comboKickDown;
+    f.comboPunchDown=!!input.punchPressed; f.comboKickDown=!!input.kickPressed;
+    if(!f.uppercutPending && this.elapsed>f.comboDeadline && f.comboStep) this.clearCombo(f);
+    if(f.attack && !f.uppercutPending && f.comboStep && !this.roundEnding && !input.block && !input.specialPressed && !input.jumpPressed){
+      const next=f.comboStep+f.comboQueue.length;
+      if(next===1 && punchEdge) f.comboQueue.push('punch');
+      else if(next===2 && kickEdge) f.comboQueue.push('kick');
+    }
     if(f.type==='justginger') f.gingerLandRemaining=Math.max(0,(f.gingerLandRemaining||0)-dt);
     if(f.type==='joosie') f.joosieLandRemaining=Math.max(0,(f.joosieLandRemaining||0)-dt);
     if(f.type==='breezy') f.breezyLandRemaining=Math.max(0,(f.breezyLandRemaining||0)-dt);
@@ -537,6 +565,10 @@ export class CombatGame {
       const attack = f.attack;
       attack.elapsed += dt;
       f.attackProgress = clamp(attack.elapsed / attack.duration, 0, 1);
+      if(attack.kind==='uppercut' && !attack.riseStarted && attack.elapsed>=attack.start){
+        attack.riseStarted=true;
+        if(f.grounded){f.vy=attack.rise; f.grounded=false; f.jumps=1;}
+      }
       if(f.type==='diddy' && attack.kind==='punch' && !attack.connected && attack.elapsed>=attack.start){this.specials.push(createOil(f));attack.connected=true;}
       if(f.type==='damedash' && attack.kind==='kick' && !attack.connected && attack.elapsed>=attack.start){this.specials.push(createDebt(f));attack.connected=true;}
       if(f.type==='miketyson' && attack.kind==='punch' && !attack.connected && attack.elapsed>=attack.start){this.specials.push(createTysonPigeon(f));attack.connected=true;}
@@ -560,7 +592,13 @@ export class CombatGame {
       }
       if (f.attack && attack.elapsed >= attack.duration) {
         if (!attack.connected) this.events.push({ type: 'whiff', fighter: f.id, kind: attack.kind, style: attack.style });
-        f.attack = null; f.attackProgress = 0;
+        f.attack = null; f.attackProgress = 0; f.actionRemaining=0;
+        if(!this.roundEnding && attack.kind==='kick' && f.uppercutPending){
+          if(!this.startAttack(f,'uppercut')) this.clearCombo(f);
+        }else if(!this.roundEnding && f.comboQueue.length && this.elapsed<=f.comboDeadline){
+          const next=f.comboQueue.shift();
+          if(!this.startAttack(f,next)) this.clearCombo(f);
+        }
       }
     }
     if (f.inCar) return;
@@ -576,7 +614,7 @@ export class CombatGame {
       else if (this.canAct(f) && input.kickPressed) this.startAttack(f, 'kick');
       if (this.canAct(f)) {
         if (input.block && f.grounded) {
-          f.vx = 0; this.setState(f, 'block');
+          this.clearCombo(f); f.vx = 0; this.setState(f, 'block');
         } else {
           if(f.type==='diddy' && f.grounded){f.vx+=(moveX*250-f.vx)*Math.min(1,dt*12);if(!moveX&&Math.abs(f.vx)<8)f.vx=0;}else f.vx=moveX*250;
           this.setState(f, !f.grounded ? 'jump' : (moveX || (f.type==='diddy' && Math.abs(f.vx)>8)) ? 'run' : 'idle');
@@ -610,7 +648,7 @@ export class CombatGame {
   hit(attacker, target, damage, kind, knock, stun, sourceX, meterGain) {
     if (this.over || this.roundEnding || target.hp <= 0 || (target.invuln > 0 && kind !== 'belt') || target.inCar || this.isPresenting(target)) return false;
     const direction = sourceX < target.x ? 1 : -1;
-    const basic = kind === 'punch' || kind === 'kick';
+    const basic = kind === 'punch' || kind === 'kick' || kind === 'uppercut';
     // A guarded contact consumes the attack once, gives no chip or meter, and
     // does not count misses, invulnerable contacts, or any special attacks.
     if (basic && EXECUTIVE_FIGHTERS[target.type]?.security && ++target.incomingBasics % 10 === 0) {
@@ -623,15 +661,15 @@ export class CombatGame {
     target.hp = Math.max(0, target.hp - actualDamage);
     attacker.damageDealt += actualDamage;
     if (!blocked) {
-      target.attack = null; target.attackProgress = 0;
+      this.clearCombo(target); target.attack = null; target.attackProgress = 0;
       target.state = target.hp ? 'hurt' : 'ko'; target.stateTime = 0;
       if(target.type==='nickiminaj'){target.nickiHurtHeavy=kind!=='punch'||actualDamage>=15;target.nickiHurtSpan=stun;target.nickiLandRemaining=0;}
       target.actionRemaining = stun;
       target.vx = direction * knock;
       target.invuln = kind === 'barrage' ? .04 : .075;
       target.flipRemaining = 0; target.flipProgress = 0;
-      if ((kind === 'car' || kind === 'horse') && target.hp) {
-        target.vy = kind === 'horse' ? HORSE.lift : 340; target.grounded = false;
+      if ((kind === 'car' || kind === 'horse' || kind==='uppercut') && target.hp) {
+        target.vy = kind === 'uppercut' ? UPPERCUT_PROFILES[attacker.type].lift : kind === 'horse' ? HORSE.lift : 340; target.grounded = false;
       }
       // This is the ONLY meter-gain path. Specials, blocks, misses and time give none.
       if (basic) {
@@ -643,7 +681,7 @@ export class CombatGame {
     }
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
-      heavy: kind === NICKI.kind || kind === GUCCI.kind || kind === DIDDY.kind || kind === DAME.kind || kind === TYSON.kind || kind === GINGER.kind || kind === JOOSIE.kind || kind === BREEZY.kind || kind === QUEENBEE.kind || kind === SNOW.kind || kind === BOAT.kind || kind === TRINI.kind || kind === TREE.kind || kind === SABER.kind || kind === FUED.kind || kind === CHARLES.kind || NEON_KINDS.includes(kind) || ASCENSION_KINDS.includes(kind) || GAUNTLET_KINDS.includes(kind) || RUSH_KINDS.includes(kind) || EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
+      heavy: kind === NICKI.kind || kind === GUCCI.kind || kind === DIDDY.kind || kind === DAME.kind || kind === TYSON.kind || kind === GINGER.kind || kind === JOOSIE.kind || kind === BREEZY.kind || kind === QUEENBEE.kind || kind === SNOW.kind || kind === BOAT.kind || kind === TRINI.kind || kind === TREE.kind || kind === SABER.kind || kind === FUED.kind || kind === CHARLES.kind || NEON_KINDS.includes(kind) || ASCENSION_KINDS.includes(kind) || GAUNTLET_KINDS.includes(kind) || RUSH_KINDS.includes(kind) || EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'uppercut' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
       blocked, kind, style: attacker.type==='diddy' && kind==='punch' ? 'oil' : attacker.type==='miketyson' && kind==='punch' ? 'pigeon' : attacker.type==='trinigold' && kind==='punch' ? 'chain' : ['charles','ooousaber'].includes(attacker.type) && kind === 'punch' ? 'swipe' : ['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(attacker.type) && kind === 'punch' ? 'slap' : ['quickfast', 'bigmumble'].includes(attacker.type) && kind === 'punch' ? 'headbutt' : kind });
     return true;
   }
