@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {CombatGame,FIGHTERS} from '../dist/combat.js';
-import {NICKI,DOLL_LANES,nickiPose} from '../dist/nicki-minaj.js';
+import {NICKI,DOLL_LANES,nickiPose,dollAction} from '../dist/nicki-minaj.js';
 test('Nicki roster, 30 fighter frames and six dolls',()=>{
  assert.ok(FIGHTERS.includes('nickiminaj'));assert.equal(DOLL_LANES.length,6);
  const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
@@ -21,4 +21,21 @@ test('Nicki slap, two kick contacts and special complete',()=>{
  a.meter=100;g.update(1/60,{specialPressed:true},{block:true});assert.ok(g.specials.some(s=>s.kind===NICKI.kind));
  const before=b.hp;for(let i=0;i<250;i++)g.update(1/60,{},{block:true});
  assert.equal(before-b.hp,48);assert.ok(!g.specials.some(s=>s.kind===NICKI.kind));
+});
+
+test('Barbie squad staggered passes, multiple poses, no crowding',()=>{
+ assert.equal(DOLL_LANES.length,6);
+ for(const l of DOLL_LANES){
+  assert.equal(dollAction(l.entry-.001,l),null);
+  assert.equal(dollAction(l.entry+.03,l).pose,'run');
+  assert.equal(dollAction(l.contact,l).pose,'strike');
+  assert.equal(dollAction(l.contact+.13,l).phase,'exit');
+  assert.equal(dollAction(l.contact+.33,l),null);
+ }
+ for(let t=0;t<NICKI.duration;t+=1/120){
+  const active=DOLL_LANES.filter(l=>dollAction(t,l));
+  assert.ok(active.length<=3);
+  assert.ok(active.filter(l=>dollAction(t,l).phase==='attack').length<=1);
+ }
+ assert.ok(DOLL_LANES.at(-1).contact+.32<NICKI.duration);
 });

@@ -1,4 +1,4 @@
-import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=nicki-1';
+import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=barbie-motion-2';
 import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
@@ -30,7 +30,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=gucci-ground-7';
+import { CombatGame } from './combat.js?v=barbie-motion-2';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -2120,11 +2120,28 @@ function drawMaskedCrew(s) {
   }
 }
 
+// Generate a compact, cached sprite bank for each existing doll; preserve its costume and hair.
+const nickiAssistCache=new WeakMap();
+function nickiAssistFrame(original,pose,step,i){
+ let reduced=nickiAssistCache.get(original.image);
+ if(!reduced){
+  const sc=220/original.h,c=document.createElement('canvas');
+  c.width=Math.ceil(original.w*sc)+24;c.height=244;
+  const g=c.getContext('2d');g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';
+  g.drawImage(original.image,12,12,original.w*sc,original.h*sc);
+  reduced={image:c,w:c.width,h:c.height,anchorX:12+original.anchorX*sc,anchorY:12+original.anchorY*sc};
+  nickiAssistCache.set(original.image,reduced);
+ }
+ const natural=[1,1,-1,1,1,-1][i];
+ // Build separate cached body-motion frames; reflected dolls use the opposite strike phase.
+ return squadSprite(reduced,pose,natural===1?step:pose==='strike'?step:step+3);
+}
 function drawSpecial(s) {
   if (!s.active) return;
-  if(s.kind===NICKI.kind){drawNicki(ctx,s,state.game,GROUND,(i,x,y,face,impact,motion)=>{
-    const sp=frame('nickiDolls',i);if(!sp)return;const sc=155/sp.h;
-    const natural=[1,1,-1,1,1,-1][i];ctx.save();ctx.translate(x,y);ctx.scale(face*natural*(1+impact*.10),1-impact*.06);ctx.rotate((motion*.05-impact*.11)*natural);
+  if(s.kind===NICKI.kind){drawNicki(ctx,s,state.game,GROUND,(i,x,y,face,impact,pose,step,alpha)=>{
+    const original=frame('nickiDolls',i);if(!original)return;
+    const sp=nickiAssistFrame(original,pose,step,i),sc=132/sp.h;
+    const natural=[1,1,-1,1,1,-1][i];ctx.save();ctx.globalAlpha=alpha;ctx.translate(x,y);ctx.scale(face*natural,1);
     ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*sc,-sp.anchorY*sc,sp.w*sc,sp.h*sc);ctx.restore();
   });return;}
   if(s.kind===GUCCI.kind){drawGucci(ctx,s,state.game,GROUND,(index,x,y,facing,mult,pose,step)=>{const original=frame('guccimane',index);if(!original)return;const sp=squadSprite(original,pose,step);const scale=215/state.assets.guccimane.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}

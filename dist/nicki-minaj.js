@@ -1,13 +1,9 @@
 export const NICKI=Object.freeze({name:'Nicki Minaj',special:'Barbie Squad',kind:'barbieSquad',duration:3.35,range:1100,color:'#ff51ae',glow:'rgba(255,45,160,.45)'});
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-export const DOLL_LANES=Object.freeze([
- {from:[-560,-20],to:[-92,-24],entry:.44,contact:1.12,face:1},
- {from:[540,-5],to:[92,-20],entry:.51,contact:1.29,face:-1},
- {from:[-250,-410],to:[-62,-120],entry:.57,contact:1.46,face:1},
- {from:[270,-400],to:[63,-125],entry:.63,contact:1.63,face:-1},
- {from:[-360,185],to:[-70,28],entry:.69,contact:1.80,face:1},
- {from:[370,185],to:[70,30],entry:.75,contact:1.97,face:-1}
-]);
+export const DOLL_LANES=Object.freeze(Array.from({length:6},(_,i)=>{
+ const face=i%2===0?1:-1,contact=0.98+i*.35;
+ return {from:[-face*370,0],to:[-face*(i%3===2?92:105),0],entry:contact-.48,contact,face,air:i===2||i===3};
+}));
 export function nickiPose(f){
  const t=f.stateTime||0,p=f.attackProgress||0; let index=0;
  if(f.state==='special') index=26+Math.min(3,Math.floor(t/.15));
@@ -31,19 +27,35 @@ export function updateNicki(g,s,a,b){
  }
  if(s.ttl<=1e-9)endNicki(g,a,s);
 }
+// A short, independently animated attack pass; never park the whole squad on the target.
+export function dollAction(t,l){
+ if(t<l.entry||t>=l.contact+.32)return null;
+ const age=t-l.entry,delta=t-l.contact;
+ if(delta<-.15)return {pose:'run',step:Math.floor(age*24),phase:'entry',p:clamp(age/.33,0,1)};
+ if(delta<.08)return {pose:l.air&&delta<-.045?'air':'strike',step:l.air&&delta<-.045?Math.floor((delta+.15)*36):Math.min(5,Math.max(0,Math.floor((delta+.15)/.23*6))),phase:'attack',p:clamp((delta+.15)/.23,0,1)};
+ return {pose:'run',step:Math.floor((delta-.08)*24),phase:'exit',p:clamp((delta-.08)/.24,0,1)};
+}
 export function drawNicki(ctx,s,g,ground,draw){
  const b=g.fighters.find(f=>f.id!==s.owner);if(!b)return;
  const t=s.age;
  DOLL_LANES.forEach((l,i)=>{
-  if(t<l.entry||t>=3.12)return;
-  const raw=clamp((t-l.entry)/(l.contact-l.entry),0,1);
-  const out=clamp((t-2.35)/.77,0,1);
-  const p=(raw*raw*(3-2*raw))*(1-out);
-  const impact=Math.max(0,1-Math.abs(t-l.contact)/.15);
-  const motion=Math.sin((t-l.entry)*22+i)*Math.min(1,raw);
-  const x=clamp(b.x+l.from[0]+(l.to[0]-l.from[0])*p+l.face*impact*23,25,1255);
-  const y=ground-b.y+l.from[1]+(l.to[1]-l.from[1])*p-Math.sin(raw*Math.PI)*42-motion*6;
-  draw(i,x,y,out>0?-l.face:l.face,impact,motion);
-  if(impact>.1){ctx.save();ctx.globalAlpha=impact*.8;ctx.strokeStyle='#ff7cce';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,ground-b.y-105,25+20*(1-impact),0,Math.PI*2);ctx.stroke();ctx.restore();}
+  const a=dollAction(t,l);if(!a)return;
+  const delta=t-l.contact,impact=Math.max(0,1-Math.abs(delta)/.085);
+  const near=b.x+l.to[0],far=b.x+l.from[0],ease=p=>p*p*(3-2*p);
+  let x,y=ground,face=l.face,alpha=1;
+  if(a.phase==='entry'){
+   x=far+(near-far)*ease(a.p);
+   y-=Math.abs(Math.sin((t-l.entry)*24))*5;
+   alpha=Math.min(1,(t-l.entry)/.08);
+  }else if(a.phase==='attack'){
+   x=near+l.face*impact*28;
+   if(l.air)y-=Math.sin(a.p*Math.PI)*55+Math.min(Math.max(b.y||0,0),75)*Math.sin(a.p*Math.PI);
+  }else{
+   x=near+(far-near)*ease(a.p);face=-face;
+   y-=Math.abs(Math.sin((delta-.08)*24))*5;
+   alpha=Math.min(1,(1-a.p)*3);
+  }
+  draw(i,x,y,face,impact,a.pose,a.step,alpha);
+  if(impact>.1){ctx.save();ctx.globalAlpha=impact*.65;ctx.strokeStyle='#ff7cce';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,ground-(b.y||0)-100,14+15*(1-impact),0,Math.PI*2);ctx.stroke();ctx.restore();}
  });
 }

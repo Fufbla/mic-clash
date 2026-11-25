@@ -1,4 +1,4 @@
-import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js';
+import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js?v=barbie-motion-2';
 import {GUCCI,createGucci,updateGucci,endGucci} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,createOil,createOilBarrage,updateDiddy,endOilBarrage} from './diddy.js?v=2';
 import {DAME,DEBT,createDebt,createAchoo,updateDame,endAchoo} from './dame-dash.js';
