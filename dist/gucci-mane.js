@@ -94,14 +94,13 @@ export function drawGucci(ctx,s,game,ground,draw){
   if(t<l.entry||t>=SQUAD_TIMING.retreat+SQUAD_TIMING.exitDuration)continue;
   const entry=clamp((t-l.entry)/(l.contact-l.entry),0,1),exit=clamp((t-SQUAD_TIMING.retreat)/SQUAD_TIMING.exitDuration,0,1);
   const p=entry*(1-exit), action=squadAction(t,l);
-  let dx=l.start[0]+(l.end[0]-l.start[0])*p,dy=l.start[1]+(l.end[1]-l.start[1])*p;
+  let dx=l.start[0]+(l.end[0]-l.start[0])*p;
   // Strike lunges are synchronized to the existing two contact events.
   const nearest=Math.min(Math.abs(t-l.contact),Math.abs(t-l.contact-SQUAD_TIMING.repeat));
   const impact=Math.max(0,1-nearest/.085);
   const toward=l.end[0]<0?1:l.end[0]>0?-1:l.facing;
   if(action.pose==='strike')dx+=toward*impact*16;
-  if(action.pose==='run')dy-=Math.abs(Math.sin((t-l.entry)*Math.PI*12))*5;
-  const x=clamp(target.x+dx,30,1250),y=ground+dy;
+  const x=clamp(target.x+dx,30,1250),y=ground;
   const face=t>=SQUAD_TIMING.retreat?-l.facing:l.facing;
   const depth=l.index===19?1+0.13*(1-entry):1;
   draw(l.index,x,y,face,.8*depth,action.pose,action.step);
