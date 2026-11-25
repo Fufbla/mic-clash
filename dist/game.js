@@ -1,3 +1,4 @@
+import {TYSON,PIGEON,tysonPose,drawTyson} from './mike-tyson.js';
 import {GINGER,gingerPose,drawGingerCamera} from './just-ginger.js';
 import {JOOSIE,joosiePose,drawJoosieAssists} from './joosie.js';
 import {BREEZY,breezyPose,drawBreezySpecial} from './breezy.js';
@@ -33,6 +34,7 @@ import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode, Fighter
 
 const $ = id => document.getElementById(id);
 const META = {
+  miketyson:TYSON,
   justginger:GINGER,
   joosie:JOOSIE,
   breezy:BREEZY,
@@ -544,7 +546,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=ginger-1', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=tyson-1', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -1171,7 +1173,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'justginger' ? gingerSprite(p1) : p1.type === 'joosie' ? joosieSprite(p1) : p1.type === 'breezy' ? breezySprite(p1) : p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'miketyson' ? tysonPose(p1) : p1.type === 'justginger' ? gingerSprite(p1) : p1.type === 'joosie' ? joosieSprite(p1) : p1.type === 'breezy' ? breezySprite(p1) : p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -1599,7 +1601,8 @@ function drawFighter(f) {
   // The captured fighter is drawn once, held at the actual mouth, below.
   if (f.inCar || f.grabbedBy) return;
   let key = f.type, index = poseIndex(f);
-  if(f.type==='justginger')({key,index}=gingerSprite(f));
+  if(f.type==='miketyson')({key,index}=tysonPose(f));
+  else if(f.type==='justginger')({key,index}=gingerSprite(f));
   else if(f.type==='joosie')({key,index}=joosieSprite(f));
   else if(f.type==='breezy')({key,index}=breezySprite(f));
   else if(f.type==='queenbee')({key,index}=beeSprite(f));
@@ -1649,14 +1652,14 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
   if (f.meter >= 100) { ctx.strokeStyle = META[f.type].color; ctx.globalAlpha = .5 + Math.sin(state.time * 5) * .15; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 66, 13, 0, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; }
   ctx.translate(f.x, GROUND - f.y); ctx.scale(flipping ? (f.flipDirection || f.facing) : f.type === 'demon' && demonSprite(f).lookAway ? -f.facing : f.facing, 1);
   if (flipping) ctx.translate(0, -108);
-  if (f.state === 'ko') { if (f.type !== 'justginger' && f.type !== 'joosie' && f.type !== 'queenbee' && !NEON_FIGHTERS[f.type] && !ASCENSION_FIGHTERS[f.type] && !GAUNTLET_FIGHTERS[f.type] && !RUSH_FIGHTERS[f.type] && !EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); ctx.globalAlpha = .8; }
+  if (f.state === 'ko') { if (f.type !== 'miketyson' && f.type !== 'justginger' && f.type !== 'joosie' && f.type !== 'queenbee' && !NEON_FIGHTERS[f.type] && !ASCENSION_FIGHTERS[f.type] && !GAUNTLET_FIGHTERS[f.type] && !RUSH_FIGHTERS[f.type] && !EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); ctx.globalAlpha = .8; }
   if (f.state === 'hurt' && f.stateTime < .08) ctx.filter = 'brightness(1.8)';
   const vocalImpact = state.game.effects.find(e => e.kind === 'vocalExplosion' && e.defender === f.id && !e.blocked && e.age < .22);
   if (vocalImpact) ctx.filter = 'brightness(3) saturate(.4)';
@@ -1674,6 +1677,7 @@ function drawFighter(f) {
   }
   if(f.type==='boat' && f.state==='run')ctx.translate(0,-Math.abs(Math.sin(f.stateTime*10))*13);
   if(f.type==='queenbee'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
+  if(f.type==='miketyson'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='justginger'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='joosie'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='breezy'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
@@ -2097,6 +2101,7 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if(s.kind===PIGEON||s.kind===TYSON.kind){drawTyson(s,GROUND,(index,x,y,facing,mult)=>{const sp=frame('miketyson',index);if(!sp)return;const scale=215/state.assets.miketyson.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}
   if(s.kind===GINGER.kind){drawGingerCamera(ctx,s,state.game,GROUND,(index,x,y,facing,mult)=>{const sp=frame('justginger',index);if(!sp)return;const scale=215/state.assets.justginger.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}
   if(s.kind===JOOSIE.kind){drawJoosieAssists(ctx,s,state.game,GROUND,(index,x,y,facing,mult)=>{const sp=frame('joosie',index);if(!sp)return;const scale=215/state.assets.joosie.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}
   if(s.kind===BREEZY.kind){drawBreezySpecial(ctx,s,state.game,GROUND);return;}
