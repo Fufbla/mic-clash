@@ -1,7 +1,7 @@
 name: Mic Clash combat checks
 on:
   push:
-    branches: [main]
+    branches: [main, tyson-preview-20261125]
   workflow_dispatch:
 jobs:
   test:
