@@ -75,6 +75,56 @@ const META = {
   smackprince: { name: 'Smack Prince', special: 'The Smack Upgrade', color: '#bbf15a', glow: 'rgba(178,240,70,.4)' },
   cantrap: { name: "Can't Rap", special: 'Turban Crew Jump-In', color: '#ff7076', glow: 'rgba(255,80,90,.4)' }
 };
+// Public fighter names are separate from stable combat and networking IDs.
+const FIGHTER_DISPLAY_NAMES = Object.freeze({
+  "justginger": "Rory",
+  "joosie": "Jussie Smollet",
+  "breezy": "Chris Brown",
+  "queenbee": "Beyoncé",
+  "yungsnow": "Young Jeezy",
+  "boat": "Lil Yachty",
+  "trinigold": "Trinidad James",
+  "treeyawl": "Birdman",
+  "ooousaber": "Young M.A.",
+  "fuedfam": "Steve Harvey",
+  "charles": "Charleston White",
+  "czr": "SZA",
+  "shannondull": "Shannon Sharp",
+  "smokelord": "Wiz Khalifa",
+  "redrolls": "The Game",
+  "eynakeast": "Ye",
+  "goat": "Jay-Z",
+  "taytay": "Taylor Swift",
+  "bigmumble": "Shaq",
+  "djbeigey": "Dj Envy",
+  "nobuttons": "Joe Budden",
+  "quickfast": "iShowSpeed",
+  "sassyt": "Young Thug",
+  "jminors": "Jonathan Majors",
+  "president": "Obama",
+  "owhinny": "Oprah",
+  "roboking": "Elon Musk",
+  "owl": "Drake",
+  "coupe": "J. Cole",
+  "karate": "Kendrick Lamar",
+  "snitchy": "6ix9ine",
+  "getit": "Sexyyy Red",
+  "loudbull": "Meek Mill",
+  "fatboi": "Rick Ross",
+  "icespice": "Ice Spice",
+  "hehaw": "Megan Thee Stallion",
+  "dr-no-bunnies": "Dr. Umar Johnson",
+  "ocrrrrr": "Cardi B",
+  "demon": "Lil Durk",
+  "cranes": "Solange",
+  "mooja": "Doja Cat",
+  "babybigfists": "DaBaby",
+  "smackprince": "Will Smith",
+  "cantrap": "Nick Cannon"
+});
+for (const [id, name] of Object.entries(FIGHTER_DISPLAY_NAMES)) {
+  if (Object.hasOwn(META, id)) META[id] = {...META[id], name, hudName: name};
+}
 const ROSTER = Object.keys(META);
 const canvas = $('arena');
 const ctx = canvas.getContext('2d');
