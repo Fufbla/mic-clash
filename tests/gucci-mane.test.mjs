@@ -1,0 +1,30 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { CombatGame, FIGHTERS } from '../dist/combat.js';
+import { GUCCI, LANES, gucciPose } from '../dist/gucci-mane.js';
+test('approved Gucci atlas, roster and four squad lanes are present', () => {
+  assert.ok(FIGHTERS.includes('guccimane'));
+  assert.equal(LANES.length, 4);
+  assert.equal(new Set(LANES.map(l=>l.index)).size, 4);
+  assert.equal(gucciPose({state:'special',stateTime:.8,grounded:true}).index,14);
+  const asset = readFileSync(new URL('../dist/assets/gucci-approved.webp',import.meta.url));
+  assert.equal(asset.toString('ascii',8,12),'WEBP');
+  const atlas = JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url),'utf8'));
+  assert.equal(atlas.guccimane.frames.length,20);
+});
+test('Gucci can slap and complete his special against a blocking player', () => {
+  const g=new CombatGame('guccimane','owl',{localMultiplayer:true});
+  const [a,b]=g.fighters; a.x=500;b.x=600;
+  g.update(1/60,{punchPressed:true},{});
+  assert.equal(a.attack.style,'slap');
+  for(let i=0;i<60;i++)g.update(1/60,{},{});
+  a.meter=100;
+  g.update(1/60,{specialPressed:true},{block:true});
+  assert.equal(a.meter,0);
+  assert.ok(g.specials.some(s=>s.kind===GUCCI.kind));
+  const hp=b.hp;
+  for(let i=0;i<360;i++)g.update(1/60,{},{block:true});
+  assert.ok(b.hp<hp);
+  assert.equal(g.specials.some(s=>s.kind===GUCCI.kind),false);
+});
