@@ -1,0 +1,24 @@
+name: Isolated uppercut GIF previews
+on:
+  push:
+    branches: [uppercut-preview]
+    paths: ['tools/render-uppercut-previews.py', '.github/workflows/uppercut-previews.yml']
+permissions:
+  contents: write
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install pillow
+      - run: python tools/render-uppercut-previews.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: uppercut-gifs
+          path: uppercut-gifs
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add uppercut-gifs
+          git commit -m 'Add isolated original-sprite GIF previews'
+          git push origin HEAD:uppercut-preview
