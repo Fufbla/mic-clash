@@ -3,7 +3,7 @@ export const LANES=Object.freeze([
  {index:16,entry:.76,contact:1.22,start:[-500,0],end:[-90,0],facing:1},
  {index:17,entry:.82,contact:1.32,start:[300,0],end:[90,0],facing:-1},
  {index:18,entry:.88,contact:1.42,start:[500,0],end:[52,0],facing:-1},
- {index:19,entry:.94,contact:1.52,start:[55,250],end:[18,47],facing:-1}
+ {index:19,entry:.94,contact:1.52,start:[-650,0],end:[-52,0],facing:1}
 ]);
 export const SQUAD_TIMING=Object.freeze({repeat:.40,windup:.11,strikeDuration:.22,retreat:2.05,exitDuration:.52,runFps:24});
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -88,7 +88,7 @@ export function squadAction(t,l){
 }
 export function drawGucci(ctx,s,game,ground,draw){
  const target=game.fighters.find(f=>f.id!==s.owner);const actor=game.fighters.find(f=>f.id===s.owner);if(!target)return;
- const t=s.age,baseY=ground-target.y;
+ const t=s.age;
  if(t>=.72&&t<1.35&&actor){ctx.save();ctx.font='900 36px sans-serif';ctx.textAlign='center';ctx.lineWidth=7;ctx.strokeStyle='#28192d';ctx.fillStyle='#ffe27a';ctx.strokeText('1017!',actor.x,ground-actor.y-270);ctx.fillText('1017!',actor.x,ground-actor.y-270);ctx.restore();}
  for(const l of LANES){
   if(t<l.entry||t>=SQUAD_TIMING.retreat+SQUAD_TIMING.exitDuration)continue;
@@ -101,7 +101,7 @@ export function drawGucci(ctx,s,game,ground,draw){
   const toward=l.end[0]<0?1:l.end[0]>0?-1:l.facing;
   if(action.pose==='strike')dx+=toward*impact*16;
   if(action.pose==='run')dy-=Math.abs(Math.sin((t-l.entry)*Math.PI*12))*5;
-  const x=clamp(target.x+dx,30,1250),y=(l.index===18?ground:baseY)+dy;
+  const x=clamp(target.x+dx,30,1250),y=ground+dy;
   const face=t>=SQUAD_TIMING.retreat?-l.facing:l.facing;
   const depth=l.index===19?1+0.13*(1-entry):1;
   draw(l.index,x,y,face,.8*depth,action.pose,action.step);
