@@ -5,7 +5,7 @@ export const LANES=Object.freeze([
  {index:18,entry:.88,contact:1.42,start:[0,-340],end:[0,-96],facing:1},
  {index:19,entry:.94,contact:1.52,start:[55,250],end:[18,47],facing:-1}
 ]);
-export const SQUAD_TIMING=Object.freeze({repeat:.26,windup:.11,strikeDuration:.22,retreat:2.05,exitDuration:.52,runFps:24});
+export const SQUAD_TIMING=Object.freeze({repeat:.40,windup:.11,strikeDuration:.22,retreat:2.05,exitDuration:.52,runFps:24});
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export function gucciPose(f){const t=f.stateTime||0,p=f.attackProgress||0;let i=0;
  if(f.state==='special')i=t<.24?0:t<.48?12:t<.72?13:t<1.2?14:t<2.80?15:0;
