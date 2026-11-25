@@ -2,7 +2,7 @@ export const GUCCI=Object.freeze({name:'Gucci Mane',special:'1017! Squad Rush',k
 export const LANES=Object.freeze([
  {index:16,entry:.76,contact:1.22,start:[-500,0],end:[-90,0],facing:1},
  {index:17,entry:.82,contact:1.32,start:[300,0],end:[90,0],facing:-1},
- {index:18,entry:.88,contact:1.42,start:[0,-340],end:[0,-96],facing:1},
+ {index:18,entry:.88,contact:1.42,start:[500,0],end:[52,0],facing:-1},
  {index:19,entry:.94,contact:1.52,start:[55,250],end:[18,47],facing:-1}
 ]);
 export const SQUAD_TIMING=Object.freeze({repeat:.40,windup:.11,strikeDuration:.22,retreat:2.05,exitDuration:.52,runFps:24});
@@ -78,12 +78,12 @@ export function warmSquadSprites(getFrame){
 }
 export function squadAction(t,l){
  const local=t-l.entry;
- if(t<l.contact-SQUAD_TIMING.windup)return {pose:l.index===18?'air':'run',step:Math.floor(local*SQUAD_TIMING.runFps)};
+ if(t<l.contact-SQUAD_TIMING.windup)return {pose:'run',step:Math.floor(local*SQUAD_TIMING.runFps)};
  for(const contact of [l.contact,l.contact+SQUAD_TIMING.repeat]){
   const p=(t-contact+SQUAD_TIMING.windup)/SQUAD_TIMING.strikeDuration;
   if(p>=0&&p<1)return {pose:'strike',step:Math.min(5,Math.floor(p*6))};
  }
- if(t>=SQUAD_TIMING.retreat)return {pose:l.index===18?'air':'run',step:Math.floor((t-SQUAD_TIMING.retreat)*SQUAD_TIMING.runFps)};
+ if(t>=SQUAD_TIMING.retreat)return {pose:'run',step:Math.floor((t-SQUAD_TIMING.retreat)*SQUAD_TIMING.runFps)};
  return {pose:'guard',step:Math.floor(local*16)};
 }
 export function drawGucci(ctx,s,game,ground,draw){
@@ -100,11 +100,8 @@ export function drawGucci(ctx,s,game,ground,draw){
   const impact=Math.max(0,1-nearest/.085);
   const toward=l.end[0]<0?1:l.end[0]>0?-1:l.facing;
   if(action.pose==='strike')dx+=toward*impact*16;
-  if(l.index===18&&t>=l.contact){
-   const landing=clamp((t-l.contact)/.18,0,1)*(1-exit);dy+=83*landing;dx-=38*landing;
-  }
   if(action.pose==='run')dy-=Math.abs(Math.sin((t-l.entry)*Math.PI*12))*5;
-  const x=clamp(target.x+dx,30,1250),y=baseY+dy;
+  const x=clamp(target.x+dx,30,1250),y=(l.index===18?ground:baseY)+dy;
   const face=t>=SQUAD_TIMING.retreat?-l.facing:l.facing;
   const depth=l.index===19?1+0.13*(1-entry):1;
   draw(l.index,x,y,face,.8*depth,action.pose,action.step);
