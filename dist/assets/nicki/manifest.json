@@ -106,53 +106,80 @@
   "notes": "Prototype key poses; confirm scale, hitboxes, timing and integration in game. Mirror fighter or helpers as needed. Special uses six independently positioned doll sprites, not a baked opponent.",
   "special_preview": "Six helper sprites animate toward a target marker from separate screen positions; implement hit events in engine.",
   "motion_atlas": {
-    "file": "motion-v1.svg",
+    "file": "motion-redrawn-v2.webp",
     "frame_size": [
       512,
       512
     ],
-    "columns": 5,
-    "rows": 5,
+    "columns": 4,
+    "rows": 4,
     "first_index": 30,
+    "frame_names": [
+      "hurt_flinch",
+      "hurt_recoil",
+      "hurt_bend",
+      "hurt_recover",
+      "guard",
+      "jump_crouch",
+      "jump_tuck",
+      "air_stumble",
+      "land_crouch",
+      "land_recover",
+      "ko_stagger",
+      "ko_kneel",
+      "ko_fall",
+      "ko_side",
+      "ko_final",
+      "getup"
+    ],
     "animations": {
       "hurt": [
         30,
+        32,
+        33,
+        39
+      ],
+      "heavyHurt": [
         31,
         32,
         33,
-        34
+        39
+      ],
+      "airHurt": [
+        37,
+        31,
+        33
       ],
       "block": [
-        35,
-        36,
-        37,
-        38
+        34
       ],
       "jump": [
-        39,
-        40,
-        41,
-        42
+        35,
+        36
       ],
       "fall": [
-        43,
-        44,
-        45
+        36,
+        37,
+        39
       ],
       "land": [
-        46,
-        47,
-        48,
-        49
+        38,
+        39,
+        0
       ],
       "ko": [
-        50,
-        51,
-        52,
-        53,
-        54
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "getup": [
+        45,
+        39,
+        0
       ]
     },
-    "method": "Derived from original full-body artwork; dedicated precomputed pose frames."
+    "method": "Sixteen independently illustrated full-body poses; aligned transparent artwork, not transformed idle frames."
   }
 }

@@ -4,23 +4,38 @@ export const DOLL_LANES=Object.freeze(Array.from({length:6},(_,i)=>{
  const face=i%2===0?1:-1,contact=0.98+i*.35;
  return {from:[-face*370,0],to:[-face*(i%3===2?92:105),0],entry:contact-.48,contact,face,air:i===2||i===3};
 }));
-export const NICKI_MOTION=Object.freeze({"hurt":[30,31,32,33,34],"block":[35,36,37,38],"jump":[39,40,41,42],"fall":[43,44,45],"land":[46,47,48,49],"ko":[50,51,52,53,54]});
+export const NICKI_MOTION=Object.freeze({"hurt":[30,32,33,39],"heavyHurt":[31,32,33,39],"airHurt":[37,31,33],"block":[34],"jump":[35,36],"fall":[36,37,39],"land":[38,39,0],"ko":[40,41,42,43,44],"getup":[45,39,0]});
 const poseAt=(name,t,fps=18)=>{const seq=NICKI_MOTION[name];return seq[Math.min(seq.length-1,Math.max(0,Math.floor(t*fps)))];};
+const poseProgress=(name,p)=>{const seq=NICKI_MOTION[name];return seq[Math.min(seq.length-1,Math.max(0,Math.floor(clamp(p,0,1)*seq.length)))];};
 export function nickiPose(f){
  const t=f.stateTime||0,p=f.attackProgress||0;let index=0;
- if(f.state==='ko'||f.hp===0)index=poseAt('ko',t,12);
- else if(['hurt','grabbed','beltHeld'].includes(f.state))index=poseAt('hurt',t,25);
+ if(f.state==='ko'||f.hp===0)index=poseAt('ko',t,8);
+ else if(['hurt','grabbed','beltHeld'].includes(f.state)){
+  const span=Math.max(.12,f.nickiHurtSpan||.26),progress=t/span;
+  const heavy=f.nickiHurtHeavy||f.state!=='hurt';
+  if(f.grounded===false)index=poseProgress('airHurt',progress);
+  else if(heavy&&span>=.42&&progress>=.65)index=poseProgress('getup',(progress-.65)/.35);
+  else index=poseProgress(heavy?'heavyHurt':'hurt',heavy&&span>=.42?progress/.65:progress);
+ }
  else if(f.state==='special')index=26+Math.min(3,Math.floor(t/.15));
  else if(f.state==='punch')index=nickiSlapIndex(p);
  else if(f.state==='kick')index=20+Math.min(5,Math.floor(p*6));
- else if(f.state==='block')index=poseAt('block',t,18);
+ else if(f.state==='block')index=NICKI_MOTION.block[0];
  else if(f.grounded===false||['jump','fall'].includes(f.state)){
-  index=(f.vy||0)<-25||f.state==='fall'?poseAt('fall',Math.max(0,(-f.vy-25)/450)*.16,18):poseAt('jump',t,14);
+  index=(f.vy||0)<-25||f.state==='fall'?poseProgress('fall',clamp((-(f.vy||0)-25)/500,0,1)):poseAt('jump',t,18);
  }
- else if((f.nickiLandRemaining||0)>0)index=poseAt('land',.22-f.nickiLandRemaining,18);
+ else if((f.nickiLandRemaining||0)>0)index=poseProgress('land',1-f.nickiLandRemaining/.22);
  else if(['walk','run'].includes(f.state)){const k=Math.floor(t*10)%12;index=3+(f.vx*f.facing<0?11-k:k);}
  else index=Math.floor(t*5)%3;
  return {key:'nickiminaj',index};
+}
+// The match simulation can freeze immediately at zero HP. This clock lets
+// the illustrated knockout finish visually without delaying the match rules.
+export function nickiDefeatPose(f,game,age){
+ if(f.state==='ko'||f.hp===0||(game.over&&game.winner!=='draw'&&game.winner&&game.winner!==f.id)){
+  return nickiPose({...f,state:'ko',stateTime:Math.max(f.state==='ko'?f.stateTime||0:0,age||0)});
+ }
+ return nickiPose(f);
 }
 export function createNicki(f,b){return {kind:NICKI.kind,owner:f.id,facing:f.facing,originX:f.x,x:b.x,y:b.y,age:0,ttl:NICKI.duration,duration:NICKI.duration,active:true,delay:0,hitCount:0,strikeIndex:0};}
 export function endNicki(g,a,s){s.active=false;s.ttl=0;if(a){a.vx=0;a.actionRemaining=0;g.setState(a,a.hp>0?'idle':'ko');}}

@@ -1,4 +1,4 @@
-import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js?v=nicki-motion-1';
+import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js?v=nicki-redrawn-2';
 import {GUCCI,createGucci,updateGucci,endGucci} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,createOil,createOilBarrage,updateDiddy,endOilBarrage} from './diddy.js?v=2';
 import {DAME,DEBT,createDebt,createAchoo,updateDame,endAchoo} from './dame-dash.js';
@@ -625,6 +625,7 @@ export class CombatGame {
     if (!blocked) {
       target.attack = null; target.attackProgress = 0;
       target.state = target.hp ? 'hurt' : 'ko'; target.stateTime = 0;
+      if(target.type==='nickiminaj'){target.nickiHurtHeavy=kind!=='punch'||actualDamage>=15;target.nickiHurtSpan=stun;target.nickiLandRemaining=0;}
       target.actionRemaining = stun;
       target.vx = direction * knock;
       target.invuln = kind === 'barrage' ? .04 : .075;
