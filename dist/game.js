@@ -1,5 +1,5 @@
 import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=nicki-1';
-import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-mane.js?v=squad-ground-6';
+import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
 import {TYSON,PIGEON,tysonPose,drawTyson} from './mike-tyson.js';
@@ -30,7 +30,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=nicki-1';
+import { CombatGame } from './combat.js?v=gucci-ground-7';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
