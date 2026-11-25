@@ -84,3 +84,6 @@ export function drawNicki(ctx,s,g,ground,draw){
 // Use the original purse-carrying stance for windup/recovery, and the corrected
 // full-body strike artwork for contact. Never overlay a second striking arm.
 export function nickiSlapIndex(p){return p<.24?15:p<.70?17:19;}
+
+// Display the call during the summon, before the first helper arrives.
+export function nickiSpeech(s){return s?.kind===NICKI.kind&&s.active&&s.age>=0&&s.age<.82?'BARBZ!':'';}

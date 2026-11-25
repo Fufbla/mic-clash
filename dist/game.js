@@ -1,4 +1,4 @@
-import {NICKI,nickiPose,nickiDefeatPose,drawNicki} from './nicki-minaj.js?v=nicki-redrawn-2';
+import {NICKI,nickiPose,nickiDefeatPose,drawNicki,nickiSpeech} from './nicki-minaj.js?v=nicki-barbz-1';
 import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
@@ -500,7 +500,22 @@ class Sound {
     for (const node of shout.nodes) { try { node.stop(t + .04); } catch {} }
     this.shouts.delete(fighter);
   }
-  stopYells() { for (const fighter of this.shouts.keys()) this.stopYell(fighter); }
+  stopYells() { for (const fighter of this.shouts.keys()) this.stopYell(fighter); if(this.barbzSpeech){window.speechSynthesis?.cancel();this.barbzSpeech=null;} }
+  barbz() {
+    if (!state.audio || !window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
+    try {
+      const synth=window.speechSynthesis;
+      if(this.barbzSpeech)synth.cancel();
+      const voice=new SpeechSynthesisUtterance('Barbz!');
+      voice.lang='en-US';voice.pitch=1.22;voice.rate=1.06;voice.volume=1;
+      const voices=synth.getVoices();
+      const preferred=voices.find(v=>/^en[-_]US/i.test(v.lang)&&/Samantha|Aria|Jenny|Zira|Google US English|Allison|Ava/i.test(v.name));
+      if(preferred)voice.voice=preferred;
+      this.barbzSpeech=voice;
+      voice.onend=voice.onerror=()=>{if(this.barbzSpeech===voice)this.barbzSpeech=null;};
+      synth.speak(voice);canvas.dataset.lastVoice='BARBZ!';
+    } catch { this.barbzSpeech=null; }
+  }
   slime(fighter) {
     if (!state.audio || !this.context || !this.slimeBuffer) return;
     this.stopYell(fighter);
@@ -1238,10 +1253,11 @@ function processEvents() {
       const fighter = state.game.fighters.find(f => f.id === event.fighter);
       const meta = META[fighter?.type || 'owl'];
       state.flash = .18; state.shake = 6;
+      if(event.kind===NICKI.kind)sound.barbz();
       // Can’t Rap announces the move in his own speech bubble, including on
       // short landscape screens where a second banner would cover the call.
-      if (!['crew','slime','prizeCrew','travy'].includes(event.kind)) state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
-      if (!['vocal', 'yell', 'wing', 'munch', 'horse', 'elevator', 'prizeCrew', 'travy'].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
+      if (!['crew','slime','prizeCrew','travy',NICKI.kind].includes(event.kind)) state.labels.push({ x: 640, y: 175, text: meta.special.toUpperCase(), color: meta.color, life: 1.2, big: true });
+      if (!['vocal', 'yell', 'wing', 'munch', 'horse', 'elevator', 'prizeCrew', 'travy', NICKI.kind].includes(event.kind)) sound.tone(event.kind === 'car' ? 75 : event.kind === 'barrage' ? 300 : 440, event.kind === 'car' ? 210 : event.kind === 'barrage' ? 650 : 100, .65, .07, 'sawtooth');
       if (event.kind === 'backup') sound.siren();
     }
     if (event.type === 'nailsExtend') { sound.tone(320, 1250, .34, .035, 'triangle'); sound.noise(.12, .025); }
@@ -2336,6 +2352,7 @@ function draw(dt) {
   ctx.restore();
   for (const s of state.game?.specials || []) {
     if(s.kind===SABER.kind&&s.age>=1.05&&s.age<1.9)drawFighterSpeech(s,'OOOUUU!',viewScale,offsetX,offsetY);
+    if(s.kind===NICKI.kind)drawFighterSpeech(s,nickiSpeech(s),viewScale,offsetX,offsetY);
     if (s.kind === 'travy' && s.age < 1.05) drawFighterSpeech(s, 'TRAVY!!!', viewScale, offsetX, offsetY);
     if (s.kind === 'slime' && s.age >= .85 && s.age < 2.5) drawFighterSpeech(s, 'SLIIIIME!', viewScale, offsetX, offsetY);
     if (s.kind === 'prizeCrew' && s.age < 1.55) drawFighterSpeech(s, 'PRIZE PICKS!', viewScale, offsetX, offsetY);

@@ -68,3 +68,6 @@ test('Nicki uses 16 separately drawn aligned reaction cells, not transformed idl
  a.invuln=0;a.grounded=true;a.actionRemaining=0;assert.ok(game.hit(b,a,8,'punch',35,.26,b.x));assert.equal(a.nickiHurtHeavy,false);
  a.invuln=0;assert.ok(game.hit(b,a,16,'kick',35,.4,b.x));assert.equal(a.nickiHurtHeavy,true);assert.equal(a.nickiHurtSpan,.4);
 });
+
+import {nickiSpeech} from '../dist/nicki-minaj.js';
+test('Nicki calls BARBZ once during the opening summon window',()=>{assert.equal(nickiSpeech({kind:NICKI.kind,active:true,age:0}),'BARBZ!');assert.equal(nickiSpeech({kind:NICKI.kind,active:true,age:.4}),'BARBZ!');assert.equal(nickiSpeech({kind:NICKI.kind,active:true,age:.83}),'');assert.equal(nickiSpeech({kind:NICKI.kind,active:false,age:0}),'');const game=new CombatGame('nickiminaj','owl',{localMultiplayer:true});game.fighters[0].meter=100;game.update(1/60,{specialPressed:true},{});assert.equal(game.drainEvents().filter(e=>e.type==='special'&&e.kind===NICKI.kind).length,1);});
