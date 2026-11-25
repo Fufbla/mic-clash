@@ -1,3 +1,4 @@
+import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=nicki-1';
 import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-mane.js?v=squad-2';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
@@ -29,7 +30,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=gucci-1';
+import { CombatGame } from './combat.js?v=nicki-1';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -37,6 +38,7 @@ import {OnlineRoom, RemoteInput, makeSnapshot, applySnapshot, validCode, Fighter
 
 const $ = id => document.getElementById(id);
 const META = {
+  nickiminaj:NICKI,
   guccimane:GUCCI,
   diddy:DIDDY,
   damedash:DAME,
@@ -364,7 +366,7 @@ function actionDown(action) {
   if (action === 'kick') pressed.kickPressed = true;
   if (action === 'special') {
     if (presenting) showToast(`${META[state.game.fighters[ownIndex()].type].special} is still playing.`, 1.5);
-    else if (state.game.fighters[ownIndex()].meter < 100) showToast(state.game.fighters[ownIndex()].type==='trinigold' ? 'Land chain whips and kicks to fill your special meter.' : ['guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.game.fighters[ownIndex()].type) ? 'Land slaps and kicks to fill your special meter.' : ['quickfast','bigmumble'].includes(state.game.fighters[ownIndex()].type) ? 'Land headbutts and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
+    else if (state.game.fighters[ownIndex()].meter < 100) showToast(state.game.fighters[ownIndex()].type==='trinigold' ? 'Land chain whips and kicks to fill your special meter.' : ['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.game.fighters[ownIndex()].type) ? 'Land slaps and kicks to fill your special meter.' : ['quickfast','bigmumble'].includes(state.game.fighters[ownIndex()].type) ? 'Land headbutts and kicks to fill your special meter.' : 'Land punches and kicks to fill your special meter.', 1.5);
     else if (state.game.fighters[ownIndex()].type === 'dr-no-bunnies' && (Math.abs(state.game.fighters[ownIndex()].x - state.game.fighters[1-ownIndex()].x) > 285 || Math.abs(state.game.fighters[ownIndex()].y - state.game.fighters[1-ownIndex()].y) > 112)) showToast('Move closer for the belt slap. Your full meter is saved.', 1.8);
     else if (state.game.fighters[ownIndex()].type === 'smackprince' && (Math.abs(state.game.fighters[ownIndex()].x - state.game.fighters[1-ownIndex()].x) > SMACK_UPGRADE.range || Math.abs(state.game.fighters[ownIndex()].y - state.game.fighters[1-ownIndex()].y) > 112)) showToast('Move closer for The Smack Upgrade. Your full meter is saved.', 1.8);
     else if (state.game.fighters[ownIndex()].type === 'babybigfists' && (Math.abs(state.game.fighters[ownIndex()].x - state.game.fighters[1-ownIndex()].x) > GIANT_FISTS.range || Math.abs(state.game.fighters[ownIndex()].y - state.game.fighters[1-ownIndex()].y) > 112)) showToast('Move closer for Giant Fists. Your full meter is saved.', 1.8);
@@ -552,7 +554,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=gucci-1', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=nicki-1', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -560,6 +562,11 @@ async function loadAssets() {
     await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; img.src = new URL(entry.src, import.meta.url).href; });
     entry.image = img;
   }));
+  const separateImages=new Map();
+  for(const entry of Object.values(atlas)) for(const spec of entry?.frames||[]) if(spec.src&&!separateImages.has(spec.src)){
+    const img=new Image();img.decoding='async';separateImages.set(spec.src,new Promise((resolve,reject)=>{img.onload=()=>resolve(img);img.onerror=reject;img.src=new URL(spec.src,import.meta.url).href;}));
+  }
+  await Promise.all(Object.values(atlas).flatMap(entry=>(entry?.frames||[]).filter(spec=>spec.src).map(async spec=>{spec.image=await separateImages.get(spec.src);})));
   atlas.diddy=await loadDiddyAssets(import.meta.url);
   state.assets = atlas;
   warmSquadSprites(index=>frame('guccimane',index));
@@ -577,7 +584,7 @@ function frame(asset, index) {
   if (!spec) return null;
   const c = document.createElement('canvas'); c.width = Math.max(1, spec.w); c.height = Math.max(1, spec.h);
   const g = c.getContext('2d', { willReadFrequently: true });
-  g.drawImage(entry.image, spec.x, spec.y, spec.w, spec.h, 0, 0, spec.w, spec.h);
+  g.drawImage(spec.image||entry.image, spec.x, spec.y, spec.w, spec.h, 0, 0, spec.w, spec.h);
   const pixels = g.getImageData(0, 0, c.width, c.height);
   // QueenBee idle: restore 83 eye pixels from the original artwork; leave all other pixels untouched.
   if (asset === 'queenbee' && index === 0 && c.width === 247 && c.height === 319) {
@@ -591,7 +598,7 @@ function frame(asset, index) {
     }
   }
   // Sprite compositing: discard nearly transparent matte pixels at render time.
-  const threshold = asset === 'guccimane' ? 0 : asset === 'owls' ? 18 : 35;
+  const threshold = ['guccimane','nickiminaj','nickiDolls'].includes(asset) ? 0 : asset === 'owls' ? 18 : 35;
   let footLeft = c.width, footRight = 0, bottom = 0;
   for (let i = 0; i < pixels.data.length; i += 4) {
     const a = pixels.data[i + 3];
@@ -798,7 +805,7 @@ function beginFight(p1 = state.selected, p2 = state.opponent) {
   canvas.setAttribute('aria-label', state.mode === 'local'
     ? 'Celebrity Gauntlet local two-player arena. Each controller moves its own fighter. Menu or Options pauses the round.'
     : 'Celebrity Gauntlet fighting arena. Use the left analog stick and four action buttons, keyboard, or a controller.');
-  const slaps = ['guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.selected);
+  const slaps = ['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(state.selected);
   const mic = state.selected === 'cantrap';
   document.querySelector('[data-control="punch"]')?.setAttribute('aria-label', state.selected==='trinigold' ? 'Chain whip. Keyboard J.' : ['charles','ooousaber'].includes(state.selected) ? 'Downward swipe. Keyboard J.' : ['quickfast','bigmumble'].includes(state.selected) ? 'Headbutt. Keyboard J.' : state.selected==='redrolls' ? 'Bottle strike. Keyboard J.' : mic ? 'Microphone strike. Keyboard J.' : slaps ? 'Open-hand slap. Keyboard J.' : 'Punch. Keyboard J.');
   document.querySelector('[data-control="punch"] .control-label').textContent = state.selected==='trinigold' ? 'CHAIN' : ['charles','ooousaber'].includes(state.selected) ? 'SWIPE' : ['quickfast','bigmumble'].includes(state.selected) ? 'HEADBUTT' : state.selected==='redrolls' ? 'BOTTLE' : mic ? 'MIC HIT' : slaps ? 'SLAP' : 'PUNCH';
@@ -1181,7 +1188,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'guccimane' ? gucciPose(p1) : p1.type === 'diddy' ? diddyPose(p1) : p1.type === 'damedash' ? damePose(p1) : p1.type === 'miketyson' ? tysonPose(p1) : p1.type === 'justginger' ? gingerSprite(p1) : p1.type === 'joosie' ? joosieSprite(p1) : p1.type === 'breezy' ? breezySprite(p1) : p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = p1.type === 'nickiminaj' ? nickiPose(p1) : p1.type === 'guccimane' ? gucciPose(p1) : p1.type === 'diddy' ? diddyPose(p1) : p1.type === 'damedash' ? damePose(p1) : p1.type === 'miketyson' ? tysonPose(p1) : p1.type === 'justginger' ? gingerSprite(p1) : p1.type === 'joosie' ? joosieSprite(p1) : p1.type === 'breezy' ? breezySprite(p1) : p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -1609,7 +1616,8 @@ function drawFighter(f) {
   // The captured fighter is drawn once, held at the actual mouth, below.
   if (f.inCar || f.grabbedBy) return;
   let key = f.type, index = poseIndex(f);
-  if(f.type==='guccimane')({key,index}=gucciPose(f));
+  if(f.type==='nickiminaj')({key,index}=nickiPose(f));
+  else if(f.type==='guccimane')({key,index}=gucciPose(f));
   else if(f.type==='diddy')({key,index}=diddyPose(f));
   else if(f.type==='damedash')({key,index}=damePose(f));
   else if(f.type==='miketyson')({key,index}=tysonPose(f));
@@ -1663,7 +1671,7 @@ function drawFighter(f) {
   const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'guccimane' || f.type === 'diddy' || f.type === 'damedash' || f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'nickiminaj' || f.type === 'guccimane' || f.type === 'diddy' || f.type === 'damedash' || f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
@@ -1688,14 +1696,14 @@ function drawFighter(f) {
   }
   if(f.type==='boat' && f.state==='run')ctx.translate(0,-Math.abs(Math.sin(f.stateTime*10))*13);
   if(f.type==='queenbee'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
-  if(f.type==='guccimane'||f.type==='diddy'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
+  if(f.type==='nickiminaj'||f.type==='guccimane'||f.type==='diddy'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='damedash'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='miketyson'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='justginger'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='joosie'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='breezy'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   ctx.drawImage(s.image, -s.anchorX * scale, -s.anchorY * scale, s.w * scale, s.h * scale);
-  if (['guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
+  if (['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
     ctx.save(); ctx.strokeStyle = '#ffe1ed'; ctx.lineWidth = 3; ctx.globalAlpha = .55;
     ctx.beginPath(); ctx.moveTo(32, -148); ctx.quadraticCurveTo(135, -157, 128, -95); ctx.stroke(); ctx.restore();
   }
@@ -2114,6 +2122,11 @@ function drawMaskedCrew(s) {
 
 function drawSpecial(s) {
   if (!s.active) return;
+  if(s.kind===NICKI.kind){drawNicki(ctx,s,state.game,GROUND,(i,x,y,face,impact,motion)=>{
+    const sp=frame('nickiDolls',i);if(!sp)return;const sc=155/sp.h;
+    const natural=[1,1,-1,1,1,-1][i];ctx.save();ctx.translate(x,y);ctx.scale(face*natural*(1+impact*.10),1-impact*.06);ctx.rotate((motion*.05-impact*.11)*natural);
+    ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*sc,-sp.anchorY*sc,sp.w*sc,sp.h*sc);ctx.restore();
+  });return;}
   if(s.kind===GUCCI.kind){drawGucci(ctx,s,state.game,GROUND,(index,x,y,facing,mult,pose,step)=>{const original=frame('guccimane',index);if(!original)return;const sp=squadSprite(original,pose,step);const scale=215/state.assets.guccimane.referenceHeight*mult;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sp.image,-sp.anchorX*scale,-sp.anchorY*scale,sp.w*scale,sp.h*scale);ctx.restore();});return;}
   if(s.kind===OIL||s.kind===DIDDY.kind){drawDiddy(ctx,s,GROUND,state.assets.diddy.oil);return;}
   if(s.kind===DEBT||s.kind===DAME.kind){drawDame(ctx,s,state.game,GROUND);return;}

@@ -1,0 +1,49 @@
+export const NICKI=Object.freeze({name:'Nicki Minaj',special:'Barbie Squad',kind:'barbieSquad',duration:3.35,range:1100,color:'#ff51ae',glow:'rgba(255,45,160,.45)'});
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+export const DOLL_LANES=Object.freeze([
+ {from:[-560,-20],to:[-92,-24],entry:.44,contact:1.12,face:1},
+ {from:[540,-5],to:[92,-20],entry:.51,contact:1.29,face:-1},
+ {from:[-250,-410],to:[-62,-120],entry:.57,contact:1.46,face:1},
+ {from:[270,-400],to:[63,-125],entry:.63,contact:1.63,face:-1},
+ {from:[-360,185],to:[-70,28],entry:.69,contact:1.80,face:1},
+ {from:[370,185],to:[70,30],entry:.75,contact:1.97,face:-1}
+]);
+export function nickiPose(f){
+ const t=f.stateTime||0,p=f.attackProgress||0; let index=0;
+ if(f.state==='special') index=26+Math.min(3,Math.floor(t/.15));
+ else if(f.state==='punch') index=15+Math.min(4,Math.floor(p*5));
+ else if(f.state==='kick') index=20+Math.min(5,Math.floor(p*6));
+ else if(f.state==='block') index=16;
+ else if(!f.grounded||['jump','fall'].includes(f.state))index=21;
+ else if(f.state==='hurt'||f.state==='ko')index=2;
+ else if(['walk','run'].includes(f.state)){const k=Math.floor(t*10)%12;index=3+(f.vx*f.facing<0?11-k:k);}
+ else index=Math.floor(t*5)%3;
+ return {key:'nickiminaj',index};
+}
+export function createNicki(f,b){return {kind:NICKI.kind,owner:f.id,facing:f.facing,originX:f.x,x:b.x,y:b.y,age:0,ttl:NICKI.duration,duration:NICKI.duration,active:true,delay:0,hitCount:0,strikeIndex:0};}
+export function endNicki(g,a,s){s.active=false;s.ttl=0;if(a){a.vx=0;a.actionRemaining=0;g.setState(a,a.hp>0?'idle':'ko');}}
+export function updateNicki(g,s,a,b){
+ if(!a||!b){endNicki(g,a,s);return;}
+ a.vx=0;a.facing=s.facing;s.x=b.x;s.y=b.y;
+ if(s.ttl>1e-9){a.state='special';a.actionRemaining=Math.max(a.actionRemaining,s.ttl);}
+ while(s.strikeIndex<DOLL_LANES.length&&s.age+1e-9>=DOLL_LANES[s.strikeIndex].contact){
+  const l=DOLL_LANES[s.strikeIndex++];if(Math.abs(b.x-s.originX)<=NICKI.range&&g.hit(a,b,8,s.kind,35,.18,b.x+l.to[0]))s.hitCount++;
+ }
+ if(s.ttl<=1e-9)endNicki(g,a,s);
+}
+export function drawNicki(ctx,s,g,ground,draw){
+ const b=g.fighters.find(f=>f.id!==s.owner);if(!b)return;
+ const t=s.age;
+ DOLL_LANES.forEach((l,i)=>{
+  if(t<l.entry||t>=3.12)return;
+  const raw=clamp((t-l.entry)/(l.contact-l.entry),0,1);
+  const out=clamp((t-2.35)/.77,0,1);
+  const p=(raw*raw*(3-2*raw))*(1-out);
+  const impact=Math.max(0,1-Math.abs(t-l.contact)/.15);
+  const motion=Math.sin((t-l.entry)*22+i)*Math.min(1,raw);
+  const x=clamp(b.x+l.from[0]+(l.to[0]-l.from[0])*p+l.face*impact*23,25,1255);
+  const y=ground-b.y+l.from[1]+(l.to[1]-l.from[1])*p-Math.sin(raw*Math.PI)*42-motion*6;
+  draw(i,x,y,out>0?-l.face:l.face,impact,motion);
+  if(impact>.1){ctx.save();ctx.globalAlpha=impact*.8;ctx.strokeStyle='#ff7cce';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,ground-b.y-105,25+20*(1-impact),0,Math.PI*2);ctx.stroke();ctx.restore();}
+ });
+}

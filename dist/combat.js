@@ -1,3 +1,4 @@
+import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js';
 import {GUCCI,createGucci,updateGucci,endGucci} from './gucci-mane.js';
 import {DIDDY,OIL,createOil,createOilBarrage,updateDiddy,endOilBarrage} from './diddy.js?v=2';
 import {DAME,DEBT,createDebt,createAchoo,updateDame,endAchoo} from './dame-dash.js';
@@ -26,7 +27,7 @@ import { GIANT_FISTS } from './baby-big-fists.js';
 import { SMACK_UPGRADE } from './smack-prince.js';
 import { DR_NO_BUNNIES, AfricanPrideBeltSlap } from './dr-no-bunnies.js';
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-export const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay', 'czr', 'shannondull', 'smokelord', 'redrolls', 'charles', 'fuedfam', 'ooousaber', 'treeyawl', 'trinigold', 'boat', 'yungsnow', 'queenbee', 'breezy', 'joosie', 'justginger', 'miketyson', 'damedash', 'diddy', 'guccimane'];
+export const FIGHTERS = ['owl', 'coupe', 'karate', 'snitchy', 'getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr', 'president', 'owhinny', 'roboking', 'quickfast', 'sassyt', 'jminors', 'bigmumble', 'djbeigey', 'nobuttons', 'eynakeast', 'goat', 'taytay', 'czr', 'shannondull', 'smokelord', 'redrolls', 'charles', 'fuedfam', 'ooousaber', 'treeyawl', 'trinigold', 'boat', 'yungsnow', 'queenbee', 'breezy', 'joosie', 'justginger', 'miketyson', 'damedash', 'diddy', 'guccimane', 'nickiminaj'];
 const BELT = DR_NO_BUNNIES.special;
 const BARRAGE = { windup: .18, interval: .09, punchesTotal: 12, recovery: .20, range: 180 };
 const VOCAL = { windup: .35, interval: .27, wavesTotal: 4, singDuration: 1.70,
@@ -178,8 +179,10 @@ export class CombatGame {
   startAttack(f, kind) {
     const spec = ATTACKS[kind];
     if (!spec || !this.canAct(f) || this.isPresenting(f)) return false;
-    const style = f.type==='diddy' && kind==='punch' ? 'oil' : f.type==='miketyson' && kind==='punch' ? 'pigeon' : f.type==='trinigold' && kind==='punch' ? 'chain' : ['charles','ooousaber'].includes(f.type) && kind === 'punch' ? 'swipe' : ['guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && kind === 'punch' ? 'slap' : ['quickfast', 'bigmumble'].includes(f.type) && kind === 'punch' ? 'headbutt' : kind;
+    const style = f.type==='diddy' && kind==='punch' ? 'oil' : f.type==='miketyson' && kind==='punch' ? 'pigeon' : f.type==='trinigold' && kind==='punch' ? 'chain' : ['charles','ooousaber'].includes(f.type) && kind === 'punch' ? 'swipe' : ['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && kind === 'punch' ? 'slap' : ['quickfast', 'bigmumble'].includes(f.type) && kind === 'punch' ? 'headbutt' : kind;
     f.attack = { kind, style, elapsed: 0, connected: false, ...spec };
+    if(f.type==='nickiminaj'&&kind==='punch')Object.assign(f.attack,{duration:.475,start:.19,end:.28,range:145});
+    if(f.type==='nickiminaj'&&kind==='kick')Object.assign(f.attack,{duration:.66,start:.11,end:.45,range:190,comboHits:[false,false]});
     if(f.type==='diddy'&&kind==='punch'){Object.assign(f.attack,{duration:.84,start:.24,end:.25,range:0});}
     if(f.type==='damedash'&&kind==='kick'){Object.assign(f.attack,{duration:.86,start:.28,end:.29,range:0});}
     if(f.type==='miketyson'&&kind==='punch'){Object.assign(f.attack,{duration:.65,start:.35,end:.36,range:0});}
@@ -217,14 +220,17 @@ export class CombatGame {
     f.attack = null;
     f.attackProgress = 0;
     f.state = 'special'; f.stateTime = 0;
-    const kind = (f.type === 'guccimane' && GUCCI.kind) || (f.type === 'diddy' && DIDDY.kind) || (f.type === 'damedash' && DAME.kind) || (f.type === 'miketyson' && TYSON.kind) || (f.type === 'justginger' && GINGER.kind) || (f.type === 'joosie' && JOOSIE.kind) || (f.type === 'breezy' && BREEZY.kind) || (f.type === 'queenbee' && QUEENBEE.kind) || (f.type === 'yungsnow' && SNOW.kind) || (f.type === 'boat' && BOAT.kind) || (f.type === 'trinigold' && TRINI.kind) || (f.type === 'treeyawl' && TREE.kind) || (f.type === 'ooousaber' && SABER.kind) || (f.type === 'fuedfam' && FUED.kind) || (f.type === 'charles' && CHARLES.kind) || NEON_FIGHTERS[f.type]?.kind || ASCENSION_FIGHTERS[f.type]?.kind || GAUNTLET_FIGHTERS[f.type]?.kind || RUSH_FIGHTERS[f.type]?.kind || EXECUTIVE_FIGHTERS[f.type]?.kind || (f.type === 'ocrrrrr' ? 'nailPierce' : f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl');
+    const kind = (f.type === 'nickiminaj' && NICKI.kind) || (f.type === 'guccimane' && GUCCI.kind) || (f.type === 'diddy' && DIDDY.kind) || (f.type === 'damedash' && DAME.kind) || (f.type === 'miketyson' && TYSON.kind) || (f.type === 'justginger' && GINGER.kind) || (f.type === 'joosie' && JOOSIE.kind) || (f.type === 'breezy' && BREEZY.kind) || (f.type === 'queenbee' && QUEENBEE.kind) || (f.type === 'yungsnow' && SNOW.kind) || (f.type === 'boat' && BOAT.kind) || (f.type === 'trinigold' && TRINI.kind) || (f.type === 'treeyawl' && TREE.kind) || (f.type === 'ooousaber' && SABER.kind) || (f.type === 'fuedfam' && FUED.kind) || (f.type === 'charles' && CHARLES.kind) || NEON_FIGHTERS[f.type]?.kind || ASCENSION_FIGHTERS[f.type]?.kind || GAUNTLET_FIGHTERS[f.type]?.kind || RUSH_FIGHTERS[f.type]?.kind || EXECUTIVE_FIGHTERS[f.type]?.kind || (f.type === 'ocrrrrr' ? 'nailPierce' : f.type === 'demon' ? 'maskedCrew' : f.type === 'cranes' ? 'elevator' : f.type === 'mooja' ? 'milk' : f.type === 'babybigfists' ? 'giantFists' : f.type === 'smackprince' ? 'spotlight' : f.type === 'dr-no-bunnies' ? 'belt' : f.type === 'coupe' ? 'car' : f.type === 'karate' ? 'barrage' : f.type === 'snitchy' ? 'backup' : f.type === 'getit' ? 'vocal' : f.type === 'loudbull' ? 'yell' : f.type === 'fatboi' ? 'wing' : f.type === 'icespice' ? 'munch' : f.type === 'hehaw' ? 'horse' : f.type === 'cantrap' ? 'crew' : 'owl');
     const barrageDuration = BARRAGE.windup + BARRAGE.interval * BARRAGE.punchesTotal + BARRAGE.recovery;
-    f.actionRemaining = (f.type === 'guccimane' && GUCCI.duration) || (f.type === 'diddy' && DIDDY.duration) || (f.type === 'damedash' && DAME.duration) || (f.type === 'miketyson' && TYSON.duration) || (f.type === 'justginger' && GINGER.duration) || (f.type === 'joosie' && JOOSIE.duration) || (f.type === 'breezy' && BREEZY.duration) || (f.type === 'queenbee' && QUEENBEE.duration) || (f.type === 'yungsnow' && SNOW.duration) || (f.type === 'boat' && BOAT.duration) || (f.type === 'trinigold' && TRINI.duration) || (f.type === 'treeyawl' && TREE.duration) || (f.type === 'ooousaber' && SABER.duration) || (f.type === 'fuedfam' && FUED.duration) || (f.type === 'charles' && CHARLES.duration) || NEON_FIGHTERS[f.type]?.duration || ASCENSION_FIGHTERS[f.type]?.duration || GAUNTLET_FIGHTERS[f.type]?.duration || RUSH_FIGHTERS[f.type]?.duration || EXECUTIVE_FIGHTERS[f.type]?.duration || (kind === 'nailPierce' ? NAIL_PIERCE.duration : kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66);
+    f.actionRemaining = (f.type === 'nickiminaj' && NICKI.duration) || (f.type === 'guccimane' && GUCCI.duration) || (f.type === 'diddy' && DIDDY.duration) || (f.type === 'damedash' && DAME.duration) || (f.type === 'miketyson' && TYSON.duration) || (f.type === 'justginger' && GINGER.duration) || (f.type === 'joosie' && JOOSIE.duration) || (f.type === 'breezy' && BREEZY.duration) || (f.type === 'queenbee' && QUEENBEE.duration) || (f.type === 'yungsnow' && SNOW.duration) || (f.type === 'boat' && BOAT.duration) || (f.type === 'trinigold' && TRINI.duration) || (f.type === 'treeyawl' && TREE.duration) || (f.type === 'ooousaber' && SABER.duration) || (f.type === 'fuedfam' && FUED.duration) || (f.type === 'charles' && CHARLES.duration) || NEON_FIGHTERS[f.type]?.duration || ASCENSION_FIGHTERS[f.type]?.duration || GAUNTLET_FIGHTERS[f.type]?.duration || RUSH_FIGHTERS[f.type]?.duration || EXECUTIVE_FIGHTERS[f.type]?.duration || (kind === 'nailPierce' ? NAIL_PIERCE.duration : kind === 'maskedCrew' ? DEMON_CREW.duration : kind === 'elevator' ? ELEVATOR_DROP.actorDuration : kind === 'milk' ? COW_MODE.actorDuration : kind === 'giantFists' ? GIANT_FISTS.duration : kind === 'spotlight' ? SMACK_UPGRADE.duration : kind === 'belt' ? BELT.durationMs / 1000 : kind === 'car' ? .95 : kind === 'barrage' ? barrageDuration : kind === 'backup' ? .85 : kind === 'vocal' ? VOCAL.singDuration : kind === 'yell' ? YELL.duration : kind === 'wing' ? WING.actorDuration : kind === 'munch' ? MUNCH.duration : kind === 'horse' ? HORSE.duration : kind === 'crew' ? CREW.duration : .66);
     f.specialCooldown = 1.2;
     f.vx = 0;
     // Protection follows the actual presentation lifetime, not a short startup timer.
     f.invuln = 0;
-    if (f.type === 'guccimane') {
+    if (f.type === 'nickiminaj') {
+      f.y=0;f.vy=0;f.grounded=true;f.jumps=0;f.flipRemaining=0;f.flipProgress=0;
+      this.specials.push(createNicki(f,target));
+    } else if (f.type === 'guccimane') {
       f.y=0;f.vy=0;f.grounded=true;f.jumps=0;f.flipRemaining=0;f.flipProgress=0;
       this.specials.push(createGucci(f,target));
     } else if (f.type === 'diddy') {
@@ -534,7 +540,18 @@ export class CombatGame {
       if(f.type==='damedash' && attack.kind==='kick' && !attack.connected && attack.elapsed>=attack.start){this.specials.push(createDebt(f));attack.connected=true;}
       if(f.type==='miketyson' && attack.kind==='punch' && !attack.connected && attack.elapsed>=attack.start){this.specials.push(createTysonPigeon(f));attack.connected=true;}
       if(f.type==='yungsnow' && attack.kind==='kick' && !attack.connected && attack.elapsed>=attack.start){this.specials.push(createSnowball(f));attack.connected=true;}
-      if (!(f.type==='diddy' && attack.kind==='punch') && !(f.type==='damedash' && attack.kind==='kick') && !(f.type==='miketyson' && attack.kind==='punch') && !attack.connected && attack.elapsed >= attack.start && attack.elapsed <= attack.end) {
+      if(f.type==='nickiminaj'&&attack.kind==='kick'){
+        for(const [i,start,end,damage,meter] of [[0,.11,.22,7,12],[1,.33,.45,8,13]]){
+          if(!attack.comboHits[i]&&attack.elapsed>=start&&attack.elapsed<=end){
+            const forward=(opponent.x-f.x)*f.facing;
+            if(forward>=-12&&forward<attack.range&&Math.abs(opponent.y-f.y)<112){
+              attack.comboHits[i]=this.hit(f,opponent,damage,'kick',i?190:35,i?.26:.24,f.x,meter);
+              attack.connected=attack.connected||attack.comboHits[i];
+            }
+          }
+        }
+      }
+      if (!(f.type==='nickiminaj'&&attack.kind==='kick') && !(f.type==='diddy' && attack.kind==='punch') && !(f.type==='damedash' && attack.kind==='kick') && !(f.type==='miketyson' && attack.kind==='punch') && !attack.connected && attack.elapsed >= attack.start && attack.elapsed <= attack.end) {
         const forward = (opponent.x - f.x) * f.facing;
         if (forward >= -12 && forward < attack.range && Math.abs(opponent.y - f.y) < 112) {
           attack.connected = this.hit(f, opponent, attack.damage, attack.kind, attack.knock, attack.stun, f.x);
@@ -588,7 +605,7 @@ export class CombatGame {
     }
   }
 
-  hit(attacker, target, damage, kind, knock, stun, sourceX) {
+  hit(attacker, target, damage, kind, knock, stun, sourceX, meterGain) {
     if (this.over || this.roundEnding || target.hp <= 0 || (target.invuln > 0 && kind !== 'belt') || target.inCar || this.isPresenting(target)) return false;
     const direction = sourceX < target.x ? 1 : -1;
     const basic = kind === 'punch' || kind === 'kick';
@@ -616,15 +633,15 @@ export class CombatGame {
       // This is the ONLY meter-gain path. Specials, blocks, misses and time give none.
       if (basic) {
         const oldMeter = attacker.meter;
-        attacker.meter = Math.min(100, attacker.meter + ATTACKS[kind].meter);
+        attacker.meter = Math.min(100, attacker.meter + (meterGain ?? ATTACKS[kind].meter));
         attacker.landedHits++;
         if (oldMeter < 100 && attacker.meter === 100) this.events.push({ type: 'meterReady', fighter: attacker.id });
       }
     }
     this.events.push({ type: 'hit', x: target.x, y: target.y + 105, attacker: attacker.id,
       defender: target.id, damage: actualDamage,
-      heavy: kind === GUCCI.kind || kind === DIDDY.kind || kind === DAME.kind || kind === TYSON.kind || kind === GINGER.kind || kind === JOOSIE.kind || kind === BREEZY.kind || kind === QUEENBEE.kind || kind === SNOW.kind || kind === BOAT.kind || kind === TRINI.kind || kind === TREE.kind || kind === SABER.kind || kind === FUED.kind || kind === CHARLES.kind || NEON_KINDS.includes(kind) || ASCENSION_KINDS.includes(kind) || GAUNTLET_KINDS.includes(kind) || RUSH_KINDS.includes(kind) || EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
-      blocked, kind, style: attacker.type==='diddy' && kind==='punch' ? 'oil' : attacker.type==='miketyson' && kind==='punch' ? 'pigeon' : attacker.type==='trinigold' && kind==='punch' ? 'chain' : ['charles','ooousaber'].includes(attacker.type) && kind === 'punch' ? 'swipe' : ['guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(attacker.type) && kind === 'punch' ? 'slap' : ['quickfast', 'bigmumble'].includes(attacker.type) && kind === 'punch' ? 'headbutt' : kind });
+      heavy: kind === NICKI.kind || kind === GUCCI.kind || kind === DIDDY.kind || kind === DAME.kind || kind === TYSON.kind || kind === GINGER.kind || kind === JOOSIE.kind || kind === BREEZY.kind || kind === QUEENBEE.kind || kind === SNOW.kind || kind === BOAT.kind || kind === TRINI.kind || kind === TREE.kind || kind === SABER.kind || kind === FUED.kind || kind === CHARLES.kind || NEON_KINDS.includes(kind) || ASCENSION_KINDS.includes(kind) || GAUNTLET_KINDS.includes(kind) || RUSH_KINDS.includes(kind) || EXECUTIVE_KINDS.includes(kind) || kind === 'elevator' || kind === 'milk' || kind === 'giantFists' || kind === 'spotlight' || kind === 'kick' || kind === 'car' || kind === 'wing' || kind === 'munch' || kind === 'horse' || (kind === 'crew' && knock >= 300) || (kind === 'barrage' && knock >= 300) || (kind === 'backup' && knock >= 280) || ((kind === 'vocal' || kind === 'yell') && knock >= 300),
+      blocked, kind, style: attacker.type==='diddy' && kind==='punch' ? 'oil' : attacker.type==='miketyson' && kind==='punch' ? 'pigeon' : attacker.type==='trinigold' && kind==='punch' ? 'chain' : ['charles','ooousaber'].includes(attacker.type) && kind === 'punch' ? 'swipe' : ['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(attacker.type) && kind === 'punch' ? 'slap' : ['quickfast', 'bigmumble'].includes(attacker.type) && kind === 'punch' ? 'headbutt' : kind });
     return true;
   }
 
@@ -639,6 +656,7 @@ export class CombatGame {
       s.age += dt; s.ttl -= dt;
       const owner = this.fighters.find(f => f.id === s.owner);
       const target = this.fighters.find(f => f.id !== s.owner);
+      if(s.kind===NICKI.kind){updateNicki(this,s,owner,target);if(s.active&&s.ttl>1e-9)alive.push(s);continue;}
       if(s.kind===GUCCI.kind){updateGucci(this,s,owner,target);if(s.active&&s.ttl>1e-9)alive.push(s);continue;}
       if(s.kind===OIL||s.kind===DIDDY.kind){updateDiddy(this,s,owner,target,dt);if(s.active&&s.ttl>1e-9)alive.push(s);continue;}
       if(s.kind===DEBT||s.kind===DAME.kind){updateDame(this,s,owner,target,dt);if(s.active&&s.ttl>1e-9)alive.push(s);continue;}
@@ -1666,7 +1684,7 @@ export class CombatGame {
       this.ai.think = .35 + this.random() * .35;
       if (this.canAct(ai)) {
         const roll = this.random();
-        const specialRange = ai.type === 'guccimane' ? GUCCI.range : ai.type === 'diddy' ? DIDDY.range : ai.type === 'damedash' ? DAME.range : ai.type === 'miketyson' ? TYSON.range : ai.type === 'justginger' ? GINGER.range : ai.type === 'joosie' ? JOOSIE.range : ai.type === 'breezy' ? BREEZY.range : ai.type === 'queenbee' ? QUEENBEE.range : ai.type === 'yungsnow' ? SNOW.range : ai.type === 'boat' ? BOAT.range : ai.type === 'trinigold' ? TRINI.range : ai.type === 'treeyawl' ? TREE.range : ai.type === 'ooousaber' ? SABER.range : ai.type === 'fuedfam' ? FUED.range : ai.type === 'charles' ? CHARLES.range : NEON_FIGHTERS[ai.type] ? NEON_FIGHTERS[ai.type].range : ASCENSION_FIGHTERS[ai.type] ? 1200 : GAUNTLET_FIGHTERS[ai.type] ? 1200 : RUSH_FIGHTERS[ai.type] ? 1200 : EXECUTIVE_FIGHTERS[ai.type] ? 1200 : ai.type === 'ocrrrrr' ? NAIL_PIERCE.range : ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
+        const specialRange = ai.type === 'nickiminaj' ? NICKI.range : ai.type === 'guccimane' ? GUCCI.range : ai.type === 'diddy' ? DIDDY.range : ai.type === 'damedash' ? DAME.range : ai.type === 'miketyson' ? TYSON.range : ai.type === 'justginger' ? GINGER.range : ai.type === 'joosie' ? JOOSIE.range : ai.type === 'breezy' ? BREEZY.range : ai.type === 'queenbee' ? QUEENBEE.range : ai.type === 'yungsnow' ? SNOW.range : ai.type === 'boat' ? BOAT.range : ai.type === 'trinigold' ? TRINI.range : ai.type === 'treeyawl' ? TREE.range : ai.type === 'ooousaber' ? SABER.range : ai.type === 'fuedfam' ? FUED.range : ai.type === 'charles' ? CHARLES.range : NEON_FIGHTERS[ai.type] ? NEON_FIGHTERS[ai.type].range : ASCENSION_FIGHTERS[ai.type] ? 1200 : GAUNTLET_FIGHTERS[ai.type] ? 1200 : RUSH_FIGHTERS[ai.type] ? 1200 : EXECUTIVE_FIGHTERS[ai.type] ? 1200 : ai.type === 'ocrrrrr' ? NAIL_PIERCE.range : ai.type === 'demon' ? 1200 : ai.type === 'cranes' ? 1200 : ai.type === 'mooja' ? COW_MODE.range : ai.type === 'babybigfists' ? GIANT_FISTS.range : ai.type === 'smackprince' ? SMACK_UPGRADE.range : ai.type === 'dr-no-bunnies' ? BELT.range : ai.type === 'icespice' ? MUNCH.range : ai.type === 'hehaw' ? 1200 : ai.type === 'cantrap' ? 1200 : ai.type === 'karate' ? 230 : ai.type === 'getit' ? 730 : ai.type === 'loudbull' ? 610 : ai.type === 'fatboi' ? 750 : 850;
         const catchable = ai.type !== 'icespice' || (p.grounded && p.y <= 4 && !this.isPresenting(p));
         if (ai.meter >= 100 && distance < specialRange && catchable && roll > .12) input.specialPressed = true;
         else if (p.attack && distance < 225 && roll < .35) {
@@ -1690,7 +1708,8 @@ export class CombatGame {
     this.over = true; this.winner = winner;
     for (const s of this.specials) {
       const owner = this.fighters.find(f => f.id === s.owner);
-      if(s.kind===GUCCI.kind)endGucci(this,owner,s);
+      if(s.kind===NICKI.kind)endNicki(this,owner,s);
+      else if(s.kind===GUCCI.kind)endGucci(this,owner,s);
       else if(s.kind===DIDDY.kind)endOilBarrage(this,owner,s);
       else if(s.kind===DAME.kind)endAchoo(this,owner,s);
       else if(s.kind===TYSON.kind)endTysonTiger(this,owner,s);

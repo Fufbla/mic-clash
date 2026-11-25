@@ -1,0 +1,108 @@
+{
+  "frame_size": [
+    512,
+    512
+  ],
+  "anchor": [
+    256,
+    475
+  ],
+  "facing": "right",
+  "animations": {
+    "idle": {
+      "frames": [
+        "idle/00.png",
+        "idle/01.png",
+        "idle/02.png"
+      ],
+      "frame_ms": 200,
+      "loop": true
+    },
+    "walk": {
+      "frames": [
+        "walk/00.png",
+        "walk/01.png",
+        "walk/02.png",
+        "walk/03.png",
+        "walk/04.png",
+        "walk/05.png",
+        "walk/06.png",
+        "walk/07.png",
+        "walk/08.png",
+        "walk/09.png",
+        "walk/10.png",
+        "walk/11.png"
+      ],
+      "frame_ms": 100,
+      "loop": true
+    },
+    "slap": {
+      "frames": [
+        "slap/00.png",
+        "slap/01.png",
+        "slap/02.png",
+        "slap/03.png",
+        "slap/04.png"
+      ],
+      "frame_ms": 95,
+      "loop": false,
+      "hit_frames": [
+        2
+      ]
+    },
+    "double_kick": {
+      "frames": [
+        "double_kick/00.png",
+        "double_kick/01.png",
+        "double_kick/02.png",
+        "double_kick/03.png",
+        "double_kick/04.png",
+        "double_kick/05.png"
+      ],
+      "frame_ms": 110,
+      "loop": false,
+      "hit_frames": [
+        1,
+        3
+      ]
+    },
+    "summon": {
+      "frames": [
+        "summon/00.png",
+        "summon/01.png",
+        "summon/02.png",
+        "summon/03.png"
+      ],
+      "frame_ms": 150,
+      "loop": false
+    }
+  },
+  "helpers": [
+    {
+      "file": "doll_01.png",
+      "direction": "right"
+    },
+    {
+      "file": "doll_02.png",
+      "direction": "right"
+    },
+    {
+      "file": "doll_03.png",
+      "direction": "left"
+    },
+    {
+      "file": "doll_04.png",
+      "direction": "right"
+    },
+    {
+      "file": "doll_05.png",
+      "direction": "right"
+    },
+    {
+      "file": "doll_06.png",
+      "direction": "left"
+    }
+  ],
+  "notes": "Prototype key poses; confirm scale, hitboxes, timing and integration in game. Mirror fighter or helpers as needed. Special uses six independently positioned doll sprites, not a baked opponent.",
+  "special_preview": "Six helper sprites animate toward a target marker from separate screen positions; implement hit events in engine."
+}
