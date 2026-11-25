@@ -1,4 +1,4 @@
-import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=nicki-purse-slap-1';
+import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=nicki-motion-1';
 import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
@@ -30,7 +30,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=barbie-motion-2';
+import { CombatGame } from './combat.js?v=nicki-motion-1';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -554,7 +554,7 @@ class Sound {
 const sound = new Sound();
 
 async function loadAssets() {
-  const response = await fetch(new URL('./assets/atlas.json?v=nicki-1', import.meta.url));
+  const response = await fetch(new URL('./assets/atlas.json?v=nicki-motion-1', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
@@ -1643,7 +1643,7 @@ function drawFighter(f) {
   // The captured fighter is drawn once, held at the actual mouth, below.
   if (f.inCar || f.grabbedBy) return;
   let key = f.type, index = poseIndex(f);
-  if(f.type==='nickiminaj')({key,index}=nickiPose(f));
+  if(f.type==='nickiminaj')({key,index}=nickiPose(state.game.over&&f.state==='ko'?{...f,stateTime:Math.max(f.stateTime,.5)}:f));
   else if(f.type==='guccimane')({key,index}=gucciPose(f));
   else if(f.type==='diddy')({key,index}=diddyPose(f));
   else if(f.type==='damedash')({key,index}=damePose(f));
@@ -1707,7 +1707,7 @@ function drawFighter(f) {
   if (f.meter >= 100) { ctx.strokeStyle = META[f.type].color; ctx.globalAlpha = .5 + Math.sin(state.time * 5) * .15; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 66, 13, 0, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; }
   ctx.translate(f.x, GROUND - f.y); ctx.scale(flipping ? (f.flipDirection || f.facing) : f.type === 'demon' && demonSprite(f).lookAway ? -f.facing : f.facing, 1);
   if (flipping) ctx.translate(0, -108);
-  if (f.state === 'ko') { if (f.type !== 'guccimane' && f.type !== 'diddy' && f.type !== 'damedash' && f.type !== 'miketyson' && f.type !== 'justginger' && f.type !== 'joosie' && f.type !== 'queenbee' && !NEON_FIGHTERS[f.type] && !ASCENSION_FIGHTERS[f.type] && !GAUNTLET_FIGHTERS[f.type] && !RUSH_FIGHTERS[f.type] && !EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); ctx.globalAlpha = .8; }
+  if (f.state === 'ko') { if (f.type !== 'nickiminaj' && f.type !== 'guccimane' && f.type !== 'diddy' && f.type !== 'damedash' && f.type !== 'miketyson' && f.type !== 'justginger' && f.type !== 'joosie' && f.type !== 'queenbee' && !NEON_FIGHTERS[f.type] && !ASCENSION_FIGHTERS[f.type] && !GAUNTLET_FIGHTERS[f.type] && !RUSH_FIGHTERS[f.type] && !EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); if(f.type!=='nickiminaj')ctx.globalAlpha = .8; }
   if (f.state === 'hurt' && f.stateTime < .08) ctx.filter = 'brightness(1.8)';
   const vocalImpact = state.game.effects.find(e => e.kind === 'vocalExplosion' && e.defender === f.id && !e.blocked && e.age < .22);
   if (vocalImpact) ctx.filter = 'brightness(3) saturate(.4)';

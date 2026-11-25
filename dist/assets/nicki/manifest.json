@@ -104,5 +104,55 @@
     }
   ],
   "notes": "Prototype key poses; confirm scale, hitboxes, timing and integration in game. Mirror fighter or helpers as needed. Special uses six independently positioned doll sprites, not a baked opponent.",
-  "special_preview": "Six helper sprites animate toward a target marker from separate screen positions; implement hit events in engine."
+  "special_preview": "Six helper sprites animate toward a target marker from separate screen positions; implement hit events in engine.",
+  "motion_atlas": {
+    "file": "motion-v1.svg",
+    "frame_size": [
+      512,
+      512
+    ],
+    "columns": 5,
+    "rows": 5,
+    "first_index": 30,
+    "animations": {
+      "hurt": [
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "block": [
+        35,
+        36,
+        37,
+        38
+      ],
+      "jump": [
+        39,
+        40,
+        41,
+        42
+      ],
+      "fall": [
+        43,
+        44,
+        45
+      ],
+      "land": [
+        46,
+        47,
+        48,
+        49
+      ],
+      "ko": [
+        50,
+        51,
+        52,
+        53,
+        54
+      ]
+    },
+    "method": "Derived from original full-body artwork; dedicated precomputed pose frames."
+  }
 }

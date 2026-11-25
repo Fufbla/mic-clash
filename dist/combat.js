@@ -1,4 +1,4 @@
-import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js?v=barbie-motion-2';
+import {NICKI,createNicki,updateNicki,endNicki} from './nicki-minaj.js?v=nicki-motion-1';
 import {GUCCI,createGucci,updateGucci,endGucci} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,createOil,createOilBarrage,updateDiddy,endOilBarrage} from './diddy.js?v=2';
 import {DAME,DEBT,createDebt,createAchoo,updateDame,endAchoo} from './dame-dash.js';
@@ -513,6 +513,7 @@ export class CombatGame {
     if(f.type==='justginger') f.gingerLandRemaining=Math.max(0,(f.gingerLandRemaining||0)-dt);
     if(f.type==='joosie') f.joosieLandRemaining=Math.max(0,(f.joosieLandRemaining||0)-dt);
     if(f.type==='breezy') f.breezyLandRemaining=Math.max(0,(f.breezyLandRemaining||0)-dt);
+    if(f.type==='nickiminaj') f.nickiLandRemaining=Math.max(0,(f.nickiLandRemaining||0)-dt);
     if (f.flipRemaining > 0) {
       f.flipRemaining = Math.max(0, f.flipRemaining - dt);
       f.flipProgress = clamp(1 - f.flipRemaining / f.flipDuration, 0, 1);
@@ -599,6 +600,7 @@ export class CombatGame {
         if(f.type==='justginger') f.gingerLandRemaining=.13;
         if(f.type==='joosie') f.joosieLandRemaining=.13;
         if(f.type==='breezy') f.breezyLandRemaining=.13;
+        if(f.type==='nickiminaj') f.nickiLandRemaining=.22;
         this.events.push({ type: 'land', fighter: f.id, x: f.x, y: 0 });
         if (this.canAct(f)) this.setState(f, 'idle');
       }
