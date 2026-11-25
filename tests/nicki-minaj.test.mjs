@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {CombatGame,FIGHTERS} from '../dist/combat.js';
-import {NICKI,DOLL_LANES,nickiPose,dollAction} from '../dist/nicki-minaj.js';
+import {NICKI,DOLL_LANES,nickiPose,dollAction,nickiSlapIndex} from '../dist/nicki-minaj.js';
 test('Nicki roster, 30 fighter frames and six dolls',()=>{
  assert.ok(FIGHTERS.includes('nickiminaj'));assert.equal(DOLL_LANES.length,6);
  const atlas=JSON.parse(readFileSync(new URL('../dist/assets/atlas.json',import.meta.url)));
@@ -39,3 +39,5 @@ test('Barbie squad staggered passes, multiple poses, no crowding',()=>{
  }
  assert.ok(DOLL_LANES.at(-1).contact+.32<NICKI.duration);
 });
+
+test('Nicki purse slap uses stance and one corrected strike instead of pointing or duplicate attack frames',()=>{assert.deepEqual([0,.15,.24,.4,.55,.69,.7,.99].map(nickiSlapIndex),[15,15,17,17,17,17,19,19]);assert.equal(nickiPose({state:'punch',attackProgress:.5}).index,17);});

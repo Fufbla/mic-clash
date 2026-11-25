@@ -7,7 +7,7 @@ export const DOLL_LANES=Object.freeze(Array.from({length:6},(_,i)=>{
 export function nickiPose(f){
  const t=f.stateTime||0,p=f.attackProgress||0; let index=0;
  if(f.state==='special') index=26+Math.min(3,Math.floor(t/.15));
- else if(f.state==='punch') index=15+Math.min(4,Math.floor(p*5));
+ else if(f.state==='punch') index=nickiSlapIndex(p);
  else if(f.state==='kick') index=20+Math.min(5,Math.floor(p*6));
  else if(f.state==='block') index=16;
  else if(!f.grounded||['jump','fall'].includes(f.state))index=21;
@@ -59,3 +59,7 @@ export function drawNicki(ctx,s,g,ground,draw){
   if(impact>.1){ctx.save();ctx.globalAlpha=impact*.65;ctx.strokeStyle='#ff7cce';ctx.lineWidth=3;ctx.beginPath();ctx.arc(b.x,ground-(b.y||0)-100,14+15*(1-impact),0,Math.PI*2);ctx.stroke();ctx.restore();}
  });
 }
+
+// Use the original purse-carrying stance for windup/recovery, and the corrected
+// full-body strike artwork for contact. Never overlay a second striking arm.
+export function nickiSlapIndex(p){return p<.24?15:p<.70?17:19;}

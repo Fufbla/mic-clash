@@ -1,4 +1,4 @@
-import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=barbie-motion-2';
+import {NICKI,nickiPose,drawNicki} from './nicki-minaj.js?v=nicki-purse-slap-1';
 import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
 import {DAME,DEBT,damePose,drawDame} from './dame-dash.js';
@@ -1611,6 +1611,33 @@ function drawPrideBelt(s) {
   ctx.restore();
 }
 
+// Nicki's original strike frame has two arms, but the handbag is painted onto
+// the trailing hand. Extract the handbag only, erase its old position, and move
+// it with the leading hand. Every cached result is one full-body sprite.
+const purseStrikeCache=new WeakMap();
+const purseContour=[[143,306],[151,303],[155,307],[151,312],[156,317],[166,320],[176,319],[180,313],[181,304],[187,304],[190,311],[193,325],[197,332],[193,348],[187,361],[177,370],[119,347],[116,339],[132,310]];
+function pursePath(g){g.beginPath();for(let i=0;i<purseContour.length;i++){const [x,y]=purseContour[i];if(i===0)g.moveTo(x,y);else g.lineTo(x,y);}g.closePath();}
+function nickiPurseStrike(sprite,progress){
+ if(sprite.w!==512||sprite.h!==512)return sprite;
+ let bank=purseStrikeCache.get(sprite.image);
+ if(!bank){bank=new Map();purseStrikeCache.set(sprite.image,bank);}
+ const phase=Math.max(0,Math.min(4,Math.floor((progress-.24)/.46*5)));
+ if(bank.has(phase))return bank.get(phase);
+ const bag=document.createElement('canvas');bag.width=512;bag.height=512;
+ const bg=bag.getContext('2d');pursePath(bg);bg.clip();bg.drawImage(sprite.image,0,0);
+ const body=document.createElement('canvas');body.width=512;body.height=512;
+ const g=body.getContext('2d');g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';
+ g.drawImage(sprite.image,0,0);
+ // Remove the old handbag (including its handle), without duplicating a hand.
+ g.save();g.globalCompositeOperation='destination-out';pursePath(g);g.fill();g.restore();
+ // The handle follows the existing extended hand; only the purse swings.
+ g.save();g.translate(367,207);g.rotate([-.48,-.82,-1.05,-.80,-.44][phase]);g.translate(-169,-311);
+ g.drawImage(bag,0,0);g.restore();
+ // Keep the fingers in front of the handle, so the purse looks held rather than floating.
+ g.save();g.beginPath();g.moveTo(349,211);g.lineTo(355,196);g.lineTo(365,184);g.lineTo(380,188);g.lineTo(387,203);g.lineTo(378,220);g.lineTo(361,227);g.closePath();g.clip();g.drawImage(sprite.image,0,0);g.restore();
+ const item={...sprite,image:body};bank.set(phase,item);return item;
+}
+
 function drawFighter(f) {
   if(f.type==='boat' && state.game.specials.some(s=>s.kind===BOAT.kind&&s.owner===f.id&&s.visible))return;
   // The captured fighter is drawn once, held at the actual mouth, below.
@@ -1668,7 +1695,9 @@ function drawFighter(f) {
       : age < windup + interval * (count - 1) ? 2 + Math.floor((age - windup) / (interval / 2)) % 4
       : age < windup + interval * count ? 6 : 7;
   }
-  const s = frame(key, index), base = frame(key, 0); if (!s || !base) return;
+  const originalSprite = frame(key, index), base = frame(key, 0); if (!originalSprite || !base) return;
+  const s = f.type==='nickiminaj' && f.state==='punch' && index===17
+    ? nickiPurseStrike(originalSprite, f.attackProgress) : originalSprite;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
   const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'nickiminaj' || f.type === 'guccimane' || f.type === 'diddy' || f.type === 'damedash' || f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
@@ -1703,7 +1732,7 @@ function drawFighter(f) {
   if(f.type==='joosie'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   if(f.type==='breezy'){ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';}
   ctx.drawImage(s.image, -s.anchorX * scale, -s.anchorY * scale, s.w * scale, s.h * scale);
-  if (['nickiminaj', 'guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
+  if (['guccimane', 'treeyawl', 'getit', 'dr-no-bunnies', 'smackprince', 'mooja', 'ocrrrrr', 'sassyt', 'czr'].includes(f.type) && f.state === 'punch' && f.attackProgress > .24 && f.attackProgress < .68) {
     ctx.save(); ctx.strokeStyle = '#ffe1ed'; ctx.lineWidth = 3; ctx.globalAlpha = .55;
     ctx.beginPath(); ctx.moveTo(32, -148); ctx.quadraticCurveTo(135, -157, 128, -95); ctx.stroke(); ctx.restore();
   }
