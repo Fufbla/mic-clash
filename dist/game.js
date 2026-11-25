@@ -9,7 +9,7 @@ import {BREEZY,breezyPose,drawBreezySpecial} from './breezy.js';
 import {QUEENBEE,queenbeePose,drawBeeSpecial} from './queenbee.js';
 import {SNOW,snowPose,drawSnowSpecial,drawBlizzard} from './yung-snow.js?v=snow-recovery-20261124';
 import {BOAT,boatPose,drawBoatSpecial} from './boat.js';
-import {TRINI,triniPose,drawTriniSpecial,drawTriniWhip} from './trini-gold.js?v=uppercut-1';
+import {TRINI,triniPose,drawTriniSpecial,drawTriniWhip} from './trini-gold.js';
 import {TREE,treePose,drawTreeSpecial} from './tree-a-yawl.js';
 import {SABER,saberPose,drawSaberSlash} from './ooou-saber.js';
 import { FUED, fuedPose, drawFuedBoard } from './fued-fam.js?v=snow-20261124';
@@ -30,8 +30,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=uppercut-1';
-import { uppercutPose } from './uppercut.js?v=1';
+import { CombatGame } from './combat.js?v=nicki-redrawn-2';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -1706,8 +1705,7 @@ function drawFighter(f) {
   if (f.type === 'demon') ({ key, index } = demonSprite(f));
   if (f.type === 'cranes') ({ key, index } = cranesSprite(f));
   if (f.type === 'mooja') ({ key, index } = moojaSprite(f));
-  if(f.state==='uppercut') ({key,index}=uppercutPose(f));
-  const flipIndex = f.state==='uppercut' ? -1 : flipFrameIndex(f);
+  const flipIndex = flipFrameIndex(f);
   const flipping = flipIndex >= 0;
   if (flipping) { key = FLIP_ASSETS[f.type]; index = flipIndex; }
   if (f.type === 'snitchy' && f.state === 'special') {
@@ -1726,7 +1724,7 @@ function drawFighter(f) {
       : age < windup + interval * count ? 6 : 7;
   }
   const originalSprite = frame(key, index), base = frame(key, 0); if (!originalSprite || !base) return;
-  const s = f.type==='nickiminaj' && (f.state==='punch'||f.state==='uppercut') && index===17
+  const s = f.type==='nickiminaj' && f.state==='punch' && index===17
     ? nickiPurseStrike(originalSprite, f.attackProgress) : originalSprite;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
