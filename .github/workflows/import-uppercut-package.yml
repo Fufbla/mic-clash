@@ -1,0 +1,45 @@
+name: Validate and import completed uppercut package
+on:
+  push:
+    branches: [uppercut-package-import]
+    paths: [celebrity-gauntlet-uppercuts-deploy.zip]
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify and extract exact package
+        run: |
+          echo '218a27f1978cea7a4809db9c82e2bcb79fe0c5c9ac8a53782532961024f57939  celebrity-gauntlet-uppercuts-deploy.zip' | sha256sum -c -
+          cp celebrity-gauntlet-uppercuts-deploy.zip "$RUNNER_TEMP/uppercuts.zip"
+          git checkout -b uppercut-package-validated 4fd2b0d108714c19a2f6ee47e1ffbdab809741b4
+          python - <<'PY'
+          from zipfile import ZipFile
+          from pathlib import PurePosixPath
+          import json
+          with ZipFile(__import__('os').environ['RUNNER_TEMP']+'/uppercuts.zip') as z:
+              assert z.testzip() is None
+              for name in z.namelist():
+                  p=PurePosixPath(name)
+                  assert not p.is_absolute() and '..' not in p.parts
+                  assert name.startswith('dist/') or name.startswith('tests/') or name=='UPPERCUTS.md'
+              atlas=json.loads(z.read('dist/assets/uppercuts/atlas.json'))
+              assert len(atlas)==49 and sum(len(x['frames']) for x in atlas.values())==294
+              z.extractall('.')
+          PY
+      - name: Run game tests
+        run: npm test
+      - name: Commit validated game files to isolated branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist tests/uppercuts.test.mjs UPPERCUTS.md
+          git commit -m 'Import exact 49-fighter personalized uppercut package'
+          git push origin HEAD:uppercut-package-validated
