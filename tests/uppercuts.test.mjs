@@ -1,0 +1,22 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {CombatGame,FIGHTERS} from '../dist/combat.js';
+import {UPPERCUT,uppercutPose} from '../dist/uppercuts.js';
+import {makeSnapshot,applySnapshot} from '../dist/online.js';
+const fresh=(type='owl')=>new CombatGame(type,'coupe',{localMultiplayer:true});
+const tick=(g,t,a={},b={})=>{for(let i=0;i<Math.ceil(t*120);i++)g.update(1/120,a,b);};
+const tap=(g,kind,p=0)=>{const a={[kind+'Pressed']:true};g.update(1/120,p?{}:a,p?a:{});g.update(1/120,{},{});};
+const attacks=(g,p='p1')=>g.events.filter(e=>e.type==='attack'&&e.fighter===p).map(e=>e.kind);
+for(const type of FIGHTERS)test(type+': kick kick punch triggers personalized uppercut',()=>{
+ const g=fresh(type);tap(g,'kick');tap(g,'kick');tap(g,'punch');tick(g,2.8);
+ assert.deepEqual(attacks(g),['kick','kick','uppercut']);assert.equal(g.fighters[0].state,'idle');assert.equal(g.fighters[0].attackQueue.length,0);
+});
+test('punch punch kick does not trigger uppercut',()=>{const g=fresh();tap(g,'punch');tap(g,'punch');tap(g,'kick');tick(g,2);assert.deepEqual(attacks(g),['punch','punch','kick']);});
+test('held kick does not count as two taps',()=>{const g=fresh();tick(g,2,{kickPressed:true});g.update(1/120);tap(g,'punch');tick(g,1);assert.ok(attacks(g).filter(x=>x==='kick').length>1);assert.ok(!attacks(g).includes('uppercut'));});
+test('timeout, jump and special cancel combo',()=>{for(const cancel of ['timeout','jump','special']){const g=fresh(),f=g.fighters[0];tap(g,'kick');tick(g,.6);tap(g,'kick');tick(g,.6);if(cancel==='timeout')tick(g,.9);if(cancel==='jump'){g.jump(f);tick(g,.8);}if(cancel==='special'){f.meter=100;g.useSpecial(f);tick(g,4);}tap(g,'punch');tick(g,1);assert.ok(!attacks(g).includes('uppercut'),cancel);}});
+test('incoming hit clears buffered attacks',()=>{const g=fresh();tap(g,'kick');tap(g,'kick');tap(g,'punch');g.hit(g.fighters[1],g.fighters[0],10,'punch',100,.25,g.fighters[1].x);tick(g,2);assert.deepEqual(attacks(g),['kick']);});
+test('uppercut hits once, awards meter once and launches; guard prevents launch',()=>{for(const blocked of [false,true]){const g=fresh(),[a,b]=g.fighters;tap(g,'kick');tick(g,.6);tap(g,'kick');tick(g,.6);b.x=a.x+100;b.facing=-1;if(blocked){b.state='block';b.actionRemaining=2;}const hp=b.hp,meter=a.meter;tap(g,'punch');tick(g,.4);assert.equal(b.hp,hp-(blocked?2:UPPERCUT.damage));assert.equal(a.meter,meter+(blocked?0:UPPERCUT.meter));assert.equal(b.y>0,!blocked);tick(g,1);assert.equal(g.events.filter(e=>e.type==='hit'&&e.kind==='uppercut').length,1);}});
+test('player two combo serializes independently',()=>{const g=fresh(),guest=fresh();tap(g,'kick',1);tap(g,'kick',1);tap(g,'punch',1);while(g.fighters[1].state!=='uppercut'&&g.elapsed<3)g.update(1/120);assert.equal(g.fighters[0].comboStep,0);assert.equal(applySnapshot(guest,makeSnapshot(g),FIGHTERS),true);assert.deepEqual(uppercutPose(guest.fighters[1]),uppercutPose(g.fighters[1]));});
+test('uppercut avoids projectile punch side effects',()=>{for(const type of ['diddy','miketyson']){const g=fresh(type);tap(g,'kick');tap(g,'kick');tap(g,'punch');tick(g,2);assert.equal(g.specials.length,0);}});
+test('all 49 fighters have six distinct uppercut frames',()=>{const atlas=JSON.parse(readFileSync(new URL('../dist/assets/uppercuts/atlas.json',import.meta.url)));assert.equal(Object.keys(atlas).length,FIGHTERS.length);for(const id of FIGHTERS){const e=atlas[id+'Uppercut'];assert.equal(e.frames.length,6);assert.equal(e.sourceFighter,id);assert.deepEqual(e.sequence,['kick','kick','punch']);const data=readFileSync(new URL('../dist/'+e.src,import.meta.url));assert.equal(data.toString('ascii',8,12),'WEBP');}});

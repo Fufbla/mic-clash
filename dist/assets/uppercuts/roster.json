@@ -1,0 +1,247 @@
+[
+  {
+    "id": "owl",
+    "name": "Drake",
+    "library_file_id": "libfile_7886045a925c8191984c7ff5d7ac8659"
+  },
+  {
+    "id": "coupe",
+    "name": "J. Cole",
+    "library_file_id": "libfile_7ac0c33cfc6c81919332943b3061ff55"
+  },
+  {
+    "id": "karate",
+    "name": "Kendrick Lamar",
+    "library_file_id": "libfile_ed7163486a208191a1c82039869add67"
+  },
+  {
+    "id": "snitchy",
+    "name": "6ix9ine",
+    "library_file_id": "libfile_67ccf3d9b6388191a9079f97b1d7903b"
+  },
+  {
+    "id": "getit",
+    "name": "Sexyyy Red",
+    "library_file_id": "libfile_748d98e1944c81918ece39a020343525"
+  },
+  {
+    "id": "loudbull",
+    "name": "Meek Mill",
+    "library_file_id": "libfile_21516fa98f9c819191c82e8653a9644c"
+  },
+  {
+    "id": "fatboi",
+    "name": "Rick Ross",
+    "library_file_id": "libfile_2d205c0d05508191b0c4f19026061ded"
+  },
+  {
+    "id": "icespice",
+    "name": "Ice Spice",
+    "library_file_id": "libfile_30d2d909dbb88191a2b1ed1f4ca89286"
+  },
+  {
+    "id": "hehaw",
+    "name": "Megan Thee Stallion",
+    "library_file_id": "libfile_bf46675e55d4819198e655a8ef80d93c"
+  },
+  {
+    "id": "dr-no-bunnies",
+    "name": "Dr. Umar Johnson",
+    "library_file_id": "libfile_4dcc3b8e712c81918587d8eb3acca34b"
+  },
+  {
+    "id": "cantrap",
+    "name": "Nick Cannon",
+    "library_file_id": "libfile_012f747833748191a0e33e959032e020"
+  },
+  {
+    "id": "smackprince",
+    "name": "Will Smith",
+    "library_file_id": "libfile_48d564d0f3688191ad8227f235f00792"
+  },
+  {
+    "id": "babybigfists",
+    "name": "DaBaby",
+    "library_file_id": "libfile_b87439e31ccc819189507bd60ca6cb03"
+  },
+  {
+    "id": "mooja",
+    "name": "Doja Cat",
+    "library_file_id": "libfile_cb1aa95895808191bf9bfd28612df04f"
+  },
+  {
+    "id": "cranes",
+    "name": "Solange",
+    "library_file_id": "libfile_5f8e0211d9648191897da0c8e7ef2f0b"
+  },
+  {
+    "id": "demon",
+    "name": "Lil Durk",
+    "library_file_id": "libfile_8a40937e20208191b8bb967bf1b431d2"
+  },
+  {
+    "id": "ocrrrrr",
+    "name": "Cardi B",
+    "library_file_id": "libfile_78b346d548e48191b233179b3a2240c0"
+  },
+  {
+    "id": "president",
+    "name": "Obama",
+    "library_file_id": "libfile_4fe63d0f42f0819185192307a47839c5"
+  },
+  {
+    "id": "owhinny",
+    "name": "Oprah",
+    "library_file_id": "libfile_051006f3aff481918a83cc4571298e60"
+  },
+  {
+    "id": "roboking",
+    "name": "Elon Musk",
+    "library_file_id": "libfile_666d40af76c8819187f12519a06190c4"
+  },
+  {
+    "id": "quickfast",
+    "name": "iShowSpeed",
+    "library_file_id": "libfile_f91d925d44108191ac4e99c484f2e3e5"
+  },
+  {
+    "id": "sassyt",
+    "name": "Young Thug",
+    "library_file_id": "libfile_acfb6d918bec81918bcea617dca29c51"
+  },
+  {
+    "id": "jminors",
+    "name": "Jonathan Majors",
+    "library_file_id": "libfile_4e39f1fd860881918951e1b92e16f41a"
+  },
+  {
+    "id": "bigmumble",
+    "name": "Shaq",
+    "library_file_id": "libfile_8d9cf4523b548191825b8f92224f55b3"
+  },
+  {
+    "id": "djbeigey",
+    "name": "Dj Envy",
+    "library_file_id": "libfile_1f10449a28b4819194a554701044d950"
+  },
+  {
+    "id": "nobuttons",
+    "name": "Joe Budden",
+    "library_file_id": "libfile_50a94e0772b48191a2aa27a1931936eb"
+  },
+  {
+    "id": "eynakeast",
+    "name": "Ye",
+    "library_file_id": "libfile_393baddc3e3081918f069aadb7216244"
+  },
+  {
+    "id": "goat",
+    "name": "Jay-Z",
+    "library_file_id": "libfile_3ba498bb930c81919f3b0a9bbec0cffe"
+  },
+  {
+    "id": "taytay",
+    "name": "Taylor Swift",
+    "library_file_id": "libfile_1d4b32eea8b08191a403c169f9613312"
+  },
+  {
+    "id": "czr",
+    "name": "SZA",
+    "library_file_id": "libfile_cd0b68c437ac8191bc6da854850a345f"
+  },
+  {
+    "id": "shannondull",
+    "name": "Shannon Sharp",
+    "library_file_id": "libfile_046ac263ad4481918c0558d35ddb455a"
+  },
+  {
+    "id": "smokelord",
+    "name": "Wiz Khalifa",
+    "library_file_id": "libfile_886a8cad9b3881918fd0d37c02497820"
+  },
+  {
+    "id": "redrolls",
+    "name": "The Game",
+    "library_file_id": "libfile_aa699767a2488191890f2d0063464046"
+  },
+  {
+    "id": "charles",
+    "name": "Charleston White",
+    "library_file_id": "libfile_9043a3729cd081918e7ec6d633c1ef44"
+  },
+  {
+    "id": "fuedfam",
+    "name": "Steve Harvey",
+    "library_file_id": "libfile_6a3160a6a0f881918581c9be05e15b04"
+  },
+  {
+    "id": "ooousaber",
+    "name": "Young M.A.",
+    "library_file_id": "libfile_7f4fd057c2388191b5dc2e23a70438e9"
+  },
+  {
+    "id": "treeyawl",
+    "name": "Birdman",
+    "library_file_id": "libfile_1c405a89216c8191accf9f2db31b3073"
+  },
+  {
+    "id": "trinigold",
+    "name": "Trinidad James",
+    "library_file_id": "libfile_65862757fcc08191ac881b4f933d16ab"
+  },
+  {
+    "id": "boat",
+    "name": "Lil Yachty",
+    "library_file_id": "libfile_c5ced092da3c8191957e81e7b423bdeb"
+  },
+  {
+    "id": "yungsnow",
+    "name": "Young Jeezy",
+    "library_file_id": "libfile_8151a24891a481919e54ffd343805d19"
+  },
+  {
+    "id": "queenbee",
+    "name": "Beyoncé",
+    "library_file_id": "libfile_f81cd6f1ef4481918d7817050f4b13b1"
+  },
+  {
+    "id": "breezy",
+    "name": "Chris Brown",
+    "library_file_id": "libfile_689fbd5f73048191a5e5cf6f3b2f879d"
+  },
+  {
+    "id": "joosie",
+    "name": "Jussie Smollet",
+    "library_file_id": "libfile_012ed9cc3f288191aafe5e3cb4f9966b"
+  },
+  {
+    "id": "justginger",
+    "name": "Rory",
+    "library_file_id": "libfile_1d7c04eeea608191803378d9d0f90016"
+  },
+  {
+    "id": "miketyson",
+    "name": "Mike Tyson",
+    "library_file_id": "libfile_0985d2e7e8748191bf3d5e59c71c2227"
+  },
+  {
+    "id": "damedash",
+    "name": "Dame Dash",
+    "library_file_id": "libfile_4462d46f0c50819181a28bce2722d8dd"
+  },
+  {
+    "id": "diddy",
+    "name": "Diddy",
+    "library_file_id": "libfile_3c10ffa1c118819193064fc79f737f57"
+  },
+  {
+    "id": "guccimane",
+    "name": "Gucci Mane",
+    "library_file_id": "libfile_6ad9d1fd04c08191850379a6b6551152"
+  },
+  {
+    "id": "nickiminaj",
+    "name": "Nicki Minaj",
+    "library_file_id": "libfile_db932126b60c819197d23df4f1e90d6c"
+  }
+]

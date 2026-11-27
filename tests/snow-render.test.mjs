@@ -13,7 +13,7 @@ for(const mode of ['solo','online'])for(const [width,height] of [[780,1688],[168
  const sandbox={state,ctx,canvas:{width,height,dataset:{}},window:{devicePixelRatio:2},Math,SNOW,WORLD_W:1280,WORLD_H:720,GROUND:400,
  drawBlizzard(c,s,w,h){const ratio=mode==='online'?1.5:2;assert.deepEqual(transform,[ratio,0,0,ratio,0,0]);assert.equal(w,width/ratio);assert.equal(h,height/ratio);drawBlizzard(c,s,w,h);blizzards++;},
  $:()=>({style:{}})};
- for(const k of ['BOAT','TRINI','TREE','CHARLES','SABER'])sandbox[k]={kind:k};
+ for(const k of ['NICKI','BOAT','TRINI','TREE','CHARLES','SABER'])sandbox[k]={kind:k};
  for(const k of ['NEON_KINDS','EXECUTIVE_KINDS'])sandbox[k]=[];
  for(const k of ['executiveRenderer','rushRenderer','gauntletRenderer','neonRenderer','ascensionRenderer'])sandbox[k]={behind(){},warning(){},security(){}};
  for(const k of ['resize','drawStage','drawFighter','drawSpecial','drawEffects','drawFighterSpeech'])sandbox[k]=()=>{};

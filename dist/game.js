@@ -1,3 +1,4 @@
+import {uppercutPose} from './uppercuts.js';
 import {NICKI,nickiPose,nickiDefeatPose,drawNicki,nickiSpeech} from './nicki-minaj.js?v=nicki-barbz-1';
 import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-squad-ground.js?v=1';
 import {DIDDY,OIL,diddyPose,drawDiddy,loadDiddyAssets} from './diddy.js?v=2';
@@ -30,7 +31,7 @@ import { DEMON_CREW, demonPose } from './demon.js';
 import { ELEVATOR_DROP, cranesPose } from './cranes.js';
 import { COW_MODE, moojaPose } from './mooja.js';
 import { GIANT_FISTS, babyBigFistsPose, babyBigFistsSpeech } from './baby-big-fists.js';
-import { CombatGame } from './combat.js?v=nicki-redrawn-2';
+import { CombatGame } from './combat.js?v=kkp-uppercuts-20261127';
 import { smackPrincePose, SMACK_UPGRADE } from './smack-prince.js';
 import { cantRapPose, cantRapSpeech } from './cant-rap.js';
 
@@ -572,6 +573,9 @@ async function loadAssets() {
   const response = await fetch(new URL('./assets/atlas.json?v=nicki-redrawn-2', import.meta.url));
   if (!response.ok) throw new Error('The sprite map could not be loaded.');
   const atlas = await response.json();
+  const uppercuts = await fetch(new URL('./assets/uppercuts/atlas.json', import.meta.url));
+  if (!uppercuts.ok) throw new Error('Uppercut sprites could not be loaded.');
+  Object.assign(atlas, await uppercuts.json());
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
     const img = new Image(); img.decoding = 'async';
     await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; img.src = new URL(entry.src, import.meta.url).href; });
@@ -1203,7 +1207,7 @@ function updateHUD() {
   const explosion = state.game.effects.find(e => e.kind === 'vocalExplosion');
   canvas.dataset.vocalExplosion = explosion ? String(Math.min(7, Math.floor(explosion.age / explosion.duration * 8))) : 'none';
   canvas.dataset.playerAttackStyle = p1.attack?.style || p1.attack?.kind || 'none';
-  const customPose = p1.type === 'nickiminaj' ? nickiPose(p1) : p1.type === 'guccimane' ? gucciPose(p1) : p1.type === 'diddy' ? diddyPose(p1) : p1.type === 'damedash' ? damePose(p1) : p1.type === 'miketyson' ? tysonPose(p1) : p1.type === 'justginger' ? gingerSprite(p1) : p1.type === 'joosie' ? joosieSprite(p1) : p1.type === 'breezy' ? breezySprite(p1) : p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null;
+  const customPose = uppercutPose(p1) || (p1.type === 'nickiminaj' ? nickiPose(p1) : p1.type === 'guccimane' ? gucciPose(p1) : p1.type === 'diddy' ? diddyPose(p1) : p1.type === 'damedash' ? damePose(p1) : p1.type === 'miketyson' ? tysonPose(p1) : p1.type === 'justginger' ? gingerSprite(p1) : p1.type === 'joosie' ? joosieSprite(p1) : p1.type === 'breezy' ? breezySprite(p1) : p1.type === 'queenbee' ? beeSprite(p1) : p1.type === 'yungsnow' ? snowSprite(p1) : p1.type === 'boat' ? boatSprite(p1) : p1.type === 'trinigold' ? triniSprite(p1) : p1.type === 'treeyawl' ? treeSprite(p1) : p1.type === 'ooousaber' ? saberSprite(p1) : p1.type === 'fuedfam' ? fuedSprite(p1) : p1.type === 'charles' ? charlesSprite(p1) : NEON_FIGHTERS[p1.type] ? neonSprite(p1) : ASCENSION_FIGHTERS[p1.type] ? ascensionSprite(p1) : GAUNTLET_FIGHTERS[p1.type] ? gauntletSprite(p1) : RUSH_FIGHTERS[p1.type] ? rushSprite(p1) : EXECUTIVE_FIGHTERS[p1.type] ? executiveSprite(p1) : p1.type === 'ocrrrrr' ? ocrrrrrSprite(p1) : p1.type === 'demon' ? demonSprite(p1) : p1.type === 'cranes' ? cranesSprite(p1) : p1.type === 'mooja' ? moojaSprite(p1) : p1.type === 'babybigfists' ? bigFistsSprite(p1) : p1.type === 'smackprince' ? princeSprite(p1) : p1.type === 'dr-no-bunnies' ? noBunniesSprite(p1) : p1.type === 'getit' ? getItSprite(p1) : p1.type === 'loudbull' ? loudBullSprite(p1) : p1.type === 'fatboi' ? fatBoiSprite(p1) : p1.type === 'icespice' ? iceSpiceSprite(p1) : p1.type === 'hehaw' ? hehawSprite(p1) : p1.type === 'cantrap' ? cantRapSprite(p1) : null);
   canvas.dataset.playerSprite = customPose?.key || p1.type;
   canvas.dataset.playerSpriteFrame = customPose ? String(customPose.index) : String(poseIndex(p1));
 }
@@ -1723,12 +1727,14 @@ function drawFighter(f) {
       : age < windup + interval * (count - 1) ? 2 + Math.floor((age - windup) / (interval / 2)) % 4
       : age < windup + interval * count ? 6 : 7;
   }
+  const comboPose = uppercutPose(f);
+  if (comboPose) ({key,index} = comboPose);
   const originalSprite = frame(key, index), base = frame(key, 0); if (!originalSprite || !base) return;
   const s = f.type==='nickiminaj' && f.state==='punch' && index===17
     ? nickiPurseStrike(originalSprite, f.attackProgress) : originalSprite;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (f.type === 'nickiminaj' || f.type === 'guccimane' || f.type === 'diddy' || f.type === 'damedash' || f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (comboPose || f.type === 'nickiminaj' || f.type === 'guccimane' || f.type === 'diddy' || f.type === 'damedash' || f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
