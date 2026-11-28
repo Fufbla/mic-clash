@@ -1,3 +1,5 @@
+import {DefensePresentation} from './defense.js';
+const defensePresentation=new DefensePresentation();
 import {uppercutPose} from './uppercuts.js';
 import {NICKI,nickiPose,nickiDefeatPose,drawNicki,nickiSpeech} from './nicki-minaj.js?v=nicki-barbz-1';
 import {GUCCI,gucciPose,drawGucci,squadSprite,warmSquadSprites} from './gucci-squad-ground.js?v=1';
@@ -140,7 +142,7 @@ const ROSTER = Object.keys(META);
 const canvas = $('arena');
 const ctx = canvas.getContext('2d');
 const WORLD_W = 1280, WORLD_H = 720, GROUND = 548;
-const state = { phase: 'select', selected: 'owl', opponent: 'coupe', assets: null, game: null, countdown: 0, resultDelay: 0, last: 0, time: 0, shake: 0, flash: 0, particles: [], labels: [], audio: false, pausedFrom: 'playing', ready: false, toastTimer: 0, cameraX: 640, cameraWidth: 1280 };
+const state = { phase: 'select', selected: 'owl', opponent: 'coupe', assets: null, game: null, countdown: 0, resultDelay: 0, last: 0, time: 0, defenseTime: 0, shake: 0, flash: 0, particles: [], labels: [], audio: false, pausedFrom: 'playing', ready: false, toastTimer: 0, cameraX: 640, cameraWidth: 1280 };
 Object.assign(state, { mode: 'cpu', selectingPlayer: 0, playersReady: [false, false] });
 const controllers = new LocalControllers();
 const net = {status:'Create a room or enter a friend’s code.', localReady:false, remoteReady:false,
@@ -576,6 +578,9 @@ async function loadAssets() {
   const uppercuts = await fetch(new URL('./assets/uppercuts/atlas.json', import.meta.url));
   if (!uppercuts.ok) throw new Error('Uppercut sprites could not be loaded.');
   Object.assign(atlas, await uppercuts.json());
+  const defense=await fetch(new URL('./assets/defense/atlas.json',import.meta.url));
+  if(!defense.ok)throw new Error('Defense sprites could not be loaded.');
+  Object.assign(atlas,await defense.json());
   await Promise.all(Object.values(atlas).filter(v => v && v.src).map(async entry => {
     const img = new Image(); img.decoding = 'async';
     await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; img.src = new URL(entry.src, import.meta.url).href; });
@@ -1225,6 +1230,7 @@ function processEvents() {
   for (const event of events) {
     if (event.type === 'hit') {
       const target = state.game.fighters.find(f => f.id === event.defender);
+      if(event.blocked)defensePresentation.noteBlock(state.game,target,state.defenseTime);
       const x = Number.isFinite(event.x) ? event.x : target?.x ?? 640;
       const y = GROUND - (target?.y || 0) - 110;
       state.shake = Math.max(state.shake, event.blocked ? 2 : event.heavy ? 8 : 4);
@@ -1673,6 +1679,9 @@ function drawFighter(f) {
   if(f.type==='boat' && state.game.specials.some(s=>s.kind===BOAT.kind&&s.owner===f.id&&s.visible))return;
   // The captured fighter is drawn once, held at the actual mouth, below.
   if (f.inCar || f.grabbedBy) return;
+  const defense=defensePresentation.sample(f,state.game,state.defenseTime,state.assets);
+  // Finish drawn defeats after a frozen final snapshot, including timeout losers.
+  if(defense.defeated)f={...f,state:'ko',stateTime:Math.max(f.state==='ko'?f.stateTime:0,defense.age)};
   let key = f.type, index = poseIndex(f);
   const nickiDefeatAge=f.type==='nickiminaj'?nickiDefeatVisualAge(f,state.game,state.time):-1;
   if(f.type==='nickiminaj')({key,index}=nickiDefeatPose(f,state.game,nickiDefeatAge));
@@ -1729,20 +1738,21 @@ function drawFighter(f) {
   }
   const comboPose = uppercutPose(f);
   if (comboPose) ({key,index} = comboPose);
+  if(defense.pose)({key,index}=defense.pose);
   const originalSprite = frame(key, index), base = frame(key, 0); if (!originalSprite || !base) return;
   const s = f.type==='nickiminaj' && f.state==='punch' && index===17
     ? nickiPurseStrike(originalSprite, f.attackProgress) : originalSprite;
   // The flip frames share a body-center anchor and an upright reference height,
   // so compact tucks stay compact rather than being stretched to standing size.
-  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (comboPose || f.type === 'nickiminaj' || f.type === 'guccimane' || f.type === 'diddy' || f.type === 'damedash' || f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
+  const scale = 215 * (state.game.specials.find(s=>s.kind==='giantSmash'&&s.owner===f.id)?.scale||1) / (defense.pose || comboPose || f.type === 'nickiminaj' || f.type === 'guccimane' || f.type === 'diddy' || f.type === 'damedash' || f.type === 'miketyson' || f.type === 'justginger' || f.type === 'joosie' || f.type === 'breezy' || f.type === 'queenbee' || f.type === 'yungsnow' || f.type === 'boat' || f.type === 'trinigold' || f.type === 'treeyawl' || f.type === 'ooousaber' || f.type === 'fuedfam' || f.type === 'charles' || NEON_FIGHTERS[f.type] || ASCENSION_FIGHTERS[f.type] || GAUNTLET_FIGHTERS[f.type] || RUSH_FIGHTERS[f.type] || EXECUTIVE_FIGHTERS[f.type] || flipping || key === 'snitchyCall' || ['getit', 'loudbull', 'fatboi', 'icespice', 'hehaw', 'dr-no-bunnies', 'cantrap', 'smackprince', 'babybigfists', 'mooja', 'cranes', 'demon', 'ocrrrrr'].includes(f.type) ? state.assets[key].referenceHeight : base.h);
   ctx.save();
   const shadowScale = Math.max(.45, 1 - f.y / 450);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 61 * shadowScale, 10 * shadowScale, 0, 0, Math.PI * 2); ctx.fill();
   if (f.meter >= 100) { ctx.strokeStyle = META[f.type].color; ctx.globalAlpha = .5 + Math.sin(state.time * 5) * .15; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(f.x, GROUND + 4, 66, 13, 0, 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1; }
-  const visualY=nickiDefeatAge>=0&&state.game.over?f.y*Math.max(0,1-nickiDefeatAge/.28):f.y;
+  const visualY=defense.y;
   ctx.translate(f.x, GROUND - visualY); ctx.scale(flipping ? (f.flipDirection || f.facing) : f.type === 'demon' && demonSprite(f).lookAway ? -f.facing : f.facing, 1);
   if (flipping) ctx.translate(0, -108);
-  if (f.state === 'ko') { if (f.type !== 'nickiminaj' && f.type !== 'guccimane' && f.type !== 'diddy' && f.type !== 'damedash' && f.type !== 'miketyson' && f.type !== 'justginger' && f.type !== 'joosie' && f.type !== 'queenbee' && !NEON_FIGHTERS[f.type] && !ASCENSION_FIGHTERS[f.type] && !GAUNTLET_FIGHTERS[f.type] && !RUSH_FIGHTERS[f.type] && !EXECUTIVE_FIGHTERS[f.type]) ctx.rotate(-Math.min(1.15, f.stateTime * 1.5)); if(f.type!=='nickiminaj')ctx.globalAlpha = .8; }
+  // All defeat silhouettes are drawn poses. Never rotate the entire fighter.
   if (f.type!=='nickiminaj' && f.state === 'hurt' && f.stateTime < .08) ctx.filter = 'brightness(1.8)';
   const vocalImpact = state.game.effects.find(e => e.kind === 'vocalExplosion' && e.defender === f.id && !e.blocked && e.age < .22);
   if (vocalImpact) ctx.filter = 'brightness(3) saturate(.4)';
@@ -2392,6 +2402,7 @@ function loop(now) {
   // Keep the next frame queued even if a canvas draw fails on this frame.
   requestAnimationFrame(loop);
   const dt = Math.min(.16, (now - (state.last || now)) / 1000); state.last = now; state.time += dt;
+  if(state.phase!=='paused')state.defenseTime=(state.defenseTime||0)+dt;
   pollControllers(dt);
   if (state.mode === 'online') room.tick(now);
   if (state.toastTimer > 0) { state.toastTimer -= dt; if (state.toastTimer <= 0 && $('toast')) $('toast').hidden = true; }

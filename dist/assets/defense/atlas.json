@@ -1,0 +1,5890 @@
+{
+  "owlDefense": {
+    "src": "assets/defense/owl.webp",
+    "sourceFighter": "owl",
+    "referenceHeight": 357.09,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 85,
+          "y": 22,
+          "w": 213,
+          "h": 350
+        },
+        "sourceCrop": {
+          "left": 93,
+          "top": 10,
+          "width": 257,
+          "height": 419
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 77,
+          "y": 39,
+          "w": 230,
+          "h": 333
+        },
+        "sourceCrop": {
+          "left": 527,
+          "top": 30,
+          "width": 277,
+          "height": 399
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 74,
+          "y": 54,
+          "w": 236,
+          "h": 318
+        },
+        "sourceCrop": {
+          "left": 970,
+          "top": 48,
+          "width": 283,
+          "height": 381
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 82,
+          "y": 41,
+          "w": 221,
+          "h": 331
+        },
+        "sourceCrop": {
+          "left": 1418,
+          "top": 32,
+          "width": 267,
+          "height": 397
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 88,
+          "y": 37,
+          "w": 206,
+          "h": 336
+        },
+        "sourceCrop": {
+          "left": 88,
+          "top": 471,
+          "width": 250,
+          "height": 402
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 59,
+          "y": 95,
+          "w": 265,
+          "h": 277
+        },
+        "sourceCrop": {
+          "left": 496,
+          "top": 540,
+          "width": 319,
+          "height": 333
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 35,
+          "y": 164,
+          "w": 313,
+          "h": 209
+        },
+        "sourceCrop": {
+          "left": 890,
+          "top": 617,
+          "width": 374,
+          "height": 253
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 245,
+          "w": 362,
+          "h": 127
+        },
+        "sourceCrop": {
+          "left": 1331,
+          "top": 712,
+          "width": 431,
+          "height": 157
+        }
+      }
+    ]
+  },
+  "coupeDefense": {
+    "src": "assets/defense/coupe.webp",
+    "sourceFighter": "coupe",
+    "referenceHeight": 328.32,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 195,
+        "anchorY": 373,
+        "bounds": {
+          "x": 78,
+          "y": 51,
+          "w": 227,
+          "h": 322
+        },
+        "sourceCrop": {
+          "left": 61,
+          "top": 3,
+          "width": 307,
+          "height": 432
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 194,
+        "anchorY": 373,
+        "bounds": {
+          "x": 83,
+          "y": 50,
+          "w": 217,
+          "h": 323
+        },
+        "sourceCrop": {
+          "left": 514,
+          "top": 1,
+          "width": 294,
+          "height": 434
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 198,
+        "anchorY": 373,
+        "bounds": {
+          "x": 77,
+          "y": 65,
+          "w": 230,
+          "h": 308
+        },
+        "sourceCrop": {
+          "left": 943,
+          "top": 21,
+          "width": 311,
+          "height": 414
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 193,
+        "anchorY": 373,
+        "bounds": {
+          "x": 83,
+          "y": 50,
+          "w": 217,
+          "h": 323
+        },
+        "sourceCrop": {
+          "left": 1404,
+          "top": 1,
+          "width": 294,
+          "height": 434
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 87,
+          "y": 56,
+          "w": 209,
+          "h": 317
+        },
+        "sourceCrop": {
+          "left": 66,
+          "top": 452,
+          "width": 283,
+          "height": 425
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 68,
+          "y": 94,
+          "w": 247,
+          "h": 279
+        },
+        "sourceCrop": {
+          "left": 478,
+          "top": 500,
+          "width": 334,
+          "height": 376
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 40,
+          "y": 162,
+          "w": 304,
+          "h": 211
+        },
+        "sourceCrop": {
+          "left": 864,
+          "top": 586,
+          "width": 408,
+          "height": 286
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 10,
+          "y": 274,
+          "w": 363,
+          "h": 99
+        },
+        "sourceCrop": {
+          "left": 1287,
+          "top": 734,
+          "width": 485,
+          "height": 138
+        }
+      }
+    ]
+  },
+  "karateDefense": {
+    "src": "assets/defense/karate.webp",
+    "sourceFighter": "karate",
+    "referenceHeight": 352.82,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 65,
+          "y": 29,
+          "w": 252,
+          "h": 344
+        },
+        "sourceCrop": {
+          "left": 63,
+          "top": 13,
+          "width": 309,
+          "height": 418
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 64,
+          "y": 28,
+          "w": 255,
+          "h": 344
+        },
+        "sourceCrop": {
+          "left": 506,
+          "top": 13,
+          "width": 312,
+          "height": 418
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 65,
+          "y": 55,
+          "w": 254,
+          "h": 317
+        },
+        "sourceCrop": {
+          "left": 950,
+          "top": 45,
+          "width": 311,
+          "height": 386
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 63,
+          "y": 42,
+          "w": 257,
+          "h": 330
+        },
+        "sourceCrop": {
+          "left": 1396,
+          "top": 28,
+          "width": 314,
+          "height": 403
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 92,
+          "y": 31,
+          "w": 199,
+          "h": 341
+        },
+        "sourceCrop": {
+          "left": 62,
+          "top": 459,
+          "width": 244,
+          "height": 415
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 72,
+          "w": 218,
+          "h": 301
+        },
+        "sourceCrop": {
+          "left": 482,
+          "top": 508,
+          "width": 268,
+          "height": 366
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 35,
+          "y": 139,
+          "w": 312,
+          "h": 233
+        },
+        "sourceCrop": {
+          "left": 888,
+          "top": 585,
+          "width": 380,
+          "height": 286
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 12,
+          "y": 229,
+          "w": 361,
+          "h": 143
+        },
+        "sourceCrop": {
+          "left": 1320,
+          "top": 696,
+          "width": 439,
+          "height": 179
+        }
+      }
+    ]
+  },
+  "snitchyDefense": {
+    "src": "assets/defense/snitchy.webp",
+    "sourceFighter": "snitchy",
+    "referenceHeight": 331.08,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 186,
+        "anchorY": 373,
+        "bounds": {
+          "x": 84,
+          "y": 53,
+          "w": 214,
+          "h": 320
+        },
+        "sourceCrop": {
+          "left": 84,
+          "top": 17,
+          "width": 270,
+          "height": 401
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 186,
+        "anchorY": 373,
+        "bounds": {
+          "x": 85,
+          "y": 58,
+          "w": 213,
+          "h": 315
+        },
+        "sourceCrop": {
+          "left": 522,
+          "top": 22,
+          "width": 270,
+          "height": 396
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 373,
+        "bounds": {
+          "x": 63,
+          "y": 84,
+          "w": 258,
+          "h": 289
+        },
+        "sourceCrop": {
+          "left": 931,
+          "top": 55,
+          "width": 325,
+          "height": 363
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 373,
+        "bounds": {
+          "x": 84,
+          "y": 68,
+          "w": 215,
+          "h": 305
+        },
+        "sourceCrop": {
+          "left": 1404,
+          "top": 35,
+          "width": 272,
+          "height": 383
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 61,
+          "w": 219,
+          "h": 312
+        },
+        "sourceCrop": {
+          "left": 69,
+          "top": 474,
+          "width": 277,
+          "height": 392
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 63,
+          "y": 90,
+          "w": 257,
+          "h": 283
+        },
+        "sourceCrop": {
+          "left": 462,
+          "top": 508,
+          "width": 324,
+          "height": 357
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 27,
+          "y": 151,
+          "w": 330,
+          "h": 222
+        },
+        "sourceCrop": {
+          "left": 863,
+          "top": 582,
+          "width": 414,
+          "height": 281
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 10,
+          "y": 212,
+          "w": 363,
+          "h": 161
+        },
+        "sourceCrop": {
+          "left": 1300,
+          "top": 663,
+          "width": 453,
+          "height": 205
+        }
+      }
+    ]
+  },
+  "getitDefense": {
+    "src": "assets/defense/getit.webp",
+    "sourceFighter": "getit",
+    "referenceHeight": 329.69,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 373,
+        "bounds": {
+          "x": 86,
+          "y": 46,
+          "w": 211,
+          "h": 327
+        },
+        "sourceCrop": {
+          "left": 77,
+          "top": 11,
+          "width": 278,
+          "height": 427
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 203,
+        "anchorY": 373,
+        "bounds": {
+          "x": 95,
+          "y": 47,
+          "w": 193,
+          "h": 326
+        },
+        "sourceCrop": {
+          "left": 527,
+          "top": 13,
+          "width": 255,
+          "height": 426
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 207,
+        "anchorY": 372,
+        "bounds": {
+          "x": 88,
+          "y": 71,
+          "w": 207,
+          "h": 301
+        },
+        "sourceCrop": {
+          "left": 957,
+          "top": 45,
+          "width": 274,
+          "height": 395
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 203,
+        "anchorY": 373,
+        "bounds": {
+          "x": 95,
+          "y": 47,
+          "w": 194,
+          "h": 326
+        },
+        "sourceCrop": {
+          "left": 1414,
+          "top": 13,
+          "width": 256,
+          "height": 425
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 95,
+          "y": 63,
+          "w": 194,
+          "h": 310
+        },
+        "sourceCrop": {
+          "left": 74,
+          "top": 468,
+          "width": 256,
+          "height": 405
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 80,
+          "y": 115,
+          "w": 223,
+          "h": 257
+        },
+        "sourceCrop": {
+          "left": 489,
+          "top": 532,
+          "width": 293,
+          "height": 338
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 28,
+          "y": 171,
+          "w": 327,
+          "h": 202
+        },
+        "sourceCrop": {
+          "left": 849,
+          "top": 601,
+          "width": 427,
+          "height": 267
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 10,
+          "y": 236,
+          "w": 363,
+          "h": 137
+        },
+        "sourceCrop": {
+          "left": 1294,
+          "top": 684,
+          "width": 472,
+          "height": 183
+        }
+      }
+    ]
+  },
+  "loudbullDefense": {
+    "src": "assets/defense/loudbull.webp",
+    "sourceFighter": "loudbull",
+    "referenceHeight": 338.14,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 186,
+        "anchorY": 373,
+        "bounds": {
+          "x": 85,
+          "y": 39,
+          "w": 214,
+          "h": 334
+        },
+        "sourceCrop": {
+          "left": 64,
+          "top": 7,
+          "width": 279,
+          "height": 431
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 90,
+          "y": 39,
+          "w": 204,
+          "h": 334
+        },
+        "sourceCrop": {
+          "left": 512,
+          "top": 6,
+          "width": 267,
+          "height": 432
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 85,
+          "y": 58,
+          "w": 212,
+          "h": 314
+        },
+        "sourceCrop": {
+          "left": 964,
+          "top": 33,
+          "width": 276,
+          "height": 408
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 90,
+          "y": 41,
+          "w": 204,
+          "h": 332
+        },
+        "sourceCrop": {
+          "left": 1406,
+          "top": 10,
+          "width": 267,
+          "height": 429
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 96,
+          "y": 51,
+          "w": 191,
+          "h": 322
+        },
+        "sourceCrop": {
+          "left": 81,
+          "top": 458,
+          "width": 250,
+          "height": 417
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 65,
+          "y": 89,
+          "w": 253,
+          "h": 284
+        },
+        "sourceCrop": {
+          "left": 470,
+          "top": 506,
+          "width": 329,
+          "height": 368
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 34,
+          "y": 167,
+          "w": 316,
+          "h": 206
+        },
+        "sourceCrop": {
+          "left": 873,
+          "top": 603,
+          "width": 408,
+          "height": 268
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 242,
+          "w": 362,
+          "h": 130
+        },
+        "sourceCrop": {
+          "left": 1297,
+          "top": 701,
+          "width": 467,
+          "height": 175
+        }
+      }
+    ]
+  },
+  "fatboiDefense": {
+    "src": "assets/defense/fatboi.webp",
+    "sourceFighter": "fatboi",
+    "referenceHeight": 341.4,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 55,
+          "y": 34,
+          "w": 272,
+          "h": 339
+        },
+        "sourceCrop": {
+          "left": 51,
+          "top": 11,
+          "width": 341,
+          "height": 422
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 54,
+          "y": 33,
+          "w": 275,
+          "h": 340
+        },
+        "sourceCrop": {
+          "left": 493,
+          "top": 11,
+          "width": 345,
+          "height": 422
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 56,
+          "y": 58,
+          "w": 273,
+          "h": 315
+        },
+        "sourceCrop": {
+          "left": 938,
+          "top": 40,
+          "width": 342,
+          "height": 393
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 55,
+          "y": 34,
+          "w": 274,
+          "h": 339
+        },
+        "sourceCrop": {
+          "left": 1381,
+          "top": 11,
+          "width": 343,
+          "height": 422
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 59,
+          "y": 59,
+          "w": 266,
+          "h": 314
+        },
+        "sourceCrop": {
+          "left": 48,
+          "top": 477,
+          "width": 333,
+          "height": 390
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 43,
+          "y": 95,
+          "w": 296,
+          "h": 277
+        },
+        "sourceCrop": {
+          "left": 456,
+          "top": 526,
+          "width": 369,
+          "height": 346
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 26,
+          "y": 156,
+          "w": 330,
+          "h": 216
+        },
+        "sourceCrop": {
+          "left": 878,
+          "top": 596,
+          "width": 411,
+          "height": 273
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 11,
+          "y": 199,
+          "w": 361,
+          "h": 174
+        },
+        "sourceCrop": {
+          "left": 1317,
+          "top": 648,
+          "width": 449,
+          "height": 221
+        }
+      }
+    ]
+  },
+  "icespiceDefense": {
+    "src": "assets/defense/icespice.webp",
+    "sourceFighter": "icespice",
+    "referenceHeight": 337.41,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 88,
+          "y": 37,
+          "w": 208,
+          "h": 336
+        },
+        "sourceCrop": {
+          "left": 87,
+          "top": 10,
+          "width": 261,
+          "height": 418
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 87,
+          "y": 36,
+          "w": 209,
+          "h": 336
+        },
+        "sourceCrop": {
+          "left": 531,
+          "top": 10,
+          "width": 262,
+          "height": 419
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 84,
+          "y": 60,
+          "w": 215,
+          "h": 312
+        },
+        "sourceCrop": {
+          "left": 968,
+          "top": 40,
+          "width": 270,
+          "height": 389
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 87,
+          "y": 36,
+          "w": 209,
+          "h": 336
+        },
+        "sourceCrop": {
+          "left": 1418,
+          "top": 10,
+          "width": 262,
+          "height": 419
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 89,
+          "y": 43,
+          "w": 206,
+          "h": 329
+        },
+        "sourceCrop": {
+          "left": 86,
+          "top": 460,
+          "width": 259,
+          "height": 410
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 67,
+          "y": 96,
+          "w": 249,
+          "h": 277
+        },
+        "sourceCrop": {
+          "left": 501,
+          "top": 520,
+          "width": 311,
+          "height": 346
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 35,
+          "y": 154,
+          "w": 314,
+          "h": 219
+        },
+        "sourceCrop": {
+          "left": 891,
+          "top": 589,
+          "width": 391,
+          "height": 275
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 12,
+          "y": 188,
+          "w": 361,
+          "h": 185
+        },
+        "sourceCrop": {
+          "left": 1313,
+          "top": 629,
+          "width": 449,
+          "height": 234
+        }
+      }
+    ]
+  },
+  "hehawDefense": {
+    "src": "assets/defense/hehaw.webp",
+    "sourceFighter": "hehaw",
+    "referenceHeight": 364.11,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 85,
+          "y": 11,
+          "w": 214,
+          "h": 361
+        },
+        "sourceCrop": {
+          "left": 90,
+          "top": 4,
+          "width": 256,
+          "height": 428
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 85,
+          "y": 14,
+          "w": 214,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 533,
+          "top": 8,
+          "width": 257,
+          "height": 424
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 84,
+          "y": 48,
+          "w": 214,
+          "h": 324
+        },
+        "sourceCrop": {
+          "left": 978,
+          "top": 46,
+          "width": 257,
+          "height": 386
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 85,
+          "y": 14,
+          "w": 214,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 1421,
+          "top": 8,
+          "width": 256,
+          "height": 424
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 80,
+          "y": 31,
+          "w": 222,
+          "h": 342
+        },
+        "sourceCrop": {
+          "left": 86,
+          "top": 469,
+          "width": 266,
+          "height": 404
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 60,
+          "y": 92,
+          "w": 263,
+          "h": 281
+        },
+        "sourceCrop": {
+          "left": 500,
+          "top": 536,
+          "width": 314,
+          "height": 335
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 27,
+          "y": 174,
+          "w": 329,
+          "h": 199
+        },
+        "sourceCrop": {
+          "left": 909,
+          "top": 632,
+          "width": 390,
+          "height": 239
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 12,
+          "y": 233,
+          "w": 359,
+          "h": 140
+        },
+        "sourceCrop": {
+          "left": 1340,
+          "top": 701,
+          "width": 425,
+          "height": 171
+        }
+      }
+    ]
+  },
+  "dr-no-bunniesDefense": {
+    "src": "assets/defense/dr-no-bunnies.webp",
+    "sourceFighter": "dr-no-bunnies",
+    "referenceHeight": 338.52,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 373,
+        "bounds": {
+          "x": 77,
+          "y": 33,
+          "w": 230,
+          "h": 340
+        },
+        "sourceCrop": {
+          "left": 61,
+          "top": 9,
+          "width": 288,
+          "height": 420
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 73,
+          "y": 36,
+          "w": 238,
+          "h": 337
+        },
+        "sourceCrop": {
+          "left": 496,
+          "top": 13,
+          "width": 297,
+          "height": 417
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 72,
+          "y": 57,
+          "w": 241,
+          "h": 316
+        },
+        "sourceCrop": {
+          "left": 938,
+          "top": 38,
+          "width": 302,
+          "height": 392
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 73,
+          "y": 41,
+          "w": 238,
+          "h": 332
+        },
+        "sourceCrop": {
+          "left": 1383,
+          "top": 17,
+          "width": 297,
+          "height": 412
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 72,
+          "y": 46,
+          "w": 240,
+          "h": 326
+        },
+        "sourceCrop": {
+          "left": 62,
+          "top": 468,
+          "width": 299,
+          "height": 406
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 60,
+          "y": 89,
+          "w": 263,
+          "h": 284
+        },
+        "sourceCrop": {
+          "left": 461,
+          "top": 523,
+          "width": 328,
+          "height": 353
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 25,
+          "y": 165,
+          "w": 333,
+          "h": 208
+        },
+        "sourceCrop": {
+          "left": 884,
+          "top": 617,
+          "width": 413,
+          "height": 261
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 10,
+          "y": 243,
+          "w": 362,
+          "h": 130
+        },
+        "sourceCrop": {
+          "left": 1316,
+          "top": 713,
+          "width": 448,
+          "height": 165
+        }
+      }
+    ]
+  },
+  "cantrapDefense": {
+    "src": "assets/defense/cantrap.webp",
+    "sourceFighter": "cantrap",
+    "referenceHeight": 354,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 373,
+        "bounds": {
+          "x": 72,
+          "y": 19,
+          "w": 240,
+          "h": 354
+        },
+        "sourceCrop": {
+          "left": 56,
+          "top": 4,
+          "width": 294,
+          "height": 429
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 69,
+          "y": 20,
+          "w": 245,
+          "h": 353
+        },
+        "sourceCrop": {
+          "left": 501,
+          "top": 4,
+          "width": 300,
+          "height": 429
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 65,
+          "y": 49,
+          "w": 254,
+          "h": 324
+        },
+        "sourceCrop": {
+          "left": 940,
+          "top": 41,
+          "width": 309,
+          "height": 392
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 69,
+          "y": 27,
+          "w": 245,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 1389,
+          "top": 14,
+          "width": 300,
+          "height": 419
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 62,
+          "y": 45,
+          "w": 259,
+          "h": 328
+        },
+        "sourceCrop": {
+          "left": 53,
+          "top": 476,
+          "width": 316,
+          "height": 398
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 53,
+          "y": 92,
+          "w": 276,
+          "h": 281
+        },
+        "sourceCrop": {
+          "left": 488,
+          "top": 528,
+          "width": 337,
+          "height": 341
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 12,
+          "y": 163,
+          "w": 361,
+          "h": 210
+        },
+        "sourceCrop": {
+          "left": 880,
+          "top": 612,
+          "width": 438,
+          "height": 257
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 16,
+          "y": 230,
+          "w": 350,
+          "h": 142
+        },
+        "sourceCrop": {
+          "left": 1340,
+          "top": 697,
+          "width": 424,
+          "height": 178
+        }
+      }
+    ]
+  },
+  "smackprinceDefense": {
+    "src": "assets/defense/smackprince.webp",
+    "sourceFighter": "smackprince",
+    "referenceHeight": 321,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 190,
+        "anchorY": 373,
+        "bounds": {
+          "x": 79,
+          "y": 52,
+          "w": 226,
+          "h": 321
+        },
+        "sourceCrop": {
+          "left": 76,
+          "top": 10,
+          "width": 301,
+          "height": 424
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 80,
+          "y": 53,
+          "w": 223,
+          "h": 320
+        },
+        "sourceCrop": {
+          "left": 521,
+          "top": 11,
+          "width": 297,
+          "height": 423
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 80,
+          "w": 219,
+          "h": 293
+        },
+        "sourceCrop": {
+          "left": 964,
+          "top": 46,
+          "width": 292,
+          "height": 388
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 80,
+          "y": 53,
+          "w": 223,
+          "h": 320
+        },
+        "sourceCrop": {
+          "left": 1408,
+          "top": 11,
+          "width": 297,
+          "height": 423
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 63,
+          "w": 219,
+          "h": 310
+        },
+        "sourceCrop": {
+          "left": 60,
+          "top": 464,
+          "width": 292,
+          "height": 409
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 69,
+          "y": 115,
+          "w": 246,
+          "h": 258
+        },
+        "sourceCrop": {
+          "left": 475,
+          "top": 524,
+          "width": 327,
+          "height": 342
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 39,
+          "y": 168,
+          "w": 306,
+          "h": 205
+        },
+        "sourceCrop": {
+          "left": 864,
+          "top": 588,
+          "width": 405,
+          "height": 274
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 11,
+          "y": 202,
+          "w": 362,
+          "h": 171
+        },
+        "sourceCrop": {
+          "left": 1295,
+          "top": 630,
+          "width": 477,
+          "height": 230
+        }
+      }
+    ]
+  },
+  "babybigfistsDefense": {
+    "src": "assets/defense/babybigfists.webp",
+    "sourceFighter": "babybigfists",
+    "referenceHeight": 338,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 92,
+          "y": 35,
+          "w": 199,
+          "h": 338
+        },
+        "sourceCrop": {
+          "left": 90,
+          "top": 14,
+          "width": 248,
+          "height": 414
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 92,
+          "y": 39,
+          "w": 200,
+          "h": 334
+        },
+        "sourceCrop": {
+          "left": 535,
+          "top": 17,
+          "width": 249,
+          "height": 411
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 84,
+          "y": 73,
+          "w": 216,
+          "h": 300
+        },
+        "sourceCrop": {
+          "left": 967,
+          "top": 59,
+          "width": 268,
+          "height": 369
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 89,
+          "y": 55,
+          "w": 207,
+          "h": 318
+        },
+        "sourceCrop": {
+          "left": 1420,
+          "top": 37,
+          "width": 258,
+          "height": 391
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 87,
+          "y": 49,
+          "w": 209,
+          "h": 324
+        },
+        "sourceCrop": {
+          "left": 83,
+          "top": 477,
+          "width": 259,
+          "height": 398
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 60,
+          "y": 93,
+          "w": 263,
+          "h": 280
+        },
+        "sourceCrop": {
+          "left": 479,
+          "top": 524,
+          "width": 324,
+          "height": 345
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 31,
+          "y": 167,
+          "w": 321,
+          "h": 205
+        },
+        "sourceCrop": {
+          "left": 886,
+          "top": 617,
+          "width": 394,
+          "height": 255
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 11,
+          "y": 216,
+          "w": 362,
+          "h": 157
+        },
+        "sourceCrop": {
+          "left": 1319,
+          "top": 681,
+          "width": 444,
+          "height": 197
+        }
+      }
+    ]
+  },
+  "moojaDefense": {
+    "src": "assets/defense/mooja.webp",
+    "sourceFighter": "mooja",
+    "referenceHeight": 359,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 186,
+        "anchorY": 372,
+        "bounds": {
+          "x": 81,
+          "y": 13,
+          "w": 221,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 85,
+          "top": 1,
+          "width": 268,
+          "height": 431
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 86,
+          "y": 16,
+          "w": 211,
+          "h": 357
+        },
+        "sourceCrop": {
+          "left": 528,
+          "top": 4,
+          "width": 257,
+          "height": 428
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 83,
+          "y": 59,
+          "w": 218,
+          "h": 314
+        },
+        "sourceCrop": {
+          "left": 968,
+          "top": 54,
+          "width": 264,
+          "height": 378
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 85,
+          "y": 15,
+          "w": 212,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 1415,
+          "top": 3,
+          "width": 258,
+          "height": 429
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 82,
+          "y": 13,
+          "w": 219,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 76,
+          "top": 443,
+          "width": 266,
+          "height": 431
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 60,
+          "y": 52,
+          "w": 265,
+          "h": 321
+        },
+        "sourceCrop": {
+          "left": 474,
+          "top": 488,
+          "width": 320,
+          "height": 385
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 29,
+          "y": 148,
+          "w": 325,
+          "h": 225
+        },
+        "sourceCrop": {
+          "left": 893,
+          "top": 600,
+          "width": 389,
+          "height": 272
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 214,
+          "w": 362,
+          "h": 158
+        },
+        "sourceCrop": {
+          "left": 1322,
+          "top": 679,
+          "width": 433,
+          "height": 194
+        }
+      }
+    ]
+  },
+  "cranesDefense": {
+    "src": "assets/defense/cranes.webp",
+    "sourceFighter": "cranes",
+    "referenceHeight": 362,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 373,
+        "bounds": {
+          "x": 75,
+          "y": 11,
+          "w": 233,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 119,
+          "top": 6,
+          "width": 386,
+          "height": 594
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 374,
+        "bounds": {
+          "x": 74,
+          "y": 15,
+          "w": 236,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 746,
+          "top": 14,
+          "width": 387,
+          "height": 586
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 76,
+          "y": 23,
+          "w": 231,
+          "h": 350
+        },
+        "sourceCrop": {
+          "left": 117,
+          "top": 655,
+          "width": 381,
+          "height": 575
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 193,
+        "anchorY": 373,
+        "bounds": {
+          "x": 77,
+          "y": 14,
+          "w": 230,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 749,
+          "top": 640,
+          "width": 378,
+          "height": 589
+        }
+      }
+    ]
+  },
+  "demonDefense": {
+    "src": "assets/defense/demon.webp",
+    "sourceFighter": "demon",
+    "referenceHeight": 364,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 195,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 10,
+          "w": 219,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 145,
+          "top": 8,
+          "width": 346,
+          "height": 568
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 196,
+        "anchorY": 374,
+        "bounds": {
+          "x": 80,
+          "y": 10,
+          "w": 223,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 733,
+          "top": 8,
+          "width": 351,
+          "height": 568
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 78,
+          "y": 27,
+          "w": 227,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 142,
+          "top": 659,
+          "width": 357,
+          "height": 544
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 194,
+        "anchorY": 373,
+        "bounds": {
+          "x": 80,
+          "y": 16,
+          "w": 222,
+          "h": 357
+        },
+        "sourceCrop": {
+          "left": 738,
+          "top": 643,
+          "width": 351,
+          "height": 560
+        }
+      }
+    ]
+  },
+  "ocrrrrrDefense": {
+    "src": "assets/defense/ocrrrrr.webp",
+    "sourceFighter": "ocrrrrr",
+    "referenceHeight": 364,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 207,
+        "anchorY": 374,
+        "bounds": {
+          "x": 72,
+          "y": 10,
+          "w": 240,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 106,
+          "top": 2,
+          "width": 389,
+          "height": 581
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 207,
+        "anchorY": 374,
+        "bounds": {
+          "x": 75,
+          "y": 14,
+          "w": 234,
+          "h": 360
+        },
+        "sourceCrop": {
+          "left": 734,
+          "top": 7,
+          "width": 376,
+          "height": 576
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 207,
+        "anchorY": 373,
+        "bounds": {
+          "x": 67,
+          "y": 42,
+          "w": 250,
+          "h": 331
+        },
+        "sourceCrop": {
+          "left": 98,
+          "top": 685,
+          "width": 404,
+          "height": 532
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 202,
+        "anchorY": 373,
+        "bounds": {
+          "x": 77,
+          "y": 20,
+          "w": 230,
+          "h": 353
+        },
+        "sourceCrop": {
+          "left": 744,
+          "top": 651,
+          "width": 370,
+          "height": 566
+        }
+      }
+    ]
+  },
+  "presidentDefense": {
+    "src": "assets/defense/president.webp",
+    "sourceFighter": "president",
+    "referenceHeight": 364,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 185,
+        "anchorY": 374,
+        "bounds": {
+          "x": 99,
+          "y": 10,
+          "w": 185,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 145,
+          "top": 5,
+          "width": 309,
+          "height": 596
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 184,
+        "anchorY": 374,
+        "bounds": {
+          "x": 97,
+          "y": 15,
+          "w": 191,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 777,
+          "top": 13,
+          "width": 317,
+          "height": 588
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 374,
+        "bounds": {
+          "x": 101,
+          "y": 30,
+          "w": 182,
+          "h": 344
+        },
+        "sourceCrop": {
+          "left": 148,
+          "top": 669,
+          "width": 301,
+          "height": 563
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 374,
+        "bounds": {
+          "x": 98,
+          "y": 11,
+          "w": 187,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 778,
+          "top": 636,
+          "width": 310,
+          "height": 596
+        }
+      }
+    ]
+  },
+  "robokingDefense": {
+    "src": "assets/defense/roboking.webp",
+    "sourceFighter": "roboking",
+    "referenceHeight": 362,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 103,
+          "y": 11,
+          "w": 177,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 174,
+          "top": 2,
+          "width": 298,
+          "height": 606
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 101,
+          "y": 24,
+          "w": 182,
+          "h": 349
+        },
+        "sourceCrop": {
+          "left": 781,
+          "top": 25,
+          "width": 309,
+          "height": 583
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 98,
+          "y": 56,
+          "w": 187,
+          "h": 317
+        },
+        "sourceCrop": {
+          "left": 167,
+          "top": 687,
+          "width": 315,
+          "height": 533
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 100,
+          "y": 35,
+          "w": 185,
+          "h": 339
+        },
+        "sourceCrop": {
+          "left": 780,
+          "top": 653,
+          "width": 313,
+          "height": 567
+        }
+      }
+    ]
+  },
+  "quickfastDefense": {
+    "src": "assets/defense/quickfast.webp",
+    "sourceFighter": "quickfast",
+    "referenceHeight": 362,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 374,
+        "bounds": {
+          "x": 63,
+          "y": 12,
+          "w": 257,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 90,
+          "top": 5,
+          "width": 418,
+          "height": 585
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 67,
+          "y": 16,
+          "w": 251,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 720,
+          "top": 14,
+          "width": 408,
+          "height": 576
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 63,
+          "y": 28,
+          "w": 258,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 84,
+          "top": 662,
+          "width": 421,
+          "height": 559
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 65,
+          "y": 11,
+          "w": 253,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 721,
+          "top": 636,
+          "width": 412,
+          "height": 586
+        }
+      }
+    ]
+  },
+  "sassytDefense": {
+    "src": "assets/defense/sassyt.webp",
+    "sourceFighter": "sassyt",
+    "referenceHeight": 364,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 184,
+        "anchorY": 374,
+        "bounds": {
+          "x": 81,
+          "y": 10,
+          "w": 222,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 140,
+          "top": 5,
+          "width": 362,
+          "height": 590
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 374,
+        "bounds": {
+          "x": 84,
+          "y": 20,
+          "w": 215,
+          "h": 354
+        },
+        "sourceCrop": {
+          "left": 759,
+          "top": 20,
+          "width": 354,
+          "height": 575
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 193,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 31,
+          "w": 219,
+          "h": 342
+        },
+        "sourceCrop": {
+          "left": 122,
+          "top": 671,
+          "width": 360,
+          "height": 556
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 373,
+        "bounds": {
+          "x": 83,
+          "y": 14,
+          "w": 216,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 758,
+          "top": 643,
+          "width": 355,
+          "height": 584
+        }
+      }
+    ]
+  },
+  "jminorsDefense": {
+    "src": "assets/defense/jminors.webp",
+    "sourceFighter": "jminors",
+    "referenceHeight": 363,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 373,
+        "bounds": {
+          "x": 78,
+          "y": 10,
+          "w": 227,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 117,
+          "top": 6,
+          "width": 376,
+          "height": 595
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 80,
+          "y": 12,
+          "w": 223,
+          "h": 361
+        },
+        "sourceCrop": {
+          "left": 733,
+          "top": 8,
+          "width": 367,
+          "height": 592
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 77,
+          "y": 40,
+          "w": 230,
+          "h": 333
+        },
+        "sourceCrop": {
+          "left": 108,
+          "top": 683,
+          "width": 381,
+          "height": 547
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 79,
+          "y": 16,
+          "w": 225,
+          "h": 357
+        },
+        "sourceCrop": {
+          "left": 733,
+          "top": 643,
+          "width": 371,
+          "height": 587
+        }
+      }
+    ]
+  },
+  "bigmumbleDefense": {
+    "src": "assets/defense/bigmumble.webp",
+    "sourceFighter": "bigmumble",
+    "referenceHeight": 362,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 184,
+        "anchorY": 373,
+        "bounds": {
+          "x": 74,
+          "y": 11,
+          "w": 235,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 122,
+          "top": 7,
+          "width": 387,
+          "height": 595
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 373,
+        "bounds": {
+          "x": 70,
+          "y": 24,
+          "w": 244,
+          "h": 349
+        },
+        "sourceCrop": {
+          "left": 741,
+          "top": 28,
+          "width": 403,
+          "height": 574
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 374,
+        "bounds": {
+          "x": 71,
+          "y": 45,
+          "w": 242,
+          "h": 329
+        },
+        "sourceCrop": {
+          "left": 111,
+          "top": 684,
+          "width": 399,
+          "height": 540
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 373,
+        "bounds": {
+          "x": 70,
+          "y": 32,
+          "w": 243,
+          "h": 341
+        },
+        "sourceCrop": {
+          "left": 740,
+          "top": 664,
+          "width": 402,
+          "height": 558
+        }
+      }
+    ]
+  },
+  "djbeigeyDefense": {
+    "src": "assets/defense/djbeigey.webp",
+    "sourceFighter": "djbeigey",
+    "referenceHeight": 362,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 178,
+        "anchorY": 373,
+        "bounds": {
+          "x": 84,
+          "y": 11,
+          "w": 216,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 140,
+          "top": 11,
+          "width": 360,
+          "height": 597
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 97,
+          "y": 14,
+          "w": 190,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 760,
+          "top": 18,
+          "width": 316,
+          "height": 590
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 190,
+        "anchorY": 374,
+        "bounds": {
+          "x": 88,
+          "y": 35,
+          "w": 207,
+          "h": 339
+        },
+        "sourceCrop": {
+          "left": 120,
+          "top": 686,
+          "width": 346,
+          "height": 558
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 91,
+          "y": 22,
+          "w": 203,
+          "h": 352
+        },
+        "sourceCrop": {
+          "left": 747,
+          "top": 666,
+          "width": 338,
+          "height": 578
+        }
+      }
+    ]
+  },
+  "nobuttonsDefense": {
+    "src": "assets/defense/nobuttons.webp",
+    "sourceFighter": "nobuttons",
+    "referenceHeight": 365,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 184,
+        "anchorY": 374,
+        "bounds": {
+          "x": 83,
+          "y": 9,
+          "w": 218,
+          "h": 365
+        },
+        "sourceCrop": {
+          "left": 133,
+          "top": 0,
+          "width": 365,
+          "height": 600
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 90,
+          "y": 17,
+          "w": 204,
+          "h": 357
+        },
+        "sourceCrop": {
+          "left": 763,
+          "top": 11,
+          "width": 342,
+          "height": 589
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 374,
+        "bounds": {
+          "x": 86,
+          "y": 26,
+          "w": 213,
+          "h": 348
+        },
+        "sourceCrop": {
+          "left": 132,
+          "top": 649,
+          "width": 355,
+          "height": 573
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 374,
+        "bounds": {
+          "x": 89,
+          "y": 19,
+          "w": 205,
+          "h": 355
+        },
+        "sourceCrop": {
+          "left": 763,
+          "top": 635,
+          "width": 344,
+          "height": 587
+        }
+      }
+    ]
+  },
+  "eynakeastDefense": {
+    "src": "assets/defense/eynakeast.webp",
+    "sourceFighter": "eynakeast",
+    "referenceHeight": 364,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 374,
+        "bounds": {
+          "x": 94,
+          "y": 10,
+          "w": 195,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 163,
+          "top": 3,
+          "width": 320,
+          "height": 586
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 92,
+          "y": 15,
+          "w": 201,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 763,
+          "top": 13,
+          "width": 328,
+          "height": 579
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 197,
+        "anchorY": 373,
+        "bounds": {
+          "x": 83,
+          "y": 40,
+          "w": 218,
+          "h": 333
+        },
+        "sourceCrop": {
+          "left": 138,
+          "top": 695,
+          "width": 353,
+          "height": 537
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 89,
+          "y": 30,
+          "w": 205,
+          "h": 344
+        },
+        "sourceCrop": {
+          "left": 769,
+          "top": 677,
+          "width": 335,
+          "height": 555
+        }
+      }
+    ]
+  },
+  "taytayDefense": {
+    "src": "assets/defense/taytay.webp",
+    "sourceFighter": "taytay",
+    "referenceHeight": 363,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 184,
+        "anchorY": 373,
+        "bounds": {
+          "x": 74,
+          "y": 10,
+          "w": 236,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 105,
+          "top": 9,
+          "width": 392,
+          "height": 596
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 20,
+          "w": 220,
+          "h": 353
+        },
+        "sourceCrop": {
+          "left": 732,
+          "top": 22,
+          "width": 365,
+          "height": 582
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 373,
+        "bounds": {
+          "x": 78,
+          "y": 39,
+          "w": 227,
+          "h": 334
+        },
+        "sourceCrop": {
+          "left": 112,
+          "top": 666,
+          "width": 375,
+          "height": 549
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 193,
+        "anchorY": 373,
+        "bounds": {
+          "x": 81,
+          "y": 26,
+          "w": 222,
+          "h": 347
+        },
+        "sourceCrop": {
+          "left": 727,
+          "top": 644,
+          "width": 370,
+          "height": 570
+        }
+      }
+    ]
+  },
+  "czrDefense": {
+    "src": "assets/defense/czr.webp",
+    "sourceFighter": "czr",
+    "referenceHeight": 363,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 207,
+        "anchorY": 374,
+        "bounds": {
+          "x": 83,
+          "y": 11,
+          "w": 217,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 141,
+          "top": 10,
+          "width": 352,
+          "height": 586
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 208,
+        "anchorY": 374,
+        "bounds": {
+          "x": 80,
+          "y": 19,
+          "w": 223,
+          "h": 355
+        },
+        "sourceCrop": {
+          "left": 767,
+          "top": 23,
+          "width": 362,
+          "height": 573
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 210,
+        "anchorY": 373,
+        "bounds": {
+          "x": 75,
+          "y": 49,
+          "w": 233,
+          "h": 324
+        },
+        "sourceCrop": {
+          "left": 118,
+          "top": 688,
+          "width": 380,
+          "height": 524
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 209,
+        "anchorY": 374,
+        "bounds": {
+          "x": 79,
+          "y": 25,
+          "w": 226,
+          "h": 349
+        },
+        "sourceCrop": {
+          "left": 763,
+          "top": 648,
+          "width": 369,
+          "height": 563
+        }
+      }
+    ]
+  },
+  "shannondullDefense": {
+    "src": "assets/defense/shannondull.webp",
+    "sourceFighter": "shannondull",
+    "referenceHeight": 365.27,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 374,
+        "bounds": {
+          "x": 75,
+          "y": 10,
+          "w": 233,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 128,
+          "top": 0,
+          "width": 388,
+          "height": 603
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 79,
+          "y": 16,
+          "w": 224,
+          "h": 357
+        },
+        "sourceCrop": {
+          "left": 753,
+          "top": 11,
+          "width": 376,
+          "height": 593
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 374,
+        "bounds": {
+          "x": 77,
+          "y": 45,
+          "w": 229,
+          "h": 329
+        },
+        "sourceCrop": {
+          "left": 122,
+          "top": 680,
+          "width": 382,
+          "height": 547
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 79,
+          "y": 23,
+          "w": 226,
+          "h": 350
+        },
+        "sourceCrop": {
+          "left": 756,
+          "top": 644,
+          "width": 377,
+          "height": 583
+        }
+      }
+    ]
+  },
+  "smokelordDefense": {
+    "src": "assets/defense/smokelord.webp",
+    "sourceFighter": "smokelord",
+    "referenceHeight": 364,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 88,
+          "y": 10,
+          "w": 207,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 148,
+          "top": 4,
+          "width": 343,
+          "height": 597
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 202,
+        "anchorY": 374,
+        "bounds": {
+          "x": 92,
+          "y": 11,
+          "w": 200,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 755,
+          "top": 6,
+          "width": 331,
+          "height": 595
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 95,
+          "y": 36,
+          "w": 193,
+          "h": 338
+        },
+        "sourceCrop": {
+          "left": 156,
+          "top": 671,
+          "width": 322,
+          "height": 556
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 199,
+        "anchorY": 373,
+        "bounds": {
+          "x": 92,
+          "y": 12,
+          "w": 200,
+          "h": 361
+        },
+        "sourceCrop": {
+          "left": 759,
+          "top": 633,
+          "width": 333,
+          "height": 595
+        }
+      }
+    ]
+  },
+  "redrollsDefense": {
+    "src": "assets/defense/redrolls.webp",
+    "sourceFighter": "redrolls",
+    "referenceHeight": 363,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 196,
+        "anchorY": 373,
+        "bounds": {
+          "x": 76,
+          "y": 11,
+          "w": 231,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 119,
+          "top": 1,
+          "width": 386,
+          "height": 604
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 200,
+        "anchorY": 374,
+        "bounds": {
+          "x": 80,
+          "y": 11,
+          "w": 224,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 747,
+          "top": 1,
+          "width": 375,
+          "height": 604
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 195,
+        "anchorY": 373,
+        "bounds": {
+          "x": 84,
+          "y": 21,
+          "w": 216,
+          "h": 352
+        },
+        "sourceCrop": {
+          "left": 133,
+          "top": 646,
+          "width": 362,
+          "height": 586
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 200,
+        "anchorY": 373,
+        "bounds": {
+          "x": 80,
+          "y": 12,
+          "w": 224,
+          "h": 361
+        },
+        "sourceCrop": {
+          "left": 747,
+          "top": 629,
+          "width": 375,
+          "height": 603
+        }
+      }
+    ]
+  },
+  "charlesDefense": {
+    "src": "assets/defense/charles.webp",
+    "sourceFighter": "charles",
+    "referenceHeight": 353.33,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 185,
+        "anchorY": 373,
+        "bounds": {
+          "x": 97,
+          "y": 22,
+          "w": 189,
+          "h": 351
+        },
+        "sourceCrop": {
+          "left": 108,
+          "top": 2,
+          "width": 236,
+          "height": 433
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 102,
+          "y": 27,
+          "w": 180,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 544,
+          "top": 7,
+          "width": 226,
+          "height": 428
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 101,
+          "y": 51,
+          "w": 182,
+          "h": 322
+        },
+        "sourceCrop": {
+          "left": 987,
+          "top": 37,
+          "width": 228,
+          "height": 398
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 99,
+          "y": 31,
+          "w": 185,
+          "h": 342
+        },
+        "sourceCrop": {
+          "left": 1427,
+          "top": 13,
+          "width": 232,
+          "height": 422
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 104,
+          "y": 37,
+          "w": 176,
+          "h": 336
+        },
+        "sourceCrop": {
+          "left": 102,
+          "top": 460,
+          "width": 222,
+          "height": 415
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 68,
+          "y": 81,
+          "w": 248,
+          "h": 292
+        },
+        "sourceCrop": {
+          "left": 496,
+          "top": 508,
+          "width": 308,
+          "height": 361
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 38,
+          "y": 143,
+          "w": 307,
+          "h": 230
+        },
+        "sourceCrop": {
+          "left": 900,
+          "top": 580,
+          "width": 379,
+          "height": 287
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 231,
+          "w": 362,
+          "h": 141
+        },
+        "sourceCrop": {
+          "left": 1321,
+          "top": 693,
+          "width": 446,
+          "height": 179
+        }
+      }
+    ]
+  },
+  "fuedfamDefense": {
+    "src": "assets/defense/fuedfam.webp",
+    "sourceFighter": "fuedfam",
+    "referenceHeight": 335.18,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 184,
+        "anchorY": 372,
+        "bounds": {
+          "x": 80,
+          "y": 38,
+          "w": 224,
+          "h": 334
+        },
+        "sourceCrop": {
+          "left": 85,
+          "top": 10,
+          "width": 287,
+          "height": 425
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 186,
+        "anchorY": 372,
+        "bounds": {
+          "x": 86,
+          "y": 38,
+          "w": 210,
+          "h": 334
+        },
+        "sourceCrop": {
+          "left": 536,
+          "top": 10,
+          "width": 270,
+          "height": 425
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 184,
+        "anchorY": 373,
+        "bounds": {
+          "x": 85,
+          "y": 71,
+          "w": 213,
+          "h": 302
+        },
+        "sourceCrop": {
+          "left": 981,
+          "top": 50,
+          "width": 274,
+          "height": 383
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 186,
+        "anchorY": 373,
+        "bounds": {
+          "x": 86,
+          "y": 39,
+          "w": 210,
+          "h": 334
+        },
+        "sourceCrop": {
+          "left": 1423,
+          "top": 10,
+          "width": 270,
+          "height": 424
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 97,
+          "y": 52,
+          "w": 190,
+          "h": 321
+        },
+        "sourceCrop": {
+          "left": 77,
+          "top": 469,
+          "width": 247,
+          "height": 408
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 61,
+          "y": 93,
+          "w": 262,
+          "h": 280
+        },
+        "sourceCrop": {
+          "left": 466,
+          "top": 520,
+          "width": 334,
+          "height": 357
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 40,
+          "y": 132,
+          "w": 305,
+          "h": 241
+        },
+        "sourceCrop": {
+          "left": 897,
+          "top": 565,
+          "width": 389,
+          "height": 308
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 11,
+          "y": 209,
+          "w": 362,
+          "h": 164
+        },
+        "sourceCrop": {
+          "left": 1311,
+          "top": 662,
+          "width": 459,
+          "height": 213
+        }
+      }
+    ]
+  },
+  "ooousaberDefense": {
+    "src": "assets/defense/ooousaber.webp",
+    "sourceFighter": "ooousaber",
+    "referenceHeight": 333.13,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 202,
+        "anchorY": 373,
+        "bounds": {
+          "x": 89,
+          "y": 41,
+          "w": 205,
+          "h": 332
+        },
+        "sourceCrop": {
+          "left": 68,
+          "top": 5,
+          "width": 261,
+          "height": 418
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 201,
+        "anchorY": 373,
+        "bounds": {
+          "x": 87,
+          "y": 43,
+          "w": 209,
+          "h": 330
+        },
+        "sourceCrop": {
+          "left": 511,
+          "top": 6,
+          "width": 266,
+          "height": 416
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 198,
+        "anchorY": 373,
+        "bounds": {
+          "x": 88,
+          "y": 64,
+          "w": 208,
+          "h": 309
+        },
+        "sourceCrop": {
+          "left": 960,
+          "top": 32,
+          "width": 264,
+          "height": 389
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 201,
+        "anchorY": 373,
+        "bounds": {
+          "x": 87,
+          "y": 43,
+          "w": 209,
+          "h": 330
+        },
+        "sourceCrop": {
+          "left": 1399,
+          "top": 6,
+          "width": 266,
+          "height": 416
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 95,
+          "y": 51,
+          "w": 193,
+          "h": 322
+        },
+        "sourceCrop": {
+          "left": 73,
+          "top": 455,
+          "width": 246,
+          "height": 406
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 81,
+          "y": 93,
+          "w": 221,
+          "h": 280
+        },
+        "sourceCrop": {
+          "left": 464,
+          "top": 507,
+          "width": 281,
+          "height": 354
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 28,
+          "y": 159,
+          "w": 328,
+          "h": 214
+        },
+        "sourceCrop": {
+          "left": 865,
+          "top": 584,
+          "width": 413,
+          "height": 272
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 225,
+          "w": 362,
+          "h": 147
+        },
+        "sourceCrop": {
+          "left": 1308,
+          "top": 665,
+          "width": 455,
+          "height": 190
+        }
+      }
+    ]
+  },
+  "treeyawlDefense": {
+    "src": "assets/defense/treeyawl.webp",
+    "sourceFighter": "treeyawl",
+    "referenceHeight": 350.31,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 373,
+        "bounds": {
+          "x": 98,
+          "y": 24,
+          "w": 186,
+          "h": 349
+        },
+        "sourceCrop": {
+          "left": 109,
+          "top": 6,
+          "width": 234,
+          "height": 430
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 100,
+          "y": 27,
+          "w": 184,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 551,
+          "top": 10,
+          "width": 230,
+          "height": 426
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 90,
+          "y": 51,
+          "w": 204,
+          "h": 322
+        },
+        "sourceCrop": {
+          "left": 976,
+          "top": 40,
+          "width": 254,
+          "height": 397
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 93,
+          "y": 36,
+          "w": 196,
+          "h": 336
+        },
+        "sourceCrop": {
+          "left": 1427,
+          "top": 20,
+          "width": 246,
+          "height": 417
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 91,
+          "y": 51,
+          "w": 201,
+          "h": 322
+        },
+        "sourceCrop": {
+          "left": 99,
+          "top": 473,
+          "width": 250,
+          "height": 397
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 77,
+          "y": 90,
+          "w": 229,
+          "h": 282
+        },
+        "sourceCrop": {
+          "left": 493,
+          "top": 520,
+          "width": 285,
+          "height": 351
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 26,
+          "y": 184,
+          "w": 332,
+          "h": 189
+        },
+        "sourceCrop": {
+          "left": 880,
+          "top": 627,
+          "width": 410,
+          "height": 236
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 11,
+          "y": 226,
+          "w": 362,
+          "h": 147
+        },
+        "sourceCrop": {
+          "left": 1322,
+          "top": 678,
+          "width": 446,
+          "height": 185
+        }
+      }
+    ]
+  },
+  "trinigoldDefense": {
+    "src": "assets/defense/trinigold.webp",
+    "sourceFighter": "trinigold",
+    "referenceHeight": 349.69,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 181,
+        "anchorY": 373,
+        "bounds": {
+          "x": 84,
+          "y": 26,
+          "w": 216,
+          "h": 347
+        },
+        "sourceCrop": {
+          "left": 90,
+          "top": 9,
+          "width": 265,
+          "height": 421
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 373,
+        "bounds": {
+          "x": 87,
+          "y": 27,
+          "w": 210,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 534,
+          "top": 9,
+          "width": 259,
+          "height": 421
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 91,
+          "y": 49,
+          "w": 202,
+          "h": 324
+        },
+        "sourceCrop": {
+          "left": 985,
+          "top": 35,
+          "width": 248,
+          "height": 395
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 373,
+        "bounds": {
+          "x": 87,
+          "y": 27,
+          "w": 211,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 1421,
+          "top": 9,
+          "width": 260,
+          "height": 421
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 93,
+          "y": 34,
+          "w": 197,
+          "h": 338
+        },
+        "sourceCrop": {
+          "left": 95,
+          "top": 462,
+          "width": 245,
+          "height": 413
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 65,
+          "y": 83,
+          "w": 253,
+          "h": 290
+        },
+        "sourceCrop": {
+          "left": 488,
+          "top": 520,
+          "width": 309,
+          "height": 354
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 31,
+          "y": 164,
+          "w": 320,
+          "h": 209
+        },
+        "sourceCrop": {
+          "left": 903,
+          "top": 607,
+          "width": 390,
+          "height": 257
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 210,
+          "w": 361,
+          "h": 162
+        },
+        "sourceCrop": {
+          "left": 1332,
+          "top": 661,
+          "width": 439,
+          "height": 203
+        }
+      }
+    ]
+  },
+  "boatDefense": {
+    "src": "assets/defense/boat.webp",
+    "sourceFighter": "boat",
+    "referenceHeight": 354.85,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 373,
+        "bounds": {
+          "x": 77,
+          "y": 21,
+          "w": 229,
+          "h": 352
+        },
+        "sourceCrop": {
+          "left": 83,
+          "top": 4,
+          "width": 279,
+          "height": 422
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 199,
+        "anchorY": 373,
+        "bounds": {
+          "x": 79,
+          "y": 25,
+          "w": 226,
+          "h": 348
+        },
+        "sourceCrop": {
+          "left": 518,
+          "top": 8,
+          "width": 276,
+          "height": 418
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 198,
+        "anchorY": 373,
+        "bounds": {
+          "x": 72,
+          "y": 42,
+          "w": 240,
+          "h": 331
+        },
+        "sourceCrop": {
+          "left": 952,
+          "top": 28,
+          "width": 290,
+          "height": 398
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 194,
+        "anchorY": 373,
+        "bounds": {
+          "x": 76,
+          "y": 31,
+          "w": 230,
+          "h": 342
+        },
+        "sourceCrop": {
+          "left": 1408,
+          "top": 15,
+          "width": 280,
+          "height": 411
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 84,
+          "y": 30,
+          "w": 216,
+          "h": 342
+        },
+        "sourceCrop": {
+          "left": 91,
+          "top": 461,
+          "width": 262,
+          "height": 412
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 64,
+          "y": 74,
+          "w": 255,
+          "h": 299
+        },
+        "sourceCrop": {
+          "left": 491,
+          "top": 514,
+          "width": 308,
+          "height": 360
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 19,
+          "y": 155,
+          "w": 344,
+          "h": 218
+        },
+        "sourceCrop": {
+          "left": 891,
+          "top": 605,
+          "width": 414,
+          "height": 265
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 12,
+          "y": 221,
+          "w": 361,
+          "h": 152
+        },
+        "sourceCrop": {
+          "left": 1333,
+          "top": 680,
+          "width": 434,
+          "height": 188
+        }
+      }
+    ]
+  },
+  "yungsnowDefense": {
+    "src": "assets/defense/yungsnow.webp",
+    "sourceFighter": "yungsnow",
+    "referenceHeight": 324.65,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 201,
+        "anchorY": 373,
+        "bounds": {
+          "x": 71,
+          "y": 51,
+          "w": 241,
+          "h": 322
+        },
+        "sourceCrop": {
+          "left": 66,
+          "top": 12,
+          "width": 313,
+          "height": 415
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 202,
+        "anchorY": 373,
+        "bounds": {
+          "x": 81,
+          "y": 55,
+          "w": 221,
+          "h": 318
+        },
+        "sourceCrop": {
+          "left": 514,
+          "top": 15,
+          "width": 287,
+          "height": 411
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 202,
+        "anchorY": 373,
+        "bounds": {
+          "x": 75,
+          "y": 79,
+          "w": 234,
+          "h": 294
+        },
+        "sourceCrop": {
+          "left": 953,
+          "top": 47,
+          "width": 304,
+          "height": 380
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 201,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 59,
+          "w": 220,
+          "h": 314
+        },
+        "sourceCrop": {
+          "left": 1407,
+          "top": 22,
+          "width": 287,
+          "height": 405
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 85,
+          "y": 58,
+          "w": 214,
+          "h": 315
+        },
+        "sourceCrop": {
+          "left": 75,
+          "top": 467,
+          "width": 278,
+          "height": 406
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 62,
+          "y": 114,
+          "w": 260,
+          "h": 259
+        },
+        "sourceCrop": {
+          "left": 487,
+          "top": 534,
+          "width": 337,
+          "height": 335
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 38,
+          "y": 160,
+          "w": 308,
+          "h": 213
+        },
+        "sourceCrop": {
+          "left": 884,
+          "top": 591,
+          "width": 398,
+          "height": 278
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 216,
+          "w": 361,
+          "h": 156
+        },
+        "sourceCrop": {
+          "left": 1298,
+          "top": 662,
+          "width": 466,
+          "height": 206
+        }
+      }
+    ]
+  },
+  "queenbeeDefense": {
+    "src": "assets/defense/queenbee.webp",
+    "sourceFighter": "queenbee",
+    "referenceHeight": 354.4,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 195,
+        "anchorY": 374,
+        "bounds": {
+          "x": 71,
+          "y": 15,
+          "w": 240,
+          "h": 359
+        },
+        "sourceCrop": {
+          "left": 121,
+          "top": 5,
+          "width": 390,
+          "height": 578
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 207,
+        "anchorY": 374,
+        "bounds": {
+          "x": 84,
+          "y": 16,
+          "w": 216,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 754,
+          "top": 5,
+          "width": 351,
+          "height": 577
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 204,
+        "anchorY": 373,
+        "bounds": {
+          "x": 86,
+          "y": 37,
+          "w": 211,
+          "h": 336
+        },
+        "sourceCrop": {
+          "left": 133,
+          "top": 668,
+          "width": 343,
+          "height": 543
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 203,
+        "anchorY": 373,
+        "bounds": {
+          "x": 87,
+          "y": 10,
+          "w": 209,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 770,
+          "top": 626,
+          "width": 338,
+          "height": 585
+        }
+      }
+    ]
+  },
+  "breezyDefense": {
+    "src": "assets/defense/breezy.webp",
+    "sourceFighter": "breezy",
+    "referenceHeight": 362,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 81,
+          "y": 11,
+          "w": 221,
+          "h": 362
+        },
+        "sourceCrop": {
+          "left": 65,
+          "top": 5,
+          "width": 265,
+          "height": 429
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 190,
+        "anchorY": 373,
+        "bounds": {
+          "x": 81,
+          "y": 13,
+          "w": 221,
+          "h": 360
+        },
+        "sourceCrop": {
+          "left": 511,
+          "top": 7,
+          "width": 265,
+          "height": 427
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 79,
+          "y": 36,
+          "w": 225,
+          "h": 337
+        },
+        "sourceCrop": {
+          "left": 955,
+          "top": 33,
+          "width": 269,
+          "height": 401
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 190,
+        "anchorY": 373,
+        "bounds": {
+          "x": 82,
+          "y": 19,
+          "w": 220,
+          "h": 354
+        },
+        "sourceCrop": {
+          "left": 1399,
+          "top": 14,
+          "width": 266,
+          "height": 420
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 76,
+          "y": 34,
+          "w": 231,
+          "h": 339
+        },
+        "sourceCrop": {
+          "left": 70,
+          "top": 475,
+          "width": 278,
+          "height": 402
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 62,
+          "y": 84,
+          "w": 260,
+          "h": 289
+        },
+        "sourceCrop": {
+          "left": 500,
+          "top": 531,
+          "width": 310,
+          "height": 345
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 38,
+          "y": 145,
+          "w": 308,
+          "h": 227
+        },
+        "sourceCrop": {
+          "left": 923,
+          "top": 599,
+          "width": 366,
+          "height": 274
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 372,
+        "bounds": {
+          "x": 15,
+          "y": 225,
+          "w": 352,
+          "h": 147
+        },
+        "sourceCrop": {
+          "left": 1342,
+          "top": 688,
+          "width": 419,
+          "height": 180
+        }
+      }
+    ]
+  },
+  "joosieDefense": {
+    "src": "assets/defense/joosie.webp",
+    "sourceFighter": "joosie",
+    "referenceHeight": 363,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 175,
+        "anchorY": 374,
+        "bounds": {
+          "x": 68,
+          "y": 11,
+          "w": 248,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 133,
+          "top": 7,
+          "width": 407,
+          "height": 592
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 82,
+          "y": 16,
+          "w": 220,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 751,
+          "top": 15,
+          "width": 361,
+          "height": 584
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 84,
+          "y": 42,
+          "w": 216,
+          "h": 331
+        },
+        "sourceCrop": {
+          "left": 131,
+          "top": 682,
+          "width": 357,
+          "height": 542
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 374,
+        "bounds": {
+          "x": 82,
+          "y": 20,
+          "w": 219,
+          "h": 354
+        },
+        "sourceCrop": {
+          "left": 748,
+          "top": 647,
+          "width": 361,
+          "height": 577
+        }
+      }
+    ]
+  },
+  "justgingerDefense": {
+    "src": "assets/defense/justginger.webp",
+    "sourceFighter": "justginger",
+    "referenceHeight": 363,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 374,
+        "bounds": {
+          "x": 78,
+          "y": 11,
+          "w": 228,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 114,
+          "top": 11,
+          "width": 379,
+          "height": 596
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 374,
+        "bounds": {
+          "x": 74,
+          "y": 11,
+          "w": 235,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 736,
+          "top": 12,
+          "width": 390,
+          "height": 595
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 78,
+          "y": 38,
+          "w": 228,
+          "h": 335
+        },
+        "sourceCrop": {
+          "left": 109,
+          "top": 663,
+          "width": 376,
+          "height": 551
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 188,
+        "anchorY": 374,
+        "bounds": {
+          "x": 74,
+          "y": 27,
+          "w": 236,
+          "h": 347
+        },
+        "sourceCrop": {
+          "left": 737,
+          "top": 644,
+          "width": 389,
+          "height": 570
+        }
+      }
+    ]
+  },
+  "miketysonDefense": {
+    "src": "assets/defense/miketyson.webp",
+    "sourceFighter": "miketyson",
+    "referenceHeight": 358,
+    "hasDefeat": true,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 178,
+        "anchorY": 372,
+        "bounds": {
+          "x": 84,
+          "y": 14,
+          "w": 214,
+          "h": 358
+        },
+        "sourceCrop": {
+          "left": 92,
+          "top": 5,
+          "width": 262,
+          "height": 432
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 372,
+        "bounds": {
+          "x": 92,
+          "y": 18,
+          "w": 200,
+          "h": 354
+        },
+        "sourceCrop": {
+          "left": 535,
+          "top": 9,
+          "width": 244,
+          "height": 428
+        }
+      },
+      {
+        "x": 768,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 373,
+        "bounds": {
+          "x": 92,
+          "y": 45,
+          "w": 199,
+          "h": 328
+        },
+        "sourceCrop": {
+          "left": 975,
+          "top": 41,
+          "width": 244,
+          "height": 396
+        }
+      },
+      {
+        "x": 1152,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 372,
+        "bounds": {
+          "x": 92,
+          "y": 18,
+          "w": 199,
+          "h": 354
+        },
+        "sourceCrop": {
+          "left": 1424,
+          "top": 9,
+          "width": 243,
+          "height": 428
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 89,
+          "y": 34,
+          "w": 206,
+          "h": 339
+        },
+        "sourceCrop": {
+          "left": 85,
+          "top": 464,
+          "width": 253,
+          "height": 408
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 67,
+          "y": 78,
+          "w": 250,
+          "h": 295
+        },
+        "sourceCrop": {
+          "left": 492,
+          "top": 516,
+          "width": 303,
+          "height": 356
+        }
+      },
+      {
+        "x": 768,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 191,
+        "anchorY": 373,
+        "bounds": {
+          "x": 23,
+          "y": 154,
+          "w": 336,
+          "h": 219
+        },
+        "sourceCrop": {
+          "left": 883,
+          "top": 607,
+          "width": 404,
+          "height": 266
+        }
+      },
+      {
+        "x": 1152,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 192,
+        "anchorY": 372,
+        "bounds": {
+          "x": 11,
+          "y": 240,
+          "w": 362,
+          "h": 132
+        },
+        "sourceCrop": {
+          "left": 1324,
+          "top": 707,
+          "width": 436,
+          "height": 166
+        }
+      }
+    ]
+  },
+  "damedashDefense": {
+    "src": "assets/defense/damedash.webp",
+    "sourceFighter": "damedash",
+    "referenceHeight": 359.11,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 180,
+        "anchorY": 374,
+        "bounds": {
+          "x": 69,
+          "y": 10,
+          "w": 246,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 147,
+          "top": 1,
+          "width": 407,
+          "height": 600
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 180,
+        "anchorY": 374,
+        "bounds": {
+          "x": 67,
+          "y": 11,
+          "w": 248,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 757,
+          "top": 1,
+          "width": 413,
+          "height": 600
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 173,
+        "anchorY": 374,
+        "bounds": {
+          "x": 62,
+          "y": 28,
+          "w": 259,
+          "h": 346
+        },
+        "sourceCrop": {
+          "left": 127,
+          "top": 658,
+          "width": 428,
+          "height": 571
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 178,
+        "anchorY": 374,
+        "bounds": {
+          "x": 64,
+          "y": 13,
+          "w": 255,
+          "h": 361
+        },
+        "sourceCrop": {
+          "left": 748,
+          "top": 632,
+          "width": 424,
+          "height": 597
+        }
+      }
+    ]
+  },
+  "guccimaneDefense": {
+    "src": "assets/defense/guccimane.webp",
+    "sourceFighter": "guccimane",
+    "referenceHeight": 351.66,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 179,
+        "anchorY": 373,
+        "bounds": {
+          "x": 93,
+          "y": 10,
+          "w": 196,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 178,
+          "top": 21,
+          "width": 314,
+          "height": 576
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 181,
+        "anchorY": 373,
+        "bounds": {
+          "x": 101,
+          "y": 12,
+          "w": 181,
+          "h": 361
+        },
+        "sourceCrop": {
+          "left": 813,
+          "top": 22,
+          "width": 290,
+          "height": 575
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 189,
+        "anchorY": 374,
+        "bounds": {
+          "x": 104,
+          "y": 29,
+          "w": 175,
+          "h": 345
+        },
+        "sourceCrop": {
+          "left": 176,
+          "top": 674,
+          "width": 283,
+          "height": 547
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 181,
+        "anchorY": 374,
+        "bounds": {
+          "x": 101,
+          "y": 14,
+          "w": 183,
+          "h": 360
+        },
+        "sourceCrop": {
+          "left": 813,
+          "top": 652,
+          "width": 294,
+          "height": 571
+        }
+      }
+    ]
+  },
+  "nickiminajDefense": {
+    "src": "assets/defense/nickiminaj.webp",
+    "sourceFighter": "nickiminaj",
+    "referenceHeight": 364,
+    "hasDefeat": false,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 193,
+        "anchorY": 374,
+        "bounds": {
+          "x": 104,
+          "y": 10,
+          "w": 176,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 170,
+          "top": 9,
+          "width": 298,
+          "height": 603
+        }
+      },
+      {
+        "x": 384,
+        "y": 0,
+        "w": 384,
+        "h": 384,
+        "anchorX": 196,
+        "anchorY": 374,
+        "bounds": {
+          "x": 104,
+          "y": 11,
+          "w": 175,
+          "h": 363
+        },
+        "sourceCrop": {
+          "left": 773,
+          "top": 10,
+          "width": 297,
+          "height": 601
+        }
+      },
+      {
+        "x": 0,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 187,
+        "anchorY": 374,
+        "bounds": {
+          "x": 94,
+          "y": 22,
+          "w": 197,
+          "h": 352
+        },
+        "sourceCrop": {
+          "left": 160,
+          "top": 655,
+          "width": 331,
+          "height": 584
+        }
+      },
+      {
+        "x": 384,
+        "y": 384,
+        "w": 384,
+        "h": 384,
+        "anchorX": 195,
+        "anchorY": 374,
+        "bounds": {
+          "x": 103,
+          "y": 10,
+          "w": 177,
+          "h": 364
+        },
+        "sourceCrop": {
+          "left": 773,
+          "top": 635,
+          "width": 296,
+          "height": 603
+        }
+      }
+    ]
+  }
+}

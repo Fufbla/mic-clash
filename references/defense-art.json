@@ -1,0 +1,337 @@
+{
+  "date": "2026-11-28",
+  "newGuards": 46,
+  "newDefeats": 23,
+  "newFrames": 276,
+  "retainedGuards": [
+    "owhinny",
+    "goat",
+    "diddy"
+  ],
+  "retainedReason": "Image generation rejected new artwork for these three fighters. Existing drawn guards retained.",
+  "method": "Reference-guided drawn poses; complete silhouette extraction, uniform scaling, no body rotations.",
+  "sheets": [
+    {
+      "id": "owl",
+      "name": "Drake",
+      "library_file_id": "libfile_4566ba710c948191bbebb5d20002b6f8",
+      "sourceSHA256": "518e6d4904233c3e461aa99b5176238c6a0ac168d26838becc8cc60cf52488f1",
+      "frames": 8
+    },
+    {
+      "id": "coupe",
+      "name": "J. Cole",
+      "library_file_id": "libfile_aba2ae5ce4d48191905405c8df69fd11",
+      "sourceSHA256": "0df091290ab8c51bd668426dc46ea8b1849db3709a970b9bd61ca0230c3f01f5",
+      "frames": 8
+    },
+    {
+      "id": "karate",
+      "name": "Kendrick Lamar",
+      "library_file_id": "libfile_2e87ee169e8c8191a75c0666c6e757f8",
+      "sourceSHA256": "228f7e83a39ef8d90355417874b1d7b16b667e886a81e33d481f8f118cf85530",
+      "frames": 8
+    },
+    {
+      "id": "snitchy",
+      "name": "6ix9ine",
+      "library_file_id": "libfile_9de55baa7a008191a16b1a1f3b49950d",
+      "sourceSHA256": "9c578ef0d9aa96d420f95caa5684c66a424ceabaead96ae88bbf7bc8e2467df2",
+      "frames": 8
+    },
+    {
+      "id": "getit",
+      "name": "Sexyyy Red",
+      "library_file_id": "libfile_4935dc331ae08191bcbb32d2581f265f",
+      "sourceSHA256": "c03d4530cc63eb967067987b5a6e9e4a9e9e946decbaa51e0ce2ba2596aeee1e",
+      "frames": 8
+    },
+    {
+      "id": "loudbull",
+      "name": "Meek Mill",
+      "library_file_id": "libfile_55c963ddfd3c8191b7a7c769a869ebae",
+      "sourceSHA256": "2bf86d16bee7cc2fe3027e02538c8ff014d1d6c69ecc49f292cf3b1777b98d3f",
+      "frames": 8
+    },
+    {
+      "id": "fatboi",
+      "name": "Rick Ross",
+      "library_file_id": "libfile_0dea14ac169881919acc840b50d53138",
+      "sourceSHA256": "c50af95adc3ba59e47b7f0d165fac1ccdd23705e573b96eddca062ce70f29710",
+      "frames": 8
+    },
+    {
+      "id": "icespice",
+      "name": "Ice Spice",
+      "library_file_id": "libfile_1b1bc601a6e881919db19364d270f478",
+      "sourceSHA256": "1452cbd98f470e8f018c47556616a034acbdb9413529ba2fc64c18155e1045f4",
+      "frames": 8
+    },
+    {
+      "id": "hehaw",
+      "name": "Megan Thee Stallion",
+      "library_file_id": "libfile_1f48c68c64c48191be6f774c69817b3e",
+      "sourceSHA256": "cb0aa5c4a073f59a1e85f00b08c356bc5a3fec54d20d04416e23651f975c3011",
+      "frames": 8
+    },
+    {
+      "id": "dr-no-bunnies",
+      "name": "Dr. Umar Johnson",
+      "library_file_id": "libfile_b2ea30f00eb481919ccde82cb4d5d1df",
+      "sourceSHA256": "e88cd814f192b779dae41110e3b5eafcaf1afced37d8566dd189ba4799128fd7",
+      "frames": 8
+    },
+    {
+      "id": "cantrap",
+      "name": "Nick Cannon",
+      "library_file_id": "libfile_61e16f0e2ee8819199613a60c6436b11",
+      "sourceSHA256": "7ef705bb0036ca4d3961409c9efa0978b404fd307b63bad616245e50db6b493b",
+      "frames": 8
+    },
+    {
+      "id": "smackprince",
+      "name": "Will Smith",
+      "library_file_id": "libfile_90c74d303db08191831a634913099045",
+      "sourceSHA256": "349024327aad7f726101d5805f082fb146d2210d33ed191e22a8b4440e4ea62d",
+      "frames": 8
+    },
+    {
+      "id": "babybigfists",
+      "name": "DaBaby",
+      "library_file_id": "libfile_6a7163ca14f081918fd6b02d153d59a8",
+      "sourceSHA256": "4fda9640c2b7467fc12f0df66e898262e48c8b76d708c2719c859e62b7be7993",
+      "frames": 8
+    },
+    {
+      "id": "mooja",
+      "name": "Doja Cat",
+      "library_file_id": "libfile_faa90d6693688191ac0369b5288e3298",
+      "sourceSHA256": "dc9ec4c7e47c882e032881a07a08dba734c405824b13a6c8140dc698bf2e8d2d",
+      "frames": 8
+    },
+    {
+      "id": "cranes",
+      "name": "Solange",
+      "library_file_id": "libfile_4b037788a7ec8191bcd7d2f61ad4c40c",
+      "sourceSHA256": "2d7cf71782eead21caecbf4c7fb8011edeed426c72c7e1f11dd531180fc2bf5c",
+      "frames": 4
+    },
+    {
+      "id": "demon",
+      "name": "Lil Durk",
+      "library_file_id": "libfile_07aec056a3b0819195aa8aaec8141692",
+      "sourceSHA256": "5bdbcc814b454b08f4f2d43f7ad4dc38597309ffb58029c64e33b1c417dcc026",
+      "frames": 4
+    },
+    {
+      "id": "ocrrrrr",
+      "name": "Cardi B",
+      "library_file_id": "libfile_bb5b07a99f4481918bad6cf73919ecf9",
+      "sourceSHA256": "cbaaf5cc1fb1c51887b182cdd34e63b50fd6e3a7e4c2e553ac08b332d153ab0c",
+      "frames": 4
+    },
+    {
+      "id": "president",
+      "name": "Obama",
+      "library_file_id": "libfile_78feff8651108191a5e4253cab7c607e",
+      "sourceSHA256": "eb6c3322edd6ceedf35c49bedd375963a57a5f353846917498fca852c0c733f3",
+      "frames": 4
+    },
+    {
+      "id": "roboking",
+      "name": "Elon Musk",
+      "library_file_id": "libfile_a8974bb111b481919a3ccb35677a12fc",
+      "sourceSHA256": "1cae4ea95f21465c1aa6d86906003832e0730921e212257d9693bbb9a6c010f2",
+      "frames": 4
+    },
+    {
+      "id": "quickfast",
+      "name": "iShowSpeed",
+      "library_file_id": "libfile_3e0c15fd0c388191a544d905828cf28b",
+      "sourceSHA256": "6dc0b41f76c75a58da18c0dfb9eaa561a6f7b7b4e68ba8bec0e4250b182f9baa",
+      "frames": 4
+    },
+    {
+      "id": "sassyt",
+      "name": "Young Thug",
+      "library_file_id": "libfile_b9525e513e588191961def8c7b2f9d36",
+      "sourceSHA256": "d77d03c29168540dc301ff8e02632966869ed80b18431fda465f550fca5b571f",
+      "frames": 4
+    },
+    {
+      "id": "jminors",
+      "name": "Jonathan Majors",
+      "library_file_id": "libfile_d02b53e4220881918abe84cb86183277",
+      "sourceSHA256": "68fc58cf19a482eacc9666f1cd950a2263f92d7807c7adb07df92f2711f13fdc",
+      "frames": 4
+    },
+    {
+      "id": "bigmumble",
+      "name": "Shaq",
+      "library_file_id": "libfile_056ec36fa5a48191b714fcec29da23e1",
+      "sourceSHA256": "1051e94ba126fcb83e659fd80fa96a1fbe29bff871d826e07edfee734bf8b15d",
+      "frames": 4
+    },
+    {
+      "id": "djbeigey",
+      "name": "Dj Envy",
+      "library_file_id": "libfile_8f3fd84127248191b97dfc67ea20d614",
+      "sourceSHA256": "da1a178c396ebc50c5f1eb82272f961d4b0994675b2b3d378f824d1b698c9b90",
+      "frames": 4
+    },
+    {
+      "id": "nobuttons",
+      "name": "Joe Budden",
+      "library_file_id": "libfile_e6fb067359c88191bfcc23a7d5d34b3c",
+      "sourceSHA256": "26317b9718ccd7b5b76a4faac90c32617960fdf554491c539d7a293815ab0d23",
+      "frames": 4
+    },
+    {
+      "id": "eynakeast",
+      "name": "Ye",
+      "library_file_id": "libfile_aaed571f382481919c687d0421c03db0",
+      "sourceSHA256": "c9dd751ad943ac78648ccd2605bc18da44b8e0bdda73087e4c1eb4d5a366f20b",
+      "frames": 4
+    },
+    {
+      "id": "taytay",
+      "name": "Taylor Swift",
+      "library_file_id": "libfile_0ec2b4705b7c8191b18ec45c94e98626",
+      "sourceSHA256": "076ddb8bdf4d0a9e31b4ef1c3203bf655e3455fe1b89f36f29e6bb551c280aa5",
+      "frames": 4
+    },
+    {
+      "id": "czr",
+      "name": "SZA",
+      "library_file_id": "libfile_51150dcc704081918d9fe4b98ce136b7",
+      "sourceSHA256": "a61fa55e0b796dba6eaaaa3e27fc0c4ad51020dfe81e8bfa167fed187a6fff08",
+      "frames": 4
+    },
+    {
+      "id": "shannondull",
+      "name": "Shannon Sharp",
+      "library_file_id": "libfile_d6d0a8246a5c8191b137292974a91002",
+      "sourceSHA256": "ed1a897e681ba508b75583a8509f1a6d844699f4d01e0aad27cc1464843b97c3",
+      "frames": 4
+    },
+    {
+      "id": "smokelord",
+      "name": "Wiz Khalifa",
+      "library_file_id": "libfile_26a0db5d2ad48191b7b651112c572c12",
+      "sourceSHA256": "77607ced7d63c6fc3519daa0c352f6852fd9fe621a37b51c67fd07a9b7092111",
+      "frames": 4
+    },
+    {
+      "id": "redrolls",
+      "name": "The Game",
+      "library_file_id": "libfile_499465e7f2a48191b7ac785a5a592f7d",
+      "sourceSHA256": "026061e18c2e0573eae3992f4032cc3fcc7bbdb9d0dd75ad0f50cfd106fa357d",
+      "frames": 4
+    },
+    {
+      "id": "charles",
+      "name": "Charleston White",
+      "library_file_id": "libfile_7b78a32c19708191a3e35f2070642a8d",
+      "sourceSHA256": "9a317312e8938ede8c0678a1f1a39cd3fc67cc22a7743b3c8cb2a0201bae7538",
+      "frames": 8
+    },
+    {
+      "id": "fuedfam",
+      "name": "Steve Harvey",
+      "library_file_id": "libfile_8180972304688191babd66f5f313dd70",
+      "sourceSHA256": "4fddadc8c35f3a0978ab567d981fd8c7ed9ef0a16c36aa7efc741b95b610e892",
+      "frames": 8
+    },
+    {
+      "id": "ooousaber",
+      "name": "Young M.A.",
+      "library_file_id": "libfile_3569e7a25a18819191ac37c306d44ad8",
+      "sourceSHA256": "7f4b513ead41b2f8e7dd33cdbf31b5c5b0ed67ef49d6cf0dc555a7afa1241e91",
+      "frames": 8
+    },
+    {
+      "id": "treeyawl",
+      "name": "Birdman",
+      "library_file_id": "libfile_3da71e2072a481918d283efdec4912a3",
+      "sourceSHA256": "d4570af92216b6186dbfeb90b167ed89ed6a360723ddd2b6c7b5bb3ea0db975f",
+      "frames": 8
+    },
+    {
+      "id": "trinigold",
+      "name": "Trinidad James",
+      "library_file_id": "libfile_9b749ef5684c81918d6afbf84a3fa524",
+      "sourceSHA256": "096a11320eb996508bb528d0107c43c44e5410a8d2ab8443cb22ead273bbd7bc",
+      "frames": 8
+    },
+    {
+      "id": "boat",
+      "name": "Lil Yachty",
+      "library_file_id": "libfile_b2ffb3d944808191b5c934b2f84f19a5",
+      "sourceSHA256": "bc1d91a30b108aa4922597523fe43286d0b7bce4bc6b15906b3ad73be7553dab",
+      "frames": 8
+    },
+    {
+      "id": "yungsnow",
+      "name": "Young Jeezy",
+      "library_file_id": "libfile_4ddcad27d1708191b5b98d0b6757a168",
+      "sourceSHA256": "18600d05f4cf176c52556a6fb3fdee491b720d2c8ed826cf9b3068bf78b9f998",
+      "frames": 8
+    },
+    {
+      "id": "queenbee",
+      "name": "Beyoncé",
+      "library_file_id": "libfile_e8c5fed357d88191bdf1a37f55a26d3c",
+      "sourceSHA256": "988bb4726b9cec70266da60c52e637ffd33307064af8200ce39f8e4a3d6a1350",
+      "frames": 4
+    },
+    {
+      "id": "breezy",
+      "name": "Chris Brown",
+      "library_file_id": "libfile_73b72a27c2a08191806c7a9b685bf339",
+      "sourceSHA256": "a218c3aff7375561a97263d659c54b7dfe79635ed624375a850e772b099f18bf",
+      "frames": 8
+    },
+    {
+      "id": "joosie",
+      "name": "Jussie Smollet",
+      "library_file_id": "libfile_51c0ca04873c819189dace811a331c28",
+      "sourceSHA256": "377a3f2176ffc3bac99bb7038f11eeae1404c46d12c136e0057e8f3313806e2b",
+      "frames": 4
+    },
+    {
+      "id": "justginger",
+      "name": "Rory",
+      "library_file_id": "libfile_8f18b61367648191a16b0eb231e7994c",
+      "sourceSHA256": "0975f6c717c172919fa960eb8c0fd94f05e4e464398c3765b9a91f77cb780c0b",
+      "frames": 4
+    },
+    {
+      "id": "miketyson",
+      "name": "Mike Tyson",
+      "library_file_id": "libfile_421f380fb6a88191b29f364b408844e5",
+      "sourceSHA256": "8a27ca546269997b007cf02cd5f98a123cf749faae0a24ea370a236bac0bcbef",
+      "frames": 8
+    },
+    {
+      "id": "damedash",
+      "name": "Dame Dash",
+      "library_file_id": "libfile_f7b98978a25481919a8517ac4769c00c",
+      "sourceSHA256": "e0df53e54ed3c020b6af0b4d53e97ee7e94e03165307fb8b8bbbc90e876fa641",
+      "frames": 4
+    },
+    {
+      "id": "guccimane",
+      "name": "Gucci Mane",
+      "library_file_id": "libfile_096e2858168c8191834b3398bcfbdef8",
+      "sourceSHA256": "7762c286f5ca4a30f0033c200ce7984308d1233a7795f1b3f9fb6a6351c0f95a",
+      "frames": 4
+    },
+    {
+      "id": "nickiminaj",
+      "name": "Nicki Minaj",
+      "library_file_id": "libfile_9be77ab672b4819195689615b3590efd",
+      "sourceSHA256": "7f81bce555a5919a81ddfd3c47c5dc13511ffbe80656b948e774d2a4ff93ee84",
+      "frames": 4
+    }
+  ]
+}
